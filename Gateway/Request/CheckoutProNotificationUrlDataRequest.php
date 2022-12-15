@@ -40,8 +40,8 @@ class CheckoutProNotificationUrlDataRequest implements BuilderInterface
     protected $config;
 
     /**
-     * @param UrlInterface  $frontendUrlBuilder
-     * @param Config        $config
+     * @param UrlInterface $frontendUrlBuilder
+     * @param Config       $config
      */
     public function __construct(
         UrlInterface $frontendUrlBuilder,

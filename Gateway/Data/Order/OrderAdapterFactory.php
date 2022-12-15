@@ -8,32 +8,30 @@
 
 namespace MercadoPago\PaymentMagento\Gateway\Data\Order;
 
-use MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapter;
-
 /**
- * Factory class for @see \MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapter
+ * Factory class for @see \MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapter.
  */
 class OrderAdapterFactory
 {
     /**
-     * Object Manager instance
+     * Object Manager instance.
      *
      * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $objectManager = null;
 
     /**
-     * Instance name to create
+     * Instance name to create.
      *
      * @var string
      */
     protected $instanceName = null;
 
     /**
-     * Factory constructor
+     * Factory constructor.
      *
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
-     * @param string $instanceName
+     * @param string                                    $instanceName
      */
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
@@ -44,9 +42,10 @@ class OrderAdapterFactory
     }
 
     /**
-     * Create class instance with specified parameters
+     * Create class instance with specified parameters.
      *
      * @param array $data
+     *
      * @return \MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapter
      */
     public function create(array $data = [])

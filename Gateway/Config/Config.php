@@ -418,7 +418,7 @@ class Config extends PaymentConfig
         if ($environment === 'sandbox') {
             return $this->getAddtionalValue('sandbox_rewrite_notification_url', $storeId);
         }
-        
+
         return null;
     }
 
