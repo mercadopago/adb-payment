@@ -1,7 +1,7 @@
 project_id: '554895'
 base_path: i18n
 base_url: 'https://api.crowdin.com'
-preserve_hierarchy: true
+preserve_hierarchy: 1
 files:
   - source: /i18n/en_US.csv
   - source: /i18n/pt_BR.csv
@@ -36,4 +36,3 @@ targets:
       - /i18n/en_PE.csv
     file: /i18n/%locale_with_underscore%.csv
     format: crowdin-csv
-    
