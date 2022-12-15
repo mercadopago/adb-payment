@@ -81,7 +81,7 @@ class ConfigProviderPayCash implements ConfigProviderInterface
     {
         $storeId = $this->cart->getStoreId();
         $captureDocument = $this->config->hasUseDocumentIdentificationCapture($storeId);
-        
+
         return [
             'payment' => [
                 ConfigPayCash::METHOD => [
