@@ -1,0 +1,55 @@
+
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var MercadoPago\PaymentMagento\Block\Order\Success\Additional $block
+ * @see MercadoPago\PaymentMagento\Block\Order\Success
+ */
+
+$qrCodeImage = $block->getInfo('qr_code_base64');
+?>
+<div class="mercadopago-payment-success-details">
+    <p>
+    <?= $block->escapeHtml(__('To pay, read the QRCode')) ?> 
+        <div class="qrcode-image">
+            <img src="data:image/png;base64,<?=  $block->escapeHtml($qrCodeImage) ?>"
+                alt="<?= $block->escapeHtml(__('Pix')) ?>"
+                width="300" />
+        </div>
+    </p>
+    <p>
+        <?= $block->escapeHtml(__('Or if you prefer, copy and paste the code')) ?> 
+        <div class="field mercadopago-input-group">
+            <div class="control _with-tooltip">
+                <input type="text"
+                    id="qr-code-value"
+                    value="<?= $block->escapeHtml($block->getInfo('qr_code')); ?>"
+                    class="input-text"/> 
+                <div class="field-tooltip toggle">
+                    <button class="btn" id="copy-code" 
+                        data-clipboard-action="copy" 
+                        data-clipboard-target="#qr-code-value">
+                        <?= $block->escapeHtml(__('Copy')); ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </p>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#copy-code": {
+            "widgetClipboard": {
+                "enabled": true,
+                "copiedtext": "<?= /* @noEscape */ __('Copied'); ?>",
+                "textBtn": "<?= /* @noEscape */ __('Copy'); ?>"
+            }
+        }
+    }
+</script>

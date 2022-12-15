@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @license     See LICENSE for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="mercadopago_paymentmagento_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBase</item>
+                <item name="mercadopago_paymentmagento_cc_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderCc</item>
+                <item name="mercadopago_paymentmagento_cc_vault_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\Vault\ConfigProvider</item>
+                <item name="mercadopago_paymentmagento_checkout_pro_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderCheckoutPro</item>
+                <item name="mercadopago_paymentmagento_boleto_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBoleto</item>
+                <item name="mercadopago_paymentmagento_pec_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPec</item>
+                <item name="mercadopago_paymentmagento_pix_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPix</item>
+                <item name="mercadopago_paymentmagento_pagofacil_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPagoFacil</item>
+                <item name="mercadopago_paymentmagento_rapipago_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderRapiPago</item>
+                <item name="mercadopago_paymentmagento_paycash_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPayCash</item>
+                <item name="mercadopago_paymentmagento_oxxo_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderOxxo</item>
+                <item name="mercadopago_paymentmagento_efecty_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderEfecty</item>
+                <item name="mercadopago_paymentmagento_abitab_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderAbitab</item>
+                <item name="mercadopago_paymentmagento_redpagos_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderRedpagos</item>
+                <item name="mercadopago_paymentmagento_pse_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPse</item>
+                <item name="mercadopago_paymentmagento_banamex_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBanamex</item>
+                <item name="mercadopago_paymentmagento_bancomer_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBancomer</item>
+                <item name="mercadopago_paymentmagento_serfin_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderSerfin</item>
+                <item name="mercadopago_paymentmagento_pagoefectivo_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPagoEfectivo</item>
+                <item name="mercadopago_paymentmagento_webpay_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderWebpay</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Card">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\CheckoutPro">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Boleto">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Pec">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Pix">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\PagoFacil">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\RapiPago">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\PayCash">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Oxxo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Efecty">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Abitab">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Redpagos">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Banamex">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Bancomer">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Serfin">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\PagoEfectivo">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Webpay">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="mercadopago_paymentmagento_cc" xsi:type="const">MercadoPago\PaymentMagento\Gateway\Config\ConfigCc::METHOD</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Vault\Model\Ui\TokensConfigProvider">
+        <arguments>
+            <argument name="tokenUiComponentProviders" xsi:type="array">
+                <item name="mercadopago_paymentmagento_cc" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\TokenUiComponentProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

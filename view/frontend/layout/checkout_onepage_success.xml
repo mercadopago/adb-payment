@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @license     See LICENSE for license details.
+ */
+-->
+<body>
+    <referenceContainer name="order.success.additional.info">
+        <block class="MercadoPago\PaymentMagento\Block\Order\Success\Additional" name="order.success.additional.info.mercadopago" after="-" />
+    </referenceContainer>
+</body>
