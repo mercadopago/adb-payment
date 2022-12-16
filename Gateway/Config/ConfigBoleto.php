@@ -275,7 +275,8 @@ class ConfigBoleto extends PaymentConfig
 
         $resto = $numbertotal10 % 10;
         $digito = 10 - $resto;
-        if ($resto == 0) {
+
+        if ($resto === 0) {
             $digito = 0;
         }
 

@@ -891,6 +891,8 @@
                 <item name="descriptionTotal" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\DescriptionDataRequest</item>
                 <item name="backUrls" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\BackUrlsDataRequest</item>
                 <item name="excluded" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\ExcludedCheckoutProDataRequest</item>
+                <item name="installments" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\InstallmentsCheckoutProDataRequest</item>
+                <item name="tracks" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\TracksCheckoutProDataRequest</item>
                 <item name="transactionAmountTotal" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\TransactionAmountDataRequest</item>
                 <item name="itemsAndDetailsCost" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\ItemsAndDatailsCostDataRequest</item>
                 <item name="payer" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\PayerDataRequest</item>

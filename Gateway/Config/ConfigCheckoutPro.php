@@ -59,9 +59,24 @@ class ConfigCheckoutPro extends PaymentConfig
     public const THEME_ELEMENTS = 'theme_elements';
 
     /**
+     * Max Installments.
+     */
+    public const MAX_INSTALLMENTS = 'max_installments';
+
+    /**
      * Instruction Checkout.
      */
     public const INSTRUCTION_CHECKOUT = 'instruction_checkout';
+
+    /**
+     * Facebook Ad.
+     */
+    public const FACEBOOK_AD = 'facebook_ad';
+
+    /**
+     * Google Ads.
+     */
+    public const GOOGLE_ADS = 'google_ads';
 
     /**
      * @var ScopeConfigInterface
@@ -265,6 +280,60 @@ class ConfigCheckoutPro extends PaymentConfig
 
         return $this->scopeConfig->getValue(
             sprintf($pathPattern, self::METHOD, self::TYPE_REDIRECT),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get Max Installments.
+     *
+     * @param int|null $storeId
+     *
+     * @return int|null
+     */
+    public function getMaxInstallments($storeId = null): ?int
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::MAX_INSTALLMENTS),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get Facebook Ad.
+     *
+     * @param int|null $storeId
+     *
+     * @return string|null
+     */
+    public function getFacebookAd($storeId = null): ?string
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::FACEBOOK_AD),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get Google Ads.
+     *
+     * @param int|null $storeId
+     *
+     * @return string|null
+     */
+    public function getGoogleAds($storeId = null): ?string
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::GOOGLE_ADS),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );

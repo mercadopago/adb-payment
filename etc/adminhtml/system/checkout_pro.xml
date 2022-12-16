@@ -25,25 +25,46 @@
             <validate>required-entry validate-select</validate>
             <config_path>payment/mercadopago_paymentmagento_checkout_pro/type_redirect</config_path>
         </field>
-        <field id="excluded" translate="label comment" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+        <field id="excluded" translate="label comment" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1" canRestore="0">
             <label>Excluded Method</label>
             <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\MerchantPaymentMethods</source_model>
             <config_path>payment/mercadopago_paymentmagento_checkout_pro/excluded</config_path>
             <comment>Select the payment methods you do NOT want to accept.</comment>
         </field>
+        <field id="max_installments" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Installment options limit</label>
+            <comment>Sets a limit on the number of installments the client can use.</comment>
+            <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\MaxInstallments</source_model>
+            <validate>required-entry validate-select</validate>
+            <config_path>payment/mercadopago_paymentmagento_checkout_pro/max_installments</config_path>
+        </field>
+        <group id="mercadopago_paymentmagento_trackins" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Track Convertions</label>
+            <comment>You can associate your Checkout Pro sales with external services.</comment>
+            <field id="facebook_ad" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                <label>Facebook</label>
+                <comment>Associate your sales with Facebook, informing the ID and your tracking code.</comment>
+                <config_path>payment/mercadopago_paymentmagento_checkout_pro/facebook_ad</config_path>
+            </field>
+            <field id="google_ads" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                <label>Google Ads</label>
+                <comment>Associate your sales with Google Ads, informing the ID and your tracking code.</comment>
+                <config_path>payment/mercadopago_paymentmagento_checkout_pro/google_ads</config_path>
+            </field>
+        </group>
         <group id="mercadopago_paymentmagento_style_modal" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Customization and Styles</label>
             <comment>Define the appearance of items in the modal window where the customer checks out.</comment>
             <depends>
                 <field id="*/*/*/type_redirect">modal</field>
             </depends>
-            <field id="theme_header" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <field id="theme_header" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                 <label>Header Color</label>
                 <validate>required-entry</validate>
                 <config_path>payment/mercadopago_paymentmagento_checkout_pro/theme_header</config_path>
                 <frontend_model>MercadoPago\PaymentMagento\Block\Adminhtml\System\Config\Form\ColorPicker</frontend_model>
             </field>
-            <field id="theme_elements" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <field id="theme_elements" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                 <label>Elements Color</label>
                 <validate>required-entry</validate>
                 <config_path>payment/mercadopago_paymentmagento_checkout_pro/theme_elements</config_path>

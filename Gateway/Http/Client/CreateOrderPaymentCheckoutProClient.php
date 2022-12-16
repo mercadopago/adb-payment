@@ -119,7 +119,7 @@ class CreateOrderPaymentCheckoutProClient implements ClientInterface
 
         $this->logger->debug(
             [
-                'url'      => $url.'/v1/asgard/payments',
+                'url'      => $url.'/v1/asgard/preferences',
                 'request'  => $serializeResquest,
                 'response' => $responseBody,
             ]

@@ -19,6 +19,12 @@
         "ext-json": "*"
     },
     "type": "magento2-module",
+    "authors": [
+        {
+            "name": "Bruno Elisei",
+            "email": "brunoelisei@o2ti.com"
+        }
+    ],
     "license": [
         "OSL-3.0",
         "AFL-3.0"

@@ -9,6 +9,7 @@
 namespace MercadoPago\PaymentMagento\Model\Adminhtml\Source;
 
 use Exception;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\HTTP\ZendClient;
 use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Option\ArrayInterface;
@@ -42,21 +43,29 @@ class MerchantPaymentMethods implements ArrayInterface
     protected $httpClientFactory;
 
     /**
+     * @var RequestInterface
+     */
+    protected $request;
+
+    /**
      * @param Logger            $logger
      * @param MercadoPagoConfig $mercadopagoConfig
      * @param Json              $json
      * @param ZendClientFactory $httpClientFactory
+     * @param RequestInterface  $request
      */
     public function __construct(
         Logger $logger,
         MercadoPagoConfig $mercadopagoConfig,
         Json $json,
-        ZendClientFactory $httpClientFactory
+        ZendClientFactory $httpClientFactory,
+        RequestInterface $request
     ) {
         $this->logger = $logger;
         $this->mercadopagoConfig = $mercadopagoConfig;
         $this->json = $json;
         $this->httpClientFactory = $httpClientFactory;
+        $this->request = $request;
     }
 
     /**
@@ -97,8 +106,10 @@ class MerchantPaymentMethods implements ArrayInterface
     public function getAllPaymentMethods(int $storeId = 0): ?array
     {
         $response = ['success' => false];
+        $storeId = $this->request->getParam('store', 0);
+
         $uri = $this->mercadopagoConfig->getApiUrl();
-        $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
+        $clientConfigs = $this->mercadopagoConfig->getClientConfigs($storeId);
         $clientHeaders = $this->mercadopagoConfig->getClientHeaders($storeId);
 
         $client = $this->httpClientFactory->create();

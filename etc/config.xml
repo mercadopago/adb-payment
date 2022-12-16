@@ -130,6 +130,9 @@
 Se você já tem conta no Mercado Livre, use o mesmo e-mail e senha.
 Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais dados.]]></instruction_checkout>
                 <type_redirect>modal</type_redirect>
+                <max_installments>12</max_installments>
+                <theme_header>#2c99f2</theme_header>
+                <theme_elements>#7d0fd0</theme_elements>
                 <min_order_total>1</min_order_total>
                 <max_order_total>200000</max_order_total>
                 <allowspecific>1</allowspecific>
