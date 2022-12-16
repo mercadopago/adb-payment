@@ -84,7 +84,7 @@ class TransactionAmountDataRequest implements BuilderInterface
         $financeCost = $orderAdapter->getFinanceCostAmount();
 
         $total = $grandTotal - $financeCost;
-        
+
         $result[self::TRANSACTION_AMOUNT] = $this->config->formatPrice($total);
 
         return $result;
