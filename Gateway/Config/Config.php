@@ -17,7 +17,6 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
 use Magento\Store\Model\ScopeInterface;
 use MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapterFactory;
-use MercadoPago\PaymentMagento\Gateway\Request\BillingAddressDataRequest;
 
 /**
  * Gateway setting for the payment method.
