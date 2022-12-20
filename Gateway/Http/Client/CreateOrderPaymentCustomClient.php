@@ -115,7 +115,7 @@ class CreateOrderPaymentCustomClient implements ClientInterface
 
             $responseBody = $client->request()->getBody();
             $data = $this->json->unserialize($responseBody);
-            
+
             if ($data[self::STATUS] === self::STATUS_REJECTED) {
                 $data['id'] = null;
             }
