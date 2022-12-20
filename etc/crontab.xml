@@ -13,7 +13,7 @@
             <schedule>0 0 1 * *</schedule>
         </job>
         <job name="mercadopago_fetch_pix_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchPixOrderStatus" method="execute">
-            <schedule>* * * * *</schedule>
+            <schedule>0 9 * * *</schedule>
         </job>
         <job name="mercadopago_fetch_boleto_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchBoletoOrderStatus" method="execute">
             <schedule>0 9 * * 1-5</schedule>
