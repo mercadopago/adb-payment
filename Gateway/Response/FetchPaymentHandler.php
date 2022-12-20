@@ -33,7 +33,7 @@ class FetchPaymentHandler implements HandlerInterface
     public const RESPONSE_STATUS_CANCELLED = 'cancelled';
 
     /**
-     * Response Pay Status Rejected - Value
+     * Response Pay Status Rejected - Value.
      */
     public const RESPONSE_STATUS_REJECTED = 'rejected';
 
