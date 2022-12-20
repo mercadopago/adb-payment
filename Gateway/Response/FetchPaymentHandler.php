@@ -33,6 +33,11 @@ class FetchPaymentHandler implements HandlerInterface
     public const RESPONSE_STATUS_CANCELLED = 'cancelled';
 
     /**
+     * Response Pay Status Rejected - Value
+     */
+    public const RESPONSE_STATUS_REJECTED = 'rejected';
+
+    /**
      * Response Pay Status Pending - Value.
      */
     public const RESPONSE_STATUS_PENDING = 'pending';
@@ -73,7 +78,8 @@ class FetchPaymentHandler implements HandlerInterface
                 $payment->setAmountAuthorized($baseAmount);
             }
 
-            if ($response[self::RESPONSE_STATUS] === self::RESPONSE_STATUS_CANCELLED) {
+            if ($response[self::RESPONSE_STATUS] === self::RESPONSE_STATUS_CANCELLED ||
+                $response[self::RESPONSE_STATUS] === self::RESPONSE_STATUS_REJECTED) {
                 $payment->setPreparedMessage(__('Order Canceled.'));
                 $payment->registerVoidNotification($amount);
                 $payment->setIsTransactionApproved(false);

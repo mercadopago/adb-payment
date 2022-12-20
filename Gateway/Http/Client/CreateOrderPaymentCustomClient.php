@@ -39,6 +39,16 @@ class CreateOrderPaymentCustomClient implements ClientInterface
     public const EXT_ORD_ID = 'EXT_ORD_ID';
 
     /**
+     * External Status - Block name.
+     */
+    public const STATUS = 'status';
+
+    /**
+     * External Status Rejected - Block name.
+     */
+    public const STATUS_REJECTED = 'rejected';
+
+    /**
      * @var Logger
      */
     protected $logger;
@@ -105,6 +115,11 @@ class CreateOrderPaymentCustomClient implements ClientInterface
 
             $responseBody = $client->request()->getBody();
             $data = $this->json->unserialize($responseBody);
+            
+            if ($data[self::STATUS] === self::STATUS_REJECTED) {
+                $data['id'] = null;
+            }
+
             $response = array_merge(
                 [
                     self::RESULT_CODE  => isset($data['id']) ? 1 : 0,

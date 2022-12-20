@@ -228,6 +228,7 @@ define([
                             self.mpCardPublicId(response[0].card_id);
                             self.mpUserId(response[0].mp_user_id);
                             self.placeOrder();
+                            fullScreenLoader.stopLoader();
                         }
                     ).fail(() => {
                         fullScreenLoader.stopLoader();
