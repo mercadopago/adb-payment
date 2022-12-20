@@ -68,19 +68,9 @@ define([
          */
         initialize: function () {
             var self = this,
-                defaultTypeDocument,
-                vatId;
+                defaultTypeDocument;
 
             this._super();
-
-            if (quote.billingAddress()) {
-                vatId = quote.billingAddress().vatId;
-                self.mpPayerDocument(vatId);
-                if (self.getMpSiteId() === 'MLB') {
-                    defaultTypeDocument = vatId.replace(/\D/g, '').length <= 11 ? 'CPF' : 'CNPJ';
-                    self.mpPayerType(defaultTypeDocument);
-                }
-            }
 
             self.active.subscribe((value) => {
                 if (value === true) {
@@ -286,13 +276,25 @@ define([
 
         /**
          * Get Select Document Types
-         * @returns {Array}
+         * @returns {Void}
          */
         getSelectDocumentTypes() {
-            let self = this;
+            let self = this,
+                vatId,
+                defaultTypeDocument;
 
-            return window.mp.getIdentificationTypes().then((result) => {
+            window.mp.getIdentificationTypes().then((result) => {
                 self.mpPayerOptionsTypes(result);
+
+                if (quote.billingAddress()) {
+                    vatId = quote.billingAddress().vatId;
+                    self.mpPayerDocument(vatId);
+                }
+
+                if (self.getMpSiteId() === 'MLB') {
+                    defaultTypeDocument = vatId.replace(/\D/g, '').length <= 11 ? 'CPF' : 'CNPJ';
+                    self.mpPayerType(defaultTypeDocument);
+                }
             });
         },
 
