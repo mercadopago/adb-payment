@@ -179,7 +179,7 @@ class FetchMerchant extends AbstractModel
                     'addRedirectAccountMessage',
                     [
                         'store' => $storeId,
-                        'url'   => $mpWebSiteUrl.'account/credentials'
+                        'url'   => $mpWebSiteUrl.'account/credentials',
                     ]
                 );
                 $errorMsg = __('Store ID: %1 Not allowed for production use', $storeId);
@@ -206,6 +206,7 @@ class FetchMerchant extends AbstractModel
 
             if ($registryConfig['success']) {
                 $this->cacheTypeList->cleanType('config');
+
                 return $this;
             }
 

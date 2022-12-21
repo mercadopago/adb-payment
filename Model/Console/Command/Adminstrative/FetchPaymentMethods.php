@@ -13,7 +13,6 @@ use Magento\Config\Model\ResourceModel\Config;
 use Magento\Framework\App\State;
 use Magento\Framework\HTTP\ZendClient;
 use Magento\Framework\HTTP\ZendClientFactory;
-use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Store\Model\ScopeInterface;
@@ -293,9 +292,9 @@ class FetchPaymentMethods extends AbstractModel
     /**
      * Save Config Payment Method.
      *
-     * @param string    $payment
-     * @param bool      $storeIdIsDefault
-     * @param int       $webSiteId
+     * @param string $payment
+     * @param bool   $storeIdIsDefault
+     * @param int    $webSiteId
      *
      * @return array
      */
