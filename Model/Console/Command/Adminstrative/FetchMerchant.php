@@ -169,6 +169,24 @@ class FetchMerchant extends AbstractModel
         int $storeId = 0,
         int $webSiteId = 0
     ) {
+        $mpSiteId = $this->mercadopagoConfig->getMpSiteId($storeId);
+        $mpWebSiteUrl = $this->mercadopagoConfig->getMpWebSiteBySiteId($mpSiteId);
+        $validate = $this->getValidateCredentials($storeId);
+
+        if (!$validate['success']) {
+            if ($validate['response']['is_test']) {
+                $this->messageManager->addComplexWarningMessage(
+                    'addRedirectAccountMessage',
+                    [
+                        'store' => $storeId,
+                        'url'   => $mpWebSiteUrl.'account/credentials'
+                    ]
+                );
+                $errorMsg = __('Store id: %1 Don\'t have production use permission', $storeId);
+                $this->writeln('<error>'.$errorMsg.'</error>');
+            }
+        }
+
         $usersMe = $this->getUsersMe($storeId);
         if ($usersMe['success']) {
             $response = $usersMe['response'];
@@ -188,15 +206,6 @@ class FetchMerchant extends AbstractModel
 
             if ($registryConfig['success']) {
                 $this->cacheTypeList->cleanType('config');
-
-                $msg = __('Get Merchant Data Successfully.');
-
-                $this->writeln('<info>'.$msg.'</info>');
-
-                $this->logger->debug(['status' => $msg]);
-
-                $this->messageManager->addSuccess($msg);
-
                 return $this;
             }
 
@@ -209,6 +218,42 @@ class FetchMerchant extends AbstractModel
         $errorMsg = __('Fetch error: %1', $usersMe['response']['message']);
         $this->writeln('<error>'.$errorMsg.'</error>');
         $this->messageManager->addNotice(__('Please check the credentials registered for store %1', $storeId));
+    }
+
+    /**
+     * Get Validate Credentials.
+     *
+     * @param int $storeId
+     *
+     * @return array
+     */
+    public function getValidateCredentials(int $storeId = null): array
+    {
+        $uri = $this->mercadopagoConfig->getApiUrl();
+        $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
+        $clientHeaders = $this->mercadopagoConfig->getClientHeaders($storeId);
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($uri.'/plugins-credentials-wrapper/credentials');
+        $client->setConfig($clientConfigs);
+        $client->setHeaders($clientHeaders);
+        $client->setMethod(ZendClient::GET);
+
+        try {
+            $result = $client->request()->getBody();
+            $response = $this->json->unserialize($result);
+
+            $this->logger->debug(['plugins-credentials-wrapper/credential' => $result]);
+
+            return [
+                'success'    => isset($response['homologated']) ? $response['homologated'] : false,
+                'response'   => $response,
+            ];
+        } catch (Exception $exc) {
+            $this->logger->debug(['error' => $exc->getMessage()]);
+
+            return ['success' => false, 'error' =>  $exc->getMessage()];
+        }
     }
 
     /**
