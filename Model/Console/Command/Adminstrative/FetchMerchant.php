@@ -182,7 +182,7 @@ class FetchMerchant extends AbstractModel
                         'url'   => $mpWebSiteUrl.'account/credentials'
                     ]
                 );
-                $errorMsg = __('Store id: %1 Don\'t have production use permission', $storeId);
+                $errorMsg = __('Store ID: %1 Not allowed for production use', $storeId);
                 $this->writeln('<error>'.$errorMsg.'</error>');
             }
         }

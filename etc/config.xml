@@ -63,22 +63,22 @@
                 <can_deny_payment>1</can_deny_payment>
                 <can_accept_payment>1</can_accept_payment>
                 <group>mercadopago_group</group>
-                <cctypes>visa,master,elo,amex,debmaster,hipercard,debvisa,debelo,cabal,debcabal,cmr,cencosud,dinners,tarshop,argencard,naranja,maestro,tengo,sodexo,carnet,toka,mercadopagocard,edenred,redcompra,webpay,magna,presto,codensa,lider,creditel,oca</cctypes>
-                <cctypes_mco>visa,master,amex,dinners,debmaster,debvisa,codensa</cctypes_mco>
+                <cctypes>visa,master,elo,amex,debmaster,hipercard,debvisa,debelo,cabal,debcabal,cmr,cencosud,diners,tarshop,argencard,naranja,maestro,tengo,sodexo,carnet,toka,mercadopagocard,edenred,redcompra,webpay,magna,presto,codensa,lider,creditel,oca</cctypes>
+                <cctypes_mco>visa,master,amex,diners,debmaster,debvisa,codensa</cctypes_mco>
                 <cctypes_mlb>visa,master,elo,amex,debmaster,hipercard,debvisa,debelo,cabal,debcabal</cctypes_mlb>
-                <cctypes_mlc>visa,master,amex,dinners,debmaster,debvisa,redcompra,webpay,magna,presto</cctypes_mlc>
-                <cctypes_mla>visa,master,amex,debmaster,hipercard,debvisa,cabal,debcabal,cmr,cencosud,dinners,tarshop,argencard</cctypes_mla>
+                <cctypes_mlc>visa,master,amex,diners,debmaster,debvisa,redcompra,webpay,magna,presto</cctypes_mlc>
+                <cctypes_mla>visa,master,amex,debmaster,hipercard,debvisa,cabal,debcabal,cmr,cencosud,diners,tarshop,argencard</cctypes_mla>
                 <cctypes_mlm>visa,master,amex,debmaster,hipercard,debvisa,tengo,sodexo,carnet,toka,mercadopagocard,edenred</cctypes_mlm>
-                <cctypes_mlu>visa,master,amex,dinners,debmaster,debvisa,lider,creditel,oca</cctypes_mlu>
-                <cctypes_mpe>visa,master,amex,dinners,debmaster,debvisa,mediotest</cctypes_mpe>
-                <cctypes_mapper><![CDATA[{"Visa":"visa","Mastercard":"master","Elo":"ELO","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Elo Débito":"debelo","Cabal":"cabal","Cabal Débito":"debcabal","cmr":"cmr","Cencosud":"cencosud","Diners":"dinners","Tarjeta Shopping":"tarshop","Argencard":"argencard","Naranja":"naranja","Maestro":"maestro","Tengo":"tengo","Sodexo":"sodexo","Carnet":"carnet","Toka":"toka","Mercado Pago Card":"mercadopagocard","Edenred":"edenred","Redcompra":"redcompra","WebPay":"webpay","Magna":"magna","Presto":"presto","Codensa":"codensa","Lider":"lider","Creditel":"creditel","Oca":"oca","MedioTest":"mediotest"}]]></cctypes_mapper>
-                <cctypes_mapper_mco><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Dinners":"dinners","Crédito Fácil Codensa": "CODENSA"}]]></cctypes_mapper_mco>
+                <cctypes_mlu>visa,master,amex,diners,debmaster,debvisa,lider,creditel,oca</cctypes_mlu>
+                <cctypes_mpe>visa,master,amex,diners,debmaster,debvisa,mediotest</cctypes_mpe>
+                <cctypes_mapper><![CDATA[{"Visa":"visa","Mastercard":"master","Elo":"ELO","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Elo Débito":"debelo","Cabal":"cabal","Cabal Débito":"debcabal","cmr":"cmr","Cencosud":"cencosud","Diners":"diners","Tarjeta Shopping":"tarshop","Argencard":"argencard","Naranja":"naranja","Maestro":"maestro","Tengo":"tengo","Sodexo":"sodexo","Carnet":"carnet","Toka":"toka","Mercado Pago Card":"mercadopagocard","Edenred":"edenred","Redcompra":"redcompra","WebPay":"webpay","Magna":"magna","Presto":"presto","Codensa":"codensa","Lider":"lider","Creditel":"creditel","Oca":"oca","MedioTest":"mediotest"}]]></cctypes_mapper>
+                <cctypes_mapper_mco><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners","Crédito Fácil Codensa": "CODENSA"}]]></cctypes_mapper_mco>
                 <cctypes_mapper_mlb><![CDATA[{"Visa":"visa","Mastercard":"master","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Elo":"ELO","Elo Débito":"debelo","Cabal":"cabal","Cabal Débito":"debcabal"}]]></cctypes_mapper_mlb>
-                <cctypes_mapper_mlc><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Dinners":"dinners","Rede Compra": "REDCOMPRA","WebPay":"WEBPAY","Magna":"MAGNA","Presto":"PRESTO"}]]></cctypes_mapper_mlc>
-                <cctypes_mapper_mla><![CDATA[{"Visa":"visa","Mastercard":"master","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Cabal":"cabal","Cabal Débito":"debcabal","cmr":"cmr","Cencosud":"cencosud","Diners":"dinners","Tarjeta Shopping":"tarshop","Argencard":"argencard","Naranja":"naranja","Maestro":"maestro"}]]></cctypes_mapper_mla>
+                <cctypes_mapper_mlc><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners","Rede Compra": "REDCOMPRA","WebPay":"WEBPAY","Magna":"MAGNA","Presto":"PRESTO"}]]></cctypes_mapper_mlc>
+                <cctypes_mapper_mla><![CDATA[{"Visa":"visa","Mastercard":"master","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Cabal":"cabal","Cabal Débito":"debcabal","cmr":"cmr","Cencosud":"cencosud","Diners":"diners","Tarjeta Shopping":"tarshop","Argencard":"argencard","Naranja":"naranja","Maestro":"maestro"}]]></cctypes_mapper_mla>
                 <cctypes_mapper_mlm><![CDATA[{"Visa":"visa","Mastercard":"master","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Tengo":"TENGO","Sodexo":"SODEXO","Carnet":"CARNET","Toka":"TOKA","Tarjeta MercadoPago":"MERCADOPAGOCARD","Edenred":"EDENRED"}]]></cctypes_mapper_mlm>
-                <cctypes_mapper_mlu><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Dinners":"dinners","Lider":"LIDER","Creditel":"CREDITEL","Oca":"OCA"}]]></cctypes_mapper_mlu>
-                <cctypes_mapper_mpe><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Dinners":"dinners"}]]></cctypes_mapper_mpe>
+                <cctypes_mapper_mlu><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners","Lider":"LIDER","Creditel":"CREDITEL","Oca":"OCA"}]]></cctypes_mapper_mlu>
+                <cctypes_mapper_mpe><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners"}]]></cctypes_mapper_mpe>
                 <cvv_enabled>1</cvv_enabled>
                 <is_binary>1</is_binary>
                 <get_document_identification>0</get_document_identification>

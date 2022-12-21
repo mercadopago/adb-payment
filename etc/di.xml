@@ -20,6 +20,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="fetchMerchantInfo" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Adminstrative\FetchMerchantInfo</item>
+                <item name="fetchAllowedPaymentMethods" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Adminstrative\FetchAllowedPaymentMethods</item>
                 <item name="fetchOrderStatus" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Notification\FetchOrderStatus</item>
                 <item name="checkoutProAddChild" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Notification\CheckoutProAddChild</item>
             </argument>
@@ -2315,6 +2316,12 @@
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\FetchMerchant">
+        <arguments>
+            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\FetchPaymentMethods">
         <arguments>
             <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
         </arguments>
