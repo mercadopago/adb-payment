@@ -11,7 +11,7 @@
     <system>
         <section id="payment">
             <group id="mercadopago_base" translate="label comment" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                <label><![CDATA[<div class='mercadopago-payment-logo'></div><div class='mercadopago-payment-byline'><p><b>Mercado Pago</b></p><p>Oferece pagamentos com cartões de crédito, débito e também meios offline - além de vantagens exclusivas para quem paga logado na conta Mercado Pago, como créditos, descontos e outras condições especiais.</p></div>]]></label>
+                <label><![CDATA[<div class='mercadopago-payment-logo'></div><div class='mercadopago-payment-byline'><p><b>Mercado Pago</b></p><p>It offers payments with credit and debit cards, as well as offline means - in addition to exclusive advantages for those who pay logged into their Mercado Pago account, such as credits, discounts and other special conditions.</p></div>]]></label>
                 <fieldset_css>complex mercadopago-payment-section</fieldset_css>
                 <frontend_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\PaymentGroup</frontend_model>
                 <comment><![CDATA[Technical support available <a href="https://github.com/mercadopago/payment-magento/issues/new/choose">here</a>.]]></comment>
