@@ -375,17 +375,17 @@ class Config extends PaymentConfig
     public function getMpWebSiteBySiteId(string $siteId = null): string
     {
         $webSite = [
-            'MCO' => 'https://www.mercadopago.com/mco/',
-            'MLA' => 'https://www.mercadopago.com/mla/',
-            'MLB' => 'https://www.mercadopago.com/mlb/',
+            'MCO' => 'https://www.mercadopago.com.co/',
+            'MLA' => 'https://www.mercadopago.com.ar/',
+            'MLB' => 'https://www.mercadopago.com.br/',
             'MLC' => 'https://www.mercadopago.com/mlc/',
-            'MLM' => 'https://www.mercadopago.com/mlm/',
-            'MLU' => 'https://www.mercadopago.com/mlu/',
-            'MPE' => 'https://www.mercadopago.com/mpe/',
+            'MLM' => 'https://www.mercadopago.com.mx/',
+            'MLU' => 'https://www.mercadopago.com.uy/',
+            'MPE' => 'https://www.mercadopago.com.pe/',
         ];
 
         if (!isset($siteId)) {
-            return 'https://www.mercadopago.com/mlb/';
+            return 'https://www.mercadopago.com.br/';
         }
 
         return $webSite[$siteId];

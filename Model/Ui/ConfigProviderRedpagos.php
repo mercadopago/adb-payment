@@ -81,11 +81,16 @@ class ConfigProviderRedpagos implements ConfigProviderInterface
     {
         $storeId = $this->cart->getStoreId();
         $captureDocument = $this->config->hasUseDocumentIdentificationCapture($storeId);
+        $isActive = $this->config->isActive($storeId);
+
+        if (!$isActive) {
+            return [];
+        }
 
         return [
             'payment' => [
                 ConfigRedpagos::METHOD => [
-                    'isActive'                            => $this->config->isActive($storeId),
+                    'isActive'                            => $isActive,
                     'title'                               => $this->config->getTitle($storeId),
                     'document_identification_capture'     => $captureDocument,
                     'expiration'                          => $this->config->getExpirationFormat($storeId),

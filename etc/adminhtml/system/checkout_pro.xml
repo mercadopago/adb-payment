@@ -33,7 +33,7 @@
         </field>
         <field id="max_installments" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Installment options limit</label>
-            <comment>Sets a limit on the number of installments the client can use.</comment>
+            <comment>It is possible to configure the number of installments in Checkout Pro, but the limit of installments per purchase will also depend on the minimum and maximum amount defined by each flag in the country of your store.</comment>
             <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\MaxInstallments</source_model>
             <validate>required-entry validate-select</validate>
             <config_path>payment/mercadopago_paymentmagento_checkout_pro/max_installments</config_path>

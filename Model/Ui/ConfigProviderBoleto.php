@@ -80,11 +80,16 @@ class ConfigProviderBoleto implements ConfigProviderInterface
     public function getConfig()
     {
         $storeId = $this->cart->getStoreId();
+        $isActive = $this->config->isActive($storeId);
+
+        if (!$isActive) {
+            return [];
+        }
 
         return [
             'payment' => [
                 ConfigBoleto::METHOD => [
-                    'isActive'                        => $this->config->isActive($storeId),
+                    'isActive'                        => $isActive,
                     'title'                           => $this->config->getTitle($storeId),
                     'name_capture'                    => $this->config->hasUseNameCapture($storeId),
                     'document_identification_capture' => $this->config->hasUseDocumentIdentificationCapture($storeId),

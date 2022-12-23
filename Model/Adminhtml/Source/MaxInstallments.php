@@ -43,7 +43,7 @@ class MaxInstallments implements ArrayInterface
             '18'    => __('18 installments'),
             '19'    => __('19 installments'),
             '20'    => __('20 installments'),
-            '21'    => __('11 installments'),
+            '21'    => __('21 installments'),
             '22'    => __('22 installments'),
             '23'    => __('23 installments'),
             '24'    => __('24 installments'),

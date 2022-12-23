@@ -80,11 +80,16 @@ class ConfigProviderWebpay implements ConfigProviderInterface
     public function getConfig()
     {
         $storeId = $this->cart->getStoreId();
+        $isActive = $this->config->isActive($storeId);
+
+        if (!$isActive) {
+            return [];
+        }
 
         return [
             'payment' => [
                 ConfigWebpay::METHOD => [
-                    'isActive'                        => $this->config->isActive($storeId),
+                    'isActive'                        => $isActive,
                     'title'                           => $this->config->getTitle($storeId),
                     'document_identification_capture' => $this->config->hasUseDocumentIdentificationCapture($storeId),
                     'expiration'                      => $this->config->getExpirationFormat($storeId),

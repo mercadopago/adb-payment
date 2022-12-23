@@ -80,11 +80,16 @@ class ConfigProviderCc implements ConfigProviderInterface
     public function getConfig()
     {
         $storeId = $this->cart->getStoreId();
+        $isActive = $this->configCc->isActive($storeId);
+
+        if (!$isActive) {
+            return [];
+        }
 
         return [
             'payment' => [
                 ConfigCc::METHOD => [
-                    'isActive'                        => $this->configCc->isActive($storeId),
+                    'isActive'                        => $isActive,
                     'title'                           => $this->configCc->getTitle($storeId),
                     'useCvv'                          => $this->configCc->isCvvEnabled($storeId),
                     'ccTypesMapper'                   => $this->configCc->getCcTypesMapper($storeId),

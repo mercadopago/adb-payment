@@ -80,11 +80,16 @@ class ConfigProviderPix implements ConfigProviderInterface
     public function getConfig()
     {
         $storeId = $this->cart->getStoreId();
+        $isActive = $this->config->isActive($storeId);
+
+        if (!$isActive) {
+            return [];
+        }
 
         return [
             'payment' => [
                 self::CODE => [
-                    'isActive'                        => $this->config->isActive($storeId),
+                    'isActive'                        => $isActive,
                     'title'                           => $this->config->getTitle($storeId),
                     'document_identification_capture' => $this->config->hasUseDocumentIdentificationCapture($storeId),
                     'instruction_checkout'            => nl2br($this->getDescriptions($storeId)),

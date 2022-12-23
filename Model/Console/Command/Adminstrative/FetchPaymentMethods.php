@@ -163,7 +163,7 @@ class FetchPaymentMethods extends AbstractModel
                 $this->storeManager->setCurrentStore($stores);
                 $webSiteId = (int) $stores->getWebsiteId();
 
-                if ($webSiteId === 1 || $countStores === 1) {
+                if ($countStores === 1) {
                     $storeIdIsDefault = true;
                 }
 

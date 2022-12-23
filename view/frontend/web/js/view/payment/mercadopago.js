@@ -36,7 +36,7 @@ define(
             methodPagoEfectivo = 'mercadopago_paymentmagento_pagoefectivo',
             methodWebpay = 'mercadopago_paymentmagento_webpay';
 
-        if (config[methodCheckoutPro].isActive) {
+        if (methodCheckoutPro in config) {
             rendererList.push(
                 {
                     type: methodCheckoutPro,
@@ -45,7 +45,7 @@ define(
             );
         }
 
-        if (config[methodCc].isActive) {
+        if (methodCc in config) {
             rendererList.push(
                 {
                     type: methodCc,
@@ -54,7 +54,7 @@ define(
             );
         }
 
-        if (config[methodBoleto].isActive) {
+        if (methodBoleto in config) {
             rendererList.push(
                 {
                     type: methodBoleto,
@@ -63,7 +63,7 @@ define(
             );
         }
 
-        if (config[methodPec].isActive) {
+        if (methodPec in config) {
             rendererList.push(
                 {
                     type: methodPec,
@@ -72,7 +72,7 @@ define(
             );
         }
 
-        if (config[methodPix].isActive) {
+        if (methodPix in config) {
             rendererList.push(
                 {
                     type: methodPix,
@@ -81,7 +81,7 @@ define(
             );
         }
 
-        if (config[methodPagoFacil].isActive) {
+        if (methodPagoFacil in config) {
             rendererList.push(
                 {
                     type: methodPagoFacil,
@@ -90,7 +90,7 @@ define(
             );
         }
 
-        if (config[methodRapiPago].isActive) {
+        if (methodRapiPago in config) {
             rendererList.push(
                 {
                     type: methodRapiPago,
@@ -99,7 +99,7 @@ define(
             );
         }
 
-        if (config[methodPayCash].isActive) {
+        if (methodPayCash in config) {
             rendererList.push(
                 {
                     type: methodPayCash,
@@ -108,7 +108,7 @@ define(
             );
         }
 
-        if (config[methodOxxo].isActive) {
+        if (methodOxxo in config) {
             rendererList.push(
                 {
                     type: methodOxxo,
@@ -117,7 +117,7 @@ define(
             );
         }
 
-        if (config[methodEfecty].isActive) {
+        if (methodEfecty in config) {
             rendererList.push(
                 {
                     type: methodEfecty,
@@ -126,7 +126,7 @@ define(
             );
         }
 
-        if (config[methodAbitab].isActive) {
+        if (methodAbitab in config) {
             rendererList.push(
                 {
                     type: methodAbitab,
@@ -135,7 +135,7 @@ define(
             );
         }
 
-        if (config[methodRedpagos].isActive) {
+        if (methodRedpagos in config) {
             rendererList.push(
                 {
                     type: methodRedpagos,
@@ -144,7 +144,7 @@ define(
             );
         }
 
-        if (config[methodPse].isActive) {
+        if (methodPse in config) {
             rendererList.push(
                 {
                     type: methodPse,
@@ -153,7 +153,7 @@ define(
             );
         }
 
-        if (config[methodBanamex].isActive) {
+        if (methodBanamex in config) {
             rendererList.push(
                 {
                     type: methodBanamex,
@@ -162,7 +162,7 @@ define(
             );
         }
 
-        if (config[methodBancomer].isActive) {
+        if (methodBancomer in config) {
             rendererList.push(
                 {
                     type: methodBancomer,
@@ -171,7 +171,7 @@ define(
             );
         }
 
-        if (config[methodSerfin].isActive) {
+        if (methodSerfin in config) {
             rendererList.push(
                 {
                     type: methodSerfin,
@@ -180,7 +180,7 @@ define(
             );
         }
 
-        if (config[methodPagoEfectivo].isActive) {
+        if (methodPagoEfectivo in config) {
             rendererList.push(
                 {
                     type: methodPagoEfectivo,
@@ -189,7 +189,7 @@ define(
             );
         }
 
-        if (config[methodWebpay].isActive) {
+        if (methodWebpay in config) {
             rendererList.push(
                 {
                     type: methodWebpay,
@@ -197,6 +197,7 @@ define(
                 }
             );
         }
+        console.log(config);
 
         return Component.extend({});
     }
