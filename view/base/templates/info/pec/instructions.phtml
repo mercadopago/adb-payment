@@ -29,7 +29,7 @@ $financialInstitution = isset($specificInfo['financial_institution']) ? $specifi
         <?php if ($dateOfExpiration): ?>
             <div class="instruction-information expiration">
                 <div>
-                    <?= $block->escapeHtml(__('Your payment is valid until')); ?>
+                    <?= $block->escapeHtml(__('Your payment will be valid until')); ?>
                 </div>
                 <div class="expiration-date">
                     <strong>
@@ -41,7 +41,7 @@ $financialInstitution = isset($specificInfo['financial_institution']) ? $specifi
         <?php if ($financialInstitution): ?>
             <div class="instruction-information ticket-more-information">
                 <div class="label">
-                    <?= $block->escapeHtml(__('Agreement code with Mercado Pago')); ?>
+                    <?= $block->escapeHtml(__('Mercado Pago partnership code')); ?>
                 </div>
                 <div class="value">
                     <?=  $block->escapeHtml($financialInstitution) ?>
@@ -51,12 +51,12 @@ $financialInstitution = isset($specificInfo['financial_institution']) ? $specifi
         <?php if ($externalLink): ?>
             <div class="instruction-information link">
                 <div class="step-to-pay">
-                    <?= $block->escapeHtml(__('Link to Pay')); ?>
+                    <?= $block->escapeHtml(__('Link for payment')); ?>
                 </div>
                 <div class="ticket-link">
                     <a target="_blank"
                         href="<?=  $block->escapeHtml($externalLink) ?>" 
-                        alt="<?= /* @noEscape */ $title ?>"><?= $block->escapeHtml(__('Details for pay')); ?></a>
+                        alt="<?= /* @noEscape */ $title ?>"><?= $block->escapeHtml(__('Details for payment')); ?></a>
                 </div>
             </div>
         <?php endif;?>

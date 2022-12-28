@@ -59,9 +59,9 @@
         <!-- ko if: getInstructionCheckoutAbitab() || getExpiration() -->
         <dl class="items check payable">
             <!-- ko if: getExpiration() -->
-            <dt class="title"><!-- ko i18n: 'Due' --><!-- /ko --></dt>
+            <dt class="title"><!-- ko i18n: 'Due date' --><!-- /ko --></dt>
             <dd class="content">
-                <address class="mercadopagoabitab due address" data-bind="html: getExpiration()"></address>
+                <address class="mercadopagoabitab due date address" data-bind="html: getExpiration()"></address>
             </dd>
             <!-- /ko -->
             <dt class="title"><!-- ko i18n: 'Instruction' --><!-- /ko --></dt>

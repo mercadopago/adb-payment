@@ -46,7 +46,7 @@ class ResponseCodeValidator extends AbstractValidator
 
         return $this->createResult(
             false,
-            [__('Gateway rejected the transaction.')]
+            [__('The gateway declined the transaction.')]
         );
     }
 

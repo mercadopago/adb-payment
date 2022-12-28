@@ -219,7 +219,7 @@ class FetchPaymentMethods extends AbstractModel
             return $this;
         }
 
-        $errorMsg = __('Fetch error: %1', $paymentMethods['response']['message']);
+        $errorMsg = __('Error fetching information: %1', $paymentMethods['response']['message']);
         $this->writeln('<error>'.$errorMsg.'</error>');
     }
 

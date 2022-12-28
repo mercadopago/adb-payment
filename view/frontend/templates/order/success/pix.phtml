@@ -16,7 +16,7 @@ $qrCodeImage = $block->getInfo('qr_code_base64');
 ?>
 <div class="mercadopago-payment-success-details">
     <p>
-    <?= $block->escapeHtml(__('To pay, read the QRCode')) ?> 
+    <?= $block->escapeHtml(__('To pay, please scan the QR code')) ?> 
         <div class="qrcode-image">
             <img src="data:image/png;base64,<?=  $block->escapeHtml($qrCodeImage) ?>"
                 alt="<?= $block->escapeHtml(__('Pix')) ?>"
@@ -24,7 +24,7 @@ $qrCodeImage = $block->getInfo('qr_code_base64');
         </div>
     </p>
     <p>
-        <?= $block->escapeHtml(__('Or if you prefer, copy and paste the code')) ?> 
+        <?= $block->escapeHtml(__('or, if you prefer, copy-paste the code')) ?> 
         <div class="field mercadopago-input-group">
             <div class="control _with-tooltip">
                 <input type="text"

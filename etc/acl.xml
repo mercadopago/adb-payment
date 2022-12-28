@@ -15,7 +15,7 @@
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
                             <resource id="Magento_Payment::payment_services" title="Payment Services" translate="title">
-                                <resource id="MercadoPago_PaymentMagento::config" title="Permission to configure the module" translate="title" />
+                                <resource id="MercadoPago_PaymentMagento::config" title="Permission to set up the module" translate="title" />
                             </resource>
                         </resource>
                     </resource>

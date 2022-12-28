@@ -65,7 +65,7 @@ class TxnIdCheckoutProHandler implements HandlerInterface
         $order = $payment->getOrder();
         $order->setState(\Magento\Sales\Model\Order::STATE_NEW);
         $order->setStatus('pending');
-        $comment = __('Awaiting payment of the checkout pro.');
+        $comment = __('Awaiting payment through Checkout Pro.');
         $order->addStatusHistoryComment($comment, $payment->getOrder()->getStatus());
     }
 

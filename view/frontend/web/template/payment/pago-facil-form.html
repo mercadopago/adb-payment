@@ -59,7 +59,7 @@
         <!-- ko if: getInstructionCheckoutPagoFacil() || getExpiration() -->
         <dl class="items check payable">
             <!-- ko if: getExpiration() -->
-            <dt class="title"><!-- ko i18n: 'Due' --><!-- /ko --></dt>
+            <dt class="title"><!-- ko i18n: 'Due date' --><!-- /ko --></dt>
             <dd class="content">
                 <address class="mercadopagopagofacil due address" data-bind="html: getExpiration()"></address>
             </dd>

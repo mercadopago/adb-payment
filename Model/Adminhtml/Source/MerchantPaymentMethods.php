@@ -79,7 +79,7 @@ class MerchantPaymentMethods implements ArrayInterface
 
         $options[] = [
             'value' => null,
-            'label' => __('Not Excluded'),
+            'label' => __('Do Not Delete'),
         ];
 
         $payments = $this->getAllPaymentMethods();

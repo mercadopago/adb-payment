@@ -24,7 +24,7 @@ class TypeRedirect implements ArrayInterface
     {
         return [
             'modal'     => __('Modal window in store environment'),
-            'redirect'  => __('Redirection to the Mercado Pago environment'),
+            'redirect'  => __('Redirection to Mercado Pago environment'),
         ];
     }
 }

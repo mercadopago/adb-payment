@@ -14,7 +14,7 @@
                 <label><![CDATA[<div class='mercadopago-payment-logo'></div><div class='mercadopago-payment-byline'><p><b>Mercado Pago</b></p><p>It offers payments with credit and debit cards, as well as offline means - in addition to exclusive advantages for those who pay logged into their Mercado Pago account, such as credits, discounts and other special conditions.</p></div>]]></label>
                 <fieldset_css>complex mercadopago-payment-section</fieldset_css>
                 <frontend_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\PaymentGroup</frontend_model>
-                <comment><![CDATA[Technical support available <a href="https://github.com/mercadopago/payment-magento/issues/new/choose">here</a>.]]></comment>
+                <comment><![CDATA[Technical support available <a href='https://github.com/mercadopago/payment-magento/issues/new/choose'>here</a>.]]></comment>
                 <include path="MercadoPago_PaymentMagento::system/basic_settings.xml"/>
                 <include path="MercadoPago_PaymentMagento::system/checkout_pro.xml"/>
                 <include path="MercadoPago_PaymentMagento::system/checkout_transparent.xml"/>

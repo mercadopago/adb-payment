@@ -64,7 +64,7 @@
                 if (this.getPureValue() > 0) {
                     return $t('Finance Cost');
                 }
-                return $t('Discount Cash');
+                return $t('Discount for payment at sight');
             },
 
             /**

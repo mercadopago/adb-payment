@@ -4,7 +4,7 @@
         <label>Store Name, Category and Integrator ID</label>
         <field id="statement_descriptor" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
             <label>Store Name</label>
-            <comment>The name of the store as it will appear on the customer's invoice. If the sale was made with Checkout Pro, the invoice will also identify Mercado Pago in the name.</comment>
+            <comment>This is the store's name as it will appear on the customer's invoice. In case the sale was made through Checkout Pro, the invoice will also show Mercado Pago in the name.</comment>
             <config_path>payment/mercadopago_paymentmagento/statement_descriptor</config_path>
             <validate>required-entry</validate>
         </field>
@@ -18,7 +18,7 @@
         <field id="integrator_id" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Integrator ID</label>
             <config_path>payment/mercadopago_paymentmagento/integrator_id</config_path>
-            <comment><![CDATA[With this number, we identify all your transactions and know how many sales we process with your account. Become a certified Mercado Pago partner and request your integrator_id <a href="https://docs.google.com/forms/d/1EeO__nZuqHf4cb81NpwtDSybPT7COluSZVrXR4A8F7Q/viewform?edit_requested=true" target="_blank">here</a>.]]></comment>
+            <comment><![CDATA[With this number, we are able to identify all your transactions and know how many sales were processed using your account. Become a certified Mercado Pago partner and request your integrator_id <a href=""https://docs.google.com/forms/d/1EeO__nZuqHf4cb81NpwtDSybPT7COluSZVrXR4A8F7Q/viewform?edit_requested=true"" target=""_blank"">here</a>.]]></comment>
         </field>
     </group>
 </include>

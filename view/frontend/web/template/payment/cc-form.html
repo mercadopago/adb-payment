@@ -54,7 +54,7 @@
 <fieldset data-bind="attr: {class: 'fieldset payment items ccard payment-mercadopago field-to-pay' + getCode(), id: 'payment_form_cc_' + getCode()}">
     <!-- ko if: (isShowLegend())-->
     <legend class="legend">
-        <span class="legend-title"><!-- ko i18n: 'Card Information'--><!-- /ko --></span>
+        <span class="legend-title"><!-- ko i18n: 'Card details'--><!-- /ko --></span>
         <span class="legend-icon">
             <ul class="credit-card-types">
                 <!-- ko foreach: {data: getCcAvailableTypesValues(), as: 'item'} -->
@@ -95,7 +95,7 @@
                 <div class="field mercadopago-input-group number required">
                     <div class="control-mp-iframe">
                         <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
-                            <span><!-- ko i18n: 'Card Number'--><!-- /ko --></span>
+                            <span><!-- ko i18n: 'Card number'--><!-- /ko --></span>
                         </label>
                         <div type="tel" class="input-mp-iframe number" id="mercadopago_paymentmagento_cc_number">
                         </div>
@@ -123,7 +123,7 @@
                 <div class="field mercadopago-input-group cvv required" data-bind="attr: {id: getCode() + '_type_cvv_div'}">
                     <div class="control-mp-iframe">
                         <label data-bind="attr: {for: getCode() + '_cid'}" class="label">
-                            <span><!-- ko i18n: 'CVV - Card Verification Number'--><!-- /ko --></span>
+                            <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
                         </label>
                         <div type="number" class="input-mp-iframe cvv" id="mercadopago_paymentmagento_cc_cid">
                         </div>
@@ -147,7 +147,7 @@
                             <div class="field mercadopago-input-group month">
                                 <div class="control-mp-iframe">
                                     <label data-bind="attr: {for: getCode() + '_expiration_month'}" class="label">
-                                        <span><!-- ko i18n: 'Expiration Month'--><!-- /ko --></span>
+                                        <span><!-- ko i18n: 'Expiration month'--><!-- /ko --></span>
                                     </label>
                                     <div class="input-mp-iframe date" id="mercadopago_paymentmagento_cc_expiration_month"></div>
                                 </div>
@@ -155,7 +155,7 @@
                             <div class="field mercadopago-input-group year">
                                 <div class="control-mp-iframe">
                                     <label data-bind="attr: {for: getCode() + '_expiration_yr'}" class="label">
-                                        <span><!-- ko i18n: 'Expiration Year'--><!-- /ko --></span>
+                                        <span><!-- ko i18n: 'Expiration year'--><!-- /ko --></span>
                                     </label>
                                     <div class="input-mp-iframe date" id="mercadopago_paymentmagento_cc_expiration_yr"></div>
                                 </div>
@@ -170,8 +170,8 @@
                                     attr: {
                                         autocomplete: 'cc-name',
                                         id: getCode() + '_cardholder_name',
-                                        title: $t('Card Holder Full Name'),
-                                        placeholder: $t('Card Holder Full Name'),
+                                        title: $t('Card holder full name'),
+                                        placeholder: $t('Card holder full name'),
                                         'data-container': getCode() + '-cc-cardholder-name',
                                         'data-validate': JSON.stringify({'required':true})
                                     },
@@ -180,7 +180,7 @@
                                     valueUpdate: 'keyup'">
                         </input>
                         <label data-bind="attr: {for: getCode() + '_cardholder_name'}" class="label">
-                            <span><!-- ko i18n: 'Card Holder Full Name'--><!-- /ko --></span>
+                            <span><!-- ko i18n: 'Card holder full name'--><!-- /ko --></span>
                         </label>
                     </div>
                 </div>
@@ -198,11 +198,11 @@
                                     options: mpCardListInstallments(),
                                     optionsValue: 'installments',
                                     optionsText: 'recommended_message',
-                                    optionsCaption: $t('Select Instalmment'),
+                                    optionsCaption: $t('Choose the number of installments'),
                                     value: mpCardInstallment">
                         </select>
                         <label data-bind="attr: {for: getCode() + '_installments'}" class="label">
-                            <span><!-- ko i18n: 'Select Instalmment' --><!-- /ko --></span>
+                            <span><!-- ko i18n: 'Choose the number of installments' --><!-- /ko --></span>
                         </label>
                     </div>
                 </div>

@@ -125,7 +125,7 @@ class CreateVaultManagement implements CreateVaultManagementInterface
 
         $createUser = $this->createUser($storeId, $quote, $vaultData);
         $token['tokenize'] = [
-            'error' => __('Error creating payment, please try again later.'),
+            'error' => __('There was an error when creating the payment. Please try again later.'),
         ];
 
         if ($createUser[self::RESULT_CODE] === 0) {

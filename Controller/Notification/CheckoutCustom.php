@@ -60,7 +60,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
                 404,
                 [
                     'error'   => 404,
-                    'message' => __('It\'s not for you to be here...'),
+                    'message' => __('You should not be here...'),
                 ]
             );
         }
@@ -107,7 +107,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
                     412,
                     [
                         'error'   => 412,
-                        'message' => __('Not available.'),
+                        'message' => __('Unavailable.'),
                         'state'   => $order->getState(),
                     ]
                 );

@@ -86,7 +86,7 @@ class FinanceCostManagement implements FinanceCostManagementInterface
             $quoteCart->setData(FinanceCostInterface::BASE_FINANCE_COST_AMOUNT, $financeCost);
             $this->quoteCartRepository->save($quoteCart);
         } catch (Exception $e) {
-            throw new CouldNotSaveException(__('It was not possible to save the value of the financing cost'));
+            throw new CouldNotSaveException(__('It was not possible to save on the installment cost amount'));
         }
 
         $calculate = [

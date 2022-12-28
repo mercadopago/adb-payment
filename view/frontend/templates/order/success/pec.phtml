@@ -14,7 +14,7 @@
 $document = $block->getInfo('payer_document_identification');
 ?>
 <div class="mercadopago-payment-success-details">
-    <?= $block->escapeHtml(__('Agreement code with Mercado Pago')) ?> 
+    <?= $block->escapeHtml(__('Mercado Pago partnership code')) ?> 
     <div class="field mercadopago-input-group">
         <div class="control _with-tooltip">
             <input type="text"
@@ -31,13 +31,13 @@ $document = $block->getInfo('payer_document_identification');
         </div>
     </div>
     <?= $block->escapeHtml(
-        __('Inform the Identification Document used in the purchase: %1', $document)
+        __('Enter the ID Document you used in the purchase: %1', $document)
     ) ?>
     <div>
         <a href="<?= $block->escapeHtml($block->getInfo('external_resource_url')); ?>"
             target="_blank"
             class="action primary continue">
-            <?= $block->escapeHtml(__('Details for pay')) ?> 
+            <?= $block->escapeHtml(__('Details for payment')) ?> 
         </a>
     </div>
 </div>

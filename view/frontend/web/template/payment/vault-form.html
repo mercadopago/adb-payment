@@ -31,7 +31,7 @@
                 <div class="field mercadopago-input-group required" data-bind="attr: {id: getId() + '_type_cvv_div'}">
                     <div class="control-mp-iframe">
                         <label data-bind="attr: {for: getId() + '_cc_id'}" class="label">
-                            <span><!-- ko i18n: 'CVV - Card Verification Number'--><!-- /ko --></span>
+                            <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
                         </label>
                         <div type="number" class="input-mp-iframe cvv" data-bind="attr: {id: getId() + '_cc_id'}"">
                         </div>
@@ -59,11 +59,11 @@
                                     options: creditCardListInstallments(),
                                     optionsValue: 'installments',
                                     optionsText: 'recommended_message',
-                                    optionsCaption: $t('Select Instalmment'),
+                                    optionsCaption: $t('Choose the number of installments'),
                                     value: creditCardInstallment">
                     </select>
                     <label data-bind="attr: {for: getId() + '_installments'}" class="label">
-                        <span><!-- ko i18n: 'Select Instalmment' --><!-- /ko --></span>
+                        <span><!-- ko i18n: 'Choose the number of installments' --><!-- /ko --></span>
                     </label>
                 </div>
             </div>

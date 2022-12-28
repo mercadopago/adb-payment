@@ -114,6 +114,6 @@ class FinanceCost extends Template
             return __('Finance Cost');
         }
 
-        return __('Discount Cash');
+        return __('Discount for payment at sight');
     }
 }

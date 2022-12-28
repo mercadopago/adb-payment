@@ -170,8 +170,10 @@ class FetchMerchant extends AbstractModel
         int $webSiteId = 0
     ) {
         $mpSiteId = $this->mercadopagoConfig->getMpSiteId($storeId);
-        $mpWebSiteUrl = $this->mercadopagoConfig->getMpWebSiteBySiteId($mpSiteId);
+        $mpSiteId = strtolower((string) $mpSiteId);
+        $mpWebSiteUrl = $this->mercadopagoConfig->getMpWebSiteBySiteId();
         $validate = $this->getValidateCredentials($storeId);
+        $fullUrl = $mpWebSiteUrl.$mpSiteId.'/account/credentials';
 
         if (!$validate['success']) {
             if ($validate['response']['is_test']) {
@@ -179,7 +181,7 @@ class FetchMerchant extends AbstractModel
                     'addRedirectAccountMessage',
                     [
                         'store' => $storeId,
-                        'url'   => $mpWebSiteUrl.'account/credentials',
+                        'url'   => $fullUrl,
                     ]
                 );
                 $errorMsg = __('Store ID: %1 Not allowed for production use', $storeId);
@@ -210,15 +212,15 @@ class FetchMerchant extends AbstractModel
                 return $this;
             }
 
-            $errorMsg = __('Error in save: %1', $registryConfig['error']);
+            $errorMsg = __('There was an error saving: %1', $registryConfig['error']);
             $this->writeln('<error>'.$errorMsg.'</error>');
 
             $this->messageManager->addError($errorMsg);
         }
 
-        $errorMsg = __('Fetch error: %1', $usersMe['response']['message']);
+        $errorMsg = __('Error fetching information: %1', $usersMe['response']['message']);
         $this->writeln('<error>'.$errorMsg.'</error>');
-        $this->messageManager->addNotice(__('Please check the credentials registered for store %1', $storeId));
+        $this->messageManager->addNotice(__('Please check store id %1 credentials', $storeId));
     }
 
     /**

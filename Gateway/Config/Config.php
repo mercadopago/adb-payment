@@ -385,7 +385,7 @@ class Config extends PaymentConfig
         ];
 
         if (!isset($siteId)) {
-            return 'https://www.mercadopago.com.br/';
+            return 'https://www.mercadopago.com/';
         }
 
         return $webSite[$siteId];

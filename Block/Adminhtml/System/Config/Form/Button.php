@@ -100,7 +100,7 @@ class Button extends Field
         )->setData(
             [
                 'id'      => 'installments_button',
-                'label'   => __('Define Installments and Interest'),
+                'label'   => __('Set up installments and interest'),
                 'onclick' => 'javascript:window.open(\''.$url.'\')',
             ]
         );

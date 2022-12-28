@@ -16,7 +16,7 @@ $code = $block->escapeHtml($block->getMethodCode());
     id="payment_form_<?= /* @noEscape */ $code ?>" 
     data-url-to-tokenize="<?= $block->escapeHtml($block->getUrlForTokenize()); ?>">
     <?= $block->escapeHtml(
-        __('Due to PCI compliance, it is not possible to capture this payment method by the administrator.')
+        __('In order to comply with PCI regulations, the administrator cannot capture this payment method.')
     ); ?>
 </fieldset>
 <?= /* @noEscape */ $secureRenderer->renderStyleAsTag(
