@@ -157,7 +157,7 @@ Waiting...,Aguardando...
 Debug,Debug
 "We record your store's communications with Mercado Pago in orer to offer a better support. Please note it is not recommended to use the debug mode when your store is in production mode.","Registramos as comunicações da sua loja com o Mercado Pago para oferecer um suporte ainda melhor. Atenção: não é recomendado usar o modo debug com a loja em modo de produção."
 "Rewrite notification URL","Reescrever a URL de notificação"
-"You can override notification URLs which are automatically generated. In order to use the module's default, please do not fill in this details","Você pode substituir os URLs de notificação que são gerados automaticamente. Para usar o padrão do módulo, por favor, não preencha esses dados."
+"You can override notification URLs which are automatically generated. In order to use the module's default, please do not fill in this details.","Você pode substituir os URLs de notificação que são gerados automaticamente. Para usar o padrão do módulo, por favor, não preencha esses dados."
 "Store Name, Category and Integrator ID","Nome da loja, Categoria e ID do Integrador"
 "Store Name","Nome da loja"
 "This is the store's name as it will appear on the customer's invoice. In case the sale was made through Checkout Pro, the invoice will also show Mercado Pago in the name.","O nome da loja conforme vai constar na fatura do cliente. Se a venda foi feita por meio do Checkout Pro, a fatura também identificará o Mercado Pago no nome."
@@ -203,13 +203,13 @@ Abitab,Abitab
 "Activate this option if you want to obtain buyer`s documents details, using an additional field on the payment form. Disable it if your store already gets these details.","Ative esta função para capturar documentos de clientes com um campo adicional no formulário de pagamento. Desative se a loja já captura estes dados. "
 "Capture document identification","Capturar documento de identificação"
 "Minimum amount to pay with Abitab.","Valor mínimo para pagamento com Abitab."
-"Maximum amount for payment with Abitab","Valor máximo para pagamento com Abitab."
+"Maximum amount for payment with Abitab.","Valor máximo para pagamento com Abitab."
 Banamex,Banamex
-"Minimum amount for payment with Banamex","Valor mínimo para pagamento com Banamex."
-"Maximum amount for payment with Banamex","Valor máximo para pagamento com Banamex."
+"Minimum amount for payment with Banamex.","Valor mínimo para pagamento com Banamex."
+"Maximum amount for payment with Banamex.","Valor máximo para pagamento com Banamex."
 Bancomer,Bancomer
-"Minimum amount for payment with Bancomer","Valor mínimo para pagamento com Bancomer."
-"Maximum amount for payment with Bancomer","Valor máximo para pagamento com Bancomer."
+"Minimum amount for payment with Bancomer.","Valor mínimo para pagamento com Bancomer."
+"Maximum amount for payment with Bancomer.","Valor máximo para pagamento com Bancomer."
 "Boleto Bancário","Boleto Bancário"
 "Capture name","Capturar nome"
 "In case you leave this option active, an additional field in the payment form will obtain this information. If disabled, details will be retrieved directly from other fields within your store.","Se ativado, o formulário de pagamento vai mostrar um campo adicional para coletar essas informações. Se desabilitado, o valor será capturado diretamente de outros campos em sua loja."
@@ -222,8 +222,8 @@ Bancomer,Bancomer
 "Consult the store's business sector to be able to select capturing the payment at the time of the purchase or at a later moment.","Consulte o ramo de negócios da loja para poder escolher entre capturar o pagamento no ato da compra ou posteriormente."
 "Installment and interest","Parcelamento e juros"
 "Set within your account","Definir na sua conta"
-"Minimum amount for payment with this payment method","Valor mínimo para este meio de pagamento."
-"Maximum amount for payment with this payment method","Valor máximo para este meio de pagamento."
+"Minimum amount for payment with this payment method.","Valor mínimo para este meio de pagamento."
+"Maximum amount for payment with this payment method.","Valor máximo para este meio de pagamento."
 Efecty,Efecty
 "Minimum amount to pay with Efecty.","Valor mínimo para pagamento com Efecty."
 "Maximum amount to pay with Efecty.","Valor máximo para pagamento com Efecty."

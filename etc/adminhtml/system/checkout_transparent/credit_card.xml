@@ -44,13 +44,13 @@
             <label>Common Payment Method Definitions</label>
             <field id="min_order_total" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                 <label>Minimum order total</label>
-                <comment>Minimum amount for payment with this payment method</comment>
+                <comment>Minimum amount for payment with this payment method.</comment>
                 <validate>validate-number validate-zero-or-greater</validate>
                 <config_path>payment/mercadopago_paymentmagento_cc/min_order_total</config_path>
             </field>
             <field id="max_order_total" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                 <label>Maximum order amount</label>
-                <comment>Maximum amount for payment with this payment method</comment>
+                <comment>Maximum amount for payment with this payment method.</comment>
                 <validate>validate-number validate-zero-or-greater</validate>
                 <config_path>payment/mercadopago_paymentmagento_cc/max_order_total</config_path>
             </field>

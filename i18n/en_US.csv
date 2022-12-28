@@ -157,7 +157,7 @@ Waiting...,Waiting...
 Debug,Debug
 "We record your store's communications with Mercado Pago in orer to offer a better support. Please note it is not recommended to use the debug mode when your store is in production mode.","We record your store's communications with Mercado Pago in orer to offer a better support. Please note it is not recommended to use the debug mode when your store is in production mode."
 "Rewrite notification URL","Rewrite notification URL"
-"You can override notification URLs which are automatically generated. In order to use the module's default, please do not fill in this details","You can override notification URLs which are automatically generated. In order to use the module's default, please do not fill in this details"
+"You can override notification URLs which are automatically generated. In order to use the module's default, please do not fill in this details.","You can override notification URLs which are automatically generated. In order to use the module's default, please do not fill in this details."
 "Store Name, Category and Integrator ID","Store Name, Category and Integrator ID"
 "Store Name","Store Name"
 "This is the store's name as it will appear on the customer's invoice. In case the sale was made through Checkout Pro, the invoice will also show Mercado Pago in the name.","This is the store's name as it will appear on the customer's invoice. In case the sale was made through Checkout Pro, the invoice will also show Mercado Pago in the name."
@@ -203,13 +203,13 @@ Abitab,Abitab
 "Activate this option if you want to obtain buyer`s documents details, using an additional field on the payment form. Disable it if your store already gets these details.","Activate this option if you want to obtain buyer`s documents details, using an additional field on the payment form. Disable it if your store already gets these details."
 "Capture document identification","Capture document identification"
 "Minimum amount to pay with Abitab.","Minimum amount to pay with Abitab."
-"Maximum amount for payment with Abitab","Maximum amount for payment with Abitab"
+"Maximum amount for payment with Abitab.","Maximum amount for payment with Abitab."
 Banamex,Banamex
-"Minimum amount for payment with Banamex","Minimum amount for payment with Banamex"
-"Maximum amount for payment with Banamex","Maximum amount for payment with Banamex"
+"Minimum amount for payment with Banamex.","Minimum amount for payment with Banamex."
+"Maximum amount for payment with Banamex.","Maximum amount for payment with Banamex."
 Bancomer,Bancomer
-"Minimum amount for payment with Bancomer","Minimum amount for payment with Bancomer"
-"Maximum amount for payment with Bancomer","Maximum amount for payment with Bancomer"
+"Minimum amount for payment with Bancomer.","Minimum amount for payment with Bancomer."
+"Maximum amount for payment with Bancomer.","Maximum amount for payment with Bancomer."
 "Boleto Bancário","Boleto Bancário"
 "Capture name","Capture name"
 "In case you leave this option active, an additional field in the payment form will obtain this information. If disabled, details will be retrieved directly from other fields within your store.","In case you leave this option active, an additional field in the payment form will obtain this information. If disabled, details will be retrieved directly from other fields within your store."
@@ -222,8 +222,8 @@ Bancomer,Bancomer
 "Consult the store's business sector to be able to select capturing the payment at the time of the purchase or at a later moment.","Consult the store's business sector to be able to select capturing the payment at the time of the purchase or at a later moment."
 "Installment and interest","Installment and interest"
 "Set within your account","Set within your account"
-"Minimum amount for payment with this payment method","Minimum amount for payment with this payment method"
-"Maximum amount for payment with this payment method","Maximum amount for payment with this payment method"
+"Minimum amount for payment with this payment method.","Minimum amount for payment with this payment method."
+"Maximum amount for payment with this payment method.","Maximum amount for payment with this payment method."
 Efecty,Efecty
 "Minimum amount to pay with Efecty.","Minimum amount to pay with Efecty."
 "Maximum amount to pay with Efecty.","Maximum amount to pay with Efecty."

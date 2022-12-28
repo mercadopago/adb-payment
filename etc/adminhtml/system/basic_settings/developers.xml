@@ -11,7 +11,7 @@
         <field id="rewrite_notification_url" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Rewrite notification URL</label>
             <config_path>payment/mercadopago_paymentmagento/sandbox_rewrite_notification_url</config_path>
-            <comment>You can override notification URLs which are automatically generated. In order to use the module's default, please do not fill in this details</comment>
+            <comment>You can override notification URLs which are automatically generated. In order to use the module's default, please do not fill in this details.</comment>
             <depends>
                 <field id="*/*/*/credentials/environment">sandbox</field>
             </depends>
