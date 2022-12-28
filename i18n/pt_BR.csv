@@ -14,7 +14,7 @@ Unavailable.,Indisponível.
 Tax,Imposto
 "Awaiting payment.","Aguardando pagamento."
 "Awaiting payment through Checkout Pro.","Aguardando pagamento por meio do Checkout Pro."
-"Awaiting payment through Pix.","Aguardando pagamento viaPix."
+"Awaiting payment through Pix.","Aguardando pagamento via Pix."
 "The gateway declined the transaction.","O gateway recusou a transação."
 "Please select a category","Por favor, selecione uma categoria"
 description,descrição
@@ -73,7 +73,7 @@ Close,Fechar
 "Redirection to Mercado Pago environment","Redirecionamento para o ambiente do Mercado Pago"
 "Cart %1 doesn't contain products","O carrinho %1 não tem produtos"
 "There was an error when creating the payment. Please try again later.","Erro ao criar o pagamento. Tente novamente mais tarde."
-"It was not possible to save on the installment cost amount","Não foi possível economizar no valor do custo de parcelamento"
+"It was not possible to save on the installment cost amount","Não foi possível salvar o valor do custo de parcelamento"
 "Default Store %1 - Set Data for store id %2 Web Site Id %3","Store ID: %1 Não habilitado para uso em produção"
 Finished,Concluído
 "Store ID: %1 Not allowed for production use","Store ID: %1 Não habilitada para uso em produção."
@@ -183,7 +183,7 @@ Title,Título
 Facebook,Facebook
 "Link your sales with Facebook by entering the ID No. and your tracking code.","Associe suas vendas ao Facebook, informando o ID e seu código de rastreamento."
 "Google Ads","Google Ads"
-"Link your sales with Google Ads by entering the ID No. and your tracking code..","Associe suas vendas ao Google Ads, informando o ID e seu código de rastreamento."
+"Link your sales with Google Ads by entering the ID No. and your tracking code.","Associe suas vendas ao Google Ads, informando o ID e seu código de rastreamento."
 "Customization and Styles","Personalização e estilos"
 "Set up how the items will appear in the modal window in which the buyer will complete the purchase.","Defina a aparência de itens na janela modal em que o cliente conclui a compra."
 "Header Color","Cor do header"
