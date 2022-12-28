@@ -106,7 +106,7 @@ Instruction,Instruções
 "In order to comply with PCI regulations, the administrator cannot capture this payment method.","Devido à conformidade com o PCI, não é possível capturar esta forma de pagamento pelo administrador."
 "Payer Entity Type","Tipo da instituição de pagamento"
 "Financial Institution","Instituição financeira"
-"Your access credential for store %1 is valid but you don't have production use permission. Request approval before use by <a href="%2">click here</a>.","Sua credencial de acesso à loja %1 é válida, mas você não tem permissão de uso de produção. Solicite aprovação antes de usar <a href="%2">clique aqui</a>."
+"Your access credential for store %1 is valid but you don\'t have production use permission. Request approval before use by <a href="%2">click here</a>..","Sua credencial de acesso à loja %1 é válida, mas você não tem permissão de uso de produção. Solicite aprovação antes de usar <a href="%2">clique aqui</a>."
 "Your payment will be valid until","Seu pagamento é válido até"
 "Link for payment","Link para pagamento"
 "Details for payment","Detalhes para o pagamento"
