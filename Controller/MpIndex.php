@@ -170,7 +170,6 @@ abstract class MpIndex extends Action
         $result = [];
 
         if (!$order->getEntityId()) {
-
             $result = [
                 'isInvalid' => true,
                 'code'      => 406,
@@ -181,7 +180,6 @@ abstract class MpIndex extends Action
         }
 
         if ($mpStatus === 'refunded') {
-
             if ($order->getState() !== \Magento\Sales\Model\Order::STATE_CLOSED) {
                 $header = __('Mercado Pago, refund notification');
 
@@ -203,7 +201,6 @@ abstract class MpIndex extends Action
         }
 
         if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
-
             $result = [
                 'isInvalid' => true,
                 'code'      => 412,
