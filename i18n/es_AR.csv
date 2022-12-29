@@ -1,9 +1,11 @@
 "Finance Cost","Custo do Parcelamento"
 "Discount for payment at sight","Descuento para pagar en un pago"
 "Set up installments and interest","Definir cuotas e intereses"
-"You should not be here...","No tienes que estar aquí..."
 "Order not found.","Pedido no localizado."
+"Mercado Pago, refund notification","Mercado Pago, notificación de reembolso"
+"The order %1, was refunded directly on Mercado Pago, you need to create an offline refund.","El pedido %1, fue reembolsado directamente en Mercado Pago, necesitas crear un reembolso offline."
 Unavailable.,No disponible.
+"You should not be here...","No tienes que estar aquí..."
 "Order Canceled.","Pedido cancelado."
 "Transaction has been declined. Please try again later.","La operación fue rechazada. Por favor inténtalo de nuevo más tarde."
 "%1 minutes","%1 minutos"

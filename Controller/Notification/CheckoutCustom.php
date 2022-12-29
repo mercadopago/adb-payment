@@ -69,11 +69,19 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
 
         $mercadopagoData = $this->json->unserialize($response);
 
+        $txnType = 'authorization';
+
         $mpTransactionId = $mercadopagoData['transaction_id'];
+
+        $mpStatus = $mercadopagoData['status'];
+
+        if ($mpStatus === 'refunded') {
+            $txnType = 'capture';
+        }
 
         $searchCriteria = $this->searchCriteria
             ->addFilter('txn_id', $mpTransactionId)
-            ->addFilter('txn_type', 'authorization')
+            ->addFilter('txn_type', $txnType)
             ->create();
 
         try {
@@ -92,37 +100,12 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
 
-            if (!$order->getEntityId()) {
-                return $this->createResult(
-                    406,
-                    [
-                        'error'   => 406,
-                        'message' => __('Order not found.'),
-                    ]
-                );
-            }
-
-            if ($order->getState() !== \Magento\Sales\Model\Order::STATE_NEW) {
-                return $this->createResult(
-                    412,
-                    [
-                        'error'   => 412,
-                        'message' => __('Unavailable.'),
-                        'state'   => $order->getState(),
-                    ]
-                );
-            }
-
-            $this->fetchStatus->fetch($order->getEntityId());
+            $process = $this->processNotification($mpStatus, $order);
 
             /** @var ResultInterface $result */
             $result = $this->createResult(
-                200,
-                [
-                    'order'     => $order->getIncrementId(),
-                    'state'     => $order->getState(),
-                    'status'    => $order->getStatus(),
-                ]
+                $process['code'],
+                $process['msg'],
             );
 
             return $result;
@@ -130,6 +113,40 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
 
         /** @var ResultInterface $result */
         $result = $this->createResult(200, ['empty' => null]);
+
+        return $result;
+    }
+
+    /**
+     * Process Notification.
+     *
+     * @param string            $mpStatus
+     * @param OrderRepository   $order
+     *
+     * @return array
+     */
+    public function processNotification(
+        $mpStatus,
+        $order
+    ) {
+        $result = [];
+
+        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order);
+        
+        if ($isNotApplicable['isInvalid']) {
+            return $isNotApplicable;
+        }
+        
+        $this->fetchStatus->fetch($order->getEntityId());
+
+        $result = [
+            'code'  => 200,
+            'msg'   => [
+                'order'     => $order->getIncrementId(),
+                'state'     => $order->getState(),
+                'status'    => $order->getStatus(),
+            ],
+        ];
 
         return $result;
     }

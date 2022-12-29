@@ -20,6 +20,7 @@ use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use Magento\Sales\Model\OrderRepository;
 use MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus;
+use Magento\Framework\Notification\NotifierInterface as NotifierPool;
 
 /**
  * Class Mercado Pago Index.
@@ -69,6 +70,11 @@ abstract class MpIndex extends Action
     protected $fetchStatus;
 
     /**
+     * @var NotifierPool
+     */
+    protected $notifierPool;
+
+    /**
      * @param Context                        $context
      * @param Json                           $json
      * @param SearchCriteriaBuilder          $searchCriteria
@@ -78,6 +84,7 @@ abstract class MpIndex extends Action
      * @param JsonFactory                    $resultJsonFactory
      * @param Logger                         $logger
      * @param FetchStatus                    $fetchStatus
+     * @param NotifierPool                   $notifierPool
      */
     public function __construct(
         Context $context,
@@ -88,7 +95,8 @@ abstract class MpIndex extends Action
         PageFactory $pageFactory,
         JsonFactory $resultJsonFactory,
         Logger $logger,
-        FetchStatus $fetchStatus
+        FetchStatus $fetchStatus,
+        NotifierPool $notifierPool
     ) {
         parent::__construct($context);
         $this->json = $json;
@@ -99,6 +107,7 @@ abstract class MpIndex extends Action
         $this->resultJsonFactory = $resultJsonFactory;
         $this->logger = $logger;
         $this->fetchStatus = $fetchStatus;
+        $this->notifierPool = $notifierPool;
     }
 
     /**
@@ -142,5 +151,79 @@ abstract class MpIndex extends Action
         $resultPage->setData($data);
 
         return $resultPage;
+    }
+
+    /**
+     * Filter Invalid Notification
+     *
+     * @param string            $mpStatus
+     * @param OrderRepository   $order
+     *
+     * @return array
+     */
+    public function filterInvalidNotification(
+        $mpStatus,
+        $order
+    ) {
+        $isInvalid = false;
+        $result = [];
+
+        if (!$order->getEntityId()) {
+            $isInvalid = true;
+
+            $result = [
+                'isInvalid' => true,
+                'code'      => 406,
+                'msg'       => __('Order not found.'),
+            ];
+
+            return $result;
+        }
+
+        if ($mpStatus === 'refunded') {
+            $isInvalid = true;
+
+            if ($order->getState() !== \Magento\Sales\Model\Order::STATE_CLOSED) {
+
+                $header = __('Mercado Pago, refund notification');
+
+                $description = __(
+                    'The order %1, was refunded directly on Mercado Pago, you need to create an offline refund.',
+                    $order->getIncrementId()
+                );
+
+                $this->notifierPool->addCritical($header, $description);
+            }
+
+            $result = [
+                'isInvalid' => true,
+                'code'      => 412,
+                'msg'       => __('Unavailable.'),
+            ];
+
+            return $result;
+        }
+
+        if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
+            $isInvalid = true;
+
+            $result = [
+                'isInvalid' => true,
+                'code'  => 412,
+                'msg'   => [
+                    'error'   => 412,
+                    'message' => __('Unavailable.'),
+                    'state'   => $order->getState(),
+                ],
+            ];
+
+            return $result;
+        }
+
+        $result = [
+            'isInvalid' => false,
+        ];
+        
+        return $result;
     }
 }
