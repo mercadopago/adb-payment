@@ -14,13 +14,13 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Notification\NotifierInterface as NotifierPool;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use Magento\Sales\Model\OrderRepository;
 use MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus;
-use Magento\Framework\Notification\NotifierInterface as NotifierPool;
 
 /**
  * Class Mercado Pago Index.
@@ -85,6 +85,8 @@ abstract class MpIndex extends Action
      * @param Logger                         $logger
      * @param FetchStatus                    $fetchStatus
      * @param NotifierPool                   $notifierPool
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Context $context,
@@ -154,10 +156,10 @@ abstract class MpIndex extends Action
     }
 
     /**
-     * Filter Invalid Notification
+     * Filter Invalid Notification.
      *
-     * @param string            $mpStatus
-     * @param OrderRepository   $order
+     * @param string          $mpStatus
+     * @param OrderRepository $order
      *
      * @return array
      */
@@ -165,11 +167,9 @@ abstract class MpIndex extends Action
         $mpStatus,
         $order
     ) {
-        $isInvalid = false;
         $result = [];
 
         if (!$order->getEntityId()) {
-            $isInvalid = true;
 
             $result = [
                 'isInvalid' => true,
@@ -181,10 +181,8 @@ abstract class MpIndex extends Action
         }
 
         if ($mpStatus === 'refunded') {
-            $isInvalid = true;
 
             if ($order->getState() !== \Magento\Sales\Model\Order::STATE_CLOSED) {
-
                 $header = __('Mercado Pago, refund notification');
 
                 $description = __(
@@ -205,12 +203,11 @@ abstract class MpIndex extends Action
         }
 
         if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
-            $isInvalid = true;
 
             $result = [
                 'isInvalid' => true,
-                'code'  => 412,
-                'msg'   => [
+                'code'      => 412,
+                'msg'       => [
                     'error'   => 412,
                     'message' => __('Unavailable.'),
                     'state'   => $order->getState(),
@@ -223,7 +220,7 @@ abstract class MpIndex extends Action
         $result = [
             'isInvalid' => false,
         ];
-        
+
         return $result;
     }
 }

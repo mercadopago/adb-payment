@@ -120,8 +120,8 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
     /**
      * Process Notification.
      *
-     * @param string            $mpStatus
-     * @param OrderRepository   $order
+     * @param string          $mpStatus
+     * @param OrderRepository $order
      *
      * @return array
      */
@@ -132,11 +132,11 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         $result = [];
 
         $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order);
-        
+
         if ($isNotApplicable['isInvalid']) {
             return $isNotApplicable;
         }
-        
+
         $this->fetchStatus->fetch($order->getEntityId());
 
         $result = [
