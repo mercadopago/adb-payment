@@ -1,0 +1,25 @@
+
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var MercadoPago\PaymentMagento\Block\Order\Success\Additional $block
+ * @see MercadoPago\PaymentMagento\Block\Order\Success
+ */
+?>
+<?php if ($block->getInfo('external_resource_url')): ?>
+    <div class="mercadopago-payment-success-details">
+        <div>
+            <a href="<?= $block->escapeHtml($block->getInfo('external_resource_url')); ?>"
+                target="_blank"
+                class="action primary continue">
+                <?= $block->escapeHtml(__('Details for payment')) ?> 
+            </a>
+        </div>
+    </div>
+<?php endif; ?>

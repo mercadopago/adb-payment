@@ -1,0 +1,71 @@
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\PaymentMagento\Block\Sales\Info\Serfin $block
+ * @see \MercadoPago\PaymentMagento\Block\Sales\Info\Serfin
+ */
+$specificInfo = $block->getSpecificInformation();
+$title = $block->escapeHtml($block->getMethod()->getTitle());
+$barcode = isset($specificInfo['barcode']) ? $specificInfo['barcode']: null;
+$externalLink = isset($specificInfo['external_resource_url']) ? $specificInfo['external_resource_url'] : null;
+$dateOfExpiration = isset($specificInfo['date_of_expiration']) ? $specificInfo['date_of_expiration'] : null;
+$payerDocumentIdentification =
+    isset($specificInfo['payer_document_identification']) ?
+        $specificInfo['payer_document_identification'] : null;
+$verificationCode = isset($specificInfo['verification_code']) ? $specificInfo['verification_code'] : null;
+?>
+<h4><?= /* @noEscape */ $title ?></h4>
+<?php if ($specificInfo): ?>
+    <div class="mercadopago-instruction serfin">
+        <?php if ($dateOfExpiration): ?>
+            <div class="instruction-information expiration">
+                <div>
+                    <?= $block->escapeHtml(__('Your payment will be valid until')); ?>
+                </div>
+                <div class="expiration-date">
+                    <strong>
+                    <?= /* @noEscape */ $block->formatDate($dateOfExpiration, \IntlDateFormatter::MEDIUM, false) ?>
+                    </strong>
+                </div>
+            </div>
+        <?php endif;?>
+        <?php if ($externalLink): ?>
+            <div class="instruction-information link">
+                <div class="step-to-pay">
+                    <?= $block->escapeHtml(__('Link for payment')); ?>
+                </div>
+                <div class="ticket-link">
+                    <a target="_blank"
+                        href="<?=  $block->escapeHtml($externalLink) ?>" 
+                        alt="<?= /* @noEscape */ $title ?>"><?= $block->escapeHtml(__('Details for payment')); ?></a>
+                </div>
+            </div>
+        <?php endif;?>
+        <?php if ($payerDocumentIdentification): ?>
+            <div class="instruction-information serfin-more-information">
+                <div class="label">
+                    <?= $block->escapeHtml(__('Payer Document Identification')); ?>
+                </div>
+                <div class="value">
+                    <?=  $block->escapeHtml($payerDocumentIdentification) ?>
+                </div>
+            </div>
+        <?php endif;?>
+        <?php if ($verificationCode): ?>
+            <div class="instruction-information serfin-more-information">
+                <div class="label">
+                    <?= $block->escapeHtml(__('Verification Code')); ?>
+                </div>
+                <div class="value">
+                    <?=  $block->escapeHtml($verificationCode) ?>
+                </div>
+            </div>
+        <?php endif;?>
+    </div>
+<?php endif;?>
