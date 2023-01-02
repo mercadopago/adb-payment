@@ -105,49 +105,77 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
 
-            if (!$order->getEntityId()) {
-                return $this->createResult(
-                    406,
-                    [
-                        'error'   => 406,
-                        'message' => __('Order not found.'),
-                    ]
-                );
-            }
+            $process = $this->processNotification($status, $childTransactionId, $order);
 
-            if ($order->getState() !== \Magento\Sales\Model\Order::STATE_NEW) {
-                return $this->createResult(
-                    412,
-                    [
-                        'error'   => 412,
-                        'message' => __('Unavailable.'),
-                        'state'   => $order->getState(),
-                    ]
-                );
-            }
-
-            $payment = $order->getPayment();
-            $payment->setTransactionId($childTransactionId);
-            $payment->setIsTransactionPending(1);
-            $payment->setIsTransactionClosed(false);
-            $payment->setAuthorizationTransaction($childTransactionId);
-            $payment->addTransaction(Transaction::TYPE_AUTH);
-            $order->save();
-
-            $this->fetchStatus->fetch($order->getEntityId());
-
-            return $this->createResult(
-                200,
-                [
-                    'order'     => $order->getIncrementId(),
-                    'state'     => $order->getState(),
-                    'status'    => $order->getStatus(),
-                ]
+            /** @var ResultInterface $result */
+            $result = $this->createResult(
+                $process['code'],
+                $process['msg'],
             );
+
+            return $result;
         }
 
         /** @var ResultInterface $result */
         $result = $this->createResult(200, ['empty' => null]);
+
+        return $result;
+    }
+
+    /**
+     * Create Child.
+     *
+     * @param string          $childTransactionId
+     * @param OrderRepository $order
+     *
+     * @return void
+     */
+    public function createChild(
+        $childTransactionId,
+        $order
+    ) {
+        $payment = $order->getPayment();
+        $payment->setTransactionId($childTransactionId);
+        $payment->setIsTransactionPending(1);
+        $payment->setIsTransactionClosed(false);
+        $payment->setAuthorizationTransaction($childTransactionId);
+        $payment->addTransaction(Transaction::TYPE_AUTH);
+        $order->save();
+    }
+
+    /**
+     * Process Notification.
+     *
+     * @param string          $mpStatus
+     * @param string          $childTransactionId
+     * @param OrderRepository $order
+     *
+     * @return array
+     */
+    public function processNotification(
+        $mpStatus,
+        $childTransactionId,
+        $order
+    ) {
+        $result = [];
+
+        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order);
+
+        if ($isNotApplicable['isInvalid']) {
+            return $isNotApplicable;
+        }
+
+        $this->createChild($childTransactionId, $order);
+        $this->fetchStatus->fetch($order->getEntityId());
+
+        $result = [
+            'code'  => 200,
+            'msg'   => [
+                'order'     => $order->getIncrementId(),
+                'state'     => $order->getState(),
+                'status'    => $order->getStatus(),
+            ],
+        ];
 
         return $result;
     }

@@ -79,10 +79,12 @@ class TxnIdCheckoutProHandler implements HandlerInterface
      */
     public function setAddtionalInformation($payment, $response)
     {
-        $payment->setAdditionalInformation(
-            self::DATE_OF_EXPIRATION,
-            $response[self::DATE_OF_EXPIRATION]
-        );
+        if (isset($response[self::DATE_OF_EXPIRATION])) {
+            $payment->setAdditionalInformation(
+                self::DATE_OF_EXPIRATION,
+                $response[self::DATE_OF_EXPIRATION]
+            );
+        }
 
         $payment->setAdditionalInformation(
             self::INIT_POINT,
