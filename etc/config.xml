@@ -23,7 +23,6 @@
                 <order_status>pending</order_status>
                 <payment_action>authorize</payment_action>
                 <title>MercadoPago</title>
-                <currency>BRL</currency>
                 <is_gateway>1</is_gateway>
                 <can_use_internal>0</can_use_internal>
                 <can_use_checkout>1</can_use_checkout>
@@ -43,7 +42,6 @@
                 <order_status>processing</order_status>
                 <payment_action>authorize_capture</payment_action>
                 <title>Cartão de Crédito ou Débito</title>
-                <currency>BRL</currency>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type</paymentInfoKeys>
                 <privateInfoKeys>card_exp_month,card_exp_year,payer_document_type</privateInfoKeys>
@@ -135,8 +133,7 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
                 <theme_elements>#7d0fd0</theme_elements>
                 <min_order_total>1</min_order_total>
                 <max_order_total>200000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>BR,AR,UY,MX,CO,CL,PE</specificcountry>
+                <allowspecific>0</allowspecific>
                 <mp_site_id>MLB,MLA,MLU,MLM,MCO,MLC,MPE</mp_site_id>
                 <sort_order>12</sort_order>
             </mercadopago_paymentmagento_checkout_pro>
