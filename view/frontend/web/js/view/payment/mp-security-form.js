@@ -138,7 +138,7 @@ define([
 
             self.mpPayerDocument.subscribe((value) => {
 
-                if (self.getMpSiteId() === 'MLB') {
+                if (self.getMpSiteId() === 'MLB' && value) {
                     defaultTypeDocument = value.replace(/\D/g, '').length <= 11 ? 'CPF' : 'CNPJ';
                     self.mpPayerType(defaultTypeDocument);
                 }
@@ -288,7 +288,9 @@ define([
 
                 if (quote.billingAddress()) {
                     vatId = quote.billingAddress().vatId;
-                    self.mpPayerDocument(vatId);
+                    if (vatId) {
+                        self.mpPayerDocument(vatId);
+                    }
                 }
 
                 if (self.getMpSiteId() === 'MLB') {
