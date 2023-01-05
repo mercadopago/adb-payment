@@ -197,7 +197,6 @@ define(
                 }
             );
         }
-        console.log(config);
 
         return Component.extend({});
     }
