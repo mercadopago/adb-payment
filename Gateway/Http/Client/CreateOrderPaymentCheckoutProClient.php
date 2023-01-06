@@ -117,11 +117,13 @@ class CreateOrderPaymentCheckoutProClient implements ClientInterface
             throw new Exception('Invalid JSON was returned by the gateway');
         }
 
+        unset($clientHeaders['Authorization']);
         $this->logger->debug(
             [
                 'url'      => $url.'/v1/asgard/preferences',
+                'header'   => $this->json->serialize($clientHeaders),
                 'request'  => $serializeResquest,
-                'response' => $responseBody,
+                'response' => $this->json->serialize($responseBody),
             ]
         );
 
