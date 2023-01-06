@@ -67,6 +67,11 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
 
         $response = $this->getRequest()->getContent();
 
+        $this->logger->debug([
+            'action'    => 'checkout_custom',
+            'payload'   => $response,
+        ]);
+
         $mercadopagoData = $this->json->unserialize($response);
 
         $txnType = 'authorization';

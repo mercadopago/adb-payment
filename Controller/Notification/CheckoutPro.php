@@ -70,6 +70,11 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
 
         $response = $this->getRequest()->getContent();
 
+        $this->logger->debug([
+            'action'    => 'checkout_pro',
+            'payload'   => $response,
+        ]);
+
         $mercadopagoData = $this->json->unserialize($response);
 
         $status = $mercadopagoData['status'];
