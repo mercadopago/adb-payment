@@ -2207,6 +2207,12 @@
         </arguments>
     </type>
 
+    <type name="MercadoPago\PaymentMagento\Controller\MpIndex">
+        <arguments>
+            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+        </arguments>
+    </type>
+
     <type name="MercadoPago\PaymentMagento\Controller\Notification\ChekoutCustom">
         <arguments>
             <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
