@@ -27,7 +27,7 @@ class CheckoutProNotificationUrlDataRequest implements BuilderInterface
     /**
      * Path to Notification - url magento.
      */
-    public const PATH_TO_NOTIFICATION = 'mp/notification/checkoutcustom';
+    public const PATH_TO_NOTIFICATION = 'mp/notification/checkoutpro';
 
     /**
      * @var UrlInterface
