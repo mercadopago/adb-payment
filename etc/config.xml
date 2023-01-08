@@ -19,7 +19,7 @@
                 <client_secret_production backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <site_id_production></site_id_production>
                 <site_id_sandbox></site_id_sandbox>
-                <model>PaymentMagentoBaseFacade</model>
+                <model>MecadoPagoBaseFacade</model>
                 <order_status>pending</order_status>
                 <payment_action>authorize</payment_action>
                 <title>MercadoPago</title>

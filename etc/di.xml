@@ -62,12 +62,18 @@
         </arguments>
     </type>
 
+     <type name="MercadoPago\PaymentMagento\Gateway\Request\CheckoutProNotificationUrlDataRequest">
+        <arguments>
+            <argument name="frontendUrlBuilder" xsi:type="object">Magento\Framework\Url</argument>
+        </arguments>
+    </type>
+
     <!-- All - Adapter Interface -->
     <preference for="MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapterInterface" type="MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapter"/>
     <preference for="MercadoPago\PaymentMagento\Gateway\Data\Order\AddressAdapterInterface" type="MercadoPago\PaymentMagento\Gateway\Data\Order\AddressAdapter"/>
 
     <!-- Payment Method Facade Configuration -->
-    <virtualType name="PaymentMagentoBaseFacade" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="MecadoPagoBaseFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
             <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBase::CODE</argument>
             <argument name="valueHandlerPool" xsi:type="object">PaymentMagentoValueHandlerPool</argument>
@@ -605,7 +611,7 @@
     </virtualType>
 
     <!-- All - Configuration reader -->
-    <virtualType name="PaymentMagentoBaseConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="MecadoPagoBaseConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
             <argument name="methodCode" xsi:type="const">\MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBase::CODE</argument>
         </arguments>
@@ -1668,14 +1674,14 @@
     <virtualType name="PaymentMagentoValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">PaymentMagentoBaseConfigValueHandler</item>
+                <item name="default" xsi:type="string">MecadoPagoBaseConfigValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="PaymentMagentoBaseConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="MecadoPagoBaseConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="configInterface" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </virtualType>
 
@@ -2076,67 +2082,67 @@
     <!-- All - Implements Config -->
     <virtualType name="PaymentMagentoLogger" type="Magento\Payment\Model\Method\Logger">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </virtualType>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Request\RefundRequest">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Request\PaymentMagentoDenyPaymentRequest">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\NumberTokenManagement">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Api\CreateVaultManagement">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Api\FinanceCostManagement">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Request\AuthorizationRequest">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Request\CreateOrderAuthorizationRequest">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Request\AuthorizationRequest">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Request\FetchPaymentClient">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Request\CancelPaymentClient">
         <arguments>
-            <argument name="config" xsi:type="object">PaymentMagentoBaseConfig</argument>
+            <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
     </type>
 
