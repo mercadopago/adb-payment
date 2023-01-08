@@ -38,7 +38,7 @@
             </mercadopago_paymentmagento>
             <mercadopago_paymentmagento_cc>
                 <active>1</active>
-                <model>PaymentMagentoCcFacade</model>
+                <model>MecadoPagoCcFacade</model>
                 <order_status>processing</order_status>
                 <payment_action>authorize_capture</payment_action>
                 <title>Cartão de Crédito ou Débito</title>
@@ -89,7 +89,7 @@
             </mercadopago_paymentmagento_cc>
             <mercadopago_paymentmagento_cc_vault>
                 <active>1</active>
-                <model>PaymentMagentoCcVaultFacade</model>
+                <model>MecadoPagoCcVaultFacade</model>
                 <paymentInfoKeys>card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type</paymentInfoKeys>
                 <privateInfoKeys>card_exp_month,card_exp_year,payer_document_type</privateInfoKeys>
                 <title>Stored Cards (MercadoPago)</title>
@@ -99,7 +99,7 @@
             </mercadopago_paymentmagento_cc_vault>
             <mercadopago_paymentmagento_checkout_pro>
                 <active>1</active>
-                <model>PaymentMagentoCheckoutProFacade</model>
+                <model>MecadoPagoCheckoutProFacade</model>
                 <order_status>pending</order_status>
                 <title>Checkout Pro</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -138,7 +138,7 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
                 <sort_order>12</sort_order>
             </mercadopago_paymentmagento_checkout_pro>
             <mercadopago_paymentmagento_boleto>
-                <model>PaymentMagentoBoletoFacade</model>
+                <model>MecadoPagoBoletoFacade</model>
                 <order_status>pending</order_status>
                 <title>Boleto Bancário</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -175,7 +175,7 @@ Não existe parcelamento nesta forma de pagamento.]]></instruction_checkout>
                 <sort_order>13</sort_order>
             </mercadopago_paymentmagento_boleto>
             <mercadopago_paymentmagento_pec>
-                <model>PaymentMagentoPecFacade</model>
+                <model>MecadoPagoPecFacade</model>
                 <order_status>pending</order_status>
                 <title>Casas Lotéricas</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -211,7 +211,7 @@ Não existe parcelamento nesta forma de pagamento.]]></instruction_checkout>
                 <sort_order>14</sort_order>
             </mercadopago_paymentmagento_pec>
             <mercadopago_paymentmagento_pix>
-                <model>PaymentMagentoPixFacade</model>
+                <model>MecadoPagoPixFacade</model>
                 <order_status>pending</order_status>
                 <title>Pix</title>
                 <expiration>30</expiration>
@@ -249,7 +249,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>11</sort_order>
             </mercadopago_paymentmagento_pix>
             <mercadopago_paymentmagento_pagofacil>
-                <model>PaymentMagentoPagoFacilFacade</model>
+                <model>MecadoPagoPagoFacilFacade</model>
                 <order_status>pending</order_status>
                 <title>Pago Fácil</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -283,7 +283,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_pagofacil>
             <mercadopago_paymentmagento_rapipago>
-                <model>PaymentMagentoRapiPagoFacade</model>
+                <model>MecadoPagoRapiPagoFacade</model>
                 <order_status>pending</order_status>
                 <title>Rapi Pago</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -318,7 +318,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_rapipago>
             <mercadopago_paymentmagento_paycash>
-                <model>PaymentMagentoPayCashFacade</model>
+                <model>MecadoPagoPayCashFacade</model>
                 <order_status>pending</order_status>
                 <title>Pay Cash</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -353,7 +353,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_paycash>
             <mercadopago_paymentmagento_oxxo>
-                <model>PaymentMagentoOxxoFacade</model>
+                <model>MecadoPagoOxxoFacade</model>
                 <order_status>pending</order_status>
                 <title>Oxxo</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -388,7 +388,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_oxxo>
             <mercadopago_paymentmagento_banamex>
-                <model>PaymentMagentoBanamexFacade</model>
+                <model>MecadoPagoBanamexFacade</model>
                 <order_status>pending</order_status>
                 <title>Citibanamex</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -423,7 +423,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_banamex>
             <mercadopago_paymentmagento_bancomer>
-                <model>PaymentMagentoBancomerFacade</model>
+                <model>MecadoPagoBancomerFacade</model>
                 <order_status>pending</order_status>
                 <title>BBVA Bancomer</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -458,7 +458,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_bancomer>
             <mercadopago_paymentmagento_serfin>
-                <model>PaymentMagentoSerfinFacade</model>
+                <model>MecadoPagoSerfinFacade</model>
                 <order_status>pending</order_status>
                 <title>Serfin</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -493,7 +493,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_serfin>
             <mercadopago_paymentmagento_efecty>
-                <model>PaymentMagentoEfectyFacade</model>
+                <model>MecadoPagoEfectyFacade</model>
                 <order_status>pending</order_status>
                 <title>Efecty</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -529,7 +529,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
             </mercadopago_paymentmagento_efecty>
             <mercadopago_paymentmagento_abitab>
                 <active>0</active>
-                <model>PaymentMagentoAbitabFacade</model>
+                <model>MecadoPagoAbitabFacade</model>
                 <order_status>pending</order_status>
                 <title>Abitab</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -565,7 +565,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
             </mercadopago_paymentmagento_abitab>
             <mercadopago_paymentmagento_redpagos>
                 <active>0</active>
-                <model>PaymentMagentoRedpagosFacade</model>
+                <model>MecadoPagoRedpagosFacade</model>
                 <order_status>pending</order_status>
                 <title>Redpagos</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -600,7 +600,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_redpagos>
             <mercadopago_paymentmagento_pse>
-                <model>PaymentMagentoPseFacade</model>
+                <model>MecadoPagoPseFacade</model>
                 <order_status>pending</order_status>
                 <title>Pse</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -636,7 +636,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_pse>
             <mercadopago_paymentmagento_pagoefectivo>
-                <model>PaymentMagentoPagoEfectivoFacade</model>
+                <model>MecadoPagoPagoEfectivoFacade</model>
                 <order_status>pending</order_status>
                 <title>Pago Efectivo</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
@@ -671,7 +671,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <sort_order>15</sort_order>
             </mercadopago_paymentmagento_pagoefectivo>
             <mercadopago_paymentmagento_webpay>
-                <model>PaymentMagentoWebpayFacade</model>
+                <model>MecadoPagoWebpayFacade</model>
                 <order_status>pending</order_status>
                 <title>Redcompra Webpay</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
