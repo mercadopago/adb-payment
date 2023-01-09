@@ -42,10 +42,10 @@
     <type name="Magento\Config\Model\Config\TypePool">
         <arguments>
             <argument name="sensitive" xsi:type="array">
-                <item name="payment/mercadopago_paymentmagento/client_id_production" xsi:type="string">0</item>
-                <item name="payment/mercadopago_paymentmagento/client_secret_production" xsi:type="string">1</item>
-                <item name="payment/mercadopago_paymentmagento/client_id_sandbox" xsi:type="string">0</item>
-                <item name="payment/mercadopago_paymentmagento/client_secret_sandbox" xsi:type="string">1</item>
+                <item name="payment/mercadopago_MercadoPago/client_id_production" xsi:type="string">0</item>
+                <item name="payment/mercadopago_MercadoPago/client_secret_production" xsi:type="string">1</item>
+                <item name="payment/mercadopago_MercadoPago/client_id_sandbox" xsi:type="string">0</item>
+                <item name="payment/mercadopago_MercadoPago/client_secret_sandbox" xsi:type="string">1</item>
             </argument>
         </arguments>
     </type>
@@ -76,7 +76,7 @@
     <virtualType name="MecadoPagoBaseFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
             <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBase::CODE</argument>
-            <argument name="valueHandlerPool" xsi:type="object">PaymentMagentoValueHandlerPool</argument>
+            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoValueHandlerPool</argument>
             <argument name="commandPool" xsi:type="object">MecadoPagoCcCommandPool</argument>
         </arguments>
     </virtualType>
@@ -97,8 +97,8 @@
     <virtualType name="MecadoPagoCcVaultFacade" type="Magento\Vault\Model\Method\Vault">
         <arguments>
             <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderCc::VAULT_CODE</argument>
-            <argument name="config" xsi:type="object">PaymentMagentoVaultPaymentConfig</argument>
-            <argument name="valueHandlerPool" xsi:type="object">PaymentMagentoVaultPaymentValueHandlerPool</argument>
+            <argument name="config" xsi:type="object">MercadoPagoVaultPaymentConfig</argument>
+            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoVaultPaymentValueHandlerPool</argument>
             <argument name="validatorPool" xsi:type="object">MecadoPagoCcValidatorPool</argument>
             <argument name="vaultProvider" xsi:type="object">MecadoPagoCcFacade</argument>
         </arguments>
@@ -312,25 +312,25 @@
     <type name="Magento\Payment\Gateway\Command\CommandManagerPool">
         <arguments>
             <argument name="executors" xsi:type="array">
-                <item name="mercadopago_paymentmagento_cc" xsi:type="string">MecadoPagoCcCommandManager</item>
-                <item name="mercadopago_paymentmagento_cc_vault" xsi:type="string">MecadoPagoCcCommandManager</item>
-                <item name="mercadopago_paymentmagento_checkout_pro" xsi:type="string">MecadoPagoCheckoutProCommandManager</item>
-                <item name="mercadopago_paymentmagento_boleto" xsi:type="string">MecadoPagoBoletoCommandManager</item>
-                <item name="mercadopago_paymentmagento_pec" xsi:type="string">MecadoPagoPecCommandManager</item>
-                <item name="mercadopago_paymentmagento_pix" xsi:type="string">MecadoPagoPixCommandManager</item>
-                <item name="mercadopago_paymentmagento_pagofacil" xsi:type="string">MecadoPagoPagoFacilCommandManager</item>
-                <item name="mercadopago_paymentmagento_rapipago" xsi:type="string">MecadoPagoRapiPagoCommandManager</item>
-                <item name="mercadopago_paymentmagento_paycash" xsi:type="string">MecadoPagoPayCashCommandManager</item>
-                <item name="mercadopago_paymentmagento_oxxo" xsi:type="string">MecadoPagoOxxoCommandManager</item>
-                <item name="mercadopago_paymentmagento_efecty" xsi:type="string">MecadoPagoEfectyCommandManager</item>
-                <item name="mercadopago_paymentmagento_abitaby" xsi:type="string">MecadoPagoAbitabCommandManager</item>
-                <item name="mercadopago_paymentmagento_redpagos" xsi:type="string">MecadoPagoRedpagosCommandManager</item>
-                <item name="mercadopago_paymentmagento_pse" xsi:type="string">MecadoPagoPseCommandManager</item>
-                <item name="mercadopago_paymentmagento_banamex" xsi:type="string">MecadoPagoBanamexCommandManager</item>
-                <item name="mercadopago_paymentmagento_bancomer" xsi:type="string">MecadoPagoBancomerCommandManager</item>
-                <item name="mercadopago_paymentmagento_serfin" xsi:type="string">MecadoPagoSerfinCommandManager</item>
-                <item name="mercadopago_paymentmagento_pagoefectivo" xsi:type="string">MecadoPagoPagoEfectivoCommandManager</item>
-                <item name="mercadopago_paymentmagento_webpay" xsi:type="string">MecadoPagoWebpayCommandManager</item>
+                <item name="mercadopago_MercadoPago_cc" xsi:type="string">MecadoPagoCcCommandManager</item>
+                <item name="mercadopago_MercadoPago_cc_vault" xsi:type="string">MecadoPagoCcCommandManager</item>
+                <item name="mercadopago_MercadoPago_checkout_pro" xsi:type="string">MecadoPagoCheckoutProCommandManager</item>
+                <item name="mercadopago_MercadoPago_boleto" xsi:type="string">MecadoPagoBoletoCommandManager</item>
+                <item name="mercadopago_MercadoPago_pec" xsi:type="string">MecadoPagoPecCommandManager</item>
+                <item name="mercadopago_MercadoPago_pix" xsi:type="string">MecadoPagoPixCommandManager</item>
+                <item name="mercadopago_MercadoPago_pagofacil" xsi:type="string">MecadoPagoPagoFacilCommandManager</item>
+                <item name="mercadopago_MercadoPago_rapipago" xsi:type="string">MecadoPagoRapiPagoCommandManager</item>
+                <item name="mercadopago_MercadoPago_paycash" xsi:type="string">MecadoPagoPayCashCommandManager</item>
+                <item name="mercadopago_MercadoPago_oxxo" xsi:type="string">MecadoPagoOxxoCommandManager</item>
+                <item name="mercadopago_MercadoPago_efecty" xsi:type="string">MecadoPagoEfectyCommandManager</item>
+                <item name="mercadopago_MercadoPago_abitaby" xsi:type="string">MecadoPagoAbitabCommandManager</item>
+                <item name="mercadopago_MercadoPago_redpagos" xsi:type="string">MecadoPagoRedpagosCommandManager</item>
+                <item name="mercadopago_MercadoPago_pse" xsi:type="string">MecadoPagoPseCommandManager</item>
+                <item name="mercadopago_MercadoPago_banamex" xsi:type="string">MecadoPagoBanamexCommandManager</item>
+                <item name="mercadopago_MercadoPago_bancomer" xsi:type="string">MecadoPagoBancomerCommandManager</item>
+                <item name="mercadopago_MercadoPago_serfin" xsi:type="string">MecadoPagoSerfinCommandManager</item>
+                <item name="mercadopago_MercadoPago_pagoefectivo" xsi:type="string">MecadoPagoPagoEfectivoCommandManager</item>
+                <item name="mercadopago_MercadoPago_webpay" xsi:type="string">MecadoPagoWebpayCommandManager</item>
             </argument>
         </arguments>
     </type>
@@ -623,7 +623,7 @@
         </arguments>
     </virtualType>
 
-    <virtualType name="PaymentMagentoVaultPaymentConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="MercadoPagoVaultPaymentConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
             <argument name="methodCode" xsi:type="const">\MercadoPago\PaymentMagento\Model\Ui\ConfigProviderCc::VAULT_CODE</argument>
         </arguments>
@@ -845,7 +845,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="initialize" xsi:type="string">MecadoPagoCheckoutProOrderCommand</item>
-                <item name="refund" xsi:type="string">PaymentMagentoRefundCommand</item>
+                <item name="refund" xsi:type="string">MercadoPagoRefundCommand</item>
                 <item name="fetch_transaction_information" xsi:type="string">MecadoPagoCheckoutProFetchCommand</item>
                 <item name="cancel" xsi:type="string">MecadoPagoTicketCancelPaymentCommand</item>
             </argument>
@@ -860,8 +860,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoTicketFetchResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -883,8 +883,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoCheckoutProOrderResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCheckoutProClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -929,7 +929,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="initialize" xsi:type="string">MecadoPagoTicketOrderCommand</item>
-                <item name="refund" xsi:type="string">PaymentMagentoRefundCommand</item>
+                <item name="refund" xsi:type="string">MercadoPagoRefundCommand</item>
                 <item name="fetch_transaction_information" xsi:type="string">MecadoPagoTicketFetchCommand</item>
                 <item name="cancel" xsi:type="string">MecadoPagoTicketCancelPaymentCommand</item>
                 <item name="void" xsi:type="string">MecadoPagoTicketVoidPaymentCommand</item>
@@ -946,8 +946,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoTicketOrderResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -989,7 +989,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="initialize" xsi:type="string">MecadoPagoBankTransferOrderCommand</item>
-                <item name="refund" xsi:type="string">PaymentMagentoRefundCommand</item>
+                <item name="refund" xsi:type="string">MercadoPagoRefundCommand</item>
                 <item name="fetch_transaction_information" xsi:type="string">MecadoPagoTicketFetchCommand</item>
                 <item name="cancel" xsi:type="string">MecadoPagoTicketCancelPaymentCommand</item>
                 <item name="void" xsi:type="string">MecadoPagoTicketVoidPaymentCommand</item>
@@ -1006,8 +1006,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoBankTransferOrderResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1051,7 +1051,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="initialize" xsi:type="string">MecadoPagoAtmOrderCommand</item>
-                <item name="refund" xsi:type="string">PaymentMagentoRefundCommand</item>
+                <item name="refund" xsi:type="string">MercadoPagoRefundCommand</item>
                 <item name="fetch_transaction_information" xsi:type="string">MecadoPagoTicketFetchCommand</item>
                 <item name="cancel" xsi:type="string">MecadoPagoTicketCancelPaymentCommand</item>
                 <item name="void" xsi:type="string">MecadoPagoTicketVoidPaymentCommand</item>
@@ -1068,8 +1068,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoAtmOrderResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1111,7 +1111,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="initialize" xsi:type="string">MecadoPagoPixOrderCommand</item>
-                <item name="refund" xsi:type="string">PaymentMagentoRefundCommand</item>
+                <item name="refund" xsi:type="string">MercadoPagoRefundCommand</item>
                 <item name="cancel" xsi:type="string">MecadoPagoPixCancelPaymentCommand</item>
                 <item name="fetch_transaction_information" xsi:type="string">MecadoPagoPixFetchCommand</item>
                 <item name="void" xsi:type="string">MecadoPagoPixVoidPaymentCommand</item>
@@ -1128,8 +1128,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoPixOrderResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1171,13 +1171,13 @@
     <virtualType name="MecadoPagoCcCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="authorize" xsi:type="string">PaymentMagentoAuthorizeCcCommand</item>
-                <item name="capture" xsi:type="string">PaymentMagentoCaptureCcCommand</item>
-                <item name="refund" xsi:type="string">PaymentMagentoRefundCommand</item>
-                <item name="cancel" xsi:type="string">PaymentMagentoDenyPaymentCommand</item>
-                <item name="void" xsi:type="string">PaymentMagentoDenyPaymentCommand</item>
-                <item name="accept_payment" xsi:type="string">PaymentMagentoAcceptPaymentCommand</item>
-                <item name="deny_payment" xsi:type="string">PaymentMagentoDenyPaymentCommand</item>
+                <item name="authorize" xsi:type="string">MercadoPagoAuthorizeCcCommand</item>
+                <item name="capture" xsi:type="string">MercadoPagoCaptureCcCommand</item>
+                <item name="refund" xsi:type="string">MercadoPagoRefundCommand</item>
+                <item name="cancel" xsi:type="string">MercadoPagoDenyPaymentCommand</item>
+                <item name="void" xsi:type="string">MercadoPagoDenyPaymentCommand</item>
+                <item name="accept_payment" xsi:type="string">MercadoPagoAcceptPaymentCommand</item>
+                <item name="deny_payment" xsi:type="string">MercadoPagoDenyPaymentCommand</item>
                 <item name="vault_authorize" xsi:type="string">MecadoPagoCcVaultAuthorizeCommand</item>
                 <item name="vault_sale" xsi:type="string">MecadoPagoCcVaultCaptureCommand</item>
                 <item name="vault_capture" xsi:type="string">MecadoPagoCcVaultCaptureCommand</item>
@@ -1209,20 +1209,20 @@
     </virtualType>
 
     <!-- Cc - Commands Authorize -->
-    <virtualType name="PaymentMagentoAuthorizeCcCommand" type="MercadoPago\PaymentMagento\Gateway\Command\PaymentCommand">
+    <virtualType name="MercadoPagoAuthorizeCcCommand" type="MercadoPago\PaymentMagento\Gateway\Command\PaymentCommand">
         <arguments>
             <argument name="commandPool" xsi:type="object">MecadoPagoCcCommandPool</argument>
             <argument name="requestBuilder" xsi:type="object">MecadoPagoCcAuthorizationRequest</argument>
-            <argument name="handler" xsi:type="object">PaymentMagentoAuthorizationResponseHandlerComposite</argument>
+            <argument name="handler" xsi:type="object">MercadoPagoAuthorizationResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
     <!-- Cc - Authorization Payment Response handlers -->
-    <virtualType name="PaymentMagentoAuthorizationResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="MercadoPagoAuthorizationResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="extOrdId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\ExtOrdIdHandler</item>
@@ -1234,20 +1234,20 @@
     </virtualType>
 
     <!-- Cc - Capture Commands -->
-    <virtualType name="PaymentMagentoCaptureCcCommand" type="MercadoPago\PaymentMagento\Gateway\Command\PaymentCommand">
+    <virtualType name="MercadoPagoCaptureCcCommand" type="MercadoPago\PaymentMagento\Gateway\Command\PaymentCommand">
         <arguments>
             <argument name="commandPool" xsi:type="object">MecadoPagoCcCommandPool</argument>
             <argument name="requestBuilder" xsi:type="object">MecadoPagoCcAuthorizationRequest</argument>
-            <argument name="handler" xsi:type="object">PaymentMagentoCaptureResponseHandlerComposite</argument>
+            <argument name="handler" xsi:type="object">MercadoPagoCaptureResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
     <!-- Cc - Capture Payment Response handlers -->
-    <virtualType name="PaymentMagentoCaptureResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="MercadoPagoCaptureResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="extOrdId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\ExtOrdIdHandler</item>
@@ -1266,8 +1266,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoCcVaultCaptureResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1279,8 +1279,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoCcVaultAuthorizeResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1337,8 +1337,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoTicketFetchResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1369,8 +1369,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoTicketVoidResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CancelPaymentClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1382,8 +1382,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoTicketVoidResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1414,8 +1414,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoTicketCaptureResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1446,8 +1446,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoPixFetchResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1478,8 +1478,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoPixVoidResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CancelPaymentClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1491,8 +1491,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoPixVoidResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1523,8 +1523,8 @@
             <argument name="handler" xsi:type="object">MecadoPagoPixCaptureResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
@@ -1548,19 +1548,19 @@
     </virtualType>
 
     <!-- Base - Refund - Command -->
-    <virtualType name="PaymentMagentoRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="MercadoPagoRefundCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">PaymentMagentoRefundRequest</argument>
+            <argument name="requestBuilder" xsi:type="object">MercadoPagoRefundRequest</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\RefundClient</argument>
-            <argument name="handler" xsi:type="object">PaymentMagentoRefundResponseHandlerComposite</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="handler" xsi:type="object">MercadoPagoRefundResponseHandlerComposite</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
     <!-- Base - Refund - Transaction Info Request -->
-    <virtualType name="PaymentMagentoRefundRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+    <virtualType name="MercadoPagoRefundRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="storeId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\StoreIdDataRequest</item>
@@ -1570,7 +1570,7 @@
     </virtualType>
 
     <!-- Base - Refund - Info handlers -->
-    <virtualType name="PaymentMagentoRefundResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="MercadoPagoRefundResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="refund" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\RefundHandler</item>
@@ -1579,19 +1579,19 @@
     </virtualType>
 
     <!-- Base - Accept Payment Command -->
-    <virtualType name="PaymentMagentoAcceptPaymentCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="MercadoPagoAcceptPaymentCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">PaymentMagentoAcceptPaymentRequest</argument>
+            <argument name="requestBuilder" xsi:type="object">MercadoPagoAcceptPaymentRequest</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\AcceptPaymentClient</argument>
-            <argument name="handler" xsi:type="object">PaymentMagentoAccpetPaymentResponseHandlerComposite</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="handler" xsi:type="object">MercadoPagoAccpetPaymentResponseHandlerComposite</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
     <!-- Base - Accept Payment Request -->
-    <virtualType name="PaymentMagentoAcceptPaymentRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+    <virtualType name="MercadoPagoAcceptPaymentRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="storeId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\StoreIdDataRequest</item>
@@ -1601,7 +1601,7 @@
     </virtualType>
 
     <!-- Base - Accept Payment handlers -->
-    <virtualType name="PaymentMagentoAccpetPaymentResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="MercadoPagoAccpetPaymentResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="accept" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\AcceptPaymentHandler</item>
@@ -1610,19 +1610,19 @@
     </virtualType>
 
     <!-- Base - Deny Payment Command -->
-    <virtualType name="PaymentMagentoDenyPaymentCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+    <virtualType name="MercadoPagoDenyPaymentCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">PaymentMagentoDenyPaymentRequest</argument>
+            <argument name="requestBuilder" xsi:type="object">MercadoPagoDenyPaymentRequest</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\DenyPaymentClient</argument>
-            <argument name="handler" xsi:type="object">PaymentMagentoDenyPaymentResponseHandlerComposite</argument>
-            <argument name="validator" xsi:type="object">PaymentMagentoTransactionValidator</argument>
-            <argument name="errorMessageMapper" xsi:type="object">PaymentMagentoVirtualErrorMessageMapper</argument>
+            <argument name="handler" xsi:type="object">MercadoPagoDenyPaymentResponseHandlerComposite</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
 
     <!-- Base - Deny Payment Request -->
-    <virtualType name="PaymentMagentoDenyPaymentRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+    <virtualType name="MercadoPagoDenyPaymentRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="storeId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\StoreIdDataRequest</item>
@@ -1632,7 +1632,7 @@
     </virtualType>
 
     <!-- Base - Deny Payment handlers -->
-    <virtualType name="PaymentMagentoDenyPaymentResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="MercadoPagoDenyPaymentResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="deny" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\DenyPaymentHandler</item>
@@ -1641,25 +1641,25 @@
     </virtualType>
 
     <!-- Base - Error Mapping -->
-    <virtualType name="PaymentMagentoErrorMappingConfigReader" type="Magento\Payment\Gateway\ErrorMapper\VirtualConfigReader">
+    <virtualType name="MercadoPagoErrorMappingConfigReader" type="Magento\Payment\Gateway\ErrorMapper\VirtualConfigReader">
         <arguments>
             <argument name="fileName" xsi:type="string">mercadopago_error_mapping.xml</argument>
         </arguments>
     </virtualType>
-    <virtualType name="PaymentMagentoErrorMappingData" type="Magento\Payment\Gateway\ErrorMapper\MappingData">
+    <virtualType name="MercadoPagoErrorMappingData" type="Magento\Payment\Gateway\ErrorMapper\MappingData">
         <arguments>
-            <argument name="reader" xsi:type="object">PaymentMagentoErrorMappingConfigReader</argument>
+            <argument name="reader" xsi:type="object">MercadoPagoErrorMappingConfigReader</argument>
             <argument name="cacheId" xsi:type="string">mercadopago_error_mapper</argument>
         </arguments>
     </virtualType>
-    <virtualType name="PaymentMagentoVirtualErrorMessageMapper" type="Magento\Payment\Gateway\ErrorMapper\ErrorMessageMapper">
+    <virtualType name="MercadoPagoVirtualErrorMessageMapper" type="Magento\Payment\Gateway\ErrorMapper\ErrorMessageMapper">
         <arguments>
-            <argument name="messageMapping" xsi:type="object">PaymentMagentoErrorMappingData</argument>
+            <argument name="messageMapping" xsi:type="object">MercadoPagoErrorMappingData</argument>
         </arguments>
     </virtualType>
 
     <!-- Base - Validator -->
-    <virtualType name="PaymentMagentoTransactionValidator" type="Magento\Payment\Gateway\Validator\ValidatorComposite">
+    <virtualType name="MercadoPagoTransactionValidator" type="Magento\Payment\Gateway\Validator\ValidatorComposite">
         <arguments>
             <argument name="chainBreakingValidators" xsi:type="array">
                 <item name="general" xsi:type="boolean">true</item>
@@ -1671,7 +1671,7 @@
     </virtualType>
 
     <!-- All - Implements Config Value Handler -->
-    <virtualType name="PaymentMagentoValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="MercadoPagoValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="default" xsi:type="string">MecadoPagoBaseConfigValueHandler</item>
@@ -1705,17 +1705,17 @@
         </arguments>
     </virtualType>
 
-    <virtualType name="PaymentMagentoVaultPaymentValueHandlerPool" type="VaultPaymentValueHandlerPool">
+    <virtualType name="MercadoPagoVaultPaymentValueHandlerPool" type="VaultPaymentValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">PaymentMagentoVaultPaymentValueHandler</item>
+                <item name="default" xsi:type="string">MercadoPagoVaultPaymentValueHandler</item>
             </argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="PaymentMagentoVaultPaymentValueHandler" type="VaultPaymentDefaultValueHandler">
+    <virtualType name="MercadoPagoVaultPaymentValueHandler" type="VaultPaymentDefaultValueHandler">
         <arguments>
-            <argument name="configInterface" xsi:type="object">PaymentMagentoVaultPaymentConfig</argument>
+            <argument name="configInterface" xsi:type="object">MercadoPagoVaultPaymentConfig</argument>
         </arguments>
     </virtualType>
 
@@ -2080,7 +2080,7 @@
     </virtualType>
 
     <!-- All - Implements Config -->
-    <virtualType name="PaymentMagentoLogger" type="Magento\Payment\Model\Method\Logger">
+    <virtualType name="MercadoPagoLogger" type="Magento\Payment\Model\Method\Logger">
         <arguments>
             <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
@@ -2092,7 +2092,7 @@
         </arguments>
     </type>
 
-    <type name="MercadoPago\PaymentMagento\Gateway\Request\PaymentMagentoDenyPaymentRequest">
+    <type name="MercadoPago\PaymentMagento\Gateway\Request\MercadoPagoDenyPaymentRequest">
         <arguments>
             <argument name="config" xsi:type="object">MecadoPagoBaseConfig</argument>
         </arguments>
@@ -2149,199 +2149,199 @@
     <!-- All - Implements Logger -->
     <type name="MercadoPago\PaymentMagento\Gateway\Validator\GeneralResponseValidator">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\NumberTokenManagement">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Api\CreateVaultManagement">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Api\FinanceCostManagement">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCheckoutProClient">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Http\Client\AcceptPaymentClient">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Http\Client\DenyPaymentClient">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Http\Client\RefundClient">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Gateway\Http\Client\CancelPaymentClient">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Controller\MpIndex">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Controller\Notification\ChekoutCustom">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Controller\Notification\CheckoutPro">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchMerchantInfo">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchPixOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchPecOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\CancelCheckoutPro">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchAbitabOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchBanamexOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchBancomerOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchEfectyOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchOxxoOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchPagoEfectivoOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchPagoFacilOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchPayCashOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchPseOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchRapiPagoOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchSerfinOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Cron\FetchWebpayOrderStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\FetchMerchant">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\FetchPaymentMethods">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus">
         <arguments>
-            <argument name="logger" xsi:type="object">PaymentMagentoLogger</argument>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
     </type>
 </config>
