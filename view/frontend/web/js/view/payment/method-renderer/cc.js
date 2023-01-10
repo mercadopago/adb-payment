@@ -206,7 +206,7 @@ define([
                     self.mpCardExpYear(token.expiration_year);
                     self.mpCardNumber(formatNumber);
 
-                    serviceUrl = urlBuilder.createUrl('/carts/mine/create-vault', {});
+                    serviceUrl = urlBuilder.createUrl('/carts/mine/mp-create-vault', {});
                     payloadCreateVault = {
                         cartId: quoteId,
                         vaultData: {
