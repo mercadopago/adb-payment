@@ -21,7 +21,7 @@ Destaque de Recursos
 - Reembolso Online, total ou parcial, diretamente da aplicação
 
 ### Checkout Transparente
-Com o Checkout Transparente todas as informações sensiveis são digitadas exclusivamente no ambiente do Mercado Pago utilizando a tecnoligia exclusiva do SecurityField®. Sua loja recebe um token (**DUVIDA** de bandeira esse método?) e com isso processa o pagamento de forma transparente.
+Com o Checkout Transparente todas as informações sensiveis são digitadas exclusivamente no ambiente do Mercado Pago utilizando a tecnoligia exclusiva do SecurityField®. Sua loja recebe um token e com isso processa o pagamento de forma transparente.
 
 
 <img src="view/base/web/images/cc/visa.svg" align="right" width="35"/>
