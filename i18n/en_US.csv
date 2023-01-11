@@ -175,7 +175,7 @@ Title,Title
 "Deadline for payment","Deadline for payment"
 "Calendar days.","Calendar days."
 "Payment completion view","Payment completion view"
-"Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website. Redirection, the customer will be redirected to the Mercado Pago website","Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website. Redirection, the customer will be redirected to the Mercado Pago website"
+"Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website.","Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website."
 "Removed payment method","Removed payment method"
 "Select the payment methods you do NOT want to accept.","Select the payment methods you do NOT want to accept."
 "Installment options limit","Installment options limit"

@@ -175,7 +175,7 @@ Title,Título
 "Deadline for payment","Plazo límite para el pago"
 "Calendar days.","Días seguidos."
 "Payment completion view","Visualización de la finalización del pago"
-"Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website. Redirection, the customer will be redirected to the Mercado Pago website","Modal, el cliente finalizará vía modal en la pantalla de checkout. Redireccionamiento, el cliente será redireccionado al sitio de Mercado Pago"
+"Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website.","Modal, el cliente finalizará vía modal en la pantalla de checkout. Redireccionamiento, el cliente será redireccionado al sitio de Mercado Pago"
 "Removed payment method","Medio de pago finalizado"
 "Select the payment methods you do NOT want to accept.","Selecciona los medios de pago que NO quieres aceptar."
 "Installment options limit","Límite de cuotas"
