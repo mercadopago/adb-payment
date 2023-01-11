@@ -74,11 +74,11 @@
                 });
 
                 if (!customer.isLoggedIn()) {
-                    serviceUrl = urlBuilder.createUrl('/guest-carts/:cartId/set-finance-cost', {
+                    serviceUrl = urlBuilder.createUrl('/guest-carts/:cartId/mp-set-finance-cost', {
                         cartId: quoteId
                     });
                 } else {
-                    serviceUrl = urlBuilder.createUrl('/carts/mine/set-finance-cost', {});
+                    serviceUrl = urlBuilder.createUrl('/carts/mine/mp-set-finance-cost', {});
                 }
 
                 payload = {
