@@ -24,6 +24,11 @@
             <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\PaymentAction</source_model>
             <config_path>payment/mercadopago_paymentmagento_cc/payment_action</config_path>
         </field>
+        <field id="can_initialize" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Use Binary Mode</label>
+            <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\IsBinaryMode</source_model>
+            <config_path>payment/mercadopago_paymentmagento_cc/can_initialize</config_path>
+        </field>
         <group id="document" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Capture of customer details in the payment form</label>
             <comment>Activate this option if you want to obtain buyer`s documents details, using an additional field on the payment form. Disable it if your store already gets these details.</comment>
@@ -58,7 +63,7 @@
                 <label>Payment From Specific Countries</label>
                 <comment>Countries eligible to use this payment method.</comment>
                 <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                <config_path>payment/mercadopago_paymentmagento_checkout_pro/specificcountry</config_path>
+                <config_path>payment/mercadopago_paymentmagento_cc/specificcountry</config_path>
             </field>
             <field id="sort_order" translate="label comment" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                 <label>Sort Order</label>

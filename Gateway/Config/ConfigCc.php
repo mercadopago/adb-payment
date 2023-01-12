@@ -54,9 +54,9 @@ class ConfigCc extends PaymentConfig
     public const USE_GET_DOCUMENT_IDENTIFICATION = 'get_document_identification';
 
     /**
-     * Is Binary.
+     * Can Initialize.
      */
-    public const IS_BINARY = 'is_binary';
+    public const CAN_INITIALIZE = 'can_initialize';
 
     /**
      * Payment Action.
@@ -179,11 +179,17 @@ class ConfigCc extends PaymentConfig
     {
         $pathPattern = 'payment/%s/%s';
 
-        return (bool) $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::IS_BINARY),
+        $canInitialize = $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::CAN_INITIALIZE),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
+
+        if ($canInitialize) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

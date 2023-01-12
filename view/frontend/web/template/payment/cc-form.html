@@ -184,6 +184,7 @@
                         </label>
                     </div>
                 </div>
+                <!-- ko if: installmentWasCalculated() === true -->
                 <div class="field mercadopago-input-group installments">
                     <div class="control">
                         <select class="select select-installments" name="payment[card_installments]"
@@ -206,6 +207,7 @@
                         </label>
                     </div>
                 </div>
+                <!-- /ko -->
             </div>
             <!-- ko if: (isVaultEnabled())-->
             <div class="field choice">

@@ -43,6 +43,12 @@
                 <validate>validate-number validate-zero-or-greater</validate>
                 <config_path>payment/mercadopago_paymentmagento_serfin/max_order_total</config_path>
             </field>
+            <field id="specificcountry" translate="label comment" type="multiselect" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Payment From Specific Countries</label>
+                <comment>Countries eligible to use this payment method.</comment>
+                <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                <config_path>payment/mercadopago_paymentmagento_serfin/specificcountry</config_path>
+            </field>
             <field id="sort_order" translate="label comment" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                 <label>Sort Order</label>
                 <comment>Sets up in which order the payment methods will be shown at the Checkout.</comment>
