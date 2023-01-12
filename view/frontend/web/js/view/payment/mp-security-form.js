@@ -36,7 +36,8 @@ define([
             mpUserId: '',
             mpPayerType: '',
             mpPayerOptionsTypes: '',
-            mpPayerDocument: ''
+            mpPayerDocument: '',
+            installmentWasCalculated: false
         },
 
         /** @inheritdoc */
@@ -57,7 +58,8 @@ define([
                     'mpUserId',
                     'mpPayerType',
                     'mpPayerOptionsTypes',
-                    'mpPayerDocument'
+                    'mpPayerDocument',
+                    'installmentWasCalculated'
                 ]);
 
             return this;
@@ -308,18 +310,21 @@ define([
             var self = this,
                 installments = {},
                 ccNumber = self.mpCardBin(),
-                bin = ccNumber ? ccNumber : '47474747',
+                bin = ccNumber,
                 amount = self.FormattedCurrencyToInstallments(self.amount());
+
+            self.installmentWasCalculated(false);
 
             if (bin.length === 8) {
                 window.mp.getInstallments({
                     amount: String(amount),
                     bin: bin
                 }).then((result) => {
+                    self.installmentWasCalculated(true);
                     self.mpCardListInstallments(result[0].payer_costs);
                 });
-
             }
+
             return installments;
         },
 

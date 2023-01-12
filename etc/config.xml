@@ -46,10 +46,12 @@
                 <paymentInfoKeys>card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type</paymentInfoKeys>
                 <privateInfoKeys>card_exp_month,card_exp_year,payer_document_type</privateInfoKeys>
                 <is_gateway>1</is_gateway>
+                <can_initialize>0</can_initialize>
                 <can_use_internal>0</can_use_internal>
                 <can_use_checkout>1</can_use_checkout>
                 <can_authorize_vault>1</can_authorize_vault>
                 <can_capture_vault>1</can_capture_vault>
+                <can_initialize_vault>1</can_initialize_vault>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
                 <can_capture_partial>1</can_capture_partial>
@@ -60,6 +62,8 @@
                 <can_review_payment>1</can_review_payment>
                 <can_deny_payment>1</can_deny_payment>
                 <can_accept_payment>1</can_accept_payment>
+                <can_fetch_transaction_info>1</can_fetch_transaction_info>
+                <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <group>mercadopago_group</group>
                 <cctypes>visa,master,elo,amex,debmaster,hipercard,debvisa,debelo,cabal,debcabal,cmr,cencosud,diners,tarshop,argencard,naranja,maestro,tengo,sodexo,carnet,toka,mercadopagocard,edenred,redcompra,webpay,magna,presto,codensa,lider,creditel,oca</cctypes>
                 <cctypes_mco>visa,master,amex,diners,debmaster,debvisa,codensa</cctypes_mco>
@@ -93,6 +97,7 @@
                 <paymentInfoKeys>card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type</paymentInfoKeys>
                 <privateInfoKeys>card_exp_month,card_exp_year,payer_document_type</privateInfoKeys>
                 <title>Stored Cards (MercadoPago)</title>
+                <can_initialize>0</can_initialize>
                 <can_use_internal>0</can_use_internal>
                 <cvv_enabled>1</cvv_enabled>
                 <group>mercadopago_group</group>
