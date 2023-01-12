@@ -18,7 +18,7 @@
         <field id="integrator_id" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Integrator ID</label>
             <config_path>payment/mercadopago_paymentmagento/integrator_id</config_path>
-            <comment><![CDATA[With this number, we are able to identify all your transactions and know how many sales were processed using your account. Become a certified Mercado Pago partner and request your integrator_id <a href=""https://docs.google.com/forms/d/1EeO__nZuqHf4cb81NpwtDSybPT7COluSZVrXR4A8F7Q/viewform?edit_requested=true"" target=""_blank"">here</a>.]]></comment>
+            <comment><![CDATA[With this number, we are able to identify all your transactions and know how many sales were processed using your account. Become a certified Mercado Pago partner and request your integrator_id <a href='https://docs.google.com/forms/d/1EeO__nZuqHf4cb81NpwtDSybPT7COluSZVrXR4A8F7Q/viewform?edit_requested=true' target='_blank'>here</a>.]]></comment>
         </field>
     </group>
 </include>

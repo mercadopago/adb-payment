@@ -176,6 +176,12 @@ class FetchMerchant extends AbstractModel
         $fullUrl = $mpWebSiteUrl.$mpSiteId.'/account/credentials';
 
         if (!$validate['success']) {
+            if (isset($validate['error'])) {
+                $this->messageManager->addNotice(__('Please check store id %1 credentials', $storeId));
+
+                return $this;
+            }
+
             if ($validate['response']['is_test']) {
                 $this->messageManager->addComplexWarningMessage(
                     'addRedirectAccountMessage',

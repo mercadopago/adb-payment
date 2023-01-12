@@ -127,10 +127,6 @@ define([
 
                             self.afterPlaceOrder();
                         }
-                    ).always(
-                        function () {
-                            self.isPlaceOrderActionAllowed(true);
-                        }
                     );
 
                 return true;

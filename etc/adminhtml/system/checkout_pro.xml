@@ -20,7 +20,7 @@
         </field>
         <field id="type_redirect" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Payment completion view</label>
-            <comment>Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website. Redirection, the customer will be redirected to the Mercado Pago website</comment>
+            <comment>Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website.</comment>
             <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\TypeRedirect</source_model>
             <validate>required-entry validate-select</validate>
             <config_path>payment/mercadopago_paymentmagento_checkout_pro/type_redirect</config_path>

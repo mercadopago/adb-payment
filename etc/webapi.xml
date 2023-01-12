@@ -9,7 +9,7 @@
 -->
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
-    <route url="/V1/carts/mine/create-vault" method="POST">
+    <route url="/V1/carts/mine/mp-create-vault" method="POST">
         <service class="MercadoPago\PaymentMagento\Api\CreateVaultManagementInterface" method="createVault"/>
         <resources>
             <resource ref="self" />
@@ -24,13 +24,13 @@
             <resource ref="anonymous" />
         </resources>
     </route>
-    <route url="/V1/guest-carts/:cartId/set-finance-cost" method="POST">
+    <route url="/V1/guest-carts/:cartId/mp-set-finance-cost" method="POST">
         <service class="MercadoPago\PaymentMagento\Api\GuestFinanceCostManagementInterface" method="saveFinanceCost"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
-    <route url="/V1/carts/mine/set-finance-cost" method="POST">
+    <route url="/V1/carts/mine/mp-set-finance-cost" method="POST">
         <service class="MercadoPago\PaymentMagento\Api\FinanceCostManagementInterface" method="saveFinanceCost"/>
         <resources>
             <resource ref="self" />
