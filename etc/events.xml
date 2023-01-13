@@ -65,4 +65,7 @@
     <event name="payment_method_assign_data_mercadopago_paymentmagento_webpay">
         <observer name="mercadopago_paymentmagento_webpay_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
     </event>
+    <event name="order_cancel_after">
+        <observer name="mercadopago_paymentmagento_order_cancel_after" instance="MercadoPago\PaymentMagento\Observer\OrderCancelAfterObserver" />
+    </event>
 </config>

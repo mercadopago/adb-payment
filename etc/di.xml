@@ -21,6 +21,7 @@
             <argument name="commands" xsi:type="array">
                 <item name="fetchMerchantInfo" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Adminstrative\FetchMerchantInfo</item>
                 <item name="fetchAllowedPaymentMethods" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Adminstrative\FetchAllowedPaymentMethods</item>
+                <item name="setPaymentExpired" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Adminstrative\PaymentExpirations</item>
                 <item name="fetchOrderStatus" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Notification\FetchOrderStatus</item>
                 <item name="checkoutProAddChild" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Notification\CheckoutProAddChild</item>
             </argument>
@@ -849,6 +850,8 @@
                 <item name="refund" xsi:type="string">MercadoPagoRefundCommand</item>
                 <item name="fetch_transaction_information" xsi:type="string">MercadoPagoCheckoutProFetchCommand</item>
                 <item name="cancel" xsi:type="string">MercadoPagoTicketCancelPaymentCommand</item>
+                <item name="void" xsi:type="string">MercadoPagoTicketVoidPaymentCommand</item>
+                <item name="capture" xsi:type="string">MercadoPagoTicketCaptureCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1426,7 +1429,7 @@
         </arguments>
     </virtualType>
 
-    <!-- Ticket - Void Payment Response handlers -->
+    <!-- Ticket - Fetch Payment Response handlers -->
     <virtualType name="MercadoPagoTicketFetchResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
@@ -2402,6 +2405,12 @@
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\FetchMerchant">
+        <arguments>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\PaymentExpiration">
         <arguments>
             <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>

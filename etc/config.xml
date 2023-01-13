@@ -110,21 +110,21 @@
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>payer_first_name,payer_last_name,init_point,date_of_expiration,id,payer_document_type</paymentInfoKeys>
                 <privateInfoKeys>id,payer_document_type</privateInfoKeys>
-                <payment_action>sales</payment_action>
+                <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <can_use_internal>1</can_use_internal>
                 <can_use_checkout>1</can_use_checkout>
                 <can_authorize>1</can_authorize>
-                <can_capture>0</can_capture>
-                <can_capture_partial>0</can_capture_partial>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
                 <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
                 <can_refund>1</can_refund>
                 <can_void>1</can_void>
                 <can_cancel>1</can_cancel>
-                <can_review_payment>0</can_review_payment>
-                <can_deny_payment>0</can_deny_payment>
-                <can_accept_payment>0</can_accept_payment>
+                <can_review_payment>1</can_review_payment>
+                <can_deny_payment>1</can_deny_payment>
+                <can_accept_payment>1</can_accept_payment>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <group>mercadopago_group</group>
