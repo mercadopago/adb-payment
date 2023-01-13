@@ -53,7 +53,7 @@
             </field>
             <field id="conversion_label" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
                 <label>Google Ads - Label</label>
-                <comment>Link your sales with Google Ads by entering the Label. and your tracking code.</comment>
+                <comment>Link your sales with Google Ads by entering the Label and your tracking code.</comment>
                 <config_path>payment/mercadopago_paymentmagento_checkout_pro/conversion_label</config_path>
             </field>
         </group>
