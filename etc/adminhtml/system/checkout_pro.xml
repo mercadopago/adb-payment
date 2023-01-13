@@ -46,10 +46,15 @@
                 <comment>Link your sales with Facebook by entering the ID No. and your tracking code.</comment>
                 <config_path>payment/mercadopago_paymentmagento_checkout_pro/facebook_ad</config_path>
             </field>
-            <field id="google_ads" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
-                <label>Google Ads</label>
+            <field id="conversion_id" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                <label>Google Ads - Id</label>
                 <comment>Link your sales with Google Ads by entering the ID No. and your tracking code.</comment>
-                <config_path>payment/mercadopago_paymentmagento_checkout_pro/google_ads</config_path>
+                <config_path>payment/mercadopago_paymentmagento_checkout_pro/conversion_id</config_path>
+            </field>
+            <field id="conversion_label" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                <label>Google Ads - Label</label>
+                <comment>Link your sales with Google Ads by entering the Label. and your tracking code.</comment>
+                <config_path>payment/mercadopago_paymentmagento_checkout_pro/conversion_label</config_path>
             </field>
         </group>
         <group id="mercadopago_paymentmagento_style_modal" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">

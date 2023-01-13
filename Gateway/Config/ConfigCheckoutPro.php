@@ -74,9 +74,14 @@ class ConfigCheckoutPro extends PaymentConfig
     public const FACEBOOK_AD = 'facebook_ad';
 
     /**
-     * Google Ads.
+     * Conversion Id block name.
      */
-    public const GOOGLE_ADS = 'google_ads';
+    public const CONVERSION_ID = 'conversion_id';
+
+    /**
+     * Conversion Label block name.
+     */
+    public const CONVERSION_LABEL = 'conversion_label';
 
     /**
      * @var ScopeConfigInterface
@@ -322,18 +327,36 @@ class ConfigCheckoutPro extends PaymentConfig
     }
 
     /**
-     * Get Google Ads.
+     * Get Google Ads Id.
      *
      * @param int|null $storeId
      *
      * @return string|null
      */
-    public function getGoogleAds($storeId = null): ?string
+    public function getGoogleAdsId($storeId = null): ?string
     {
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::GOOGLE_ADS),
+            sprintf($pathPattern, self::METHOD, self::CONVERSION_ID),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get Google Ads Label.
+     *
+     * @param int|null $storeId
+     *
+     * @return string|null
+     */
+    public function getGoogleAdsLabel($storeId = null): ?string
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::CONVERSION_LABEL),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );

@@ -39,6 +39,16 @@ class TracksCheckoutProDataRequest implements BuilderInterface
     public const PIXEL_ID = 'pixel_id';
 
     /**
+     * Conversion Id block name.
+     */
+    public const CONVERSION_ID = 'conversion_id';
+
+    /**
+     * Conversion Label block name.
+     */
+    public const CONVERSION_LABEL = 'conversion_label';
+
+    /**
      * @var ConfigCheckoutPro
      */
     protected $config;
@@ -81,13 +91,15 @@ class TracksCheckoutProDataRequest implements BuilderInterface
             ];
         }
 
-        $googleAds = $this->config->getGoogleAds($storeId);
+        $googleAdsId = $this->config->getGoogleAdsId($storeId);
+        $googleAdsLabel = $this->config->getGoogleAdsLabel($storeId);
 
-        if (isset($googleAds)) {
+        if (isset($googleAdsId) && isset($googleAdsLabel)) {
             $result[self::TRACKS][] = [
                 self::TYPE      => 'google_ad',
                 self::VALUES    => [
-                    self::PIXEL_ID => $googleAds,
+                    self::CONVERSION_ID     => $googleAdsId,
+                    self::CONVERSION_LABEL  => $googleAdsLabel,
                 ],
             ];
         }
