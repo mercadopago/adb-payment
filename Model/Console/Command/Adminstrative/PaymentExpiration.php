@@ -16,7 +16,6 @@ use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Payment\Model\Method\Logger;
-use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\Config as MercadoPagoConfig;
 use MercadoPago\PaymentMagento\Model\Console\Command\AbstractModel;
@@ -64,12 +63,12 @@ class PaymentExpiration extends AbstractModel
     protected $date;
 
     /**
-     * @param Logger                $logger
-     * @param State                 $state
-     * @param MercadoPagoConfig     $mercadopagoConfig
-     * @param Json                  $json
-     * @param ZendClientFactory     $httpClientFactory
-     * @param DateTime              $date
+     * @param Logger            $logger
+     * @param State             $state
+     * @param MercadoPagoConfig $mercadopagoConfig
+     * @param Json              $json
+     * @param ZendClientFactory $httpClientFactory
+     * @param DateTime          $date
      */
     public function __construct(
         Logger $logger,
@@ -92,8 +91,8 @@ class PaymentExpiration extends AbstractModel
     /**
      * Command Fetch.
      *
-     * @param string    $paymentId
-     * @param int|null  $storeId
+     * @param string   $paymentId
+     * @param int|null $storeId
      *
      * @return void
      */
@@ -116,8 +115,8 @@ class PaymentExpiration extends AbstractModel
     /**
      * Get Validate Credentials.
      *
-     * @param string    $paymentId
-     * @param int|null  $storeId
+     * @param string   $paymentId
+     * @param int|null $storeId
      *
      * @return bool
      */
@@ -129,8 +128,8 @@ class PaymentExpiration extends AbstractModel
         $uri = $uri.'/checkout/preferences/'.$paymentId;
 
         $sendData = [
-            "expires"               => true,
-            "expiration_date_to"    => $this->date->gmtDate('Y-m-d'),
+            'expires'               => true,
+            'expiration_date_to'    => $this->date->gmtDate('Y-m-d'),
         ];
 
         $client = $this->httpClientFactory->create();
@@ -146,13 +145,12 @@ class PaymentExpiration extends AbstractModel
 
             $this->logger->debug(
                 [
-                    'url' => $uri,
+                    'url'    => $uri,
                     'result' => $this->json->serialize($response),
                 ]
             );
 
             return true;
-
         } catch (Exception $exc) {
             $this->logger->debug(['error' => $exc->getMessage()]);
         }

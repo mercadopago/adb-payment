@@ -84,7 +84,7 @@ class PaymentExpirations extends Command
         $this->setDefinition(
             [
                 new InputArgument(self::PREFERENCE_ID, InputArgument::REQUIRED, 'Preference Id'),
-                new InputArgument(self::STORE_ID, InputArgument::REQUIRED, 'Store Id')
+                new InputArgument(self::STORE_ID, InputArgument::REQUIRED, 'Store Id'),
             ]
         );
         parent::configure();

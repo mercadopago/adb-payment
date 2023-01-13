@@ -11,10 +11,9 @@ namespace MercadoPago\PaymentMagento\Observer;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use MercadoPago\PaymentMagento\Api\Data\FinanceCostInterface;
-use MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\PaymentExpiration;
 use Magento\Sales\Api\TransactionRepositoryInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
+use MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\PaymentExpiration;
 
 /**
  * Observer Class from Order Cancel.
