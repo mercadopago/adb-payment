@@ -378,7 +378,7 @@ class Config extends PaymentConfig
             'MCO' => 'https://www.mercadopago.com.co/',
             'MLA' => 'https://www.mercadopago.com.ar/',
             'MLB' => 'https://www.mercadopago.com.br/',
-            'MLC' => 'https://www.mercadopago.com/mlc/',
+            'MLC' => 'https://www.mercadopago.cl/',
             'MLM' => 'https://www.mercadopago.com.mx/',
             'MLU' => 'https://www.mercadopago.com.uy/',
             'MPE' => 'https://www.mercadopago.com.pe/',
