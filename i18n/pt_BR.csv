@@ -14,6 +14,7 @@ Unavailable.,Indisponível.
 "1 day","1 dia"
 "Payment for order %1 in store %2","Pagamento do pedido %1 na loja %2"
 Tax,Imposto
+"Awaiting payment of the Card.","Aguardando pagamento via Cartão."
 "Awaiting payment.","Aguardando pagamento."
 "Awaiting payment through Checkout Pro.","Aguardando pagamento por meio do Checkout Pro."
 "Awaiting payment through Pix.","Aguardando pagamento via Pix."
@@ -22,6 +23,8 @@ Tax,Imposto
 description,descrição
 Production,Produção
 "Sandbox - Testing environment","Sandbox - Ambiente de teste"
+"Yes, Processed Order Synchronous","Sim, processar pedidos síncrono"
+"No, Processed Order Asynchronous","Não, processar pedidos assíncrono"
 "1 installment","1 parcela"
 "2 installments","2 parcelas"
 "3 installments","3 parcelas"
@@ -222,6 +225,7 @@ Bancomer,Bancomer
 "Allows buyer to save the card for future use.","Permite que seu cliente salve o cartão para uso futuro."
 "Payment Action","Perfil do pagamento"
 "Consult the store's business sector to be able to select capturing the payment at the time of the purchase or at a later moment.","Consulte o ramo de negócios da loja para poder escolher entre capturar o pagamento no ato da compra ou posteriormente."
+"Use Binary Mode","Usar modo binário"
 "Installment and interest","Parcelamento e juros"
 "Set within your account","Definir na sua conta"
 "Minimum amount for payment with this payment method.","Valor mínimo para este meio de pagamento."

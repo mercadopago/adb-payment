@@ -13,7 +13,8 @@ define([
     'Magento_Payment/js/model/credit-card-validation/credit-card-data',
     'Magento_Vault/js/view/payment/method-renderer/vault',
     'mage/translate',
-    'MercadoPago_PaymentMagento/js/action/checkout/set-finance-cost'
+    'MercadoPago_PaymentMagento/js/action/checkout/set-finance-cost',
+    'Magento_Ui/js/model/messageList'
 ], function (
     _,
     $,
@@ -23,7 +24,8 @@ define([
     creditCardData,
     VaultComponent,
     $t,
-    setFinanceCost
+    setFinanceCost,
+    messageList
 ) {
     'use strict';
 
@@ -272,14 +274,16 @@ define([
                 cardId: this.getMpPublicId()
             };
 
-            window.mp.fields.createCardToken(payload).then((token) => {
+            window.mp.fields.createCardToken(payload)
+            .then((token) => {
                 self.creditCardNumberToken(token.id);
                 this.placeOrder();
             }).catch(() => {
-                fullScreenLoader.startLoader();
+                messageList.addErrorMessage({
+                    message: $t('Unable to make payment, check card details.')
+                });
+                fullScreenLoader.stopLoader();
             });
-
-            console.log(payload);
         },
 
         /**

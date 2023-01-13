@@ -14,14 +14,17 @@ Unavailable.,No disponible.
 "1 day","1 día"
 "Payment for order %1 in store %2","Pago del pedido %1 en la tienda %2"
 Tax,Impuesto
+"Awaiting payment of the Card.","Esperando pago via tarjeta."
 "Awaiting payment.","Esperando pago."
-"Awaiting payment through Checkout Pro.","AEsperando pago a través del Checkout Pro."
+"Awaiting payment through Checkout Pro.","Esperando pago a través del Checkout Pro."
 "Awaiting payment through Pix.","Esperando pago via Pix."
 "The gateway declined the transaction.","El gateway rechazó la operación."
 "Please select a category","Por favor, selecciona una categoría"
 description,descripción
 Production,Producción
 "Sandbox - Testing environment","Ecositema de testeo"
+"Yes, Processed Order Synchronous","Sí, procesar solicitudes sincrónicamente"
+"No, Processed Order Asynchronous","No, procesar solicitudes asíncronas"
 "1 installment","1 cuota"
 "2 installments","2 cuotas"
 "3 installments","3 cuotas"
@@ -222,6 +225,7 @@ Bancomer,Bancomer
 "Allows buyer to save the card for future use.","Permite que tu cliente guarde la tarjeta para uso futuro."
 "Payment Action","Perfil de pago"
 "Consult the store's business sector to be able to select capturing the payment at the time of the purchase or at a later moment.","Consulta la rama de negocios de la tienda para poder elegir entre capturar el pago en el acto de la compra o posteriormente."
+"Use Binary Mode","Usa el modo binario"
 "Installment and interest","Cuotas e intereses"
 "Set within your account","Definir en tu cuenta"
 "Minimum amount for payment with this payment method.","Monto mínimo para este medio de pago."
