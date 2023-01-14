@@ -14,6 +14,11 @@
                 type="MercadoPago\PaymentMagento\Plugin\PaymentToken"
                 sortOrder="1"/>
     </type>
+    <type name="Magento\Vault\Model\Method\Vault">
+        <plugin name="disable_initialize"
+                type="MercadoPago\PaymentMagento\Plugin\VaultIsInitializeNeeded"
+                sortOrder="1"/>
+    </type>
 
     <!-- Console -->
     <type name="Magento\Framework\Console\CommandList">
@@ -1379,7 +1384,7 @@
                 <item name="additionalInfoShippings" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\AdditionalInfoShippingsDataRequest</item>
                 <item name="metadata" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\MetadataPaymentDataRequest</item>
                 <item name="metadataCc" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\MetadataPaymentCcDataRequest</item>
-                <item name="paymentMethod" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\CcPaymentDataRequest</item>
+                <item name="paymentMethod" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\CcVaultPaymentDataRequest</item>
             </argument>
         </arguments>
     </virtualType>

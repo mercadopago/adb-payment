@@ -39,11 +39,6 @@ class CcTransactionCaptureHandler implements HandlerInterface
     public const APPROVED = 'approved';
 
     /**
-     * Response Pay In Process - Block name.
-     */
-    public const IN_PROCCESS = 'in_process';
-
-    /**
      * @var Json
      */
     protected $json;
@@ -84,22 +79,23 @@ class CcTransactionCaptureHandler implements HandlerInterface
 
         $amount = $order->getBaseGrandTotal();
 
-        if ($response[self::STATUS] === self::APPROVED ||
-            $response[self::STATUS] === self::IN_PROCCESS
-        ) {
-            $isApproved = true;
-            $isDenied = false;
-        }
+        $status = $response[self::STATUS];
 
         $transactionId = $response[self::RESPONSE_PAYMENT_ID];
-        $payment->setAuthorizationTransaction($transactionId);
-        $payment->registerAuthorizationNotification($amount);
-        $payment->setAmountAuthorized($amount);
-        $payment->setIsTransactionApproved($isApproved);
-        $payment->setIsTransactionDenied($isDenied);
-        $payment->registerCaptureNotification($amount);
-        $payment->setTransactionId($transactionId);
-        $payment->setTransactionDetails($this->json->serialize($response));
-        $payment->setAdditionalData($this->json->serialize($response));
+
+        if ($status === self::APPROVED) {
+            $isApproved = true;
+            $isDenied = false;
+
+            $payment->setAuthorizationTransaction($transactionId);
+            $payment->registerAuthorizationNotification($amount);
+            $payment->setAmountAuthorized($amount);
+            $payment->setIsTransactionApproved($isApproved);
+            $payment->setIsTransactionDenied($isDenied);
+            $payment->registerCaptureNotification($amount);
+            $payment->setTransactionId($transactionId);
+            $payment->setTransactionDetails($this->json->serialize($response));
+            $payment->setAdditionalData($this->json->serialize($response));
+        }
     }
 }
