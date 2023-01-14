@@ -78,20 +78,23 @@ class OrderCancelAfterObserver implements ObserverInterface
         $transaction = $this->transactions->getList($searchCriteria)->getFirstItem();
 
         $transactionId = $transaction->getTxnId();
-        $this->paymentExpiration->expire($transactionId, $storeId);
 
-        $payment->setTransactionId($transactionId.'-expire');
-        $payment->setPreparedMessage(__('Order Canceled.'));
-        $payment->setIsTransactionPending(false);
-        $payment->setIsTransactionDenied(true);
-        $payment->setAmountCanceled($amount);
-        $payment->setBaseAmountCanceled($amount);
-        $payment->setShouldCloseParentTransaction(true);
-        $payment->addTransaction(Transaction::TYPE_VOID);
-        $payment->save();
+        if ($transactionId) {
+            $this->paymentExpiration->expire($transactionId, $storeId);
 
-        $comment = __('Order Canceled.');
-        $order->addStatusHistoryComment($comment, $payment->getOrder()->getStatus());
-        $order->save();
+            $payment->setTransactionId($transactionId.'-expire');
+            $payment->setPreparedMessage(__('Order Canceled.'));
+            $payment->setIsTransactionPending(false);
+            $payment->setIsTransactionDenied(true);
+            $payment->setAmountCanceled($amount);
+            $payment->setBaseAmountCanceled($amount);
+            $payment->setShouldCloseParentTransaction(true);
+            $payment->addTransaction(Transaction::TYPE_VOID);
+            $payment->save();
+
+            $comment = __('Order Canceled.');
+            $order->addStatusHistoryComment($comment, $payment->getOrder()->getStatus());
+            $order->save();
+        }
     }
 }
