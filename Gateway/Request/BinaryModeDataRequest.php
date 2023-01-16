@@ -21,20 +21,16 @@ use MercadoPago\PaymentMagento\Gateway\SubjectReader;
  */
 class BinaryModeDataRequest implements BuilderInterface
 {
+
+    /**
+     * Payment Methods block name.
+     */
+    public const PAYMENT_METHODS = 'payment_methods';
+
     /**
      * Binary Mode block name.
      */
     public const BINARY_MODE = 'binary_mode';
-
-    /**
-     * @var SubjectReader
-     */
-    protected $subjectReader;
-
-    /**
-     * @var OrderAdapterFactory
-     */
-    protected $orderAdapterFactory;
 
     /**
      * @var ConfigCheckoutPro
@@ -42,26 +38,12 @@ class BinaryModeDataRequest implements BuilderInterface
     protected $config;
 
     /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * @param SubjectReader         $subjectReader
-     * @param OrderAdapterFactory   $orderAdapterFactory
-     * @param ConfigCheckoutPro     $config
-     * @param StoreManagerInterface $storeManager
+     * @param ConfigCheckoutPro $config
      */
     public function __construct(
-        SubjectReader $subjectReader,
-        OrderAdapterFactory $orderAdapterFactory,
         ConfigCheckoutPro $config,
-        StoreManagerInterface $storeManager
     ) {
-        $this->subjectReader = $subjectReader;
-        $this->orderAdapterFactory = $orderAdapterFactory;
         $this->config = $config;
-        $this->storeManager = $storeManager;
     }
 
     /**
@@ -77,11 +59,7 @@ class BinaryModeDataRequest implements BuilderInterface
             throw new InvalidArgumentException('Payment data object should be provided');
         }
 
-        $result = [];
-
-        $result = [
-            self::BINARY_MODE => $this->config->isBinaryMode(),
-        ];
+        $result[self::PAYMENT_METHODS][self::BINARY_MODE] = $this->config->isBinaryMode();
 
         return $result;
     }
