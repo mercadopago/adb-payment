@@ -129,6 +129,7 @@
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <group>mercadopago_group</group>
                 <expiration>1</expiration>
+                <binary_mode>1</binary_mode>
                 <instruction_checkout><![CDATA[Pague com o meio de pagamento que preferir e toda a <strong>segurança do Mercado Pago</strong>.
 Se você já tem conta no Mercado Livre, use o mesmo e-mail e senha.
 Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais dados.]]></instruction_checkout>

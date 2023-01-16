@@ -904,6 +904,7 @@
                 <item name="storeId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\StoreIdDataRequest</item>
                 <item name="notificationUrl" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\CheckoutProNotificationUrlDataRequest</item>
                 <item name="externalReference" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\ExternalReferenceDataRequest</item>
+                <item name="binaryMode" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\BinaryModeDataRequest</item>
                 <item name="descriptionTotal" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\DescriptionDataRequest</item>
                 <item name="backUrls" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\BackUrlsDataRequest</item>
                 <item name="excluded" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\ExcludedCheckoutProDataRequest</item>
