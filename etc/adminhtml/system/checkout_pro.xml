@@ -18,6 +18,11 @@
             <validate>required-entry validate-number</validate>
             <config_path>payment/mercadopago_paymentmagento_checkout_pro/expiration</config_path>
         </field>
+        <field id="binary_mode" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Use Binary Mode</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/mercadopago_paymentmagento_cc/binary_mode</config_path>
+        </field>
         <field id="type_redirect" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Payment completion view</label>
             <comment>Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website.</comment>

@@ -39,6 +39,11 @@ class ConfigCheckoutPro extends PaymentConfig
     public const EXPIRATION = 'expiration';
 
     /**
+     * Binary Mode.
+     */
+    public const BINARY_MODE = 'binary_mode';
+
+    /**
      * Excluded.
      */
     public const EXCLUDED = 'excluded';
@@ -74,12 +79,12 @@ class ConfigCheckoutPro extends PaymentConfig
     public const FACEBOOK_AD = 'facebook_ad';
 
     /**
-     * Conversion Id block name.
+     * Conversion Id.
      */
     public const CONVERSION_ID = 'conversion_id';
 
     /**
-     * Conversion Label block name.
+     * Conversion Label.
      */
     public const CONVERSION_LABEL = 'conversion_label';
 
@@ -270,6 +275,23 @@ class ConfigCheckoutPro extends PaymentConfig
         );
 
         return $this->date->gmtDate('d/m/Y', strtotime("+{$due} days"));
+    }
+
+    /**
+     * Is Binary Mode.
+     *
+     * @param int|null $storeId
+     *
+     * @return bool
+     */
+    public function isBinaryMode($storeId = null): bool
+    {
+        $pathPattern = 'payment/%s/%s';
+        return $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::BINARY_MODE),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
