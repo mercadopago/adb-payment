@@ -18,8 +18,8 @@ class VaultIsInitializeNeeded
     /**
      * Around Is Initialize Needed.
      *
-     * @param Vault     $config
-     * @param callable  $proceed
+     * @param Vault    $config
+     * @param callable $proceed
      *
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
