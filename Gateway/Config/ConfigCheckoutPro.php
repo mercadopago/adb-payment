@@ -287,6 +287,7 @@ class ConfigCheckoutPro extends PaymentConfig
     public function isBinaryMode($storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
+
         return $this->scopeConfig->getValue(
             sprintf($pathPattern, self::METHOD, self::BINARY_MODE),
             ScopeInterface::SCOPE_STORE,

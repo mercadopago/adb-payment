@@ -11,17 +11,13 @@ namespace MercadoPago\PaymentMagento\Gateway\Request;
 use InvalidArgumentException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\ConfigCheckoutPro;
-use MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapterFactory;
-use MercadoPago\PaymentMagento\Gateway\SubjectReader;
 
 /**
  * Gateway requests for binary mode definition.
  */
 class BinaryModeDataRequest implements BuilderInterface
 {
-
     /**
      * Payment Methods block name.
      */
