@@ -278,6 +278,7 @@ define([
             .then((token) => {
                 self.creditCardNumberToken(token.id);
                 this.placeOrder();
+                fullScreenLoader.stopLoader();
             }).catch(() => {
                 messageList.addErrorMessage({
                     message: $t('Unable to make payment, check card details.')

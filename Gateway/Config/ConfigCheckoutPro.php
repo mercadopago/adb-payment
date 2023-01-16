@@ -39,6 +39,11 @@ class ConfigCheckoutPro extends PaymentConfig
     public const EXPIRATION = 'expiration';
 
     /**
+     * Binary Mode.
+     */
+    public const BINARY_MODE = 'binary_mode';
+
+    /**
      * Excluded.
      */
     public const EXCLUDED = 'excluded';
@@ -74,9 +79,14 @@ class ConfigCheckoutPro extends PaymentConfig
     public const FACEBOOK_AD = 'facebook_ad';
 
     /**
-     * Google Ads.
+     * Conversion Id.
      */
-    public const GOOGLE_ADS = 'google_ads';
+    public const CONVERSION_ID = 'conversion_id';
+
+    /**
+     * Conversion Label.
+     */
+    public const CONVERSION_LABEL = 'conversion_label';
 
     /**
      * @var ScopeConfigInterface
@@ -268,6 +278,24 @@ class ConfigCheckoutPro extends PaymentConfig
     }
 
     /**
+     * Is Binary Mode.
+     *
+     * @param int|null $storeId
+     *
+     * @return bool
+     */
+    public function isBinaryMode($storeId = null): bool
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::BINARY_MODE),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
      * Get Type Redirect.
      *
      * @param int|null $storeId
@@ -322,18 +350,36 @@ class ConfigCheckoutPro extends PaymentConfig
     }
 
     /**
-     * Get Google Ads.
+     * Get Google Ads Id.
      *
      * @param int|null $storeId
      *
      * @return string|null
      */
-    public function getGoogleAds($storeId = null): ?string
+    public function getGoogleAdsId($storeId = null): ?string
     {
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::GOOGLE_ADS),
+            sprintf($pathPattern, self::METHOD, self::CONVERSION_ID),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get Google Ads Label.
+     *
+     * @param int|null $storeId
+     *
+     * @return string|null
+     */
+    public function getGoogleAdsLabel($storeId = null): ?string
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::CONVERSION_LABEL),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
