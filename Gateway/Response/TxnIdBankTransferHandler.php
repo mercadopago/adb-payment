@@ -24,6 +24,11 @@ class TxnIdBankTransferHandler implements HandlerInterface
     public const PAYMENT_ID = 'id';
 
     /**
+     * Payment Id block name.
+     */
+    public const MP_PAYMENT_ID = 'mp_payment_id';
+
+    /**
      * Date of Expiration block name.
      */
     public const DATE_OF_EXPIRATION = 'date_of_expiration';
@@ -109,6 +114,11 @@ class TxnIdBankTransferHandler implements HandlerInterface
      */
     public function setAddtionalInformation($payment, $response)
     {
+        $payment->setAdditionalInformation(
+            self::MP_PAYMENT_ID,
+            $response[self::PAYMENT_ID]
+        );
+
         if (isset($response[self::BARCODE])) {
             if (isset($response[self::BARCODE][self::CONTENT])) {
                 $barcode = $response[self::BARCODE][self::CONTENT];
