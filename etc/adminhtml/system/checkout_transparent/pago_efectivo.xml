@@ -3,7 +3,7 @@
     <group id="mercadopago_paymentmagento_pagoefectivo" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
         <label>Pago Efectivo</label>
         <depends>
-            <field id="*/*/merchant_profile/site_id">MLA</field>
+            <field id="*/*/merchant_profile/site_id">MPE</field>
         </depends>
         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
             <label>Enabled</label>
