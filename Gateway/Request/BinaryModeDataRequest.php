@@ -54,6 +54,8 @@ class BinaryModeDataRequest implements BuilderInterface
         ) {
             throw new InvalidArgumentException('Payment data object should be provided');
         }
+        
+        $result = [];
 
         $result[self::PAYMENT_METHODS][self::BINARY_MODE] = $this->config->isBinaryMode();
 
