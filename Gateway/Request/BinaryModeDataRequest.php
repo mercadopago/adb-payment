@@ -37,7 +37,7 @@ class BinaryModeDataRequest implements BuilderInterface
      * @param ConfigCheckoutPro $config
      */
     public function __construct(
-        ConfigCheckoutPro $config,
+        ConfigCheckoutPro $config
     ) {
         $this->config = $config;
     }
