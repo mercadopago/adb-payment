@@ -22,6 +22,11 @@ class TxnIdTicketHandler implements HandlerInterface
     /**
      * Payment Id block name.
      */
+    public const MP_PAYMENT_ID = 'mp_payment_id';
+
+    /**
+     * Payment Id block name.
+     */
     public const PAYMENT_ID = 'id';
 
     /**
@@ -124,6 +129,11 @@ class TxnIdTicketHandler implements HandlerInterface
      */
     public function setAddtionalInformation($payment, $response)
     {
+        $payment->setAdditionalInformation(
+            self::MP_PAYMENT_ID,
+            $response[self::PAYMENT_ID]
+        );
+
         if (isset($response[self::BARCODE])) {
             if (isset($response[self::BARCODE][self::CONTENT])) {
                 $barcode = $response[self::BARCODE][self::CONTENT];
