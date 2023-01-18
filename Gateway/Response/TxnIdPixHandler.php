@@ -19,14 +19,34 @@ use Magento\Sales\Model\Order\Payment\Transaction;
 class TxnIdPixHandler implements HandlerInterface
 {
     /**
+     * Payment Id response value.
+     */
+    public const PAYMENT_ID = 'id';
+
+    /**
      * Payment Id block name.
      */
     public const MP_PAYMENT_ID = 'mp_payment_id';
 
     /**
-     * Payment Id block name.
+     * Status response value.
      */
-    public const PAYMENT_ID = 'id';
+    public const STATUS = 'status';
+
+    /**
+     * MP Status block name.
+     */
+    public const MP_STATUS = 'mp_status';
+
+    /**
+     * Status response value.
+     */
+    public const STATUS_DETAIL = 'status_detail';
+
+    /**
+     * MP Status Detail block name.
+     */
+    public const MP_STATUS_DETAIL = 'mp_status_detail';
 
     /**
      * Date of Expiration block name.
@@ -107,6 +127,16 @@ class TxnIdPixHandler implements HandlerInterface
         $payment->setAdditionalInformation(
             self::MP_PAYMENT_ID,
             $response[self::PAYMENT_ID]
+        );
+
+        $payment->setAdditionalInformation(
+            self::MP_STATUS,
+            $response[self::STATUS]
+        );
+
+        $payment->setAdditionalInformation(
+            self::MP_STATUS_DETAIL,
+            $response[self::STATUS_DETAIL]
         );
 
         $payment->setAdditionalInformation(

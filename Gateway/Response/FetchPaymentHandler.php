@@ -18,6 +18,56 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 class FetchPaymentHandler implements HandlerInterface
 {
     /**
+     * Payment Id response value.
+     */
+    public const PAYMENT_ID = 'id';
+
+    /**
+     * Payment Id block name.
+     */
+    public const MP_PAYMENT_ID = 'mp_payment_id';
+
+    /**
+     * Status response value.
+     */
+    public const STATUS = 'status';
+
+    /**
+     * MP Status block name.
+     */
+    public const MP_STATUS = 'mp_status';
+
+    /**
+     * Status response value.
+     */
+    public const STATUS_DETAIL = 'status_detail';
+
+    /**
+     * MP Status Detail block name.
+     */
+    public const MP_STATUS_DETAIL = 'mp_status_detail';
+
+    /**
+     * Response Payment Type Id block name.
+     */
+    public const PAYMENT_TYPE_ID = 'payment_type_id';
+
+    /**
+     * MP Payment Type Id block name.
+     */
+    public const MP_PAYMENT_TYPE_ID = 'mp_payment_type_id';
+
+    /**
+     * Response Installments block name.
+     */
+    public const INSTALLMENTS = 'installments';
+
+    /**
+     * MP Installments block name.
+     */
+    public const MP_INSTALLMENTS = 'mp_installments';
+
+    /**
      * Response Pay Status - Block Name.
      */
     public const RESPONSE_STATUS = 'status';
@@ -91,6 +141,31 @@ class FetchPaymentHandler implements HandlerInterface
                 $payment->setAmountCanceled($amount);
                 $payment->setBaseAmountCanceled($baseAmount);
             }
+
+            $payment->setAdditionalInformation(
+                self::MP_PAYMENT_ID,
+                $response[self::PAYMENT_ID]
+            );
+
+            $payment->setAdditionalInformation(
+                self::MP_PAYMENT_TYPE_ID,
+                $response[self::PAYMENT_TYPE_ID]
+            );
+
+            $payment->setAdditionalInformation(
+                self::MP_INSTALLMENTS,
+                $response[self::INSTALLMENTS]
+            );
+
+            $payment->setAdditionalInformation(
+                self::MP_STATUS,
+                $response[self::STATUS]
+            );
+
+            $payment->setAdditionalInformation(
+                self::MP_STATUS_DETAIL,
+                $response[self::STATUS_DETAIL]
+            );
         }
     }
 }
