@@ -8,7 +8,6 @@
 
 namespace MercadoPago\PaymentMagento\Block\Sales\Info;
 
-use Magento\Framework\Phrase;
 use Magento\Payment\Block\ConfigurableInfo;
 
 /**

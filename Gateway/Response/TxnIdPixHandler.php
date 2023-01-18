@@ -138,7 +138,7 @@ class TxnIdPixHandler implements HandlerInterface
             self::MP_STATUS_DETAIL,
             $response[self::STATUS_DETAIL]
         );
-        
+
         $payment->setAdditionalInformation(
             self::DATE_OF_EXPIRATION,
             $response[self::DATE_OF_EXPIRATION]

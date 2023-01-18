@@ -156,12 +156,12 @@ class FetchPaymentHandler implements HandlerInterface
                 self::MP_INSTALLMENTS,
                 $response[self::INSTALLMENTS]
             );
-    
+
             $payment->setAdditionalInformation(
                 self::MP_STATUS,
                 $response[self::STATUS]
             );
-    
+
             $payment->setAdditionalInformation(
                 self::MP_STATUS_DETAIL,
                 $response[self::STATUS_DETAIL]
