@@ -1154,6 +1154,7 @@ site_disabled.,site_disabled.
 "You have reached the allowed attempt limit. Choose another card or payment method.","You have reached the allowed attempt limit. Choose another card or payment method."
 "The card does not process the payment.","The card does not process the payment."
 "The payment was rejected because the user does not have the credit function enabled on his multiple card (debit and credit).","The payment was rejected because the user does not have the credit function enabled on his multiple card (debit and credit)."
+"mp_payment_id","Identificação do Pagamento (Mercado Pago)"
 "card_installments","Parcelas"
 "card_type","Bandeira"
 "card_number","Número do cartão"

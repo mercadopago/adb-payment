@@ -18,24 +18,9 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 class TxnIdCcHandler implements HandlerInterface
 {
     /**
-     * Card Terminal NSU - Payment Addtional Information.
+     * Payment Id block name.
      */
-    public const TERMINAL_NSU = 'terminal_nsu';
-
-    /**
-     * Card Authorization Code - Payment Addtional Information.
-     */
-    public const AUTHORIZATION_CODE = 'authorization_code';
-
-    /**
-     * Card Acquirer Transaction Id - Payment Addtional Information.
-     */
-    public const ACQUIRER_TRANSACTION_ID = 'acquirer_transaction_id';
-
-    /**
-     * Card Transaction Id - Payment Addtional Information.
-     */
-    public const TRANSACTION_ID = 'transaction_id';
+    public const MP_PAYMENT_ID = 'mp_payment_id';
 
     /**
      * Card Type - Payment Addtional Information.
@@ -75,22 +60,7 @@ class TxnIdCcHandler implements HandlerInterface
     /**
      * Response Pay Payment Id - Block name.
      */
-    public const RESPONSE_PAYMENT_ID = 'payment_id';
-
-    /**
-     * Response Pay Terminal NSU - Block name.
-     */
-    public const RESPONSE_TERMINAL_NSU = 'terminal_nsu';
-
-    /**
-     * Response Pay Authorization Code - Block name.
-     */
-    public const RESPONSE_AUTHORIZATION_CODE = 'authorization_code';
-
-    /**
-     * Response Pay Acquirer Transaction Id - Block name.
-     */
-    public const RESPONSE_ACQUIRER_TRANSACTION_ID = 'acquirer_transaction_id';
+    public const PAYMENT_ID = 'id';
 
     /**
      * Response Pay Transaction Id - Block name.
@@ -101,26 +71,6 @@ class TxnIdCcHandler implements HandlerInterface
      * Response Pay Delayed - Block name.
      */
     public const RESPONSE_DELAYED = 'delayed';
-
-    /**
-     * Response Pay Status - Block name.
-     */
-    public const RESPONSE_STATUS = 'status';
-
-    /**
-     * Response Pay Approved - Block name.
-     */
-    public const RESPONSE_APPROVED = 'APPROVED';
-
-    /**
-     * Response Pay Authorized - Block name.
-     */
-    public const RESPONSE_AUTHORIZED = 'AUTHORIZED';
-
-    /**
-     * Response Pay Pending - Block name.
-     */
-    public const RESPONSE_PENDING = 'PENDING';
 
     /**
      * Handles.
@@ -138,11 +88,14 @@ class TxnIdCcHandler implements HandlerInterface
             throw new InvalidArgumentException('Payment data object should be provided');
         }
 
-        $response['RESULT_CODE'];
-
         $paymentDO = $handlingSubject['payment'];
 
         $payment = $paymentDO->getPayment();
+
+        $payment->setAdditionalInformation(
+            self::MP_PAYMENT_ID,
+            $response[self::PAYMENT_ID]
+        );
 
         $cardType = $payment->getAdditionalInformation(self::CARD_TYPE);
         $payment->setCcType($cardType);
