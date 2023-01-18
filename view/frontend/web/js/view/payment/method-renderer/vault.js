@@ -34,7 +34,7 @@ define([
             active: false,
             template: 'MercadoPago_PaymentMagento/payment/vault',
             vaultForm: 'MercadoPago_PaymentMagento/payment/vault-form',
-            amount:  quote.totals().grand_total,
+            amount:  quote.totals().base_grand_total,
             creditCardListInstallments: '',
             creditCardVerificationNumber: '',
             creditCardInstallment: '',
@@ -134,7 +134,7 @@ define([
                         financeCostAmount = segment['value'];
                     }
                 });
-                self.amount(value.grand_total - financeCostAmount);
+                self.amount(value.base_grand_total - financeCostAmount);
             });
 
             self.amount.subscribe((value) => {

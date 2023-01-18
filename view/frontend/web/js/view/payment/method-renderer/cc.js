@@ -45,7 +45,7 @@ define([
             template: 'MercadoPago_PaymentMagento/payment/cc',
             ccForm: 'MercadoPago_PaymentMagento/payment/cc-form',
             securityField: 'MercadoPago_PaymentMagento/payment/security-field',
-            amount:  quote.totals().grand_total,
+            amount:  quote.totals().base_grand_total,
             isLoading: true
         },
 
@@ -114,7 +114,7 @@ define([
                     financeCostAmount = totals.getSegment('finance_cost_amount').value;
                 }
 
-                self.amount(value.grand_total - financeCostAmount);
+                self.amount(value.base_grand_total - financeCostAmount);
             });
 
             self.amount.subscribe((value) => {
