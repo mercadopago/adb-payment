@@ -45,7 +45,10 @@ define([
             template: 'MercadoPago_PaymentMagento/payment/cc',
             ccForm: 'MercadoPago_PaymentMagento/payment/cc-form',
             securityField: 'MercadoPago_PaymentMagento/payment/security-field',
-            amount:  quote.totals().grand_total,
+            amount:  quote.totals().base_grand_total,
+            installmentTextInfo: false,
+            installmentTextTEA: null,
+            installmentTextCFT: null,
             isLoading: true
         },
 
@@ -66,7 +69,10 @@ define([
             this._super().observe([
                 'active',
                 'amount',
-                'isLoading'
+                'isLoading',
+                'installmentTextInfo',
+                'installmentTextTEA',
+                'installmentTextCFT'
             ]);
             return this;
         },
@@ -114,7 +120,7 @@ define([
                     financeCostAmount = totals.getSegment('finance_cost_amount').value;
                 }
 
-                self.amount(value.grand_total - financeCostAmount);
+                self.amount(value.base_grand_total - financeCostAmount);
             });
 
             self.amount.subscribe((value) => {
@@ -132,7 +138,39 @@ define([
                 selectInstallment = self.mpCardInstallment(),
                 rulesForFinanceCost = self.mpCardListInstallments();
 
+            if (self.getMpSiteId() === 'MLA') {
+                _.map(rulesForFinanceCost, (keys) => {
+                    if (keys.installments === selectInstallment) {
+                        self.addTextForInstallment(keys.labels);
+                    }
+                });
+            }
+
             setFinanceCost.financeCost(selectInstallment, rulesForFinanceCost);
+        },
+
+        /**
+         * Add Text for Installments
+         * @param {Array} labels
+         * @return {void}
+         */
+        addTextForInstallment(labels) {
+            var self = this,
+                texts;
+
+            self.installmentTextInfo(true);
+
+            _.map(labels, (label) => {
+                texts = label.split('|');
+                _.map(texts, (text) => {
+                    if (text.includes('TEA')) {
+                        self.installmentTextTEA(text.replace('_', ' '));
+                    }
+                    if (text.includes('CFT')) {
+                        self.installmentTextCFT(text.replace('_', ' '));
+                    }
+                });
+            });
         },
 
         /**

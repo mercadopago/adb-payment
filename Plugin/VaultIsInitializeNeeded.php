@@ -26,7 +26,7 @@ class VaultIsInitializeNeeded
      */
     public function aroundIsInitializeNeeded(
         Vault $config,
-        callable $proceed,
+        callable $proceed
     ): bool {
         return false;
     }

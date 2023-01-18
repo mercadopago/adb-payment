@@ -34,12 +34,15 @@ define([
             active: false,
             template: 'MercadoPago_PaymentMagento/payment/vault',
             vaultForm: 'MercadoPago_PaymentMagento/payment/vault-form',
-            amount:  quote.totals().grand_total,
+            amount:  quote.totals().base_grand_total,
             creditCardListInstallments: '',
             creditCardVerificationNumber: '',
             creditCardInstallment: '',
             creditCardNumberToken: '',
             creditCardType: '',
+            installmentTextInfo: false,
+            installmentTextTEA: null,
+            installmentTextCFT: null,
             isLoading: true
         },
 
@@ -57,6 +60,9 @@ define([
                 'creditCardInstallment',
                 'creditCardNumberToken',
                 'creditCardType',
+                'installmentTextInfo',
+                'installmentTextTEA',
+                'installmentTextCFT',
                 'isLoading'
             ]);
             return this;
@@ -134,7 +140,7 @@ define([
                         financeCostAmount = segment['value'];
                     }
                 });
-                self.amount(value.grand_total - financeCostAmount);
+                self.amount(value.base_grand_total - financeCostAmount);
             });
 
             self.amount.subscribe((value) => {
@@ -261,6 +267,30 @@ define([
         },
 
         /**
+         * Add Text for Installments
+         * @param {Array} labels
+         * @return {void}
+         */
+        addTextForInstallment(labels) {
+            var self = this,
+                texts;
+
+            self.installmentTextInfo(true);
+
+            _.map(labels, (label) => {
+                texts = label.split('|');
+                _.map(texts, (text) => {
+                    if (text.includes('TEA')) {
+                        self.installmentTextTEA(text.replace('_', ' '));
+                    }
+                    if (text.includes('CFT')) {
+                        self.installmentTextCFT(text.replace('_', ' '));
+                    }
+                });
+            });
+        },
+
+        /**
          * Get card id details
          * @returns {void}
          */
@@ -295,6 +325,14 @@ define([
             var self = this,
                 selectInstallment = self.creditCardInstallment(),
                 rulesForFinanceCost = self.creditCardListInstallments();
+
+            if (self.getMpSiteId() === 'MLA') {
+                _.map(rulesForFinanceCost, (keys) => {
+                    if (keys.installments === selectInstallment) {
+                        self.addTextForInstallment(keys.labels);
+                    }
+                });
+            }
 
             setFinanceCost.financeCost(selectInstallment, rulesForFinanceCost);
         },
@@ -427,6 +465,14 @@ define([
          */
         hasVerification() {
             return window.checkoutConfig.payment[this.getCode()].useCvv;
+        },
+
+        /**
+         * Get Mp Site Id
+         * @returns {String}
+         */
+        getMpSiteId() {
+            return window.checkoutConfig.payment['mercadopago_paymentmagento'].mp_site_id;
         },
 
         /**
