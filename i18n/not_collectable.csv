@@ -15,3 +15,5 @@
 "verification_code","Verification Code"
 "financial_institution","Financial Institution"
 "payer_document_type","Payer Document Type"
+"mp_status","Status (Mercado Pago)"
+"mp_status_detail","Status Detail (Mercado Pago)"

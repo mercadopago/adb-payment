@@ -73,7 +73,7 @@ class FinanceCostManagement implements FinanceCostManagementInterface
         $quoteTotal = $this->quoteTotalRepository->get($cartId);
 
         $grandTotal = $quoteTotal->getBaseGrandTotal();
-        $grandTotal -=$quoteCart->getData(FinanceCostInterface::FINANCE_COST_AMOUNT);
+        $grandTotal -= $quoteCart->getData(FinanceCostInterface::FINANCE_COST_AMOUNT);
         $installment = $userSelect->getSelectedInstallment();
         $totalAmount = round($rules->getTotalAmount(), 2);
         $financeCost = $totalAmount - $grandTotal;

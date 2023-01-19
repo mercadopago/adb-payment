@@ -253,6 +253,7 @@ define([
         /**
          * Toogle Validity State
          * @param {String} element
+         * @param {String} errorMessages
          * @returns {Jquery}
          */
         toogleValidityState(element, errorMessages) {
@@ -271,6 +272,23 @@ define([
                 });
 
                 target.append('<div class="field-error"><span>' + msg + '</span></div>');
+                return $('#' + element).closest('.control-mp-iframe').addClass('has-error').removeClass('is-valid');
+            }
+            return $('#' + element).closest('.control-mp-iframe').addClass('is-valid').removeClass('has-error');
+        },
+
+        /**
+         * Single Toogle Validity State
+         * @param {String} element
+         * @param {String} errorMessages
+         * @returns {Jquery}
+         */
+        singleToogleValidityState(element, errorMessages) {
+            var target = $('#' + element).closest('.mercadopago-input-group');
+
+            if (errorMessages.length)
+            {
+                target.append('<div class="field-error"><span>' + errorMessages + '</span></div>');
                 return $('#' + element).closest('.control-mp-iframe').addClass('has-error').removeClass('is-valid');
             }
             return $('#' + element).closest('.control-mp-iframe').addClass('is-valid').removeClass('has-error');
@@ -478,6 +496,10 @@ define([
 
             if (this.getMpSiteId() === 'MLM') {
                 return false;
+            }
+
+            if (this.getMpSiteId() !== 'MLB') {
+                return true;
             }
 
             if (!quote.billingAddress()) {

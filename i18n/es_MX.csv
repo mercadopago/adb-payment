@@ -1171,3 +1171,5 @@ site_disabled.,site_disabled.
 "verification_code","Código de verificación"
 "financial_institution","Institución"
 "payer_document_type","Tipo de documento"
+"mp_status","Status (Mercado Pago)"
+"mp_status_detail","Status Detallado (Mercado Pago)"
