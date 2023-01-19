@@ -195,6 +195,18 @@ class FetchMerchant extends AbstractModel
             }
         }
 
+        $validatePublickey = $this->getValidatePublicKey($storeId);
+
+        if (!$validatePublickey['success']) {
+            if (isset($validatePublickey['error'])) {
+                $this->messageManager->addNotice(
+                    __('Please check store id %1 credentials', $storeId)
+                );
+
+                return $this;
+            }
+        }
+
         $usersMe = $this->getUsersMe($storeId);
         if ($usersMe['success']) {
             $response = $usersMe['response'];
@@ -253,6 +265,44 @@ class FetchMerchant extends AbstractModel
             $response = $this->json->unserialize($result);
 
             $this->logger->debug(['plugins-credentials-wrapper/credential' => $result]);
+
+            return [
+                'success'    => isset($response['homologated']) ? $response['homologated'] : false,
+                'response'   => $response,
+            ];
+        } catch (Exception $exc) {
+            $this->logger->debug(['error' => $exc->getMessage()]);
+
+            return ['success' => false, 'error' =>  $exc->getMessage()];
+        }
+    }
+
+    /**
+     * Get Validate Public Key.
+     *
+     * @param int $storeId
+     *
+     * @return array
+     */
+    public function getValidatePublicKey(int $storeId = null): array
+    {
+        $uri = $this->mercadopagoConfig->getApiUrl();
+        $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
+        $publicKey = $this->mercadopagoConfig->getMerchantGatewayClientId($storeId);
+
+        $client = $this->httpClientFactory->create();
+        $client->setUri($uri.'/plugins-credentials-wrapper/credentials?public_key='.$publicKey);
+        $client->setConfig($clientConfigs);
+        $client->setMethod(ZendClient::GET);
+
+        try {
+            $result = $client->request()->getBody();
+            $response = $this->json->unserialize($result);
+
+            $this->logger->debug([
+                'plugins-credentials-wrapper/credential?public_key=' => $result,
+                'public_key' => $publicKey,
+            ]);
 
             return [
                 'success'    => isset($response['homologated']) ? $response['homologated'] : false,
