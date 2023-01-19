@@ -498,6 +498,10 @@ define([
                 return false;
             }
 
+            if (this.getMpSiteId() !== 'MLB') {
+                return true;
+            }
+
             if (!quote.billingAddress()) {
                 return window.checkoutConfig.payment[this.getCode()].document_identification_capture;
             }

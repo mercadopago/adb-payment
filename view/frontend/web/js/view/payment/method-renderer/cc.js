@@ -389,6 +389,10 @@ define([
                 return false;
             }
 
+            if (this.getMpSiteId() !== 'MLB') {
+                return true;
+            }
+
             if (!quote.billingAddress()) {
                 return true;
             }
