@@ -1171,3 +1171,19 @@ site_disabled.,site_disabled.
 "verification_code","Código de Verificação"
 "financial_institution","Instituição"
 "payer_document_type","Tipo de Documento"
+"mp_status","Status (Mercado Pago)"
+"mp_status_detail","Status Detalhado (Mercado Pago)"
+mp_payment_id,"Código de Identificação (Mercado Pago)"
+Expiration,Expiration
+Link,Link
+"Line Code","Código de Barras"
+"Payer Document Type","Tipo de Documento"
+"Download the Boleto","Download do Boleto"
+"Payment Type (Mercado Pago)","Tipo de Pagamento (Mercado Pago)"
+"Installments (Mercado Pago)","Parcelamento (Mercado Pago)"
+"Pix QR Code","QR Code do Pix"
+"Pix Code","Código do Pix"
+"Your access credential for store %1 is valid but you don't have production use permission. Request approval before use by <a href=""%2"">click here</a>.","Sua credencial de acesso para a loja %1 é válida, mas você não tem permissão de uso de produção. Solicitar aprovação antes de usar por <a href=""%2"">clique aqui</a>."
+"Your payment will be valid until","Pagar até"
+"Link for payment","Link para pagamento"
+Pix,Pix

@@ -18,9 +18,34 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 class TxnIdCcHandler implements HandlerInterface
 {
     /**
+     * Payment Id response value.
+     */
+    public const PAYMENT_ID = 'id';
+
+    /**
      * Payment Id block name.
      */
     public const MP_PAYMENT_ID = 'mp_payment_id';
+
+    /**
+     * Status response value.
+     */
+    public const STATUS = 'status';
+
+    /**
+     * MP Status block name.
+     */
+    public const MP_STATUS = 'mp_status';
+
+    /**
+     * Status response value.
+     */
+    public const STATUS_DETAIL = 'status_detail';
+
+    /**
+     * MP Status Detail block name.
+     */
+    public const MP_STATUS_DETAIL = 'mp_status_detail';
 
     /**
      * Card Type - Payment Addtional Information.
@@ -58,11 +83,6 @@ class TxnIdCcHandler implements HandlerInterface
     public const CREDIT = 'credit';
 
     /**
-     * Response Pay Payment Id - Block name.
-     */
-    public const PAYMENT_ID = 'id';
-
-    /**
      * Response Pay Transaction Id - Block name.
      */
     public const RESPONSE_TRANSACTION_ID = 'transaction_id';
@@ -95,6 +115,16 @@ class TxnIdCcHandler implements HandlerInterface
         $payment->setAdditionalInformation(
             self::MP_PAYMENT_ID,
             $response[self::PAYMENT_ID]
+        );
+
+        $payment->setAdditionalInformation(
+            self::MP_STATUS,
+            $response[self::STATUS]
+        );
+
+        $payment->setAdditionalInformation(
+            self::MP_STATUS_DETAIL,
+            $response[self::STATUS_DETAIL]
         );
 
         $cardType = $payment->getAdditionalInformation(self::CARD_TYPE);

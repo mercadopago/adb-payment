@@ -43,8 +43,8 @@
                 <payment_action>authorize_capture</payment_action>
                 <title>Cartão de Crédito ou Débito</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,card_exp_month,card_exp_year,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,card_exp_month,card_exp_year,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <is_gateway>1</is_gateway>
                 <can_initialize>0</can_initialize>
                 <can_use_internal>0</can_use_internal>
@@ -94,8 +94,8 @@
             <mercadopago_paymentmagento_cc_vault>
                 <active>1</active>
                 <model>MercadoPagoCcVaultFacade</model>
-                <paymentInfoKeys>mp_payment_id,card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,card_exp_month,card_exp_year,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,card_exp_month,card_exp_year,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <title>Stored Cards (MercadoPago)</title>
                 <can_initialize>0</can_initialize>
                 <can_use_internal>0</can_use_internal>
@@ -108,8 +108,8 @@
                 <order_status>pending</order_status>
                 <title>Checkout Pro</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>payer_first_name,payer_last_name,init_point,date_of_expiration,id,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>payer_first_name,payer_last_name,init_point,date_of_expiration,id,payer_document_type,mp_installments,mp_payment_type_id,mp_payment_id,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -148,8 +148,8 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
                 <order_status>pending</order_status>
                 <title>Boleto Bancário</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,line_code</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,financial_institution,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,line_code,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -185,8 +185,8 @@ Não existe parcelamento nesta forma de pagamento.]]></instruction_checkout>
                 <order_status>pending</order_status>
                 <title>Casas Lotéricas</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -222,8 +222,8 @@ Não existe parcelamento nesta forma de pagamento.]]></instruction_checkout>
                 <title>Pix</title>
                 <expiration>30</expiration>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payment_method_id,payer_first_name,payer_last_name,payer_document_identification,qr_code,qr_code_base64,ticket_url,date_of_expiration,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,ticket_url,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payment_method_id,payer_first_name,payer_last_name,payer_document_identification,qr_code,qr_code_base64,ticket_url,date_of_expiration,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,ticket_url,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -259,8 +259,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Pago Fácil</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -293,8 +293,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Rapi Pago</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -328,8 +328,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Pay Cash</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -363,8 +363,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Oxxo</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -398,8 +398,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Citibanamex</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -433,8 +433,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>BBVA Bancomer</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -468,8 +468,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Serfin</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -503,8 +503,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Efecty</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -539,8 +539,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Abitab</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -575,8 +575,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Redpagos</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -610,8 +610,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Pse</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -646,8 +646,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Pago Efectivo</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
@@ -681,8 +681,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <order_status>pending</order_status>
                 <title>Redcompra Webpay</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type</privateInfoKeys>
+                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>

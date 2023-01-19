@@ -8,7 +8,6 @@
 
 namespace MercadoPago\PaymentMagento\Block\Sales\Info;
 
-use Magento\Framework\Phrase;
 use Magento\Payment\Block\ConfigurableInfo;
 
 /**
@@ -24,16 +23,4 @@ class Pix extends ConfigurableInfo
      * @var string
      */
     protected $_template = 'MercadoPago_PaymentMagento::info/pix/instructions.phtml';
-
-    /**
-     * Returns label.
-     *
-     * @param string $field
-     *
-     * @return Phrase
-     */
-    protected function getLabel($field)
-    {
-        return __($field);
-    }
 }
