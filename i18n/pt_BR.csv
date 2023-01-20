@@ -1187,3 +1187,10 @@ Link,Link
 "Your payment will be valid until","Pagar até"
 "Link for payment","Link para pagamento"
 Pix,Pix
+"The order %1, was refunded directly on Mercado Pago, you need to check stock of sold items.","O pedido %1, foi reembolsado diretamente no Mercado Pago, você precisa verificar o estoque de itens vendidos."
+"Order refunded in Mercado Pago, refunded offline in the store.","Pedido reembolsado no Mercado Pago, reembolsado offline criado na loja."
+"Order refunded.","Pedido reembolsado."
+"mp_payment_id,"Identificação do Pagamento (Mercado Pago)"
+"API Integration","API Integração"
+"Receive refund notification","Receber notificação de reembolso"
+"Enable the creation of a Credit Note when a refund occurs in Mercado Pago.","Habilite a criação Nota de Crédito quando ocorrer um reembolso no Mercado Pago."

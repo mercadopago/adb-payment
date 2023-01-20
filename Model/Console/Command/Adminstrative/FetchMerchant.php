@@ -301,7 +301,6 @@ class FetchMerchant extends AbstractModel
 
             $this->logger->debug([
                 'plugins-credentials-wrapper/credential?public_key=' => $result,
-                'public_key' => $publicKey,
             ]);
 
             return [
