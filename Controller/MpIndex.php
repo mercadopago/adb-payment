@@ -236,7 +236,6 @@ abstract class MpIndex extends Action
 
                     $this->notifierPool->addCritical($header, $description);
                 }
-                
             }
 
             $result = [
@@ -275,8 +274,9 @@ abstract class MpIndex extends Action
      * @param OrderInterface $order
      * @param string|null    $mpAmountRefound
      *
-     * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
+     *
+     * @return void
      */
     public function refund(
         OrderInterface $order,
