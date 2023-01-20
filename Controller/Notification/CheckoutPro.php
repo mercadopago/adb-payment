@@ -77,13 +77,19 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
 
         $mercadopagoData = $this->json->unserialize($response);
 
+        $mpAmountRefund = null;
+
         $status = $mercadopagoData['status'];
 
-        if ($status !== 'approved') {
+        if ($status !== 'approved' && $status !== 'refunded') {
             /** @var ResultInterface $result */
             $result = $this->createResult(200, ['empty' => null]);
 
             return $result;
+        }
+
+        if ($status === 'refunded') {
+            $mpAmountRefund = $mercadopagoData['total_refunded'];
         }
 
         $mpTransactionId = $mercadopagoData['preference_id'];
@@ -110,7 +116,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
 
-            $process = $this->processNotification($status, $childTransactionId, $order);
+            $process = $this->processNotification($status, $childTransactionId, $order, $mpAmountRefund);
 
             /** @var ResultInterface $result */
             $result = $this->createResult(
@@ -154,17 +160,19 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
      * @param string          $mpStatus
      * @param string          $childTransactionId
      * @param OrderRepository $order
+     * @param string|null     $mpAmountRefund
      *
      * @return array
      */
     public function processNotification(
         $mpStatus,
         $childTransactionId,
-        $order
+        $order,
+        $mpAmountRefund = null
     ) {
         $result = [];
 
-        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order);
+        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund);
 
         if ($isNotApplicable['isInvalid']) {
             return $isNotApplicable;

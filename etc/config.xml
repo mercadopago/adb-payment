@@ -33,6 +33,7 @@
                 <complement>3</complement>
                 <neighborhood>2</neighborhood>
                 <allowspecific>1</allowspecific>
+                <receive_refund>1</receive_refund>
                 <specificcountry>BR,AR,UY,MX,CO,CL,PE</specificcountry>
                 <restrict_payment_on_mp_site_id><![CDATA[{"mercadopago_paymentmagento_boleto":["MLB"],"mercadopago_paymentmagento_pec":["MLB"],"mercadopago_paymentmagento_pix":["MLB"],"mercadopago_paymentmagento_pagofacil":["MLA"],"mercadopago_paymentmagento_rapipago":["MLA"],"mercadopago_paymentmagento_paycash":["MLM"],"mercadopago_paymentmagento_oxxo":["MLM"],"mercadopago_paymentmagento_efecty":["MCO"],"mercadopago_paymentmagento_abitab":["MLU"],"mercadopago_paymentmagento_redpagos":["MLU"],"mercadopago_paymentmagento_pse":["MCO"],"mercadopago_paymentmagento_banamex":["MLM"],"mercadopago_paymentmagento_bancomer":["MLM"],"mercadopago_paymentmagento_serfin":["MLM"],"mercadopago_paymentmagento_pagoefectivo":["MPE"]}]]></restrict_payment_on_mp_site_id>
             </mercadopago_paymentmagento>

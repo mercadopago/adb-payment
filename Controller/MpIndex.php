@@ -18,8 +18,14 @@ use Magento\Framework\Notification\NotifierInterface as NotifierPool;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Payment\Model\Method\Logger;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\TransactionRepositoryInterface;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\CreditmemoFactory;
+use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\OrderRepository;
+use Magento\Sales\Model\Service\CreditmemoService;
+use MercadoPago\PaymentMagento\Gateway\Config\Config;
 use MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus;
 
 /**
@@ -29,6 +35,11 @@ use MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus;
  */
 abstract class MpIndex extends Action
 {
+    /**
+     * @var Config
+     */
+    protected $config;
+
     /**
      * @var SearchCriteriaBuilder
      */
@@ -75,6 +86,22 @@ abstract class MpIndex extends Action
     protected $notifierPool;
 
     /**
+     * @var CreditmemoFactory
+     */
+    protected $creditMemoFactory;
+
+    /**
+     * @var CreditmemoService
+     */
+    protected $creditMemoService;
+
+    /**
+     * @var Invoice
+     */
+    protected $invoice;
+
+    /**
+     * @param Config                         $config
      * @param Context                        $context
      * @param Json                           $json
      * @param SearchCriteriaBuilder          $searchCriteria
@@ -85,10 +112,14 @@ abstract class MpIndex extends Action
      * @param Logger                         $logger
      * @param FetchStatus                    $fetchStatus
      * @param NotifierPool                   $notifierPool
+     * @param CreditmemoFactory              $creditMemoFactory
+     * @param CreditmemoService              $creditMemoService
+     * @param Invoice                        $invoice
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        Config $config,
         Context $context,
         Json $json,
         SearchCriteriaBuilder $searchCriteria,
@@ -98,9 +129,13 @@ abstract class MpIndex extends Action
         JsonFactory $resultJsonFactory,
         Logger $logger,
         FetchStatus $fetchStatus,
-        NotifierPool $notifierPool
+        NotifierPool $notifierPool,
+        CreditmemoFactory $creditMemoFactory,
+        CreditmemoService $creditMemoService,
+        Invoice $invoice
     ) {
         parent::__construct($context);
+        $this->config = $config;
         $this->json = $json;
         $this->searchCriteria = $searchCriteria;
         $this->transaction = $transaction;
@@ -110,6 +145,9 @@ abstract class MpIndex extends Action
         $this->logger = $logger;
         $this->fetchStatus = $fetchStatus;
         $this->notifierPool = $notifierPool;
+        $this->creditMemoFactory = $creditMemoFactory;
+        $this->creditMemoService = $creditMemoService;
+        $this->invoice = $invoice;
     }
 
     /**
@@ -160,12 +198,14 @@ abstract class MpIndex extends Action
      *
      * @param string          $mpStatus
      * @param OrderRepository $order
+     * @param string|null     $mpAmountRefound
      *
      * @return array
      */
     public function filterInvalidNotification(
         $mpStatus,
-        $order
+        $order,
+        $mpAmountRefound = null
     ) {
         $result = [];
 
@@ -181,14 +221,22 @@ abstract class MpIndex extends Action
 
         if ($mpStatus === 'refunded') {
             if ($order->getState() !== \Magento\Sales\Model\Order::STATE_CLOSED) {
-                $header = __('Mercado Pago, refund notification');
+                $storeId = $order->getStoreId();
+                $applyRefund = $this->config->isApplyRefund($storeId);
 
-                $description = __(
-                    'The order %1, was refunded directly on Mercado Pago, you need to create an offline refund.',
-                    $order->getIncrementId()
-                );
+                if ($applyRefund) {
+                    $this->refund($order, $mpAmountRefound);
 
-                $this->notifierPool->addCritical($header, $description);
+                    $header = __('Mercado Pago, refund notification');
+
+                    $description = __(
+                        'The order %1, was refunded directly on Mercado Pago, you need to check stock of sold items.',
+                        $order->getIncrementId()
+                    );
+
+                    $this->notifierPool->addCritical($header, $description);
+                }
+                
             }
 
             $result = [
@@ -219,5 +267,39 @@ abstract class MpIndex extends Action
         ];
 
         return $result;
+    }
+
+    /**
+     * Refund Transction.
+     *
+     * @param OrderInterface $order
+     * @param string|null    $mpAmountRefound
+     *
+     * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function refund(
+        OrderInterface $order,
+        $mpAmountRefound = null
+    ): void {
+        $invoices = $order->getInvoiceCollection();
+
+        if (count($invoices) == 0) {
+            return;
+        }
+
+        foreach ($invoices as $invoice) {
+            $invoice = $this->invoice->loadByIncrementId($invoice->getIncrementId());
+            $creditMemo = $this->creditMemoFactory->createByOrder($order);
+
+            $creditMemo->setState(1);
+            $creditMemo->setBaseGrandTotal($mpAmountRefound);
+            $creditMemo->setGrandTotal($mpAmountRefound);
+            $creditMemo->addComment(__('Order refunded in Mercado Pago, refunded offline in the store.'));
+
+            $order->addCommentToStatusHistory(__('Order refunded.'));
+
+            $this->creditMemoService->refund($creditMemo, false);
+        }
     }
 }
