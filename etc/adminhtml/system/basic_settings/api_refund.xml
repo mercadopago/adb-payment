@@ -5,7 +5,7 @@
         <field id="receive_refund" translate="label comment" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Receive refund notification</label>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-            <comment>Enable the Credit Memo when a refund occurs in Mercado Pago.</comment>
+            <comment>Enable the creation of a Credit Note when a refund occurs in Mercado Pago.</comment>
             <config_path>payment/mercadopago_paymentmagento/receive_refund</config_path>
             <validate>required-entry</validate>
         </field>
