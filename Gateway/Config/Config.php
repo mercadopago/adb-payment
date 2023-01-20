@@ -422,6 +422,18 @@ class Config extends PaymentConfig
     }
 
     /**
+     * Is Apply Refund.
+     *
+     * @param int|null $storeId
+     *
+     * @return bool
+     */
+    public function isApplyRefund($storeId = null): ?bool
+    {
+        return $this->getAddtionalValue('receive_refund', $storeId);
+    }
+
+    /**
      * Value For Field Address.
      *
      * @param OrderAdapterFactory $adress
