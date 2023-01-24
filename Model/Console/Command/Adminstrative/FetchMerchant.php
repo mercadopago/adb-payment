@@ -185,6 +185,7 @@ class FetchMerchant extends AbstractModel
                     $storeId,
                     $webSiteId
                 );
+
                 return $this;
             }
 
@@ -410,11 +411,11 @@ class FetchMerchant extends AbstractModel
     }
 
     /**
-     * Save Data.
+     * Claar Data.
      *
-     * @param bool  $storeIdIsDefault
-     * @param int   $storeId
-     * @param int   $webSiteId
+     * @param bool $storeIdIsDefault
+     * @param int  $storeId
+     * @param int  $webSiteId
      *
      * @return array
      */
@@ -425,18 +426,12 @@ class FetchMerchant extends AbstractModel
     ): array {
         $environment = $this->mercadopagoConfig->getEnvironmentMode($storeId);
         $scope = ScopeInterface::SCOPE_WEBSITES;
-
-        $data = ['client_id', 'client_secret'];
+        
+        $data = ['client_id' => null, 'client_secret' => null];
 
         foreach ($data as $field => $value) {
             $pathPattern = 'payment/mercadopago_paymentmagento/%s_%s';
             $pathConfigId = sprintf($pathPattern, $field, $environment);
-
-            if ($field === 'site_id') {
-                $pathPattern = 'payment/mercadopago_paymentmagento/%s';
-                $pathConfigId = sprintf($pathPattern, $field);
-            }
-
             try {
                 if ($storeIdIsDefault) {
                     $scope = 'default';
