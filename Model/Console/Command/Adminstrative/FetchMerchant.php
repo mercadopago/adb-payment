@@ -426,12 +426,13 @@ class FetchMerchant extends AbstractModel
     ): array {
         $environment = $this->mercadopagoConfig->getEnvironmentMode($storeId);
         $scope = ScopeInterface::SCOPE_WEBSITES;
-        
+
         $data = ['client_id' => null, 'client_secret' => null];
 
         foreach ($data as $field => $value) {
             $pathPattern = 'payment/mercadopago_paymentmagento/%s_%s';
             $pathConfigId = sprintf($pathPattern, $field, $environment);
+
             try {
                 if ($storeIdIsDefault) {
                     $scope = 'default';
