@@ -43,24 +43,52 @@
             <validate>required-entry validate-select</validate>
             <config_path>payment/mercadopago_paymentmagento_checkout_pro/max_installments</config_path>
         </field>
-        <group id="mercadopago_paymentmagento_trackins" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <group id="mercadopago_paymentmagento_trackings" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Conversion tags</label>
             <comment>You can link your Checkout Pro sales with external services.</comment>
-            <field id="facebook_ad" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
-                <label>Facebook</label>
-                <comment>Link your sales with Facebook by entering the ID No. and your tracking code.</comment>
-                <config_path>payment/mercadopago_paymentmagento_checkout_pro/facebook_ad</config_path>
-            </field>
-            <field id="conversion_id" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
-                <label>Google Ads - Id</label>
-                <comment>Link your sales with Google Ads by entering the ID No. and your tracking code.</comment>
-                <config_path>payment/mercadopago_paymentmagento_checkout_pro/conversion_id</config_path>
-            </field>
-            <field id="conversion_label" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
-                <label>Google Ads - Label</label>
-                <comment>Link your sales with Google Ads by entering the Label and your tracking code.</comment>
-                <config_path>payment/mercadopago_paymentmagento_checkout_pro/conversion_label</config_path>
-            </field>
+                <group id="mercadopago_paymentmagento_tracking_facebook" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Facebook</label>
+                    <field id="include_facebook" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Enable Facebook pixel</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/mercadopago_paymentmagento_checkout_pro/include_facebook</config_path>
+                    </field>
+                    <field id="facebook_ad" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>Facebook</label>
+                        <comment>Link your sales with Facebook by entering the ID No. and your tracking code.</comment>
+                        <config_path>payment/mercadopago_paymentmagento_checkout_pro/facebook_ad</config_path>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="*/*/*/*/*/include_facebook">1</field>
+                        </depends>
+                    </field>
+                </group>
+                <group id="mercadopago_paymentmagento_tracking_google" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Google</label>
+                    <field id="include_google" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Enable Google pixel</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/mercadopago_paymentmagento_checkout_pro/facebook_include</config_path>
+                    </field>
+                    <field id="conversion_id" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>Google Ads - Id</label>
+                        <comment>Link your sales with Google Ads by entering the ID No. and your tracking code.</comment>
+                        <config_path>payment/mercadopago_paymentmagento_checkout_pro/conversion_id</config_path>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="*/*/*/*/*/include_google">1</field>
+                        </depends>
+                    </field>
+                    <field id="conversion_label" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>Google Ads - Label</label>
+                        <comment>Link your sales with Google Ads by entering the Label and your tracking code.</comment>
+                        <config_path>payment/mercadopago_paymentmagento_checkout_pro/conversion_label</config_path>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="*/*/*/*/*/include_google">1</field>
+                        </depends>
+                    </field>
+                </group>
         </group>
         <group id="mercadopago_paymentmagento_style_modal" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
             <label>Customization and Styles</label>

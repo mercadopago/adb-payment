@@ -197,7 +197,10 @@ Title,Title
 "Conversion tags","Conversion tags"
 "You can link your Checkout Pro sales with external services.","You can link your Checkout Pro sales with external services."
 Facebook,Facebook
+"Enable Facebook pixel","Enable Facebook pixel"
 "Link your sales with Facebook by entering the ID No. and your tracking code.","Link your sales with Facebook by entering the ID No. and your tracking code."
+Google,Google
+"Enable Google pixel","Enable Google pixel"
 "Google Ads - Id","Google Ads - Id"
 "Link your sales with Google Ads by entering the ID No. and your tracking code.","Link your sales with Google Ads by entering the ID No. and your tracking code."
 "Google Ads - Label","Google Ads - Label"

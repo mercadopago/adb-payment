@@ -1194,3 +1194,7 @@ Pix,Pix
 "API Integration","API Integração"
 "Receive refund notification","Receber notificação de reembolso"
 "Enable the creation of a Credit Note when a refund occurs in Mercado Pago.","Habilite a criação Nota de Crédito quando ocorrer um reembolso no Mercado Pago."
+"Enable Facebook pixel","Ativar pixel do Facebook"
+"Enable Google pixel","Ativar pixel do Google"
+"Please check store id %1 credentials, they are invalid so they were deleted.","Por favor, verifique as credenciais da loja ID %1, elas são inválidas portanto vão ser gravadas."
+Expiration,Expiração
