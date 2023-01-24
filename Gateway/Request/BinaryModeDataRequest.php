@@ -57,7 +57,7 @@ class BinaryModeDataRequest implements BuilderInterface
 
         $result = [];
 
-        $result[self::PAYMENT_METHODS][self::BINARY_MODE] = $this->config->isBinaryMode();
+        $result[self::BINARY_MODE] = $this->config->isBinaryMode();
 
         return $result;
     }

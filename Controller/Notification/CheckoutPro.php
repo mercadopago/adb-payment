@@ -116,7 +116,13 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
 
-            $process = $this->processNotification($status, $childTransactionId, $order, $mpAmountRefund);
+            $process = $this->processNotification(
+                $mpTransactionId,
+                $status,
+                $childTransactionId,
+                $order,
+                $mpAmountRefund
+            );
 
             /** @var ResultInterface $result */
             $result = $this->createResult(
@@ -136,16 +142,20 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
     /**
      * Create Child.
      *
+     * @param string          $mpTransactionId
      * @param string          $childTransactionId
      * @param OrderRepository $order
      *
      * @return void
      */
     public function createChild(
+        $mpTransactionId,
         $childTransactionId,
         $order
     ) {
         $payment = $order->getPayment();
+        $payment->setShouldCloseParentTransaction(true);
+        $payment->setParentTransactionId($mpTransactionId);
         $payment->setTransactionId($childTransactionId);
         $payment->setIsTransactionPending(1);
         $payment->setIsTransactionClosed(false);
@@ -157,6 +167,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
     /**
      * Process Notification.
      *
+     * @param string          $mpTransactionId
      * @param string          $mpStatus
      * @param string          $childTransactionId
      * @param OrderRepository $order
@@ -165,6 +176,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
      * @return array
      */
     public function processNotification(
+        $mpTransactionId,
         $mpStatus,
         $childTransactionId,
         $order,
@@ -178,7 +190,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
             return $isNotApplicable;
         }
 
-        $this->createChild($childTransactionId, $order);
+        $this->createChild($mpTransactionId, $childTransactionId, $order);
         $this->fetchStatus->fetch($order->getEntityId());
 
         $result = [
