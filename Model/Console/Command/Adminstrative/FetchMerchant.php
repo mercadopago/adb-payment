@@ -177,8 +177,14 @@ class FetchMerchant extends AbstractModel
 
         if (!$validate['success']) {
             if (isset($validate['error'])) {
-                $this->messageManager->addNotice(__('Please check store id %1 credentials', $storeId));
-
+                $this->messageManager->addNotice(
+                    __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
+                );
+                $this->clearData(
+                    $storeIdIsDefault,
+                    $storeId,
+                    $webSiteId
+                );
                 return $this;
             }
 
@@ -200,7 +206,13 @@ class FetchMerchant extends AbstractModel
         if (!$validatePublickey['success']) {
             if (isset($validatePublickey['error'])) {
                 $this->messageManager->addNotice(
-                    __('Please check store id %1 credentials', $storeId)
+                    __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
+                );
+
+                $this->clearData(
+                    $storeIdIsDefault,
+                    $storeId,
+                    $webSiteId
                 );
 
                 return $this;
@@ -368,6 +380,53 @@ class FetchMerchant extends AbstractModel
     ): array {
         $environment = $this->mercadopagoConfig->getEnvironmentMode($storeId);
         $scope = ScopeInterface::SCOPE_WEBSITES;
+
+        foreach ($data as $field => $value) {
+            $pathPattern = 'payment/mercadopago_paymentmagento/%s_%s';
+            $pathConfigId = sprintf($pathPattern, $field, $environment);
+
+            if ($field === 'site_id') {
+                $pathPattern = 'payment/mercadopago_paymentmagento/%s';
+                $pathConfigId = sprintf($pathPattern, $field);
+            }
+
+            try {
+                if ($storeIdIsDefault) {
+                    $scope = 'default';
+                    $webSiteId = 0;
+                }
+                $this->config->saveConfig(
+                    $pathConfigId,
+                    $value,
+                    $scope,
+                    $webSiteId
+                );
+            } catch (Exception $exc) {
+                return ['success' => false, 'error' => $exc->getMessage()];
+            }
+        }
+
+        return ['success' => true];
+    }
+
+    /**
+     * Save Data.
+     *
+     * @param bool  $storeIdIsDefault
+     * @param int   $storeId
+     * @param int   $webSiteId
+     *
+     * @return array
+     */
+    public function clearData(
+        bool $storeIdIsDefault,
+        int $storeId = 0,
+        int $webSiteId = 0
+    ): array {
+        $environment = $this->mercadopagoConfig->getEnvironmentMode($storeId);
+        $scope = ScopeInterface::SCOPE_WEBSITES;
+
+        $data = ['client_id', 'client_secret'];
 
         foreach ($data as $field => $value) {
             $pathPattern = 'payment/mercadopago_paymentmagento/%s_%s';
