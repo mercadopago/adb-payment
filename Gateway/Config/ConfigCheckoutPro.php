@@ -74,9 +74,19 @@ class ConfigCheckoutPro extends PaymentConfig
     public const INSTRUCTION_CHECKOUT = 'instruction_checkout';
 
     /**
+     * Include Facebook.
+     */
+    public const INCLUDE_FACEBOOK = 'include_facebook';
+
+    /**
      * Facebook Ad.
      */
     public const FACEBOOK_AD = 'facebook_ad';
+
+    /**
+     * Include Google.
+     */
+    public const INCLUDE_GOOGLE = 'include_google';
 
     /**
      * Conversion Id.
@@ -332,6 +342,24 @@ class ConfigCheckoutPro extends PaymentConfig
     }
 
     /**
+     * Is Include Facebook.
+     *
+     * @param int|null $storeId
+     *
+     * @return bool
+     */
+    public function isIncludeFacebook($storeId = null): bool
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return (bool) $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::INCLUDE_FACEBOOK),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
      * Get Facebook Ad.
      *
      * @param int|null $storeId
@@ -344,6 +372,24 @@ class ConfigCheckoutPro extends PaymentConfig
 
         return $this->scopeConfig->getValue(
             sprintf($pathPattern, self::METHOD, self::FACEBOOK_AD),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Is Include Google.
+     *
+     * @param int|null $storeId
+     *
+     * @return bool
+     */
+    public function isIncludeGoogle($storeId = null): bool
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return (bool) $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::INCLUDE_GOOGLE),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
