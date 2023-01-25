@@ -80,9 +80,10 @@ class TracksCheckoutProDataRequest implements BuilderInterface
         $storeId = $order->getStoreId();
         $result = [];
 
-        $facebookAd = $this->config->getFacebookAd($storeId);
+        $includeFacebook = $this->config->isIncludeFacebook($storeId);
 
-        if (isset($facebookAd)) {
+        if ($includeFacebook) {
+            $facebookAd = $this->config->getFacebookAd($storeId);
             $result[self::TRACKS][] = [
                 self::TYPE      => 'facebook_ad',
                 self::VALUES    => [
@@ -91,10 +92,12 @@ class TracksCheckoutProDataRequest implements BuilderInterface
             ];
         }
 
-        $googleAdsId = $this->config->getGoogleAdsId($storeId);
-        $googleAdsLabel = $this->config->getGoogleAdsLabel($storeId);
+        $includeGoogle = $this->config->isIncludeGoogle($storeId);
 
-        if (isset($googleAdsId) && isset($googleAdsLabel)) {
+        if ($includeGoogle) {
+            $googleAdsId = $this->config->getGoogleAdsId($storeId);
+            $googleAdsLabel = $this->config->getGoogleAdsLabel($storeId);
+
             $result[self::TRACKS][] = [
                 self::TYPE      => 'google_ad',
                 self::VALUES    => [
