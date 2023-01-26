@@ -418,6 +418,7 @@ class FetchMerchant extends AbstractModel
      * @param int  $webSiteId
      *
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function clearData(
         bool $storeIdIsDefault,
