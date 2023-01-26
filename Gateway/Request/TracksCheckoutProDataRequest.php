@@ -84,6 +84,7 @@ class TracksCheckoutProDataRequest implements BuilderInterface
 
         if ($includeFacebook) {
             $facebookAd = $this->config->getFacebookAd($storeId);
+
             $result[self::TRACKS][] = [
                 self::TYPE      => 'facebook_ad',
                 self::VALUES    => [

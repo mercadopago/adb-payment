@@ -136,14 +136,15 @@ class FetchMerchant extends AbstractModel
                 $storeId = (int) $stores->getId();
                 $this->storeManager->setCurrentStore($stores);
                 $webSiteId = (int) $stores->getWebsiteId();
+                $defaultId = $this->storeManager->getWebsite($webSiteId)->getDefaultStore()->getId();
 
-                if ($webSiteId === 1 || $countStores === 1) {
+                if ($storeId === $storeId) {
                     $storeIdIsDefault = true;
                 }
 
                 $this->writeln(
                     __(
-                        'Default Store %1 - Set Data for store id %2 Web Site Id %3',
+                        'Default Store Id %1 - Set Data for store id %2 Web Site Id %3',
                         (bool) $storeIdIsDefault,
                         $storeId,
                         $webSiteId
@@ -438,6 +439,7 @@ class FetchMerchant extends AbstractModel
                     $scope = 'default';
                     $webSiteId = 0;
                 }
+
                 $this->config->saveConfig(
                     $pathConfigId,
                     $value,
