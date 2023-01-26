@@ -129,23 +129,18 @@ class FetchMerchant extends AbstractModel
 
         if (!$storeIds) {
             $allStores = $this->storeManager->getStores();
-            $countStores = count($allStores);
+            $defaultId = (int) $this->storeManager->getDefaultStoreView()->getId();
 
             foreach ($allStores as $stores) {
-                $storeIdIsDefault = false;
                 $storeId = (int) $stores->getId();
                 $this->storeManager->setCurrentStore($stores);
                 $webSiteId = (int) $stores->getWebsiteId();
-                $defaultId = $this->storeManager->getWebsite($webSiteId)->getDefaultStore()->getId();
-
-                if ($defaultId === $storeId) {
-                    $storeIdIsDefault = true;
-                }
+                $storeIdIsDefault = ($defaultId === $storeId) ? true : false;
 
                 $this->writeln(
                     __(
                         'Default Store Id %1 - Set Data for store id %2 Web Site Id %3',
-                        (bool) $storeIdIsDefault,
+                        $storeIdIsDefault,
                         $storeId,
                         $webSiteId
                     )
@@ -394,8 +389,12 @@ class FetchMerchant extends AbstractModel
 
             try {
                 if ($storeIdIsDefault) {
-                    $scope = 'default';
-                    $webSiteId = 0;
+                    $this->config->saveConfig(
+                        $pathConfigId,
+                        $value,
+                        'default',
+                        0
+                    );
                 }
                 $this->config->saveConfig(
                     $pathConfigId,
@@ -436,13 +435,15 @@ class FetchMerchant extends AbstractModel
 
             try {
                 if ($storeIdIsDefault) {
-                    $scope = 'default';
-                    $webSiteId = 0;
+                    $this->config->deleteConfig(
+                        $pathConfigId,
+                        'default',
+                        0
+                    );
                 }
 
-                $this->config->saveConfig(
+                $this->config->deleteConfig(
                     $pathConfigId,
-                    $value,
                     $scope,
                     $webSiteId
                 );
