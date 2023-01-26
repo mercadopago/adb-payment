@@ -138,7 +138,7 @@ class FetchMerchant extends AbstractModel
                 $webSiteId = (int) $stores->getWebsiteId();
                 $defaultId = $this->storeManager->getWebsite($webSiteId)->getDefaultStore()->getId();
 
-                if ($storeId === $storeId) {
+                if ($defaultId === $storeId) {
                     $storeIdIsDefault = true;
                 }
 
