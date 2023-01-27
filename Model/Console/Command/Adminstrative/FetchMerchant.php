@@ -182,6 +182,8 @@ class FetchMerchant extends AbstractModel
                     $webSiteId
                 );
 
+                $this->cacheTypeList->cleanType('config');
+
                 return $this;
             }
 
@@ -205,6 +207,8 @@ class FetchMerchant extends AbstractModel
                 $this->messageManager->addNotice(
                     __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
                 );
+
+                $this->cacheTypeList->cleanType('config');
 
                 $this->clearData(
                     $storeIdIsDefault,
