@@ -26,8 +26,8 @@ use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\Service\CreditmemoService;
 use MercadoPago\PaymentMagento\Gateway\Config\Config;
-use MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus;
 use MercadoPago\PaymentMagento\Model\Console\Command\Notification\CheckoutProAddChildPayment;
+use MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus;
 
 /**
  * Class Mercado Pago Index.
@@ -280,8 +280,8 @@ abstract class MpIndex extends Action
     /**
      * Checkout Pro Add Child Information.
      *
-     * @param int       $orderId
-     * @param string    $childId
+     * @param int    $orderId
+     * @param string $childId
      *
      * @return void
      */

@@ -122,7 +122,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
 
             if ($mpStatus === 'pending') {
                 $this->updateDetails($mercadopagoData, $order);
-                
+
                 /** @var ResultInterface $result */
                 $result = $this->createResult(
                     200,
@@ -167,7 +167,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
     ) {
         $orderId = $order->getId();
         $childTransctions = $mercadopagoData['payments_details'];
-        
+
         foreach ($childTransctions as $child) {
             $this->checkoutProAddChildInformation($orderId, $child['id']);
         }
