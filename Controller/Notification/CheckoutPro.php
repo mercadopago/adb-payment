@@ -81,7 +81,10 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
 
         $status = $mercadopagoData['status'];
 
-        if ($status !== 'approved' && $status !== 'refunded') {
+        if ($status !== 'approved'
+            && $status !== 'refunded'
+            && $status !== 'pending'
+        ) {
             /** @var ResultInterface $result */
             $result = $this->createResult(200, ['empty' => null]);
 
@@ -92,6 +95,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
             $mpAmountRefund = $mercadopagoData['total_refunded'];
         }
 
+        $mpStatus = $mercadopagoData['status'];
         $mpTransactionId = $mercadopagoData['preference_id'];
         $childTransactionId = $mercadopagoData['payments_details'][0]['id'];
 
@@ -116,6 +120,18 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
 
+            if ($mpStatus === 'pending') {
+                $this->updateDetails($mercadopagoData, $order);
+                
+                /** @var ResultInterface $result */
+                $result = $this->createResult(
+                    200,
+                    'Update Details.',
+                );
+
+                return $result;
+            }
+
             $process = $this->processNotification(
                 $mpTransactionId,
                 $status,
@@ -137,6 +153,24 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $result = $this->createResult(200, ['empty' => null]);
 
         return $result;
+    }
+
+    /**
+     * Update Details.
+     *
+     * @param array           $mercadopagoData
+     * @param OrderRepository $order
+     */
+    public function updateDetails(
+        $mercadopagoData,
+        $order
+    ) {
+        $orderId = $order->getId();
+        $childTransctions = $mercadopagoData['payments_details'];
+        
+        foreach ($childTransctions as $child) {
+            $this->checkoutProAddChildInformation($orderId, $child['id']);
+        }
     }
 
     /**
