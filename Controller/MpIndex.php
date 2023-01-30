@@ -26,6 +26,7 @@ use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\Service\CreditmemoService;
 use MercadoPago\PaymentMagento\Gateway\Config\Config;
+use MercadoPago\PaymentMagento\Model\Console\Command\Notification\CheckoutProAddChildPayment;
 use MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus;
 
 /**
@@ -101,6 +102,11 @@ abstract class MpIndex extends Action
     protected $invoice;
 
     /**
+     * @var CheckoutProAddChildPayment
+     */
+    protected $addChildPayment;
+
+    /**
      * @param Config                         $config
      * @param Context                        $context
      * @param Json                           $json
@@ -115,6 +121,7 @@ abstract class MpIndex extends Action
      * @param CreditmemoFactory              $creditMemoFactory
      * @param CreditmemoService              $creditMemoService
      * @param Invoice                        $invoice
+     * @param CheckoutProAddChildPayment     $addChildPayment
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -132,7 +139,8 @@ abstract class MpIndex extends Action
         NotifierPool $notifierPool,
         CreditmemoFactory $creditMemoFactory,
         CreditmemoService $creditMemoService,
-        Invoice $invoice
+        Invoice $invoice,
+        CheckoutProAddChildPayment $addChildPayment
     ) {
         parent::__construct($context);
         $this->config = $config;
@@ -148,6 +156,7 @@ abstract class MpIndex extends Action
         $this->creditMemoFactory = $creditMemoFactory;
         $this->creditMemoService = $creditMemoService;
         $this->invoice = $invoice;
+        $this->addChildPayment = $addChildPayment;
     }
 
     /**
@@ -266,6 +275,21 @@ abstract class MpIndex extends Action
         ];
 
         return $result;
+    }
+
+    /**
+     * Checkout Pro Add Child Information.
+     *
+     * @param int    $orderId
+     * @param string $childId
+     *
+     * @return void
+     */
+    public function checkoutProAddChildInformation(
+        $orderId,
+        $childId
+    ) {
+        $this->addChildPayment->add($orderId, $childId);
     }
 
     /**
