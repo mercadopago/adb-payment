@@ -65,30 +65,43 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
             );
         }
 
+        $mpAmountRefund = null;
+        $txnType = 'authorization';
         $response = $this->getRequest()->getContent();
+        $mercadopagoData = $this->json->unserialize($response);
+        $mpTransactionId = $mercadopagoData['transaction_id'];
+        $mpStatus = $mercadopagoData['status'];
 
         $this->logger->debug([
             'action'    => 'checkout_custom',
-            'payload'   => $response,
+            'payload'   => $mercadopagoData,
         ]);
-
-        $mercadopagoData = $this->json->unserialize($response);
-
-        $mpAmountRefund = null;
-
-        $txnType = 'authorization';
-
-        $mpTransactionId = $mercadopagoData['transaction_id'];
-
-        $mpStatus = $mercadopagoData['status'];
 
         if ($mpStatus === 'refunded') {
             $mpAmountRefund = $mercadopagoData['total_refunded'];
             $txnType = 'capture';
         }
 
-        $searchCriteria = $this->searchCriteria
-            ->addFilter('txn_id', $mpTransactionId)
+        return $this->initProcess($txnType, $mpTransactionId, $mpStatus, $mpAmountRefund);
+    }
+
+    /**
+     * Init Process.
+     *
+     * @param string $mpTransactionId
+     * @param string $txnType
+     * @param string $mpStatus
+     * @param string $mpAmountRefund
+     *
+     * @return ResultInterface
+     */
+    public function initProcess(
+        $mpTransactionId,
+        $txnType,
+        $mpStatus,
+        $mpAmountRefund
+    ) {
+        $searchCriteria = $this->searchCriteria->addFilter('txn_id', $mpTransactionId)
             ->addFilter('txn_type', $txnType)
             ->create();
 
@@ -96,13 +109,17 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
             /** @var TransactionRepositoryInterface $transactions */
             $transactions = $this->transaction->getList($searchCriteria)->getItems();
         } catch (Exception $exc) {
-            return $this->createResult(
+
+            /** @var ResultInterface $result */
+            $result = $this->createResult(
                 500,
                 [
                     'error'   => 500,
                     'message' => $exc->getMessage(),
                 ]
             );
+
+            return $result;
         }
 
         foreach ($transactions as $transaction) {
