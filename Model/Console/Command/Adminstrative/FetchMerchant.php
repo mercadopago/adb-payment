@@ -234,10 +234,7 @@ class FetchMerchant extends AbstractModel
 
             $this->cacheTypeList->cleanType('config');
 
-            $this->clearData($storeIdIsDefault,
-                $storeId,
-                $webSiteId
-            );
+            $this->clearData($storeIdIsDefault, $storeId, $webSiteId);
 
             return $hasError;
         }
