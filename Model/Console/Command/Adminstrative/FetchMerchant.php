@@ -176,9 +176,6 @@ class FetchMerchant extends AbstractModel
         }
 
         $userData = $this->hasUserData($storeId, $storeIdIsDefault, $webSiteId);
-        if ($userData) {
-            return false;
-        }
 
         return true;
     }
