@@ -154,9 +154,9 @@ class FetchMerchant extends AbstractModel
     /**
      * Create Data Merchant.
      *
-     * @param bool     $storeIdIsDefault
-     * @param int|null $storeId
-     * @param int|null $webSiteId
+     * @param bool $storeIdIsDefault
+     * @param int  $storeId
+     * @param int  $webSiteId
      *
      * @return bool
      */
@@ -484,7 +484,7 @@ class FetchMerchant extends AbstractModel
     }
 
     /**
-     * Claar Data.
+     * Clear Data.
      *
      * @param bool $storeIdIsDefault
      * @param int  $storeId
