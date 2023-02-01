@@ -158,7 +158,7 @@ class FetchMerchant extends AbstractModel
      * @param int  $storeId
      * @param int  $webSiteId
      *
-     * @return bool
+     * @return bool|void
      */
     public function fetchInfo(
         bool $storeIdIsDefault,
@@ -175,9 +175,7 @@ class FetchMerchant extends AbstractModel
             return false;
         }
 
-        $userData = $this->hasUserData($storeId, $storeIdIsDefault, $webSiteId);
-
-        return true;
+        $this->hasUserData($storeId, $storeIdIsDefault, $webSiteId);
     }
 
     /**
@@ -187,7 +185,7 @@ class FetchMerchant extends AbstractModel
      * @param bool $storeIdIsDefault
      * @param int  $webSiteId
      *
-     * @return bool
+     * @return void
      */
     public function hasUserData(
         $storeId,
@@ -214,19 +212,7 @@ class FetchMerchant extends AbstractModel
             );
 
             $this->cacheTypeList->cleanType('config');
-
-            if (!$registryConfig['success']) {
-                $hasError = true;
-                $errorMsg = __('There was an error saving: %1', $registryConfig['error']);
-                $this->writeln('<error>'.$errorMsg.'</error>');
-
-                $this->messageManager->addError($errorMsg);
-
-                return $hasError;
-            }
         }
-
-        return $hasError;
     }
 
     /**
@@ -457,24 +443,21 @@ class FetchMerchant extends AbstractModel
                 $pathConfigId = sprintf($pathPattern, $field);
             }
 
-            try {
-                if ($storeIdIsDefault) {
-                    $this->config->saveConfig(
-                        $pathConfigId,
-                        $value,
-                        'default',
-                        0
-                    );
-                }
+            if ($storeIdIsDefault) {
                 $this->config->saveConfig(
                     $pathConfigId,
                     $value,
-                    $scope,
-                    $webSiteId
+                    'default',
+                    0
                 );
-            } catch (Exception $exc) {
-                return ['success' => false, 'error' => $exc->getMessage()];
             }
+
+            $this->config->saveConfig(
+                $pathConfigId,
+                $value,
+                $scope,
+                $webSiteId
+            );
         }
 
         return ['success' => true];
