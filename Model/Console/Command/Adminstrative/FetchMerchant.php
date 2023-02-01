@@ -154,9 +154,9 @@ class FetchMerchant extends AbstractModel
     /**
      * Create Data Merchant.
      *
-     * @param bool $storeIdIsDefault
-     * @param int  $storeId
-     * @param int  $webSiteId
+     * @param bool     $storeIdIsDefault
+     * @param int|null $storeId
+     * @param int|null $webSiteId
      *
      * @return void
      */
@@ -165,34 +165,19 @@ class FetchMerchant extends AbstractModel
         int $storeId = 0,
         int $webSiteId = 0
     ) {
-        $validateToken = $this->hasValidationStatusToken(
-            $storeId,
-            $storeIdIsDefault,
-            $webSiteId
-        );
-
+        $validateToken = $this->hasValidationStatusToken($storeId, $storeIdIsDefault, $webSiteId);
         if ($validateToken) {
-            return $this;
+            return;
         }
 
-        $validatePublicKey = $this->hasValidationStatusPublicKey(
-            $storeId,
-            $storeIdIsDefault,
-            $webSiteId
-        );
-
+        $validatePublicKey = $this->hasValidationStatusPublicKey($storeId, $storeIdIsDefault, $webSiteId);
         if ($validatePublicKey) {
-            return $this;
+            return;
         }
 
-        $userData = $this->hasUserData(
-            $storeId,
-            $storeIdIsDefault,
-            $webSiteId
-        );
-
+        $userData = $this->hasUserData($storeId, $storeIdIsDefault, $webSiteId);
         if ($userData) {
-            return $this;
+            return;
         }
     }
 
