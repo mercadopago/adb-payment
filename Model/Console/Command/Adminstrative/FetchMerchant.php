@@ -165,62 +165,54 @@ class FetchMerchant extends AbstractModel
         int $storeId = 0,
         int $webSiteId = 0
     ) {
-        $mpSiteId = $this->mercadopagoConfig->getMpSiteId($storeId);
-        $mpSiteId = strtolower((string) $mpSiteId);
-        $mpWebSiteUrl = $this->mercadopagoConfig->getMpWebSiteBySiteId();
-        $validate = $this->getValidateCredentials($storeId);
-        $fullUrl = $mpWebSiteUrl.$mpSiteId.'/account/credentials';
+        $validateToken = $this->hasValidationStatusToken(
+            $storeId,
+            $storeIdIsDefault,
+            $webSiteId
+        );
 
-        if (!$validate['success']) {
-            if (isset($validate['error'])) {
-                $this->messageManager->addNotice(
-                    __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
-                );
-                $this->clearData(
-                    $storeIdIsDefault,
-                    $storeId,
-                    $webSiteId
-                );
-
-                $this->cacheTypeList->cleanType('config');
-
-                return $this;
-            }
-
-            if ($validate['response']['is_test']) {
-                $this->messageManager->addComplexWarningMessage(
-                    'addRedirectAccountMessage',
-                    [
-                        'store' => $storeId,
-                        'url'   => $fullUrl,
-                    ]
-                );
-                $errorMsg = __('Store ID: %1 Not allowed for production use', $storeId);
-                $this->writeln('<error>'.$errorMsg.'</error>');
-            }
+        if ($validateToken) {
+            return $this;
         }
 
-        $validatePublickey = $this->getValidatePublicKey($storeId);
+        $validatePublicKey = $this->hasValidationStatusPublicKey(
+            $storeId,
+            $storeIdIsDefault,
+            $webSiteId
+        );
 
-        if (!$validatePublickey['success']) {
-            if (isset($validatePublickey['error'])) {
-                $this->messageManager->addNotice(
-                    __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
-                );
-
-                $this->cacheTypeList->cleanType('config');
-
-                $this->clearData(
-                    $storeIdIsDefault,
-                    $storeId,
-                    $webSiteId
-                );
-
-                return $this;
-            }
+        if ($validatePublicKey) {
+            return $this;
         }
 
+        $userData = $this->hasUserData(
+            $storeId,
+            $storeIdIsDefault,
+            $webSiteId
+        );
+
+        if ($userData) {
+            return $this;
+        }
+    }
+
+    /**
+     * Has User Data.
+     *
+     * @param int|null $storeId
+     * @param bool     $storeIdIsDefault
+     * @param int|null $webSiteId
+     *
+     * @return bool
+     */
+    public function hasUserData(
+        $storeId,
+        $storeIdIsDefault,
+        $webSiteId
+    ) {
+        $hasError = false;
         $usersMe = $this->getUsersMe($storeId);
+
         if ($usersMe['success']) {
             $response = $usersMe['response'];
             $registreData = [
@@ -237,21 +229,113 @@ class FetchMerchant extends AbstractModel
                 $webSiteId
             );
 
-            if ($registryConfig['success']) {
-                $this->cacheTypeList->cleanType('config');
+            $this->cacheTypeList->cleanType('config');
 
-                return $this;
+            if (!$registryConfig['success']) {
+                $hasError = true;
+                $errorMsg = __('There was an error saving: %1', $registryConfig['error']);
+                $this->writeln('<error>'.$errorMsg.'</error>');
+
+                $this->messageManager->addError($errorMsg);
+
+                return $hasError;
             }
-
-            $errorMsg = __('There was an error saving: %1', $registryConfig['error']);
-            $this->writeln('<error>'.$errorMsg.'</error>');
-
-            $this->messageManager->addError($errorMsg);
         }
 
-        $errorMsg = __('Error fetching information: %1', $usersMe['response']['message']);
-        $this->writeln('<error>'.$errorMsg.'</error>');
-        $this->messageManager->addNotice(__('Please check store id %1 credentials', $storeId));
+        return $hasError;
+    }
+
+    /**
+     * Has Validation Status Public Key.
+     *
+     * @param int|null $storeId
+     * @param bool     $storeIdIsDefault
+     * @param int|null $webSiteId
+     *
+     * @return bool
+     */
+    public function hasValidationStatusPublicKey(
+        $storeId,
+        $storeIdIsDefault,
+        $webSiteId
+    ) {
+        $hasError = false;
+        $validatePublicKey = $this->getValidatePublicKey($storeId);
+
+        if (!$validatePublicKey['success']) {
+            if (isset($validatePublicKey['error'])) {
+                $hasError = true;
+                $this->messageManager->addNotice(
+                    __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
+                );
+
+                $this->cacheTypeList->cleanType('config');
+
+                $this->clearData(
+                    $storeIdIsDefault,
+                    $storeId,
+                    $webSiteId
+                );
+
+                return $hasError;
+            }
+        }
+
+        return $hasError;
+    }
+
+    /**
+     * Has Validation Status Token.
+     *
+     * @param int|null $storeId
+     * @param bool     $storeIdIsDefault
+     * @param int|null $webSiteId
+     *
+     * @return bool
+     */
+    public function hasValidationStatusToken(
+        $storeId,
+        $storeIdIsDefault,
+        $webSiteId
+    ) {
+        $hasError = false;
+        $mpSiteId = $this->mercadopagoConfig->getMpSiteId($storeId);
+        $mpSiteId = strtolower((string) $mpSiteId);
+        $mpWebSiteUrl = $this->mercadopagoConfig->getMpWebSiteBySiteId();
+        $token = $this->getValidateCredentials($storeId);
+        $fullUrl = $mpWebSiteUrl.$mpSiteId.'/account/credentials';
+
+        if (!$token['success']) {
+            if (isset($token['error'])) {
+                $hasError = true;
+                $this->messageManager->addNotice(
+                    __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
+                );
+                $this->clearData(
+                    $storeIdIsDefault,
+                    $storeId,
+                    $webSiteId
+                );
+
+                $this->cacheTypeList->cleanType('config');
+
+                return $hasError;
+            }
+
+            if ($token['response']['is_test']) {
+                $this->messageManager->addComplexWarningMessage(
+                    'addRedirectAccountMessage',
+                    [
+                        'store' => $storeId,
+                        'url'   => $fullUrl,
+                    ]
+                );
+                $errorMsg = __('Store ID: %1 Not allowed for production use', $storeId);
+                $this->writeln('<error>'.$errorMsg.'</error>');
+            }
+        }
+
+        return $hasError;
     }
 
     /**
