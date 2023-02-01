@@ -165,7 +165,6 @@ class FetchMerchant extends AbstractModel
         int $storeId = 0,
         int $webSiteId = 0
     ) {
-
         $validateToken = $this->getValidationStatusToken(
             $storeId,
             $storeIdIsDefault,
@@ -186,7 +185,7 @@ class FetchMerchant extends AbstractModel
             return $this;
         }
 
-        $userData =  $this->getUserData(
+        $userData = $this->getUserData(
             $storeId,
             $storeIdIsDefault,
             $webSiteId
@@ -229,7 +228,7 @@ class FetchMerchant extends AbstractModel
                 $storeId,
                 $webSiteId
             );
-            
+
             $this->cacheTypeList->cleanType('config');
 
             if (!$registryConfig['success']) {
@@ -238,6 +237,7 @@ class FetchMerchant extends AbstractModel
                 $this->writeln('<error>'.$errorMsg.'</error>');
 
                 $this->messageManager->addError($errorMsg);
+
                 return $hasError;
             }
         }
