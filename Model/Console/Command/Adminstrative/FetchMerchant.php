@@ -165,7 +165,7 @@ class FetchMerchant extends AbstractModel
         int $storeId = 0,
         int $webSiteId = 0
     ) {
-        $validateToken = $this->getValidationStatusToken(
+        $validateToken = $this->hasValidationStatusToken(
             $storeId,
             $storeIdIsDefault,
             $webSiteId
@@ -175,7 +175,7 @@ class FetchMerchant extends AbstractModel
             return $this;
         }
 
-        $validatePublicKey = $this->getValidationStatusPublicKey(
+        $validatePublicKey = $this->hasValidationStatusPublicKey(
             $storeId,
             $storeIdIsDefault,
             $webSiteId
@@ -185,7 +185,7 @@ class FetchMerchant extends AbstractModel
             return $this;
         }
 
-        $userData = $this->getUserData(
+        $userData = $this->hasUserData(
             $storeId,
             $storeIdIsDefault,
             $webSiteId
@@ -197,7 +197,7 @@ class FetchMerchant extends AbstractModel
     }
 
     /**
-     * Get User Data.
+     * Has User Data.
      *
      * @param int|null $storeId
      * @param bool     $storeIdIsDefault
@@ -205,7 +205,7 @@ class FetchMerchant extends AbstractModel
      *
      * @return bool
      */
-    public function getUserData(
+    public function hasUserData(
         $storeId,
         $storeIdIsDefault,
         $webSiteId
@@ -246,7 +246,7 @@ class FetchMerchant extends AbstractModel
     }
 
     /**
-     * Get Validation Status Public Key.
+     * Has Validation Status Public Key.
      *
      * @param int|null $storeId
      * @param bool     $storeIdIsDefault
@@ -254,7 +254,7 @@ class FetchMerchant extends AbstractModel
      *
      * @return bool
      */
-    public function getValidationStatusPublicKey(
+    public function hasValidationStatusPublicKey(
         $storeId,
         $storeIdIsDefault,
         $webSiteId
@@ -285,7 +285,7 @@ class FetchMerchant extends AbstractModel
     }
 
     /**
-     * Get Validation Status Token.
+     * Has Validation Status Token.
      *
      * @param int|null $storeId
      * @param bool     $storeIdIsDefault
@@ -293,7 +293,7 @@ class FetchMerchant extends AbstractModel
      *
      * @return bool
      */
-    public function getValidationStatusToken(
+    public function hasValidationStatusToken(
         $storeId,
         $storeIdIsDefault,
         $webSiteId
