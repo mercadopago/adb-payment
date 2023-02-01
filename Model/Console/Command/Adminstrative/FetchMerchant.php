@@ -326,11 +326,11 @@ class FetchMerchant extends AbstractModel
     /**
      * Get Validate Credentials.
      *
-     * @param int|null $storeId
+     * @param int $storeId
      *
      * @return array
      */
-    public function getValidateCredentials(int $storeId = 0): array
+    public function getValidateCredentials($storeId): array
     {
         $uri = $this->mercadopagoConfig->getApiUrl();
         $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
@@ -362,11 +362,11 @@ class FetchMerchant extends AbstractModel
     /**
      * Get Validate Public Key.
      *
-     * @param int|null $storeId
+     * @param int $storeId
      *
      * @return array
      */
-    public function getValidatePublicKey(int $storeId = 0): array
+    public function getValidatePublicKey($storeId): array
     {
         $uri = $this->mercadopagoConfig->getApiUrl();
         $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
@@ -399,11 +399,11 @@ class FetchMerchant extends AbstractModel
     /**
      * Get Users Me.
      *
-     * @param int|null $storeId
+     * @param int $storeId
      *
      * @return array
      */
-    public function getUsersMe(int $storeId = 0): array
+    public function getUsersMe($storeId): array
     {
         $uri = $this->mercadopagoConfig->getApiUrl();
         $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
