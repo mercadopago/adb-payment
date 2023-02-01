@@ -158,7 +158,7 @@ class FetchMerchant extends AbstractModel
      * @param int|null $storeId
      * @param int|null $webSiteId
      *
-     * @return void
+     * @return bool
      */
     public function fetchInfo(
         bool $storeIdIsDefault,
@@ -167,26 +167,28 @@ class FetchMerchant extends AbstractModel
     ) {
         $validateToken = $this->hasValidationStatusToken($storeId, $storeIdIsDefault, $webSiteId);
         if ($validateToken) {
-            return;
+            return false;
         }
 
         $validatePublicKey = $this->hasValidationStatusPublicKey($storeId, $storeIdIsDefault, $webSiteId);
         if ($validatePublicKey) {
-            return;
+            return false;
         }
 
         $userData = $this->hasUserData($storeId, $storeIdIsDefault, $webSiteId);
         if ($userData) {
-            return;
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Has User Data.
      *
-     * @param int|null $storeId
-     * @param bool     $storeIdIsDefault
-     * @param int|null $webSiteId
+     * @param int  $storeId
+     * @param bool $storeIdIsDefault
+     * @param int  $webSiteId
      *
      * @return bool
      */
@@ -233,9 +235,9 @@ class FetchMerchant extends AbstractModel
     /**
      * Has Validation Status Public Key.
      *
-     * @param int|null $storeId
-     * @param bool     $storeIdIsDefault
-     * @param int|null $webSiteId
+     * @param int  $storeId
+     * @param bool $storeIdIsDefault
+     * @param int  $webSiteId
      *
      * @return bool
      */
@@ -247,23 +249,21 @@ class FetchMerchant extends AbstractModel
         $hasError = false;
         $validatePublicKey = $this->getValidatePublicKey($storeId);
 
-        if (!$validatePublicKey['success']) {
-            if (isset($validatePublicKey['error'])) {
-                $hasError = true;
-                $this->messageManager->addNotice(
-                    __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
-                );
+        if (isset($validatePublicKey['error'])) {
+            $hasError = true;
+            $this->messageManager->addNotice(
+                __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
+            );
 
-                $this->cacheTypeList->cleanType('config');
+            $this->cacheTypeList->cleanType('config');
 
-                $this->clearData(
-                    $storeIdIsDefault,
-                    $storeId,
-                    $webSiteId
-                );
+            $this->clearData(
+                $storeIdIsDefault,
+                $storeId,
+                $webSiteId
+            );
 
-                return $hasError;
-            }
+            return $hasError;
         }
 
         return $hasError;
@@ -272,9 +272,9 @@ class FetchMerchant extends AbstractModel
     /**
      * Has Validation Status Token.
      *
-     * @param int|null $storeId
-     * @param bool     $storeIdIsDefault
-     * @param int|null $webSiteId
+     * @param int  $storeId
+     * @param bool $storeIdIsDefault
+     * @param int  $webSiteId
      *
      * @return bool
      */
@@ -326,11 +326,11 @@ class FetchMerchant extends AbstractModel
     /**
      * Get Validate Credentials.
      *
-     * @param int $storeId
+     * @param int|null $storeId
      *
      * @return array
      */
-    public function getValidateCredentials(int $storeId = null): array
+    public function getValidateCredentials(int $storeId = 0): array
     {
         $uri = $this->mercadopagoConfig->getApiUrl();
         $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
@@ -362,11 +362,11 @@ class FetchMerchant extends AbstractModel
     /**
      * Get Validate Public Key.
      *
-     * @param int $storeId
+     * @param int|null $storeId
      *
      * @return array
      */
-    public function getValidatePublicKey(int $storeId = null): array
+    public function getValidatePublicKey(int $storeId = 0): array
     {
         $uri = $this->mercadopagoConfig->getApiUrl();
         $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
@@ -399,11 +399,11 @@ class FetchMerchant extends AbstractModel
     /**
      * Get Users Me.
      *
-     * @param int $storeId
+     * @param int|null $storeId
      *
      * @return array
      */
-    public function getUsersMe(int $storeId = null): array
+    public function getUsersMe(int $storeId = 0): array
     {
         $uri = $this->mercadopagoConfig->getApiUrl();
         $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
