@@ -192,7 +192,6 @@ class FetchMerchant extends AbstractModel
         $storeIdIsDefault,
         $webSiteId
     ) {
-        $hasError = false;
         $usersMe = $this->getUsersMe($storeId);
 
         if ($usersMe['success']) {
@@ -204,12 +203,7 @@ class FetchMerchant extends AbstractModel
                 'name'    => $response['first_name'].' '.$response['last_name'],
             ];
 
-            $registryConfig = $this->saveData(
-                $registreData,
-                $storeIdIsDefault,
-                $storeId,
-                $webSiteId
-            );
+            $this->saveData($registreData, $storeIdIsDefault, $storeId, $webSiteId);
 
             $this->cacheTypeList->cleanType('config');
         }
@@ -240,8 +234,7 @@ class FetchMerchant extends AbstractModel
 
             $this->cacheTypeList->cleanType('config');
 
-            $this->clearData(
-                $storeIdIsDefault,
+            $this->clearData($storeIdIsDefault,
                 $storeId,
                 $webSiteId
             );
@@ -279,11 +272,7 @@ class FetchMerchant extends AbstractModel
                 $this->messageManager->addNotice(
                     __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
                 );
-                $this->clearData(
-                    $storeIdIsDefault,
-                    $storeId,
-                    $webSiteId
-                );
+                $this->clearData($storeIdIsDefault, $storeId, $webSiteId);
 
                 $this->cacheTypeList->cleanType('config');
 
