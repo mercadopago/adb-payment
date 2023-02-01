@@ -154,11 +154,11 @@ class FetchMerchant extends AbstractModel
     /**
      * Create Data Merchant.
      *
-     * @param bool     $storeIdIsDefault
-     * @param int|null $storeId
-     * @param int|null $webSiteId
+     * @param bool $storeIdIsDefault
+     * @param int  $storeId
+     * @param int  $webSiteId
      *
-     * @return void
+     * @return bool|void
      */
     public function fetchInfo(
         bool $storeIdIsDefault,
@@ -167,35 +167,31 @@ class FetchMerchant extends AbstractModel
     ) {
         $validateToken = $this->hasValidationStatusToken($storeId, $storeIdIsDefault, $webSiteId);
         if ($validateToken) {
-            return;
+            return false;
         }
 
         $validatePublicKey = $this->hasValidationStatusPublicKey($storeId, $storeIdIsDefault, $webSiteId);
         if ($validatePublicKey) {
-            return;
+            return false;
         }
 
-        $userData = $this->hasUserData($storeId, $storeIdIsDefault, $webSiteId);
-        if ($userData) {
-            return;
-        }
+        $this->hasUserData($storeId, $storeIdIsDefault, $webSiteId);
     }
 
     /**
      * Has User Data.
      *
-     * @param int|null $storeId
-     * @param bool     $storeIdIsDefault
-     * @param int|null $webSiteId
+     * @param int  $storeId
+     * @param bool $storeIdIsDefault
+     * @param int  $webSiteId
      *
-     * @return bool
+     * @return void
      */
     public function hasUserData(
         $storeId,
         $storeIdIsDefault,
         $webSiteId
     ) {
-        $hasError = false;
         $usersMe = $this->getUsersMe($storeId);
 
         if ($usersMe['success']) {
@@ -207,35 +203,18 @@ class FetchMerchant extends AbstractModel
                 'name'    => $response['first_name'].' '.$response['last_name'],
             ];
 
-            $registryConfig = $this->saveData(
-                $registreData,
-                $storeIdIsDefault,
-                $storeId,
-                $webSiteId
-            );
+            $this->saveData($registreData, $storeIdIsDefault, $storeId, $webSiteId);
 
             $this->cacheTypeList->cleanType('config');
-
-            if (!$registryConfig['success']) {
-                $hasError = true;
-                $errorMsg = __('There was an error saving: %1', $registryConfig['error']);
-                $this->writeln('<error>'.$errorMsg.'</error>');
-
-                $this->messageManager->addError($errorMsg);
-
-                return $hasError;
-            }
         }
-
-        return $hasError;
     }
 
     /**
      * Has Validation Status Public Key.
      *
-     * @param int|null $storeId
-     * @param bool     $storeIdIsDefault
-     * @param int|null $webSiteId
+     * @param int  $storeId
+     * @param bool $storeIdIsDefault
+     * @param int  $webSiteId
      *
      * @return bool
      */
@@ -247,23 +226,17 @@ class FetchMerchant extends AbstractModel
         $hasError = false;
         $validatePublicKey = $this->getValidatePublicKey($storeId);
 
-        if (!$validatePublicKey['success']) {
-            if (isset($validatePublicKey['error'])) {
-                $hasError = true;
-                $this->messageManager->addNotice(
-                    __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
-                );
+        if (isset($validatePublicKey['error'])) {
+            $hasError = true;
+            $this->messageManager->addNotice(
+                __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
+            );
 
-                $this->cacheTypeList->cleanType('config');
+            $this->cacheTypeList->cleanType('config');
 
-                $this->clearData(
-                    $storeIdIsDefault,
-                    $storeId,
-                    $webSiteId
-                );
+            $this->clearData($storeIdIsDefault, $storeId, $webSiteId);
 
-                return $hasError;
-            }
+            return $hasError;
         }
 
         return $hasError;
@@ -272,9 +245,9 @@ class FetchMerchant extends AbstractModel
     /**
      * Has Validation Status Token.
      *
-     * @param int|null $storeId
-     * @param bool     $storeIdIsDefault
-     * @param int|null $webSiteId
+     * @param int  $storeId
+     * @param bool $storeIdIsDefault
+     * @param int  $webSiteId
      *
      * @return bool
      */
@@ -296,11 +269,7 @@ class FetchMerchant extends AbstractModel
                 $this->messageManager->addNotice(
                     __('Please check store id %1 credentials, they are invalid so they were deleted.', $storeId)
                 );
-                $this->clearData(
-                    $storeIdIsDefault,
-                    $storeId,
-                    $webSiteId
-                );
+                $this->clearData($storeIdIsDefault, $storeId, $webSiteId);
 
                 $this->cacheTypeList->cleanType('config');
 
@@ -330,7 +299,7 @@ class FetchMerchant extends AbstractModel
      *
      * @return array
      */
-    public function getValidateCredentials(int $storeId = null): array
+    public function getValidateCredentials($storeId): array
     {
         $uri = $this->mercadopagoConfig->getApiUrl();
         $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
@@ -366,7 +335,7 @@ class FetchMerchant extends AbstractModel
      *
      * @return array
      */
-    public function getValidatePublicKey(int $storeId = null): array
+    public function getValidatePublicKey($storeId): array
     {
         $uri = $this->mercadopagoConfig->getApiUrl();
         $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
@@ -403,7 +372,7 @@ class FetchMerchant extends AbstractModel
      *
      * @return array
      */
-    public function getUsersMe(int $storeId = null): array
+    public function getUsersMe($storeId): array
     {
         $uri = $this->mercadopagoConfig->getApiUrl();
         $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
@@ -460,31 +429,28 @@ class FetchMerchant extends AbstractModel
                 $pathConfigId = sprintf($pathPattern, $field);
             }
 
-            try {
-                if ($storeIdIsDefault) {
-                    $this->config->saveConfig(
-                        $pathConfigId,
-                        $value,
-                        'default',
-                        0
-                    );
-                }
+            if ($storeIdIsDefault) {
                 $this->config->saveConfig(
                     $pathConfigId,
                     $value,
-                    $scope,
-                    $webSiteId
+                    'default',
+                    0
                 );
-            } catch (Exception $exc) {
-                return ['success' => false, 'error' => $exc->getMessage()];
             }
+
+            $this->config->saveConfig(
+                $pathConfigId,
+                $value,
+                $scope,
+                $webSiteId
+            );
         }
 
         return ['success' => true];
     }
 
     /**
-     * Claar Data.
+     * Clear Data.
      *
      * @param bool $storeIdIsDefault
      * @param int  $storeId
