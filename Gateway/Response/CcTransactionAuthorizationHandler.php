@@ -34,9 +34,14 @@ class CcTransactionAuthorizationHandler implements HandlerInterface
     public const STATUS = 'status';
 
     /**
-     * Response Pay Approved - Block name.
+     * Response Pay Approved - Response Pay.
      */
     public const APPROVED = 'approved';
+
+    /**
+     * Response Pay Authorized - Response Pay.
+     */
+    public const AUTHORIZED = 'authorized';
 
     /**
      * @var Json
@@ -83,7 +88,8 @@ class CcTransactionAuthorizationHandler implements HandlerInterface
 
         $transactionId = $response[self::RESPONSE_PAYMENT_ID];
 
-        if ($status === self::APPROVED) {
+        if ($status === self::APPROVED
+        || $status === self::AUTHORIZED) {
             $isApproved = true;
             $isDenied = false;
 
