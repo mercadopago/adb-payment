@@ -150,30 +150,6 @@ define([
         },
 
         /**
-         * Add Text for Installments
-         * @param {Array} labels
-         * @return {void}
-         */
-        addTextForInstallment(labels) {
-            var self = this,
-                texts;
-
-            self.installmentTextInfo(true);
-
-            _.map(labels, (label) => {
-                texts = label.split('|');
-                _.map(texts, (text) => {
-                    if (text.includes('TEA')) {
-                        self.installmentTextTEA(text.replace('_', ' '));
-                    }
-                    if (text.includes('CFT')) {
-                        self.installmentTextCFT(text.replace('_', ' '));
-                    }
-                });
-            });
-        },
-
-        /**
          * Is Active
          * @returns {Boolean}
          */
@@ -303,25 +279,6 @@ define([
         },
 
         /**
-         * Display Error in Field
-         * @param {Array} error
-         * @return {void}
-         */
-        displayErrorInField(error) {
-            let self = this,
-                field = error.field,
-                msg = error.message,
-                fieldsMage = {
-                    cardNumber: 'mercadopago_paymentmagento_cc_number',
-                    securityCode: 'mercadopago_paymentmagento_cc_cid',
-                    expirationMonth: 'mercadopago_paymentmagento_cc_expiration_month',
-                    expirationYear: 'mercadopago_paymentmagento_cc_expiration_yr'
-                };
-
-            self.singleToogleValidityState(fieldsMage[field], msg);
-        },
-
-        /**
          * Get data
          * @returns {Object}
          */
@@ -377,14 +334,6 @@ define([
          */
         getCcType() {
             return window.checkoutConfig.payment[this.getCode()].ccTypesMapper;
-        },
-
-        /**
-         * Has verification
-         * @returns {Boolean}
-         */
-        hasVerification() {
-            return window.checkoutConfig.payment[this.getCode()].useCvv;
         },
 
         /**

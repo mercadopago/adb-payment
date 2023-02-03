@@ -14,7 +14,8 @@ define([
     'Magento_Vault/js/view/payment/method-renderer/vault',
     'mage/translate',
     'MercadoPago_PaymentMagento/js/action/checkout/set-finance-cost',
-    'Magento_Ui/js/model/messageList'
+    'Magento_Ui/js/model/messageList',
+    'MercadoPago_PaymentMagento/js/view/payment/method-renderer/validate-form-security'
 ], function (
     _,
     $,
@@ -25,7 +26,8 @@ define([
     VaultComponent,
     $t,
     setFinanceCost,
-    messageList
+    messageList,
+    validateFormSF
 ) {
     'use strict';
 
@@ -178,52 +180,12 @@ define([
             window.vaultSecurityCode.vaultId
                 .mount(fieldSecurityCode)
                 .on('error', () => { self.mountCardForm(); })
-                .on('blur', () => { self.removeClassesIfEmpyt(fieldSecurityCode); })
-                .on('focus', () => { self.toogleFocusStyle(fieldSecurityCode); })
-                .on('validityChange', (event) => { self.toogleValidityState(fieldSecurityCode, event.errorMessages); })
+                .on('blur', () => { validateFormSF.removeClassesIfEmpyt(fieldSecurityCode); })
+                .on('focus', () => { validateFormSF.toogleFocusStyle(fieldSecurityCode); })
+                .on('validityChange', (event) => {
+                    validateFormSF.toogleValidityState(fieldSecurityCode, event.errorMessages);
+                })
                 .on('ready', () => { self.isLoading(false); });
-        },
-
-        /**
-         * Remove Classes if Empyt
-         * @param {String} element
-         * @returns {void}
-         */
-        removeClassesIfEmpyt(element) {
-            let hasError = $('#' + element).closest('.control-mp-iframe.has-error').length,
-                isValid = $('#' + element).closest('.control-mp-iframe.is-valid').length;
-
-            if (!hasError) {
-                if (!isValid) {
-                    $('#' + element).closest('.control-mp-iframe').removeClass('in-focus');
-                }
-            }
-        },
-
-        /**
-         * Toogle Validity State
-         * @param {String} element
-         * @returns {Jquery}
-         */
-        toogleValidityState(element, errorMessages) {
-            var target = $('#' + element).closest('.mercadopago-input-group'),
-                infoErro = $('#' + element).closest('.mercadopago-input-group').find('.field-error'),
-                msg;
-
-            if (infoErro.length) {
-                infoErro.remove();
-            }
-
-            if (errorMessages.length)
-            {
-                _.map(errorMessages, (error) => {
-                    msg = $t(error.message);
-                });
-
-                target.append('<div class="field-error"><span>' + msg + '</span></div>');
-                return $('#' + element).closest('.control-mp-iframe').addClass('has-error').removeClass('is-valid');
-            }
-            return $('#' + element).closest('.control-mp-iframe').addClass('is-valid').removeClass('has-error');
         },
 
         /**
@@ -241,33 +203,7 @@ define([
                     securityCode: fieldSecurityCode
                 };
 
-            self.singleToogleValidityState(fieldsMage[field], msg);
-        },
-
-        /**
-         * Toogle Focus Style
-         * @param {String} element
-         * @returns {void}
-         */
-        toogleFocusStyle(element) {
-            $('#' + element).closest('.control-mp-iframe').addClass('in-focus');
-        },
-
-        /**
-         * Single Toogle Validity State
-         * @param {String} element
-         * @param {String} errorMessages
-         * @returns {Jquery}
-         */
-        singleToogleValidityState(element, errorMessages) {
-            var target = $('#' + element).closest('.mercadopago-input-group');
-
-            if (errorMessages.length)
-            {
-                target.append('<div class="field-error"><span>' + errorMessages + '</span></div>');
-                return $('#' + element).closest('.control-mp-iframe').addClass('has-error').removeClass('is-valid');
-            }
-            return $('#' + element).closest('.control-mp-iframe').addClass('is-valid').removeClass('has-error');
+                validateFormSF.singleToogleValidityState(fieldsMage[field], msg);
         },
 
         /**
@@ -500,11 +436,22 @@ define([
         },
 
         /**
-         * Has verification
+         * Get Mp Site Id
+         * @returns {String}
+         */
+        getMpSiteId() {
+            return window.checkoutConfig.payment['mercadopago_paymentmagento'].mp_site_id;
+        },
+
+        /**
+         * Get payment icons
+         * @param {String} type
          * @returns {Boolean}
          */
-        hasVerification() {
-            return window.checkoutConfig.payment[this.getCode()].useCvv;
+        getIcons(type) {
+            return window.checkoutConfig.payment[this.getCode()].icons.hasOwnProperty(type) ?
+                window.checkoutConfig.payment[this.getCode()].icons[type]
+                : false;
         },
 
         /**
