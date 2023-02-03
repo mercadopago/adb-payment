@@ -270,13 +270,15 @@ class CreateVaultManagement implements CreateVaultManagementInterface
             );
 
             if (isset($data['paging']['total'])) {
-                $response = array_merge(
-                    [
-                        self::RESULT_CODE   => 1,
-                        self::USER_ID       => $data['results'][0]['id'],
-                    ],
-                    $data
-                );
+                if (isset($data['results'][0])) {
+                    $response = array_merge(
+                        [
+                            self::RESULT_CODE   => 1,
+                            self::USER_ID       => $data['results'][0]['id'],
+                        ],
+                        $data
+                    );
+                }
             }
             $this->logger->debug(
                 [
