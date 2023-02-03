@@ -52,6 +52,14 @@ define([
             isLoading: true
         },
 
+        notAvailableVault: [
+            'debelo',
+            'debvisa',
+            'maestro',
+            'debcabal',
+            'debmaster'
+        ],
+
         /**
          * Get code
          * @returns {String}
@@ -183,6 +191,10 @@ define([
         },
 
         /**
+         * Type Debit
+         */
+
+        /**
          * Get Tokenize
          * @returns {void}
          */
@@ -198,6 +210,11 @@ define([
                 payloadCreateVault,
                 serviceUrl,
                 formatNumber;
+
+            if (self.notAvailableVault.includes(self.mpCardType())) {
+                isUsed = false;
+                saveCard = false;
+            }
 
             if (documentIdenfitication) {
                 documentIdenfitication = documentIdenfitication.replace(/\D/g, '');

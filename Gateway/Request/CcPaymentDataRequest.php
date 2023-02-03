@@ -67,6 +67,17 @@ class CcPaymentDataRequest implements BuilderInterface
     protected $configCc;
 
     /**
+     * @var array
+     */
+    protected $notAvailableCapture = [
+        'debelo',
+        'debvisa',
+        'maestro',
+        'debcabal',
+        'debmaster'
+    ];
+
+    /**
      * @param SubjectReader $subjectReader
      * @param Config        $config
      * @param ConfigCc      $configCc
@@ -119,14 +130,21 @@ class CcPaymentDataRequest implements BuilderInterface
 
         $installment = $payment->getAdditionalInformation('card_installments') ?: 1;
         $ccTypeName = strtolower((string) $payment->getAdditionalInformation('card_type'));
+        $capture = $this->configCc->hasCapture($storeId);
+        $binary = $this->configCc->isBinaryMode($storeId);
+
+        if (in_array($ccTypeName, $this->notAvailableCapture)) {
+            $capture = true;
+            $binary  = true;
+        }
 
         $instruction = [
             self::INSTALLMENTS      => (int) $installment,
             self::PAYMENT_METHOD_ID => $ccTypeName,
             self::SOFT_DESCRIPTOR   => $this->config->getStatementDescriptor($storeId),
-            self::BINARY_MODE       => $this->configCc->isBinaryMode($storeId),
+            self::BINARY_MODE       => $binary,
             self::TOKEN             => $payment->getAdditionalInformation('card_number_token'),
-            self::CAPTURE           => $this->configCc->hasCapture($storeId),
+            self::CAPTURE           => $capture,
         ];
 
         return $instruction;
