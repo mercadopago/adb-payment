@@ -508,25 +508,6 @@ define([
         },
 
         /**
-         * Get Mp Site Id
-         * @returns {String}
-         */
-        getMpSiteId() {
-            return window.checkoutConfig.payment['mercadopago_paymentmagento'].mp_site_id;
-        },
-
-        /**
-         * Get payment icons
-         * @param {String} type
-         * @returns {Boolean}
-         */
-        getIcons(type) {
-            return window.checkoutConfig.payment[this.getCode()].icons.hasOwnProperty(type) ?
-                window.checkoutConfig.payment[this.getCode()].icons[type]
-                : false;
-        },
-
-        /**
          * Get List Options to Instalments
          * @returns {Array}
          */

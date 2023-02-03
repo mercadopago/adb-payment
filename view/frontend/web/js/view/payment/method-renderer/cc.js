@@ -364,47 +364,6 @@ define([
         },
 
         /**
-         * Get logo
-         * @returns {String}
-         */
-        getLogo() {
-            return window.checkoutConfig.payment[this.getCode()].logo;
-        },
-
-        /**
-         * Get title
-         * @returns {String}
-         */
-        getTitle() {
-            return window.checkoutConfig.payment[this.getCode()].title;
-        },
-
-        /**
-         * Is document identification capture
-         * @returns {Boolean}
-         */
-        DocumentIdentificationCapture() {
-
-            if (this.getMpSiteId() === 'MLM') {
-                return false;
-            }
-
-            if (this.getMpSiteId() !== 'MLB') {
-                return true;
-            }
-
-            if (!quote.billingAddress()) {
-                return true;
-            }
-
-            if (!quote.billingAddress().vatId) {
-                return true;
-            }
-
-            return window.checkoutConfig.payment[this.getCode()].document_identification_capture;
-        },
-
-        /**
          * Is show legend
          * @returns {Boolean}
          */
@@ -426,14 +385,6 @@ define([
          */
         hasVerification() {
             return window.checkoutConfig.payment[this.getCode()].useCvv;
-        },
-
-        /**
-         * Get Mp Site Id
-         * @returns {String}
-         */
-        getMpSiteId() {
-            return window.checkoutConfig.payment['mercadopago_paymentmagento'].mp_site_id;
         },
 
         /**
