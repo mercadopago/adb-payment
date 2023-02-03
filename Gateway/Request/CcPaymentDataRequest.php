@@ -74,7 +74,7 @@ class CcPaymentDataRequest implements BuilderInterface
         'debvisa',
         'maestro',
         'debcabal',
-        'debmaster'
+        'debmaster',
     ];
 
     /**
@@ -135,7 +135,7 @@ class CcPaymentDataRequest implements BuilderInterface
 
         if (in_array($ccTypeName, $this->notAvailableCapture)) {
             $capture = true;
-            $binary  = true;
+            $binary = true;
         }
 
         $instruction = [

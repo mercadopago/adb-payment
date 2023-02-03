@@ -101,7 +101,6 @@ class CcTransactionAuthorizationHandler implements HandlerInterface
             $payment->setTransactionId($transactionId);
             $payment->setTransactionDetails($this->json->serialize($response));
             $payment->setAdditionalData($this->json->serialize($response));
-            
         }
 
         if ($status === self::APPROVED) {
