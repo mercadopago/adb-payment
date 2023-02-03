@@ -9,13 +9,15 @@ define([
     'jquery',
     'Magento_Checkout/js/view/payment/default',
     'Magento_Checkout/js/model/quote',
-    'MercadoPago_PaymentMagento/js/model/mp-card-data'
+    'MercadoPago_PaymentMagento/js/model/mp-card-data',
+    'MercadoPago_PaymentMagento/js/view/payment/method-renderer/validate-form-security'
 ], function (
     _,
     $,
     Component,
     quote,
-    mpCardData
+    mpCardData,
+    validateFormSF
 ) {
     'use strict';
 
@@ -197,101 +199,57 @@ define([
                         }
                     }
                 })
-                .on('blur', () => { self.removeClassesIfEmpyt(fieldCcNumber); })
-                .on('focus', () => { self.toogleFocusStyle(fieldCcNumber); })
-                .on('validityChange', (event) => { self.toogleValidityState(fieldCcNumber, event.errorMessages); });
+                .on('blur', () => { validateFormSF.removeClassesIfEmpyt(fieldCcNumber); })
+                .on('focus', () => { validateFormSF.toogleFocusStyle(fieldCcNumber); })
+                .on('validityChange', (event) => {
+                    validateFormSF.toogleValidityState(fieldCcNumber, event.errorMessages);
+                });
 
             window.securityCode
                 .mount(fieldSecurityCode)
                 .on('error', () => { self.mountCardForm(); })
-                .on('blur', () => { self.removeClassesIfEmpyt(fieldSecurityCode); })
-                .on('focus', () => { self.toogleFocusStyle(fieldSecurityCode); })
-                .on('validityChange', (event) => { self.toogleValidityState(fieldSecurityCode, event.errorMessages); });
+                .on('blur', () => { validateFormSF.removeClassesIfEmpyt(fieldSecurityCode); })
+                .on('focus', () => { validateFormSF.toogleFocusStyle(fieldSecurityCode); })
+                .on('validityChange', (event) => {
+                    validateFormSF.toogleValidityState(fieldSecurityCode, event.errorMessages);
+                });
 
             window.expirationMonth
                 .mount(fieldExpMonth)
                 .on('error', () => { self.mountCardForm(); })
-                .on('blur', () => { self.removeClassesIfEmpyt(fieldExpMonth); })
-                .on('focus', () => { self.toogleFocusStyle(fieldExpMonth); })
-                .on('validityChange', (event) => { self.toogleValidityState(fieldExpMonth, event.errorMessages); });
+                .on('blur', () => { validateFormSF.removeClassesIfEmpyt(fieldExpMonth); })
+                .on('focus', () => { validateFormSF.toogleFocusStyle(fieldExpMonth); })
+                .on('validityChange', (event) => {
+                    validateFormSF.toogleValidityState(fieldExpMonth, event.errorMessages);
+                });
 
             window.expirationYear
                 .mount(fieldExpYear)
                 .on('error', () => { self.mountCardForm(); })
-                .on('blur', () => { self.removeClassesIfEmpyt(fieldExpYear); })
-                .on('focus', () => { self.toogleFocusStyle(fieldExpYear); })
-                .on('validityChange', (event) => { self.toogleValidityState(fieldExpYear, event.errorMessages); })
+                .on('blur', () => { validateFormSF.removeClassesIfEmpyt(fieldExpYear); })
+                .on('focus', () => { validateFormSF.toogleFocusStyle(fieldExpYear); })
+                .on('validityChange', (event) => {
+                    validateFormSF.toogleValidityState(fieldExpYear, event.errorMessages);
+                })
                 .on('ready', () => { self.isLoading(false); });
         },
 
-
         /**
-         * Toogle Focus Style
-         * @param {String} element
-         * @returns {void}
+         * Display Error in Field
+         * @param {Array} error
+         * @return {void}
          */
-        toogleFocusStyle(element) {
-            $('#' + element).closest('.control-mp-iframe').addClass('in-focus');
-        },
+        displayErrorInField(error) {
+            let field = error.field,
+                msg = error.message,
+                fieldsMage = {
+                    cardNumber: 'mercadopago_paymentmagento_cc_number',
+                    securityCode: 'mercadopago_paymentmagento_cc_cid',
+                    expirationMonth: 'mercadopago_paymentmagento_cc_expiration_month',
+                    expirationYear: 'mercadopago_paymentmagento_cc_expiration_yr'
+                };
 
-        /**
-         * Remove Classes if Empyt
-         * @param {String} element
-         * @returns {void}
-         */
-        removeClassesIfEmpyt(element) {
-            let hasError = $('#' + element).closest('.control-mp-iframe.has-error').length,
-                isValid = $('#' + element).closest('.control-mp-iframe.is-valid').length;
-
-            if (!hasError) {
-                if (!isValid) {
-                    $('#' + element).closest('.control-mp-iframe').removeClass('in-focus');
-                }
-            }
-        },
-
-        /**
-         * Toogle Validity State
-         * @param {String} element
-         * @param {String} errorMessages
-         * @returns {Jquery}
-         */
-        toogleValidityState(element, errorMessages) {
-            var target = $('#' + element).closest('.mercadopago-input-group'),
-                infoErro = $('#' + element).closest('.mercadopago-input-group').find('.field-error'),
-                msg;
-
-            if (infoErro.length) {
-                infoErro.remove();
-            }
-
-            if (errorMessages.length)
-            {
-                _.map(errorMessages, (error) => {
-                    msg = error.message;
-                });
-
-                target.append('<div class="field-error"><span>' + msg + '</span></div>');
-                return $('#' + element).closest('.control-mp-iframe').addClass('has-error').removeClass('is-valid');
-            }
-            return $('#' + element).closest('.control-mp-iframe').addClass('is-valid').removeClass('has-error');
-        },
-
-        /**
-         * Single Toogle Validity State
-         * @param {String} element
-         * @param {String} errorMessages
-         * @returns {Jquery}
-         */
-        singleToogleValidityState(element, errorMessages) {
-            var target = $('#' + element).closest('.mercadopago-input-group');
-
-            if (errorMessages.length)
-            {
-                target.append('<div class="field-error"><span>' + errorMessages + '</span></div>');
-                return $('#' + element).closest('.control-mp-iframe').addClass('has-error').removeClass('is-valid');
-            }
-            return $('#' + element).closest('.control-mp-iframe').addClass('is-valid').removeClass('has-error');
+            validateFormSF.singleToogleValidityState(fieldsMage[field], msg);
         },
 
         /**
@@ -344,6 +302,30 @@ define([
             }
 
             return installments;
+        },
+
+        /**
+         * Add Text for Installments
+         * @param {Array} labels
+         * @return {void}
+         */
+        addTextForInstallment(labels) {
+            var self = this,
+                texts;
+
+            self.installmentTextInfo(true);
+
+            _.map(labels, (label) => {
+                texts = label.split('|');
+                _.map(texts, (text) => {
+                    if (text.includes('TEA')) {
+                        self.installmentTextTEA(text.replace('_', ' '));
+                    }
+                    if (text.includes('CFT')) {
+                        self.installmentTextCFT(text.replace('_', ' '));
+                    }
+                });
+            });
         },
 
         /**
