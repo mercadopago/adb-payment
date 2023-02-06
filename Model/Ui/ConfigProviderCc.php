@@ -96,6 +96,7 @@ class ConfigProviderCc implements ConfigProviderInterface
                     'logo'                            => $this->getLogo(),
                     'icons'                           => $this->getIcons(),
                     'document_identification_capture' => $this->configCc->hasUseDocumentIdentificationCapture($storeId),
+                    'unsupported_pre_auth'            => $this->configCc->getUnsupportedPreAuth($storeId),
                     'ccVaultCode'                     => self::VAULT_CODE,
                 ],
             ],

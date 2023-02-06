@@ -54,6 +54,11 @@ class ConfigCc extends PaymentConfig
     public const USE_GET_DOCUMENT_IDENTIFICATION = 'get_document_identification';
 
     /**
+     * Unsupported Pre Auth.
+     */
+    public const UNSUPPORTED_PRE_AUTH = 'unsupported_pre_auth';
+
+    /**
      * Can Initialize.
      */
     public const CAN_INITIALIZE = 'can_initialize';
@@ -236,6 +241,32 @@ class ConfigCc extends PaymentConfig
                 self::METHOD,
                 self::CC_MAPPER,
                 strtolower((string) $mpSiteId)
+            ),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        $result = $this->json->unserialize($ccTypesMapper);
+
+        return is_array($result) ? $result : [];
+    }
+
+    /**
+     * Get Unsupported Pre Auth.
+     *
+     * @param int|null $storeId
+     *
+     * @return array
+     */
+    public function getUnsupportedPreAuth($storeId = null): array
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        $ccTypesMapper = $this->scopeConfig->getValue(
+            sprintf(
+                $pathPattern,
+                self::METHOD,
+                self::UNSUPPORTED_PRE_AUTH
             ),
             ScopeInterface::SCOPE_STORE,
             $storeId
