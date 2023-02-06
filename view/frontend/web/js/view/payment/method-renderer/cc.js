@@ -52,14 +52,6 @@ define([
             isLoading: true
         },
 
-        notAvailableVault: [
-            'debelo',
-            'debvisa',
-            'maestro',
-            'debcabal',
-            'debmaster'
-        ],
-
         /**
          * Get code
          * @returns {String}
@@ -206,12 +198,14 @@ define([
                 isUsed = this.vaultEnabler.isVaultEnabled(),
                 saveCard = this.vaultEnabler.isActivePaymentTokenEnabler(),
                 quoteId = quote.getQuoteId(),
+                unsupportedPreAuth = self.getUnsupportedPreAuth(),
+                mpSiteId = self.getMpSiteId(),
                 payload,
                 payloadCreateVault,
                 serviceUrl,
                 formatNumber;
 
-            if (self.notAvailableVault.includes(self.mpCardType())) {
+            if (unsupportedPreAuth[mpSiteId].includes(self.mpCardType())) {
                 isUsed = false;
                 saveCard = false;
             }
@@ -351,6 +345,14 @@ define([
          */
         getCcType() {
             return window.checkoutConfig.payment[this.getCode()].ccTypesMapper;
+        },
+
+        /**
+         * Get Unsupported Pre Auth
+         * @returns {Object}
+         */
+        getUnsupportedPreAuth() {
+            return window.checkoutConfig.payment[this.getCode()].unsupported_pre_auth;
         },
 
         /**
