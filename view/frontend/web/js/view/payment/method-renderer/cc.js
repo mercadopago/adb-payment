@@ -150,30 +150,6 @@ define([
         },
 
         /**
-         * Add Text for Installments
-         * @param {Array} labels
-         * @return {void}
-         */
-        addTextForInstallment(labels) {
-            var self = this,
-                texts;
-
-            self.installmentTextInfo(true);
-
-            _.map(labels, (label) => {
-                texts = label.split('|');
-                _.map(texts, (text) => {
-                    if (text.includes('TEA')) {
-                        self.installmentTextTEA(text.replace('_', ' '));
-                    }
-                    if (text.includes('CFT')) {
-                        self.installmentTextCFT(text.replace('_', ' '));
-                    }
-                });
-            });
-        },
-
-        /**
          * Is Active
          * @returns {Boolean}
          */
@@ -207,6 +183,10 @@ define([
         },
 
         /**
+         * Type Debit
+         */
+
+        /**
          * Get Tokenize
          * @returns {void}
          */
@@ -218,10 +198,17 @@ define([
                 isUsed = this.vaultEnabler.isVaultEnabled(),
                 saveCard = this.vaultEnabler.isActivePaymentTokenEnabler(),
                 quoteId = quote.getQuoteId(),
+                unsupportedPreAuth = self.getUnsupportedPreAuth(),
+                mpSiteId = self.getMpSiteId(),
                 payload,
                 payloadCreateVault,
                 serviceUrl,
                 formatNumber;
+
+            if (unsupportedPreAuth[mpSiteId].includes(self.mpCardType())) {
+                isUsed = false;
+                saveCard = false;
+            }
 
             if (documentIdenfitication) {
                 documentIdenfitication = documentIdenfitication.replace(/\D/g, '');
@@ -303,25 +290,6 @@ define([
         },
 
         /**
-         * Display Error in Field
-         * @param {Array} error
-         * @return {void}
-         */
-        displayErrorInField(error) {
-            let self = this,
-                field = error.field,
-                msg = error.message,
-                fieldsMage = {
-                    cardNumber: 'mercadopago_paymentmagento_cc_number',
-                    securityCode: 'mercadopago_paymentmagento_cc_cid',
-                    expirationMonth: 'mercadopago_paymentmagento_cc_expiration_month',
-                    expirationYear: 'mercadopago_paymentmagento_cc_expiration_yr'
-                };
-
-            self.singleToogleValidityState(fieldsMage[field], msg);
-        },
-
-        /**
          * Get data
          * @returns {Object}
          */
@@ -364,47 +332,6 @@ define([
         },
 
         /**
-         * Get logo
-         * @returns {String}
-         */
-        getLogo() {
-            return window.checkoutConfig.payment[this.getCode()].logo;
-        },
-
-        /**
-         * Get title
-         * @returns {String}
-         */
-        getTitle() {
-            return window.checkoutConfig.payment[this.getCode()].title;
-        },
-
-        /**
-         * Is document identification capture
-         * @returns {Boolean}
-         */
-        DocumentIdentificationCapture() {
-
-            if (this.getMpSiteId() === 'MLM') {
-                return false;
-            }
-
-            if (this.getMpSiteId() !== 'MLB') {
-                return true;
-            }
-
-            if (!quote.billingAddress()) {
-                return true;
-            }
-
-            if (!quote.billingAddress().vatId) {
-                return true;
-            }
-
-            return window.checkoutConfig.payment[this.getCode()].document_identification_capture;
-        },
-
-        /**
          * Is show legend
          * @returns {Boolean}
          */
@@ -421,19 +348,11 @@ define([
         },
 
         /**
-         * Has verification
-         * @returns {Boolean}
+         * Get Unsupported Pre Auth
+         * @returns {Object}
          */
-        hasVerification() {
-            return window.checkoutConfig.payment[this.getCode()].useCvv;
-        },
-
-        /**
-         * Get Mp Site Id
-         * @returns {String}
-         */
-        getMpSiteId() {
-            return window.checkoutConfig.payment['mercadopago_paymentmagento'].mp_site_id;
+        getUnsupportedPreAuth() {
+            return window.checkoutConfig.payment[this.getCode()].unsupported_pre_auth;
         },
 
         /**

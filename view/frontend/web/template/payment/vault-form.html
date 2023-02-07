@@ -27,29 +27,27 @@
     </div>
     <div class="field-to-pay"  data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
         <div class="mp-loading" data-bind="blockLoader: isLoading">
-            <!-- ko if: (hasVerification())-->
-                <div class="field mercadopago-input-group required" data-bind="attr: {id: getId() + '_type_cvv_div'}">
-                    <div class="control-mp-iframe">
-                        <label data-bind="attr: {for: getId() + '_cc_id'}" class="label">
-                            <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
-                        </label>
-                        <div type="number" class="input-mp-iframe cvv" data-bind="attr: {id: getId() + '_cc_id'}"">
-                        </div>
-                        <div class="field-tooltip toggle">
-                            <span class="field-tooltip-action action-cvv"
-                                    tabindex="0"
-                                    data-toggle="dropdown"
-                                    data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
-                                <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
-                            </span>
-                            <div class="field-tooltip-content"
-                                    data-target="dropdown">
-                                    <span translate="'A 3-digit number in italics on the back of your card.'"></span>
-                                    </div>
-                        </div>
+            <div class="field mercadopago-input-group required" data-bind="attr: {id: getId() + '_type_cvv_div'}">
+                <div class="control-mp-iframe">
+                    <label data-bind="attr: {for: getId() + '_cc_id'}" class="label">
+                        <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
+                    </label>
+                    <div type="number" class="input-mp-iframe cvv" data-bind="attr: {id: getId() + '_cc_id'}"">
+                    </div>
+                    <div class="field-tooltip toggle">
+                        <span class="field-tooltip-action action-cvv"
+                                tabindex="0"
+                                data-toggle="dropdown"
+                                data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
+                            <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
+                        </span>
+                        <div class="field-tooltip-content"
+                                data-target="dropdown">
+                                <span translate="'A 3-digit number in italics on the back of your card.'"></span>
+                                </div>
                     </div>
                 </div>
-            <!-- /ko -->
+            </div>
             <div class="field mercadopago-input-group installments">
                 <div class="control">
                     <select name="payment[card_installments]"

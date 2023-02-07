@@ -18,6 +18,26 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 class AcceptPaymentHandler implements HandlerInterface
 {
     /**
+     * Status response value.
+     */
+    public const STATUS = 'status';
+
+    /**
+     * MP Status block name.
+     */
+    public const MP_STATUS = 'mp_status';
+
+    /**
+     * Status response value.
+     */
+    public const STATUS_DETAIL = 'status_detail';
+
+    /**
+     * MP Status Detail block name.
+     */
+    public const MP_STATUS_DETAIL = 'mp_status_detail';
+
+    /**
      * Handles.
      *
      * @param array $handlingSubject
@@ -49,6 +69,16 @@ class AcceptPaymentHandler implements HandlerInterface
             $payment->setIsTransactionClosed(true);
             $payment->setShouldCloseParentTransaction(true);
             $payment->setAmountAuthorized($amount);
+
+            $payment->setAdditionalInformation(
+                self::MP_STATUS,
+                $response[self::STATUS]
+            );
+
+            $payment->setAdditionalInformation(
+                self::MP_STATUS_DETAIL,
+                $response[self::STATUS_DETAIL]
+            );
         }
     }
 }

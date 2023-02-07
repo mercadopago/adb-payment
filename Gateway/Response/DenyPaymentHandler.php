@@ -18,6 +18,26 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 class DenyPaymentHandler implements HandlerInterface
 {
     /**
+     * Status response value.
+     */
+    public const STATUS = 'status';
+
+    /**
+     * MP Status block name.
+     */
+    public const MP_STATUS = 'mp_status';
+
+    /**
+     * Status response value.
+     */
+    public const STATUS_DETAIL = 'status_detail';
+
+    /**
+     * MP Status Detail block name.
+     */
+    public const MP_STATUS_DETAIL = 'mp_status_detail';
+
+    /**
      * Result Code - Block name.
      */
     public const RESULT_CODE = 'RESULT_CODE';
@@ -76,6 +96,16 @@ class DenyPaymentHandler implements HandlerInterface
             $payment->setAmountCanceled($amount);
             $payment->setBaseAmountCanceled($baseAmount);
             $payment->setShouldCloseParentTransaction(true);
+
+            $payment->setAdditionalInformation(
+                self::MP_STATUS,
+                $response[self::STATUS]
+            );
+
+            $payment->setAdditionalInformation(
+                self::MP_STATUS_DETAIL,
+                $response[self::STATUS_DETAIL]
+            );
         }
     }
 }

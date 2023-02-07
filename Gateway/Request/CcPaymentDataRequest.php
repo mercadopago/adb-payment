@@ -117,16 +117,25 @@ class CcPaymentDataRequest implements BuilderInterface
     {
         $instruction = [];
 
+        $mpSiteId = $this->config->getMpSiteId($storeId);
         $installment = $payment->getAdditionalInformation('card_installments') ?: 1;
         $ccTypeName = strtolower((string) $payment->getAdditionalInformation('card_type'));
+        $capture = $this->configCc->hasCapture($storeId);
+        $binary = $this->configCc->isBinaryMode($storeId);
+        $unsupported = $this->configCc->getUnsupportedPreAuth($storeId);
+
+        if (in_array($ccTypeName, $unsupported[$mpSiteId])) {
+            $capture = true;
+            $binary = true;
+        }
 
         $instruction = [
             self::INSTALLMENTS      => (int) $installment,
             self::PAYMENT_METHOD_ID => $ccTypeName,
             self::SOFT_DESCRIPTOR   => $this->config->getStatementDescriptor($storeId),
-            self::BINARY_MODE       => $this->configCc->isBinaryMode($storeId),
+            self::BINARY_MODE       => $binary,
             self::TOKEN             => $payment->getAdditionalInformation('card_number_token'),
-            self::CAPTURE           => $this->configCc->hasCapture($storeId),
+            self::CAPTURE           => $capture,
         ];
 
         return $instruction;
