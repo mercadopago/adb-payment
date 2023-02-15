@@ -16,7 +16,9 @@
         "magento/module-payment": "^100.3",
         "magento/module-vault": "101.*",
         "magento/zendframework1": ">=1.14.2",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-gd": "*",
+        "ext-zip": "*"
     },
     "type": "magento2-module",
     "authors": [
