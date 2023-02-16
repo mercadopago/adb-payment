@@ -31,8 +31,7 @@ jobs:
         with:
           php-version: "8.1"
           extensions: curl, dom, intl, json, openssl
-          ini-values: xdebug.mode="coverage"
-          coverage: pcov
+          coverage: xdebug
 
       - name: Verify PHP Installation
         run: php -v
