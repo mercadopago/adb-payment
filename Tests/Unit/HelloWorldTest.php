@@ -1,10 +1,12 @@
 <?php
 
+  namespace Tests\Unit\Mocks;
+
+  use PHPUnit\Framework\TestCase;
+
   function helloWorld() {
     return 'Hello World';
   }
-
-  use PHPUnit\Framework\TestCase;
 
   class HelloWorldTest extends TestCase {
 
