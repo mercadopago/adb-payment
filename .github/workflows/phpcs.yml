@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install extensions gd and zip
-        run: apt update && apt install -y php8.1-gd && apt install -y php8.1-zip
+        run: apt-get update && apt-get install -y php8.1-gd && apt-get install -y php8.1-zip
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
