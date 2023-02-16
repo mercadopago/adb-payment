@@ -24,14 +24,15 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install extensions gd and zip
-        run: apt update && apt install -y php8.1-gd && apt install -y php8.1-zip
+        run: sudo apt-get update && sudo apt-get install -y php8.1-gd && sudo apt-get install -y php8.1-zip
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.1"
           extensions: curl, dom, intl, json, openssl
-          coverage: xdebug
+          ini-values: xdebug.mode="coverage"
+          coverage: pcov
 
       - name: Verify PHP Installation
         run: php -v
@@ -59,7 +60,6 @@ jobs:
 
       - name: Run Unit Test
         id: unit-test
-        # run: magento2/vendor/phpunit/phpunit/phpunit --configuration phpunit.xml --coverage-clover clover.xml --coverage-text magento2/app/code/MercadoPago/Tests
         run: magento2/vendor/phpunit/phpunit/phpunit --configuration magento2/app/code/MercadoPago/PaymentMagento/phpunit.xml --coverage-clover clover.xml --coverage-text magento2/app/code/MercadoPago/PaymentMagento/Tests
 
       - name: Repository Minimum Test Coverage
