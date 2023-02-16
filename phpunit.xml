@@ -12,8 +12,8 @@
       <directory>Tests</directory>
     </testsuite>
   </testsuites>
-  
+
   <logging>
-    <testdoxText outputFile="testdox.txt"/>
+    <testdoxText outputFile="testdoc.txt"/>
   </logging>
 </phpunit>
