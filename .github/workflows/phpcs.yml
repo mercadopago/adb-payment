@@ -81,4 +81,4 @@ jobs:
         run: magento2/vendor/bin/phpstan analyse --error-format=table --level 0 magento2/app/code/MercadoPago/
 
       - name: Run PHPMD
-        run: phpmd magento2/app/code/MercadoPago/ --ignore-violations-on-exit ansi codesize,unusedcode,naming,cleancode
+        run: magento2/vendor/bin/phpmd magento2/app/code/MercadoPago/ --ignore-violations-on-exit ansi codesize,cleancode,controversial,design && magento2/vendor/bin/phpmd magento2/app/code/MercadoPago/ ansi unusedcode,naming

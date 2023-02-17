@@ -10,7 +10,7 @@
 
   class HelloWorldTest extends TestCase {
 
-    public function test_helloWorld_returns_value_as_expected() {
+    public function testHelloWorldReturnsValueAsExpected() {
       $this->assertEquals('Hello World', helloWorld());
     }
 

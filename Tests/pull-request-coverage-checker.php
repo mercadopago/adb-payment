@@ -1,5 +1,9 @@
 <?php
 
+use SimpleXMLElement;
+use InvalidArgumentException;
+use Exception;
+
 function get_elements($cloverFile, $pullRequestFiles) {
     $xml             = new SimpleXMLElement(file_get_contents($cloverFile));
     $classes         = $xml->xpath('//class');
@@ -19,6 +23,9 @@ function get_elements($cloverFile, $pullRequestFiles) {
     ];
 }
 
+/**
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
+ */
 function parse_pull_request_files($argv) {
     $pullRequestFiles = [];
 
@@ -70,6 +77,9 @@ function validate_percentage_param($percentage) {
     }
 }
 
+/**
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
+ */
 function validate_pull_request_coverage($totalElements, $checkedElements, $percentage) {
     $coverage = ($checkedElements / $totalElements) * 100;
 
@@ -85,6 +95,9 @@ function validate_pull_request_coverage($totalElements, $checkedElements, $perce
     throw new Exception('Code coverage is ' . round($coverage, 2) . '%, which is below the accepted ' . $percentage . '%');
 }
 
+/**
+ * @SuppressWarnings(PHPMD.DevelopmentCodeFragment)
+ */
 function execute($argv) {
     $branchName       = $argv[3];
     $cloverFile       = $argv[1];
