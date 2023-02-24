@@ -88,16 +88,16 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
     /**
      * Init Process.
      *
-     * @param string $mpTransactionId
      * @param string $txnType
+     * @param string $mpTransactionId
      * @param string $mpStatus
      * @param string $mpAmountRefund
      *
      * @return ResultInterface
      */
     public function initProcess(
-        $mpTransactionId,
         $txnType,
+        $mpTransactionId,
         $mpStatus,
         $mpAmountRefund
     ) {
