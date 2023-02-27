@@ -1,0 +1,84 @@
+name: PHP Code Standards
+
+on: [pull_request]
+
+jobs:
+  validate-code-standards:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_DATABASE: magento_test
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: magento
+          MYSQL_PASSWORD: p@ssw0rd1
+          MYSQL_ROOT_PASSWORD: p@ssw0rd1
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install extensions gd and zip
+        run: sudo apt-get update && sudo apt-get install -y php8.1-gd && sudo apt-get install -y php8.1-zip
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          extensions: curl, dom, intl, json, openssl
+          coverage: xdebug
+          tools: phpmd
+
+      - name: Verify PHP Installation
+        run: php -v
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup cache
+        uses: pat-s/always-upload-cache@v1.1.4
+        env:
+          COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install & Build Magento
+        id: build-magento
+        run: bash bin/install-mg2.sh
+
+      - name: Install MP Plugin
+        id: install-plugin
+        run: mkdir magento2/app/code/MercadoPago/ && mkdir magento2/app/code/MercadoPago/PaymentMagento/ && mv $(ls --ignore='bin' --ignore='.github' --ignore='magento2') magento2/app/code/MercadoPago/PaymentMagento && ls
+        
+      - name: Download PHPStan composer dependencies
+        id: phpstan-composer-dependencies
+        env:
+          COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
+        run: cd magento2 && composer require --dev phpstan/phpstan
+
+      - name: Config Warnings Exit
+        id: phpcs-warning-configs
+        run: magento2/vendor/bin/phpcs --config-set ignore_warnings_on_exit 1
+
+      - name: Detect Coding Standard Violations
+        id: phpcs
+        run: magento2/vendor/bin/phpcs -qn --report=full --standard=Magento2 magento2/app/code/MercadoPago/
+
+      - name: PHPStan version
+        id: phpstan-version
+        run: magento2/vendor/bin/phpstan -V
+
+      - name: PHPStan
+        id: phpstan
+        run: magento2/vendor/bin/phpstan analyse --error-format=table --level 0 magento2/app/code/MercadoPago/
+
+      - name: Run PHPMD
+        run: magento2/vendor/bin/phpmd magento2/app/code/MercadoPago/ --ignore-violations-on-exit ansi codesize,cleancode,controversial,design && magento2/vendor/bin/phpmd magento2/app/code/MercadoPago/ ansi unusedcode,naming
