@@ -135,26 +135,14 @@
         </arguments>
     </virtualType>
 
-    <!-- Boleto - Facade Configuration -->
-    <virtualType name="MercadoPagoBoletoFacade" type="Magento\Payment\Model\Method\Adapter">
+    <!-- PaymentMethodsOff - Facade Configuration -->
+    <virtualType name="MercadoPagoPaymentMethodsOffFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
             <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBoleto::CODE</argument>
             <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\Boleto</argument>
             <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\Boleto</argument>
             <argument name="valueHandlerPool" xsi:type="object">MercadoPagoBoletoValueHandlerPool</argument>
             <argument name="validatorPool" xsi:type="object">MercadoPagoBoletoValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Pec - Facade Configuration -->
-    <virtualType name="MercadoPagoPecFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPec::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\Pec</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\Pec</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoPecValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoPecValidatorPool</argument>
             <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
         </arguments>
     </virtualType>
@@ -171,90 +159,6 @@
         </arguments>
     </virtualType>
 
-    <!-- PagoFacil - Facade Configuration -->
-    <virtualType name="MercadoPagoPagoFacilFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPagoFacil::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\PagoFacil</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\PagoFacil</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoPagoFacilValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoPagoFacilValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- RapiFacil - Facade Configuration -->
-    <virtualType name="MercadoPagoRapiPagoFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderRapiPago::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\RapiPago</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\RapiPago</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoRapiPagoValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoRapiPagoValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- PayCash - Facade Configuration -->
-    <virtualType name="MercadoPagoPayCashFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPayCash::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\PayCash</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\PayCash</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoPayCashValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoPayCashValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Oxxo - Facade Configuration -->
-    <virtualType name="MercadoPagoOxxoFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderOxxo::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\Oxxo</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\Oxxo</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoOxxoValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoOxxoValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Efecty - Facade Configuration -->
-    <virtualType name="MercadoPagoEfectyFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderEfecty::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\Efecty</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\Efecty</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoEfectyValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoEfectyValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Abitab - Facade Configuration -->
-    <virtualType name="MercadoPagoAbitabFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderAbitab::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\Abitab</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\Abitab</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoAbitabValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoAbitabValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Redpagos - Facade Configuration -->
-    <virtualType name="MercadoPagoRedpagosFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderRedpagos::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\Redpagos</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\Redpagos</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoRedpagosValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoRedpagosValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
-        </arguments>
-    </virtualType>
-
     <!-- Pse - Facade Configuration -->
     <virtualType name="MercadoPagoPseFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
@@ -264,54 +168,6 @@
             <argument name="valueHandlerPool" xsi:type="object">MercadoPagoPseValueHandlerPool</argument>
             <argument name="validatorPool" xsi:type="object">MercadoPagoPseValidatorPool</argument>
             <argument name="commandPool" xsi:type="object">MercadoPagoBankTransferCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Banamex - Facade Configuration -->
-    <virtualType name="MercadoPagoBanamexFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBanamex::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\Banamex</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\Banamex</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoBanamexValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoBanamexValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoAtmCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Bancomer - Facade Configuration -->
-    <virtualType name="MercadoPagoBancomerFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderBancomer::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\Bancomer</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\Bancomer</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoBancomerValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoBancomerValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoAtmCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Serfin - Facade Configuration -->
-    <virtualType name="MercadoPagoSerfinFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderSerfin::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\Serfin</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\Serfin</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoSerfinValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoSerfinValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoAtmCommandPool</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- PagoEfectivo - Facade Configuration -->
-    <virtualType name="MercadoPagoPagoEfectivoFacade" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPagoEfectivo::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\PagoEfectivo</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\PagoEfectivo</argument>
-            <argument name="valueHandlerPool" xsi:type="object">MercadoPagoPagoEfectivoValueHandlerPool</argument>
-            <argument name="validatorPool" xsi:type="object">MercadoPagoPagoEfectivoValidatorPool</argument>
-            <argument name="commandPool" xsi:type="object">MercadoPagoAtmCommandPool</argument>
         </arguments>
     </virtualType>
 

@@ -495,7 +495,7 @@ class Config extends PaymentConfig
         $clientHeaders = $this->getClientHeaders($storeId);
 
         $client = $this->httpClientFactory->create();
-        $client->setUri($uri.'/v1/payment_methods');
+        $client->setUri($uri.'/v1/bifrost/payment-methods');
         $client->setConfig($clientConfigs);
         $client->setHeaders($clientHeaders);
         $client->setMethod(ZendClient::GET);

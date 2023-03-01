@@ -4,20 +4,8 @@
         <label>Checkout Transparent</label>
         <include path="MercadoPago_PaymentMagento::system/checkout_transparent/credit_card.xml"/>
         <include path="MercadoPago_PaymentMagento::system/checkout_transparent/pix.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/boleto.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/pec.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/pago_facil.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/rapi_pago.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/pay_cash.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/oxxo.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/efecty.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/abitab.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/redpagos.xml"/>
+        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/payment_methods_off.xml"/>
         <include path="MercadoPago_PaymentMagento::system/checkout_transparent/pse.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/banamex.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/bancomer.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/serfin.xml"/>
-        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/pago_efectivo.xml"/>
         <include path="MercadoPago_PaymentMagento::system/checkout_transparent/webpay.xml"/>
         <include path="MercadoPago_PaymentMagento::system/checkout_transparent/two_credit_card.xml"/>
     </group>
