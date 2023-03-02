@@ -25,7 +25,7 @@
         <field id="exclude-payment-methods" translate="label comment" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
             <label>Exclude Payment Methods</label>
             <comment>Select the payment methods you do NOT want to accept.</comment>
-            <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\MercadoPagoOff</source_model>
+            <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\PaymentMethodsOff</source_model>
             <config_path>payment/mercadopago_paymentmagento_payment_methods_off/payment_methods</config_path>
         </field>
     
