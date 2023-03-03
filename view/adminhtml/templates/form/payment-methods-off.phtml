@@ -1,0 +1,108 @@
+<?php
+
+/**
+ * @var \MercadoPago\PaymentMagento\Block\Sales\Form\PaymentMethodsOff $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+
+$code = $block->escapeHtml($block->getMethodCode());
+$publicToken = $block->escapeHtml($block->getMpPublicKey());
+$paymentIdMethod = $block->escapeHtml($block->getPaymentMethodId());
+?>
+<fieldset class="admin__fieldset payment-method" id="payment_form_<?= $block->escapeHtml($block->getMethodCode()) ?>" >
+    <input type="hidden" value="<?= /* @noEscape */ $paymentIdMethod; ?>" name="payment[payment_method_id]">
+    <div class="field-text required admin__field _required">
+        <label class="admin__field-label" for="<?= /* @noEscape */ $code ?>_payer_document_type">
+            <span><?= $block->escapeHtml(__('Document Type')) ?></span>
+        </label>
+        <div class="admin__field-control">
+            <select type="text" title="<?= $block->escapeHtml(__('Document Type')) ?>"
+                    class="required-entry admin__control-text"
+                    id="<?= /* @noEscape */ $code ?>_payer_document_type"
+                    name="payment[payer_document_type]"
+                    value="<?= /* @noEscape */ $block->getInfoData('payer_document_type') ?>">
+                <option value="" disabled selected><?= $block->escapeHtml(__('Document Type')) ?></option>
+            </select>
+        </div>
+    </div>
+    <div class="field-text required admin__field _required">
+        <label class="admin__field-label" for="<?= /* @noEscape */ $code ?>_payer_document_identification">
+            <span><?= $block->escapeHtml(__('Payer Document Identification')) ?></span>
+        </label>
+        <div class="admin__field-control">
+            <input type="text" title="<?= $block->escapeHtml(__('Payer Document Identification')) ?>"
+                    class="required-entry admin__control-text"
+                    id="<?= /* @noEscape */ $code ?>_payer_document_identification"
+                    name="payment[payer_document_identification]"
+                    value="<?= /* @noEscape */ $block->getInfoData('payer_document_identification') ?>"/>
+        </div>
+    </div>
+
+    <div class="admin__field">
+        <label class="admin__field-label"><span><?= $block->escapeHtml(__('Due date')) ?></span></label>
+        <div class="admin__field-control checkmo-mailing-address">
+            <?= /* @noEscape */ nl2br($block->escapeHtml($block->getExpiration())) ?>
+        </div>
+    </div>
+    <div class="admin__field">
+        <label class="admin__field-label"><span><?= $block->escapeHtml(__('Instruction')) ?></span></label>
+        <div class="admin__field-control checkmo-mailing-address">
+            <?= /* @noEscape */ nl2br($block->getInstruction()) ?>
+        </div>
+    </div>
+</fieldset>
+
+<?= /* @noEscape */ $secureRenderer->renderStyleAsTag(
+    "display:none",
+    'fieldset#payment_form_' . $block->escapeJs($block->getMethodCode())
+) ?>
+<?php $scriptString = <<<script
+    require(["Magento_Sales/order/create/form"], function () {
+        order.addExcludedPaymentMethod('{$code}');
+    });
+    require(["MercadoPagoSDKJs"], function () {
+        if (!window.mp) {
+            window.mp = new MercadoPago('{$publicToken}');
+        }
+
+        async function getIdentificationTypes() {
+            try {
+                const identificationTypes = await window.mp.getIdentificationTypes();
+                console.log(identificationTypes);
+                createSelectOptions(
+                    document.getElementById('mercadopago_paymentmagento_boleto_payer_document_type'),
+                    identificationTypes
+                );
+            } catch (e) {
+              return console.error('Error getting identificationTypes: ', e);
+            }
+        };
+
+        async function createSelectOptions (elem, options, labelsAndKeys = {
+            label: 'name',
+            value: 'id'
+        }) {
+            const { label, value } = labelsAndKeys;
+        
+            elem.options.length = 0;
+        
+            const tempOptions = document.createDocumentFragment();
+        
+            options.forEach(option => {
+                const optValue = option[value];
+                const optLabel = option[label];
+        
+                const opt = document.createElement('option');
+                opt.value = optValue;
+                opt.textContent = optLabel;
+        
+                tempOptions.appendChild(opt);
+            });
+        
+            elem.appendChild(tempOptions);
+        };
+        getIdentificationTypes();
+    });
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>

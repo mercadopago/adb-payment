@@ -28,12 +28,38 @@
             <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\PaymentMethodsOff</source_model>
             <config_path>payment/mercadopago_paymentmagento_payment_methods_off/payment_methods</config_path>
         </field>
-    
-        <field id="sort_order" translate="label comment" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-            <label>Sort Order</label>
-            <comment>Sets up in which order the payment methods will be shown at the Checkout.</comment>
-            <frontend_class>validate-number</frontend_class>
-            <config_path>payment/mercadopago_paymentmagento_payment_methods_off/sort_order</config_path>
-        </field>
+
+        <group id="document" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Capture of customer details in the payment form</label>
+            <comment>Activate this option if you want to obtain buyer`s documents details, using an additional field on the payment form. Disable it if your store already gets these details.</comment>
+            <field id="get_name" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Capture name</label>
+                <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                <config_path>payment/mercadopago_paymentmagento_payment_methods_off/get_name</config_path>
+            </field>
+            <field id="get_document_identification" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Capture document identification</label>
+                <comment>In case you leave this option active, an additional field in the payment form will obtain this information. If disabled, details will be retrieved directly from other fields within your store.</comment>
+                <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                <config_path>payment/mercadopago_paymentmagento_payment_methods_off/get_document_identification</config_path>
+            </field>
+        </group>
+
+         <group id="mercadopago_paymentmagento_native_fields" translate="label comment" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Common Payment Method Definitions</label>
+            <field id="specificcountry" translate="label comment" type="multiselect" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Payment From Specific Countries</label>
+                <comment>Countries eligible to use this payment method.</comment>
+                <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                <config_path>payment/mercadopago_paymentmagento_payment_methods_off/specificcountry</config_path>
+            </field>
+            <field id="sort_order" translate="label comment" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Sort Order</label>
+                <comment>Sets up in which order the payment methods will be shown at the Checkout.</comment>
+                <frontend_class>validate-number</frontend_class>
+                <config_path>payment/mercadopago_paymentmagento_payment_methods_off/sort_order</config_path>
+            </field>
+        </group>
+
     </group>
 </include>

@@ -35,7 +35,7 @@
                 <allowspecific>1</allowspecific>
                 <receive_refund>1</receive_refund>
                 <specificcountry>BR,AR,UY,MX,CO,CL,PE</specificcountry>
-                <restrict_payment_on_mp_site_id><![CDATA[{"mercadopago_paymentmagento_boleto":["MLB"],"mercadopago_paymentmagento_pec":["MLB"],"mercadopago_paymentmagento_pix":["MLB"],"mercadopago_paymentmagento_pagofacil":["MLA"],"mercadopago_paymentmagento_rapipago":["MLA"],"mercadopago_paymentmagento_paycash":["MLM"],"mercadopago_paymentmagento_oxxo":["MLM"],"mercadopago_paymentmagento_efecty":["MCO"],"mercadopago_paymentmagento_abitab":["MLU"],"mercadopago_paymentmagento_redpagos":["MLU"],"mercadopago_paymentmagento_pse":["MCO"],"mercadopago_paymentmagento_banamex":["MLM"],"mercadopago_paymentmagento_bancomer":["MLM"],"mercadopago_paymentmagento_serfin":["MLM"],"mercadopago_paymentmagento_pagoefectivo":["MPE"],"mercadopago_paymentmagento_webpay":["MLC"]}]]></restrict_payment_on_mp_site_id>
+                <restrict_payment_on_mp_site_id><![CDATA[{"mercadopago_paymentmagento_pix":["MLB"],"mercadopago_paymentmagento_pse":["MCO"],"mercadopago_paymentmagento_webpay":["MLC"]}]]></restrict_payment_on_mp_site_id>
             </mercadopago_paymentmagento>
             <mercadopago_paymentmagento_cc>
                 <active>1</active>
@@ -228,6 +228,9 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
                 <group>mercadopago_group</group>
                 <expiration>1</expiration>
                 <instruction_checkout><![CDATA[lorem.]]></instruction_checkout>
+                <get_name></get_name>
+                <get_document_identification>0</get_document_identification>
+                <specificcountry></specificcountry>
                 <sort_order>13</sort_order>
             </mercadopago_paymentmagento_payment_methods_off>
             <mercadopago_paymentmagento_pix>

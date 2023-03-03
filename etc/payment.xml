@@ -18,49 +18,13 @@
         <method name="mercadopago_paymentmagento_cc">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="mercadopago_paymentmagento_boleto">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_pec">
+        <method name="mercadopago_paymentmagento_payment_methods_off">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
         <method name="mercadopago_paymentmagento_pix">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="mercadopago_paymentmagento_pagofacil">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_rapipago">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_paycash">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_oxxo">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_efecty">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_abitab">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_redpagos">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
         <method name="mercadopago_paymentmagento_pse">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_banamex">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_bancomer">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_serfin">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_pagoefectivo">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
         <method name="mercadopago_paymentmagento_webpay">
