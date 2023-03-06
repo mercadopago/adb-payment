@@ -66,6 +66,9 @@
         <method name="mercadopago_paymentmagento_webpay">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+         <method name="mercadopago_paymentmagento_two_cc">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
     </methods>
     <credit_cards>
         <type id="visa" order="1000">
