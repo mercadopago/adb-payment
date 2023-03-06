@@ -19,5 +19,6 @@
         <include path="MercadoPago_PaymentMagento::system/checkout_transparent/serfin.xml"/>
         <include path="MercadoPago_PaymentMagento::system/checkout_transparent/pago_efectivo.xml"/>
         <include path="MercadoPago_PaymentMagento::system/checkout_transparent/webpay.xml"/>
+        <include path="MercadoPago_PaymentMagento::system/checkout_transparent/two_credit_card.xml"/>
     </group>
 </include>
