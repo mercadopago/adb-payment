@@ -42,10 +42,13 @@
                                                                         <item name="mercadopago_paymentmagento_pix" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
-                                                                        <item name="mercadopago_paymentmagento_boleto" xsi:type="array">
+                                                                        <item name="mercadopago_paymentmagento_payment_methods_off" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
-                                                                        <item name="mercadopago_paymentmagento_pec" xsi:type="array">
+                                                                        <!-- <item name="mercadopago_paymentmagento_boleto" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item> 
+                                                                        </item>-->
+                                                                        <!-- <item name="mercadopago_paymentmagento_pec" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                         <item name="mercadopago_paymentmagento_pagofacil" xsi:type="array">
@@ -65,11 +68,11 @@
                                                                         </item>
                                                                         <item name="mercadopago_paymentmagento_abitab" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
-                                                                        </item>
+                                                                        </item> -->
                                                                         <item name="mercadopago_paymentmagento_pse" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
-                                                                        <item name="mercadopago_paymentmagento_banamex" xsi:type="array">
+                                                                        <!-- <item name="mercadopago_paymentmagento_banamex" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                         <item name="mercadopago_paymentmagento_bancomer" xsi:type="array">
@@ -80,7 +83,7 @@
                                                                         </item>
                                                                         <item name="mercadopago_paymentmagento_pagoefectivo" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
-                                                                        </item>
+                                                                        </item> -->
                                                                         <item name="mercadopago_paymentmagento_webpay" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>     
