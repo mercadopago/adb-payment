@@ -12,7 +12,7 @@ use InvalidArgumentException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigBoleto;
+use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
 
 /**
  * Gateway response to Transaction Details by Ticket.
@@ -90,17 +90,17 @@ class TxnIdTicketHandler implements HandlerInterface
     public const FINANCIAL_INSTITUTION = 'financial_institution';
 
     /**
-     * @var ConfigBoleto
+     * @var ConfigPaymentMethodsOff
      */
-    protected $configBoleto;
+    protected $configPaymentMethodsOff;
 
     /**
-     * @param ConfigBoleto $configBoleto
+     * @param ConfigPaymentMethodsOff $configPaymentMethodsOff
      */
     public function __construct(
-        ConfigBoleto $configBoleto
+        ConfigPaymentMethodsOff $configPaymentMethodsOff
     ) {
-        $this->configBoleto = $configBoleto;
+        $this->configPaymentMethodsOff = $configPaymentMethodsOff;
     }
 
     /**
@@ -173,7 +173,7 @@ class TxnIdTicketHandler implements HandlerInterface
                     $barcode
                 );
 
-                $lineCode = $this->configBoleto->getLineCode($barcode);
+                $lineCode = $this->configPaymentMethodsOff->getLineCode($barcode);
 
                 $payment->setAdditionalInformation(
                     self::LINE_CODE,

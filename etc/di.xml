@@ -1725,6 +1725,12 @@
         </arguments>
     </virtualType>
 
+    <virtualType name="MercadoPagoPaymentMethodsOffCommandManager" type="Magento\Payment\Gateway\Command\CommandManager">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
+        </arguments>
+    </virtualType>
+
     <virtualType name="MercadoPagoTicketCommandManager" type="Magento\Payment\Gateway\Command\CommandManager">
         <arguments>
             <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>

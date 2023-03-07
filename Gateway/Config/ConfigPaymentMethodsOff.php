@@ -19,8 +19,8 @@ class ConfigPaymentMethodsOff extends PaymentConfig
 
     /**
      * Payment Method Id Payment Methods Off.
-     * public const PAYMENT_METHOD_ID = 'bolbradesco';
      */
+    public const PAYMENT_METHOD_ID = 'bolbradesco';
 
     /**
      * Active.

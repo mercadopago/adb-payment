@@ -11,10 +11,7 @@ namespace MercadoPago\PaymentMagento\Gateway\Request;
 use InvalidArgumentException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigBanamex;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigBancomer;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigPagoEfectivo;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigSerfin;
+use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
 use MercadoPago\PaymentMagento\Gateway\SubjectReader;
 
 /**
@@ -36,24 +33,9 @@ class AtmPaymentDataRequest implements BuilderInterface
     public const DATE_OF_EXPIRATION = 'date_of_expiration';
 
     /**
-     * @var ConfigBanamex
+     * @var ConfigPaymentMethodsOff
      */
-    protected $configBanamex;
-
-    /**
-     * @var ConfigBancomer
-     */
-    protected $configBancomer;
-
-    /**
-     * @var ConfigPagoEfectivo
-     */
-    protected $configPagoEfectivo;
-
-    /**
-     * @var ConfigSerfin
-     */
-    protected $configSerfin;
+    protected $configPaymentMethodsOff;
 
     /**
      * @var SubjectReader
@@ -62,25 +44,16 @@ class AtmPaymentDataRequest implements BuilderInterface
 
     /**
      * @param SubjectReader      $subjectReader
-     * @param ConfigBanamex      $configBanamex
-     * @param ConfigBancomer     $configBancomer
-     * @param ConfigPagoEfectivo $configPagoEfectivo
-     * @param ConfigSerfin       $configSerfin
+     * @param ConfigPaymentMethodsOff      $configPaymentMethodsOff
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         SubjectReader $subjectReader,
-        ConfigBanamex $configBanamex,
-        ConfigBancomer $configBancomer,
-        ConfigPagoEfectivo $configPagoEfectivo,
-        ConfigSerfin $configSerfin
+        ConfigPaymentMethodsOff $configPaymentMethodsOff,
     ) {
         $this->subjectReader = $subjectReader;
-        $this->configBanamex = $configBanamex;
-        $this->configBancomer = $configBancomer;
-        $this->configPagoEfectivo = $configPagoEfectivo;
-        $this->configSerfin = $configSerfin;
+        $this->configPaymentMethodsOff = $configPaymentMethodsOff;
     }
 
     /**
@@ -107,10 +80,7 @@ class AtmPaymentDataRequest implements BuilderInterface
         $paymentIdMethod = $payment->getAdditionalInformation('payment_method_id');
 
         $options = [
-            ConfigBanamex::PAYMENT_METHOD_ID        => $this->configBanamex->getExpirationFormatted(),
-            ConfigBancomer::PAYMENT_METHOD_ID       => $this->configBancomer->getExpirationFormatted(),
-            ConfigPagoEfectivo::PAYMENT_METHOD_ID   => $this->configPagoEfectivo->getExpirationFormatted(),
-            ConfigSerfin::PAYMENT_METHOD_ID         => $this->configSerfin->getExpirationFormatted(),
+            ConfigPaymentMethodsOff::PAYMENT_METHOD_ID => $this->configPaymentMethodsOff->getExpirationFormatted()
         ];
 
         $result = [
