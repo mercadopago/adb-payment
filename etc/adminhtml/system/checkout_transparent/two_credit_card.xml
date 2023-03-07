@@ -18,17 +18,6 @@
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
             <config_path>payment/mercadopago_paymentmagento_two_cc_vault/active</config_path>
         </field>
-        <field id="payment_action" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-            <label>Payment Action</label>
-            <comment>Consult the store's business sector to be able to select capturing the payment at the time of the purchase or at a later moment.</comment>
-            <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\PaymentAction</source_model>
-            <config_path>payment/mercadopago_paymentmagento_two_cc/payment_action</config_path>
-        </field>
-        <field id="can_initialize" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-            <label>Use Binary Mode</label>
-            <source_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\IsBinaryMode</source_model>
-            <config_path>payment/mercadopago_paymentmagento_two_cc/can_initialize</config_path>
-        </field>
         <group id="document" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Capture of customer details in the payment form</label>
             <comment>Activate this option if you want to obtain buyer`s documents details, using an additional field on the payment form. Disable it if your store already gets these details.</comment>

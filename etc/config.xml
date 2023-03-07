@@ -97,7 +97,6 @@
                 <active>1</active>
                 <model>MercadoPagoCcFacade</model>
                 <order_status>processing</order_status>
-                <payment_action>authorize_capture</payment_action>
                 <title>Dois Cartões de Crédito ou Débito</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>mp_payment_id,card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
@@ -140,7 +139,6 @@
                 <cctypes_mapper_mpe><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners"}]]></cctypes_mapper_mpe>
                 <unsupported_pre_auth><![CDATA[{"MLB":["debelo"],"MLA":["debvisa","debmaster","debcabal","maestro"],"MLC":["redcompra","debvisa","debmaster","mastercard_prepaid","magna","presto"],"MCO":["debvisa","debmaster","amex","master","diners","codensa"],"MLM":["edenred","sodexo","debvisa","tengo","carnet","debmaster","toka"],"MLU":["diners","lider","debvisa","creditel","visa","oca","master","debmaster"]}]]></unsupported_pre_auth>
                 <cvv_enabled>1</cvv_enabled>
-                <is_binary>1</is_binary>
                 <get_document_identification>0</get_document_identification>
                 <min_order_total>1</min_order_total>
                 <max_order_total>200000</max_order_total>
