@@ -18,6 +18,9 @@
         <method name="mercadopago_paymentmagento_cc">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="mercadopago_paymentmagento_twocc">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
         <method name="mercadopago_paymentmagento_boleto">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
@@ -66,7 +69,7 @@
         <method name="mercadopago_paymentmagento_webpay">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-         <method name="mercadopago_paymentmagento_two_cc">
+        <method name="mercadopago_paymentmagento_twocc">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
     </methods>

@@ -93,7 +93,7 @@
                 <active_for_mp_site_id>MLB,MLA,MLU,MLM,MCO,MLC,MPE</active_for_mp_site_id>
                 <sort_order>10</sort_order>
             </mercadopago_paymentmagento_cc>
-            <mercadopago_paymentmagento_two_cc>
+            <mercadopago_paymentmagento_twocc>
                 <active>1</active>
                 <model>MercadoPagoCcFacade</model>
                 <order_status>processing</order_status>
@@ -146,7 +146,7 @@
                 <specificcountry>BR,AR,UY,MX,CO,CL,PE</specificcountry>
                 <active_for_mp_site_id>MLB,MLA,MLU,MLM,MCO,MLC,MPE</active_for_mp_site_id>
                 <sort_order>10</sort_order>
-            </mercadopago_paymentmagento_two_cc>
+            </mercadopago_paymentmagento_twocc>
             <mercadopago_paymentmagento_cc_vault>
                 <active>1</active>
                 <model>MercadoPagoCcVaultFacade</model>
