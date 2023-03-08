@@ -100,7 +100,25 @@
             <dd class="content">
                 <address class="mercadopagoboleto instruction address" data-bind="html: getInstructionCheckoutPaymentMethodsOff()"></address>
             </dd>
-        </dl>
+
+            <dt class="title"><!-- ko i18n: 'PaymentMethodsOff' --><!-- /ko --></dt>
+            <dd class="content">
+                <address class="mercadopagoboleto instruction payment-methods" data-bind="html: getPaymentMethodsOffActive()"></address>
+            </dd>
         <!-- /ko -->
     </div>
+
+    <ul id="mercadopago-payment-methods-ticket">
+        <!-- ko foreach: {data: getPaymentMethodsOffActive(), as: 'paymentMethods'} -->
+        <li class="mercadopago-ticket-option">
+            <input type="radio" class="optionsTicketMp" name="" data-bind="'attr':{ id: paymentMethods.value, value: paymentMethods.name,}" />
+            <label class="mercadopago-ticket-label" data-bind="'attr':{ for: paymentMethods.value }">
+                <div class="mp-payment-method-logo-container">
+                    <img data-bind="'attr':{src: paymentMethods.logo, alt: paymentMethods.name}" class="img-fluid mp-payment-method-logo-image" />
+                </div>
+                <span class="mercadopago-ticket-label" data-bind="text: paymentMethods.name"></span>
+            </label>
+        </li>
+        <!--/ko-->
+    </ul>
 </fieldset>

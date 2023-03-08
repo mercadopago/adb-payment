@@ -52,6 +52,8 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      */
     public const USE_GET_NAME = 'get_name';
 
+    public const PAYMENT_METHODS = 'payment_methods';
+
     /**
      * @var ScopeConfigInterface
      */
@@ -227,6 +229,17 @@ class ConfigPaymentMethodsOff extends PaymentConfig
 
         return (bool) $this->scopeConfig->getValue(
             sprintf($pathPattern, self::METHOD, self::USE_GET_NAME),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    public function getPaymentMethodsOffActive($storeId = null): ?string
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::PAYMENT_METHODS),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );

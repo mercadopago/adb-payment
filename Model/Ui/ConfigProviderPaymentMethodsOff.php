@@ -9,6 +9,8 @@ use Magento\Framework\View\Asset\Source;
 use Magento\Payment\Model\CcConfig;
 use Magento\Quote\Api\Data\CartInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
+use MercadoPago\PaymentMagento\Gateway\Config\Config as MercadoPagoConfig;
+
 
 /**
  * User interface model for settings Payment Methods Off.
@@ -19,6 +21,10 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      * Mercado Pago Payment Magento Payment Methods Off Code.
      */
     public const CODE = 'mercadopago_paymentmagento_payment_methods_off';
+
+    public const PAYMENT_METHODS_ALLOWED = ['ticket', 'bank_transfer', 'atm'];
+
+    public const PAYMENT_METHODS_EXCLUDED = ['pix', 'pse'];
 
     /**
      * @var ConfigPaymentMethodsOff
@@ -34,6 +40,11 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      * @var CcConfig
      */
     protected $ccConfig;
+
+     /**
+     * @var MercadoPagoConfig
+     */
+    protected $mercadopagoConfig;
 
     /**
      * @var Escaper
@@ -57,13 +68,15 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         CartInterface $cart,
         CcConfig $ccConfig,
         Escaper $escaper,
-        Source $assetSource
+        Source $assetSource,
+        MercadoPagoConfig $mercadopagoConfig
     ) {
         $this->config = $config;
         $this->cart = $cart;
         $this->escaper = $escaper;
         $this->ccConfig = $ccConfig;
         $this->assetSource = $assetSource;
+        $this->mercadopagoConfig = $mercadopagoConfig;
     }
 
     /**
@@ -90,6 +103,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
                     'expiration'                      => $this->config->getExpirationFormat($storeId),
                     'instruction_checkout'            => nl2br($this->getDescriptions($storeId)),
                     'logo'                            => $this->getLogo(),
+                    'payment_methods_off_active'      => $this->getPaymentMethodsOffActive($storeId),
                 ],
             ],
         ];
@@ -131,4 +145,71 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
 
         return __($text);
     }
+    
+    public function getPaymentMethodsOffActive($storeId) {
+
+        $paymentMethodsOffActive = $this->config->getPaymentMethodsOffActive($storeId);
+
+        $options = [];
+        $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
+
+        if ($payments['success'] === true) {
+            $options = array_merge($options, $this->filterPaymentMethods($payments['response']));
+        }
+
+        return $this->filterPaymentMethodsOffActive($options, $paymentMethodsOffActive);
+    }
+
+    public function filterPaymentMethodsOffActive(array $paymentMethods, string $paymentMethodsOffActive): ?array {
+        
+        if (empty($paymentMethodsOffActive)) {
+            return $paymentMethods;
+        }
+
+        $options = [];
+        $actives = explode(",", $paymentMethodsOffActive);
+
+        foreach ($paymentMethods as $payment) {
+            if(in_array($payment['value'], $actives)){
+                $options[] = $payment;
+            }
+        }
+
+        return $options;
+    }
+
+    public function filterPaymentMethods(array $paymentMethods): ?array {
+        $options = [];
+        foreach ($paymentMethods as $payment) {
+            if (in_array($payment['payment_type_id'], self::PAYMENT_METHODS_ALLOWED)
+                && !in_array($payment['id'], self::PAYMENT_METHODS_EXCLUDED)) {
+
+                if (empty($payment['payment_places'])) {
+                    $options[] = [
+                        'value' => $payment['id'],
+                        'label' => $payment['name'],
+                        'logo' => $payment['thumbnail'],
+                        'payment_type_id' => $payment['payment_type_id'],
+                    ];
+                } else {
+                    foreach ($payment['payment_places'] as $payment_place) {
+                        $options[] = [
+                            'value' => $payment_place['payment_option_id'],
+                            'label' => $payment_place['name'],
+                            'logo' => $payment_place['thumbnail'],
+                            'payment_type_id' => $payment['payment_type_id'],
+                        ];
+                    }
+                }
+            }
+        }
+
+        $labels = array();
+        foreach ($options as $key => $row) {
+            $labels[$key] = $row['label'];
+        }
+        array_multisort($labels, SORT_ASC, $options);
+        return $options;
+    }
+
 }

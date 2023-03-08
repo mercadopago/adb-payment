@@ -124,6 +124,10 @@ define([
          */
         getInstructionCheckoutPaymentMethodsOff() {
             return window.checkoutConfig.payment[this.getCode()].instruction_checkout;
+        },
+
+        getPaymentMethodsOffActive() {
+            return window.checkoutConfig.payment[this.getCode()].payment_methods_off_active;
         }
     });
 });
