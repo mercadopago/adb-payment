@@ -22,9 +22,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      */
     public const CODE = 'mercadopago_paymentmagento_payment_methods_off';
 
-    public const PAYMENT_METHODS_ALLOWED = ['ticket', 'bank_transfer', 'atm'];
-
-    public const PAYMENT_METHODS_EXCLUDED = ['pix', 'pse'];
+    public const PAYMENT_METHODS_ALLOWED = ['ticket', 'atm'];
 
     /**
      * @var ConfigPaymentMethodsOff
@@ -181,8 +179,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
     public function filterPaymentMethods(array $paymentMethods): ?array {
         $options = [];
         foreach ($paymentMethods as $payment) {
-            if (in_array($payment['payment_type_id'], self::PAYMENT_METHODS_ALLOWED)
-                && !in_array($payment['id'], self::PAYMENT_METHODS_EXCLUDED)) {
+            if (in_array($payment['payment_type_id'], self::PAYMENT_METHODS_ALLOWED)) {
 
                 if (empty($payment['payment_places'])) {
                     $options[] = [

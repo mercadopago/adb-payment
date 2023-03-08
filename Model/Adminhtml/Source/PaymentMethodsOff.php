@@ -13,9 +13,7 @@ use MercadoPago\PaymentMagento\Gateway\Config\Config as MercadoPagoConfig;
 class PaymentMethodsOff implements ArrayInterface
 {
 
-    public const PAYMENT_METHODS_ALLOWED = ['ticket', 'bank_transfer', 'atm'];
-
-    public const PAYMENT_METHODS_EXCLUDED = ['pix', 'pse'];
+    public const PAYMENT_METHODS_ALLOWED = ['ticket', 'atm'];
 
     /**
      * @var RequestInterface
@@ -64,8 +62,7 @@ class PaymentMethodsOff implements ArrayInterface
 
         $options = [];
         foreach ($paymentMethods as $payment) {
-            if (in_array($payment['payment_type_id'], self::PAYMENT_METHODS_ALLOWED)
-                && !in_array($payment['id'], self::PAYMENT_METHODS_EXCLUDED)) {
+            if (in_array($payment['payment_type_id'], self::PAYMENT_METHODS_ALLOWED)) {
 
                 if (empty($payment['payment_places'])) {
                     $options[] = [
