@@ -95,7 +95,7 @@
             </mercadopago_paymentmagento_cc>
             <mercadopago_paymentmagento_twocc>
                 <active>1</active>
-                <model>MercadoPagoCcFacade</model>
+                <model>MercadoPagoTwoCcFacade</model>
                 <order_status>processing</order_status>
                 <title>Dois Cartões de Crédito ou Débito</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
