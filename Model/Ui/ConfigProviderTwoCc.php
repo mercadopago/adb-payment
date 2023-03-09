@@ -79,19 +79,24 @@ class ConfigProviderTwoCc implements ConfigProviderInterface
      */
     public function getConfig()
     {
-        $isActive = true;
+        $storeId = $this->cart->getStoreId();
+        $isActive = $this->configTwoCc->isActive($storeId);
+
+        if (!$isActive) {
+            return [];
+        }
 
         return [
             'payment' => [
                 ConfigTwoCc::METHOD => [
                     'isActive'                        => $isActive,
-                    'title'                           => $this->configTwoCc->getTitle(),
-                    'useCvv'                          => $this->configTwoCc->isCvvEnabled(),
-                    'ccTypesMapper'                   => $this->configTwoCc->getCcTypesMapper(),
+                    'title'                           => $this->configTwoCc->getTitle($storeId),
+                    'useCvv'                          => $this->configTwoCc->isCvvEnabled($storeId),
+                    'ccTypesMapper'                   => $this->configTwoCc->getCcTypesMapper($storeId),
                     'logo'                            => $this->getLogo(),
                     'icons'                           => $this->getIcons(),
-                    'document_identification_capture' => $this->configTwoCc->hasUseDocumentIdentificationCapture(),
-                    'unsupported_pre_auth'            => $this->configTwoCc->getUnsupportedPreAuth(),
+                    'document_identification_capture' => $this->configTwoCc->hasUseDocumentIdentificationCapture($storeId),
+                    'unsupported_pre_auth'            => $this->configTwoCc->getUnsupportedPreAuth($storeId),
                     'ccVaultCode'                     => self::VAULT_CODE,
                 ],
             ],
@@ -109,7 +114,7 @@ class ConfigProviderTwoCc implements ConfigProviderInterface
             return $this->icons;
         }
         $storeId = $this->cart->getStoreId();
-        $ccTypes = $this->configTwoCc->getCcAvailableTypes();
+        $ccTypes = $this->configTwoCc->getCcAvailableTypes($storeId);
         $types = explode(',', $ccTypes);
         foreach ($types as $code => $label) {
             if (!array_key_exists($code, $this->icons)) {

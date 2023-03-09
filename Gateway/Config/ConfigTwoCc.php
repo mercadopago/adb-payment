@@ -108,10 +108,15 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function isCvvEnabled(): bool
+    public function isCvvEnabled($storeId = null): bool
     {
-        return true;
+        $pathPattern = 'payment/%s/%s';
 
+        return (bool) $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::CVV_ENABLED),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -121,10 +126,15 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function isActive(): bool
+    public function isActive($storeId = null): bool
     {
+        $pathPattern = 'payment/%s/%s';
 
-        return true;
+        return (bool) $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::ACTIVE),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -134,9 +144,15 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle($storeId = null): string
     {
-        return "two cards";
+        $pathPattern = 'payment/%s/%s';
+
+        return $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::TITLE),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -146,10 +162,15 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function hasUseDocumentIdentificationCapture(): bool
+    public function hasUseDocumentIdentificationCapture($storeId = null): bool
     {
+        $pathPattern = 'payment/%s/%s';
 
-        return false;
+        return (bool) $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::USE_GET_DOCUMENT_IDENTIFICATION),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -159,11 +180,21 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function isBinaryMode(): bool
+    public function isBinaryMode($storeId = null): bool
     {
-    
+        $pathPattern = 'payment/%s/%s';
 
-        return false;
+        $canInitialize = $this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::CAN_INITIALIZE),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        if ($canInitialize) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -173,10 +204,22 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return string
      */
-    public function getCcAvailableTypes(): string
+    public function getCcAvailableTypes($storeId = null): string
     {
+        $pathPattern = 'payment/%s/%s_%s';
 
-        return "pix";
+        $mpSiteId = $this->config->getMpSiteId($storeId);
+
+        return $this->scopeConfig->getValue(
+            sprintf(
+                $pathPattern,
+                self::METHOD,
+                self::CC_TYPES,
+                strtolower((string) $mpSiteId)
+            ),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
     }
 
     /**
@@ -186,10 +229,24 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return array
      */
-    public function getCcTypesMapper(): array
+    public function getCcTypesMapper($storeId = null): array
     {
+        $pathPattern = 'payment/%s/%s_%s';
 
-        $result = null;
+        $mpSiteId = $this->config->getMpSiteId($storeId);
+
+        $ccTypesMapper = $this->scopeConfig->getValue(
+            sprintf(
+                $pathPattern,
+                self::METHOD,
+                self::CC_MAPPER,
+                strtolower((string) $mpSiteId)
+            ),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        $result = $this->json->unserialize($ccTypesMapper);
 
         return is_array($result) ? $result : [];
     }
@@ -201,11 +258,21 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return array
      */
-    public function getUnsupportedPreAuth(): array
+    public function getUnsupportedPreAuth($storeId = null): array
     {
-       
+        $pathPattern = 'payment/%s/%s';
 
-        $result = null;
+        $ccTypesMapper = $this->scopeConfig->getValue(
+            sprintf(
+                $pathPattern,
+                self::METHOD,
+                self::UNSUPPORTED_PRE_AUTH
+            ),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        $result = $this->json->unserialize($ccTypesMapper);
 
         return is_array($result) ? $result : [];
     }
@@ -217,9 +284,24 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function hasCapture(): bool
+    public function hasCapture($storeId = null): bool
     {
-        
-        return false;
+        $pathPattern = 'payment/%s/%s';
+
+        $typeAction = $this->scopeConfig->getValue(
+            sprintf(
+                $pathPattern,
+                self::METHOD,
+                'payment_action'
+            ),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        if ($typeAction === 'authorize') {
+            return false;
+        }
+
+        return true;
     }
 }
