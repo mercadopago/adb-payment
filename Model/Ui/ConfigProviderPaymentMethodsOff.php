@@ -158,7 +158,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         return $this->filterPaymentMethodsOffActive($options, $paymentMethodsOffActive);
     }
 
-    public function filterPaymentMethodsOffActive(array $paymentMethods, string $paymentMethodsOffActive): ?array {
+    public function filterPaymentMethodsOffActive(array $paymentMethods, ?string $paymentMethodsOffActive): ?array {
         
         if (empty($paymentMethodsOffActive)) {
             return $paymentMethods;
