@@ -332,6 +332,7 @@
         <arguments>
             <argument name="executors" xsi:type="array">
                 <item name="mercadopago_paymentmagento_cc" xsi:type="string">MercadoPagoCcCommandManager</item>
+                <item name="mercadopago_paymentmagento_twocc" xsi:type="string">MercadoPagoTwoCcCommandManager</item>
                 <item name="mercadopago_paymentmagento_cc_vault" xsi:type="string">MercadoPagoCcCommandManager</item>
                 <item name="mercadopago_paymentmagento_checkout_pro" xsi:type="string">MercadoPagoCheckoutProCommandManager</item>
                 <item name="mercadopago_paymentmagento_boleto" xsi:type="string">MercadoPagoBoletoCommandManager</item>
@@ -1797,6 +1798,12 @@
     <virtualType name="MercadoPagoCcCommandManager" type="Magento\Payment\Gateway\Command\CommandManager">
         <arguments>
             <argument name="commandPool" xsi:type="object">MercadoPagoCcCommandPool</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="MercadoPagoTwoCcCommandManager" type="Magento\Payment\Gateway\Command\CommandManager">
+        <arguments>
+            <argument name="commandPool" xsi:type="object">MercadoPagoTwoCcCommandPool</argument>
         </arguments>
     </virtualType>
 
