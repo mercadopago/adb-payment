@@ -104,7 +104,7 @@
         <arguments>
             <argument name="code" xsi:type="const">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderTwoCc::CODE</argument>
             <argument name="formBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Form\TwoCc</argument>
-            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\TwoCC</argument>
+            <argument name="infoBlockType" xsi:type="string">MercadoPago\PaymentMagento\Block\Sales\Info\TwoCc</argument>
             <argument name="valueHandlerPool" xsi:type="object">MercadoPagoCcValueHandlerPool</argument>
             <argument name="validatorPool" xsi:type="object">MercadoPagoCcValidatorPool</argument>
             <argument name="commandPool" xsi:type="object">MercadoPagoCcCommandPool</argument>
