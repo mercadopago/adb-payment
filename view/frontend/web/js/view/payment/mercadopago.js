@@ -34,7 +34,8 @@ define(
             methodBancomer = 'mercadopago_paymentmagento_bancomer',
             methodSerfin = 'mercadopago_paymentmagento_serfin',
             methodPagoEfectivo = 'mercadopago_paymentmagento_pagoefectivo',
-            methodWebpay = 'mercadopago_paymentmagento_webpay';
+            methodWebpay = 'mercadopago_paymentmagento_webpay',
+            methodTwoCc = 'mercadopago_paymentmagento_twocc';
 
         if (methodCheckoutPro in config) {
             rendererList.push(
@@ -194,6 +195,15 @@ define(
                 {
                     type: methodWebpay,
                     component: 'MercadoPago_PaymentMagento/js/view/payment/method-renderer/webpay'
+                }
+            );
+        }
+
+        if (methodTwoCc in config) {
+            rendererList.push(
+                {
+                    type: methodTwoCc,
+                    component: 'MercadoPago_PaymentMagento/js/view/payment/method-renderer/twocc'
                 }
             );
         }

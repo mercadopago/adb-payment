@@ -31,6 +31,7 @@
                 <item name="mercadopago_paymentmagento_serfin_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderSerfin</item>
                 <item name="mercadopago_paymentmagento_pagoefectivo_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderPagoEfectivo</item>
                 <item name="mercadopago_paymentmagento_webpay_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderWebpay</item>
+                <item name="mercadopago_paymentmagento_twocc_config_provider" xsi:type="object">MercadoPago\PaymentMagento\Model\Ui\ConfigProviderTwoCc</item>
             </argument>
         </arguments>
     </type>
