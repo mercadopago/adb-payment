@@ -2,7 +2,6 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
  * @license     See LICENSE for license details.
  */
 
@@ -18,7 +17,7 @@ use MercadoPago\PaymentMagento\Gateway\Config\ConfigTwoCc;
  *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
-class TwoCars extends \Magento\Payment\Block\Info
+class TwoCc extends \Magento\Payment\Block\Info
 {
     /**
      * @var ConfigInterface
@@ -33,7 +32,7 @@ class TwoCars extends \Magento\Payment\Block\Info
     /**
      * @param Context         $context
      * @param ConfigInterface $config
-     * @param ConfigCc        $configTwoCc
+     * @param ConfigTwoCc     $configTwoCc
      * @param array           $data
      */
     public function __construct(

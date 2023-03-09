@@ -2,7 +2,6 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
  * @license     See LICENSE for license details.
  */
 
@@ -15,7 +14,7 @@ use Magento\Payment\Block\Form\Cc as NativeCc;
  *
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
-class TwoCards extends NativeCc
+class TwoCc extends NativeCc
 {
     /**
      * TwoCc template.
