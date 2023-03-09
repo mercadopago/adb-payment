@@ -42,7 +42,7 @@ define([
         defaults: {
             active: false,
             template: 'MercadoPago_PaymentMagento/payment/twocc',
-            ccForm: 'MercadoPago_PaymentMagento/payment/cc-form',
+            TwoCcForm: 'MercadoPago_PaymentMagento/payment/twocc-form',
             securityField: 'MercadoPago_PaymentMagento/payment/security-field',
             amount:  quote.totals().base_grand_total,
             installmentTextInfo: false,
