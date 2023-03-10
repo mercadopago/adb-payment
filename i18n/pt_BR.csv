@@ -1203,6 +1203,7 @@ Expiration,Expiração
 "Select the payment methods you do NOT want to accept.","Selecione os métodos de pagamento que você NÃO deseja aceitar."
 "Payment Title","Título do Método de Pagamento"
 "Accept all payment methods","Aceite todos os métodos de pagamento"
+"There are no payment methods available, please contact the seller.", "Não há métodos de pagamento disponíveis, entre em contato com o vendedor."
 "Expiration","Expiração"
 "PAYMENT INFORMATION","INFORMAÇÃO DE PAGAMENTO"
 "Payment Number (Mercado Pago): %1","Número de Pagamento (Mercado Pago): %1"
