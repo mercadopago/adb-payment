@@ -31,7 +31,7 @@
     <div class="payment-method-content">
         <each args="getRegion('messages')" render=""></each>
         <form class="form mp-form" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
-            <render args="TwoCcForm"></render>
+            <render args="twoCcForm"></render>
         </form>
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
