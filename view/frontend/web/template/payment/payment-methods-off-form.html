@@ -6,21 +6,7 @@
 <!-- /ko -->
 
 <!-- ko if: (paymentMethodsOff.length !== 0)-->
-    <fieldset data-bind="attr: {class: 'fieldset payment items mercadopago_checkout_custom_ticket', id: 'payment_form_options_' + getCode()}">
-        <ul id="payment-methods-off">
-            <!-- ko foreach: {data: paymentMethodsOff, as: 'paymentMethod'} -->
-                <li class="payment-methods-off-option">
-                    <input type="radio" class="payment-methods-off-input" name="paymentMethodsOff" data-bind="'attr':{ id: paymentMethod['value'], value: paymentMethod['value'], payment_type_id: paymentMethod['payment_type_id'], 'data-validate': JSON.stringify({ 'validate-one-required-by-name':true })}" />
-                    <label class="payment-methods-off-label" data-bind="'attr':{ for: paymentMethod['value'] }">
-                        <div class="payment-methods-off-logo-container">
-                            <img data-bind="'attr':{src: paymentMethod['logo'], alt: paymentMethod['label']}" class="img-fluid payment-methods-off-logo-image" />
-                        </div>
-                        <span class="payment-methods-off-label" data-bind="text: paymentMethod['label']"></span>
-                    </label>
-                </li>
-            <!--/ko-->
-        </ul>
-    </fieldset>
+
 
     <!-- ko if: NameCapture() || DocumentIdentificationCapture() -->
         <fieldset data-bind="attr: {class: 'fieldset payment items', id: 'payment_form_payer_persona' + getCode()}">
@@ -114,12 +100,28 @@
             <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
         </div>
         <div class="field-to-pay" data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
+            <fieldset data-bind="attr: {class: 'fieldset payment items mercadopago_checkout_custom_ticket', id: 'payment_form_options_' + getCode()}">
+                <ul id="payment-methods-off">
+                    <!-- ko foreach: {data: paymentMethodsOff, as: 'paymentMethod'} -->
+                        <li class="payment-methods-off-option">
+                            <input type="radio" class="payment-methods-off-input" name="paymentMethodsOff" data-bind="'attr':{ id: paymentMethod['value'], value: paymentMethod['value'], payment_type_id: paymentMethod['payment_type_id'], 'data-validate': JSON.stringify({ 'validate-one-required-by-name':true })}" />
+                            <label class="payment-methods-off-label" data-bind="'attr':{ for: paymentMethod['value'] }">
+                                <div class="payment-methods-off-logo-container">
+                                    <img data-bind="'attr':{src: paymentMethod['logo'], alt: paymentMethod['label']}" class="img-fluid payment-methods-off-logo-image" />
+                                </div>
+                                <span class="payment-methods-off-label" data-bind="text: paymentMethod['label']"></span>
+                            </label>
+                        </li>
+                    <!--/ko-->
+                </ul>
+            </fieldset>
             <!-- ko if: getExpiration() -->
             <dl class="items check payable">
                 <dt class="title"><!-- ko i18n: 'Due date' --><!-- /ko --></dt>
                 <dd class="content">
                     <address class="due address" data-bind="html: getExpiration()"></address>
                 </dd>
+            </dl>
             <!-- /ko -->
         </div>
     </fieldset>
