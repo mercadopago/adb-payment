@@ -143,24 +143,6 @@ class ConfigPaymentMethodsOff extends PaymentConfig
     }
 
     /**
-     * Get Instruction Checkoout for Ticket.
-     *
-     * @param int|null $storeId
-     *
-     * @return string
-     */
-    public function getInstructionCheckoutPaymentMethodsOff($storeId = null): string
-    {
-        $pathPattern = 'payment/%s/%s';
-
-        return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::INSTRUCTION_CHECKOUT_PAYMENT_METHODS_OFF),
-            ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
-    }
-
-    /**
      * Get Expiration.
      *
      * @param int|null $storeId

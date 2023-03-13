@@ -227,7 +227,6 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <group>mercadopago_group</group>
                 <expiration>1</expiration>
-                <instruction_checkout><![CDATA[lorem.]]></instruction_checkout>
                 <get_name></get_name>
                 <get_document_identification>0</get_document_identification>
                 <specificcountry></specificcountry>
