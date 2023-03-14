@@ -22,6 +22,7 @@ define([], function () {
         mpUserId: null,
         mpPayerType: null,
         mpPayerOptionsTypes: null,
-        mpPayerDocument: null
+        mpPayerDocument: null,
+        token: null,
     };
 });

@@ -48,7 +48,16 @@ define([
             installmentTextInfo: false,
             installmentTextTEA: null,
             installmentTextCFT: null,
-            isLoading: true
+            isLoading: true,
+            fieldCcNumber: 'mercadopago_paymentmagento_twocc_number',
+            fieldSecurityCode: 'mercadopago_paymentmagento_twocc_cid',
+            fieldExpMonth: 'mercadopago_paymentmagento_twocc_expiration_month',
+            fieldExpYear: 'mercadopago_paymentmagento_twocc_expiration_yr',
+            tokens: [],
+        },
+
+        generateToken() {
+            this.getTokenize();
         },
 
         /**
@@ -99,7 +108,12 @@ define([
                     mpCardData.mpCardInstallment =  null;
 
                     setTimeout(() => {
-                        self.mountCardForm();
+                        self.mountCardForm({
+                            fieldCcNumber: self.fieldCcNumber,
+                            fieldSecurityCode: self.fieldSecurityCode,
+                            fieldExpMonth: self.fieldExpMonth,
+                            fieldExpYear: self.fieldExpYear,
+                        });
                         self.isLoading(false);
                     }, 3000);
                 }
@@ -178,7 +192,7 @@ define([
             if (!$(this.formElement).valid()) {
                 return;
             }
-            this.getTokenize();
+            console.log(tokens);
         },
 
         /**
@@ -221,15 +235,19 @@ define([
                 identificationNumber: documentIdenfitication
             };
 
-            if (saveCard && isUsed) {
+            window.mp.fields.createCardToken(payload).then((token) => {
+                self.tokens.push(token);
+                formatNumber = token.first_six_digits + 'xxxxxx' + token.last_four_digits;
+                self.mpCardNumberToken(token.id);
+                self.mpCardExpMonth(token.expiration_month);
+                self.mpCardExpYear(token.expiration_year);
+                self.mpCardNumber(formatNumber);
+                // self.placeOrder();
 
-                window.mp.fields.createCardToken(payload).then((token) => {
-                    formatNumber = token.first_six_digits + 'xxxxxx' + token.last_four_digits;
-                    self.mpCardNumberToken(token.id);
-                    self.mpCardExpMonth(token.expiration_month);
-                    self.mpCardExpYear(token.expiration_year);
-                    self.mpCardNumber(formatNumber);
+                fullScreenLoader.stopLoader();
 
+                if (saveCard && isUsed) {
+                    fullScreenLoader.startLoader();
                     serviceUrl = urlBuilder.createUrl('/carts/mine/mp-create-vault', {});
                     payloadCreateVault = {
                         cartId: quoteId,
@@ -251,41 +269,19 @@ define([
                         (response) => {
                             self.mpCardPublicId(response[0].card_id);
                             self.mpUserId(response[0].mp_user_id);
-                            self.placeOrder();
                             fullScreenLoader.stopLoader();
                         }
                     ).fail(() => {
                         fullScreenLoader.stopLoader();
                     });
-                }).catch((errors) => {
+                }
 
-                    _.map(errors, (error) => {
-                        self.displayErrorInField(error);
-                    });
-
-                    messageList.addErrorMessage({
-                        message: $t('Unable to make payment, check card details.')
-                    });
-                    fullScreenLoader.stopLoader();
+            }).catch(() => {
+                messageList.addErrorMessage({
+                    message: $t('Unable to make payment, check card details.')
                 });
-            }
-
-            if (!saveCard || !isUsed) {
-                window.mp.fields.createCardToken(payload).then((token) => {
-                    formatNumber = token.first_six_digits + 'xxxxxx' + token.last_four_digits;
-                    self.mpCardNumberToken(token.id);
-                    self.mpCardExpMonth(token.expiration_month);
-                    self.mpCardExpYear(token.expiration_year);
-                    self.mpCardNumber(formatNumber);
-                    self.placeOrder();
-                    fullScreenLoader.stopLoader();
-                }).catch(() => {
-                    messageList.addErrorMessage({
-                        message: $t('Unable to make payment, check card details.')
-                    });
-                    fullScreenLoader.stopLoader();
-                });
-            }
+                fullScreenLoader.stopLoader();
+            });
         },
 
         /**
@@ -301,7 +297,7 @@ define([
                 'additional_data': {
                     'payer_document_type': self.mpPayerType(),
                     'payer_document_identification': self.mpPayerDocument(),
-                    'card_number_token': self.mpCardNumberToken(),
+                    'tokens': self.mpCardNumberToken(),
                     'card_holder_name': self.mpCardHolderName(),
                     'card_number': self.mpCardNumber(),
                     'card_exp_month': self.mpCardExpMonth(),

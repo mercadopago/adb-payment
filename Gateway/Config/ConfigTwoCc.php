@@ -209,7 +209,7 @@ class ConfigTwoCc extends PaymentConfig
 
         $mpSiteId = $this->config->getMpSiteId($storeId);
 
-        return $this->scopeConfig->getValue(
+        $result = $this->scopeConfig->getValue(
             sprintf(
                 $pathPattern,
                 self::METHOD,
@@ -219,6 +219,8 @@ class ConfigTwoCc extends PaymentConfig
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
+
+        return $result ?: '';
     }
 
     /**
@@ -245,7 +247,7 @@ class ConfigTwoCc extends PaymentConfig
             $storeId
         );
 
-        $result = $this->json->unserialize($ccTypesMapper);
+        $result = $ccTypesMapper ? $this->json->unserialize($ccTypesMapper) : null;
 
         return is_array($result) ? $result : [];
     }
