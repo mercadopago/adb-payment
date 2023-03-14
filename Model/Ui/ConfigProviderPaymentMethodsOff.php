@@ -11,7 +11,6 @@ use Magento\Quote\Api\Data\CartInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
 use MercadoPago\PaymentMagento\Gateway\Config\Config as MercadoPagoConfig;
 
-
 /**
  * User interface model for settings Payment Methods Off.
  */

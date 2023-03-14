@@ -94,20 +94,6 @@ class PaymentMethodsOff extends \Magento\Payment\Block\Form
     }
 
     /**
-     * Instruction.
-     *
-     * @return Phrase
-     */
-    public function getInstruction()
-    {
-        $storeId = $this->getBackendSessionQuote()->getStoreId();
-
-        $text = $this->configPaymentMethodsOff->getInstructionCheckoutPaymentMethodsOff($storeId);
-
-        return __($text);
-    }
-
-    /**
      * Mp Public Key.
      *
      * @return string

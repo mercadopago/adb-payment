@@ -33,11 +33,6 @@ class ConfigPaymentMethodsOff extends PaymentConfig
     public const TITLE = 'title';
 
     /**
-     * Instruction Checkout Payment Method Off.
-     */
-    public const INSTRUCTION_CHECKOUT_PAYMENT_METHODS_OFF = 'instruction_checkout';
-
-    /**
      * Expiration.
      */
     public const EXPIRATION = 'expiration';
@@ -52,6 +47,9 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      */
     public const USE_GET_NAME = 'get_name';
 
+     /**
+     * Payment Methods Off.
+     */
     public const PAYMENT_METHODS = 'payment_methods';
 
     /**

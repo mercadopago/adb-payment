@@ -121,13 +121,9 @@ define([
         },
 
         /**
-         * Get instruction checkout for Payment Methods Off
-         * @returns {string}
+         * Get Payment Methods Off Active
+         * @returns {array}
          */
-        getInstructionCheckoutPaymentMethodsOff() {
-            return window.checkoutConfig.payment[this.getCode()].instruction_checkout;
-        },
-
         getPaymentMethodsOffActive() {
             this.paymentMethodsOff = window.checkoutConfig.payment[this.getCode()].payment_methods_off_active;
             return this.paymentMethodsOff;
