@@ -134,11 +134,11 @@
             }
 
             &.payment-mercadopago {
-                border: 1px solid;
+                // border: 1px solid;
                 border-color: @color-gray-light2;
         
                 /* stylelint-disable-next-line CssSyntaxError */
-                .lib-css(background-color, @color-white);
+                .lib-css(background-color, @color-gray-light2);
                 .lib-css(border-radius, @mercadopago-checkout__border-radius);
                 .lib-css(padding-bottom, @indent__s);
         
@@ -151,7 +151,7 @@
         
                     border-top-left-radius: 4px;
                     border-top-right-radius: 4px;
-                    border-bottom: 1px solid;
+                    // border-bottom: 1px solid;
                     border-color: @color-gray-light2;
                     padding: 10px 20px;
                     background-color: @color-gray-light01;
@@ -168,6 +168,7 @@
                     text-align: center;
                     .lib-heading(h3);
                 }
+
             }
             .field {
                 &.choice {
@@ -387,6 +388,24 @@
         }
     }
 
+ 
+    .checkout-payment-method .payment-method+.payment-method .payment-method-title.mercadopago-header-twocc {
+        border-top: 1px solid;
+    }
+
+    .payment-method-content .payment-method-title.mercadopago-header-twocc{
+        box-sizing: border-box;
+        padding-left: 16px;
+        border: 1px solid;
+        border-radius: 4px;
+        background: #F5F5F5;
+    }
+
+    .mp-display-form {
+        visibility: hidden ;
+        height: 0;
+    }
+    
 }
 
 //

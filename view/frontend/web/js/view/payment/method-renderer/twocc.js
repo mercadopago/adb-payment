@@ -368,6 +368,30 @@ define([
          */
         isVaultEnabled: function () {
             return this.vaultEnabler.isVaultEnabled();
+        },
+
+        selectFirstCard: function (){
+            var mpFirstCard = document.getElementById('mp-first-card');
+            var mpSecondCard = document.getElementById('mp-second-card');
+
+            console.log(mpFirstCard)
+            console.log(mpSecondCard)
+
+            if(mpFirstCard.classList.contains('mp-display-form')) {
+                mpFirstCard.classList.remove('mp-display-form')
+                mpSecondCard.classList.add('mp-display-form')
+            }
+        },
+
+        selectSecondCard: function (){
+            var mpFirstCard = document.getElementById('mp-first-card');
+            var mpSecondCard = document.getElementById('mp-second-card');
+
+            if(mpSecondCard.classList.contains('mp-display-form')) {              
+                mpSecondCard.classList.remove('mp-display-form')
+                mpFirstCard.classList.add('mp-display-form')
+            }
+
         }
     });
 });
