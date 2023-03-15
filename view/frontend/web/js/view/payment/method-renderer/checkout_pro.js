@@ -9,7 +9,7 @@ define([
     'underscore',
     'jquery',
     'Magento_Checkout/js/model/url-builder',
-    'MercadoPago_PaymentMagento/js/view/payment/mp-security-form',
+    'MercadoPago_PaymentMagento/js/view/payment/default',
     'mage/storage',
     'observerCheckoutPro'
 ], function (

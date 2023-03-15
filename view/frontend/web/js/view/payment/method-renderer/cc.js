@@ -155,8 +155,9 @@ define([
             if (!$(this.formElement).valid()) {
                 return;
             }
-            await this.generateToken();
-            this.placeOrder();
+            if (await this.generateToken(0)) {
+                this.placeOrder();
+            }
         },
 
         /**
@@ -174,17 +175,15 @@ define([
                     'payer_document_identification': self.generatedCards[0]?.documentValue,
                     'card_number_token': self.generatedCards[0]?.token.id,
                     'card_holder_name': self.generatedCards[0]?.holderName,
-                    'card_number': self.generatedCards[0]?.mpCardNumber,
-                    'card_exp_month': self.generatedCards[0]?.mpCardExpMonth,
-                    'card_exp_year': self.generatedCards[0]?.mpCardExpYear,
+                    'card_number': self.generatedCards[0]?.cardNumber,
+                    'card_exp_month': self.generatedCards[0]?.cardExpirationMonth,
+                    'card_exp_year': self.generatedCards[0]?.cardExpirationYear,
                     'card_type': self.generatedCards[0]?.cardType,
                     'card_installments': self.generatedCards[0]?.cardInstallment,
                     'card_public_id': self.generatedCards[0]?.cardPublicId,
                     'mp_user_id': self.generatedCards[0]?.mpUserId,
                 }
             };
-
-            console.log(data);
 
             data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
             this.vaultEnabler.visitAdditionalData(data);

@@ -14,6 +14,9 @@
     <event name="payment_method_assign_data_mercadopago_paymentmagento_cc">
         <observer name="mercadopago_paymentmagento_cc_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignObserverCc" />
     </event>
+    <event name="payment_method_assign_data_mercadopago_paymentmagento_twocc">
+        <observer name="mercadopago_paymentmagento_twocc_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignObserverTwoCc" />
+    </event>
     <event name="payment_method_assign_data_mercadopago_paymentmagento_cc_vault">
         <observer name="mercadopago_paymentmagento_cc_vault_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignObserverCcVault" />
     </event>

@@ -9,7 +9,7 @@
 define([
     'underscore',
     'jquery',
-    'Magento_Checkout/js/view/payment/default',
+    'MercadoPago_PaymentMagento/js/view/payment/default',
     'Magento_Checkout/js/model/quote',
     'MercadoPago_PaymentMagento/js/view/payment/method-renderer/validate-form-security',
     'mage/url',
@@ -110,15 +110,15 @@ define([
          * @return {void}
          */
         resetCardForm() {
-            self.mpCardForm.cardNumber.unmount();
-            self.mpCardForm.securityCode.unmount();
-            self.mpCardForm.expirationMonth.unmount();
-            self.mpCardForm.expirationYear.unmount();
-            self.mpCardForm = {};
-            self.fields = {};
-            self.installmentWasCalculated(false);
-            self.mpCardHolderName('');
-            self.mpPayerType('');
+            window.mpCardForm?.cardNumber?.unmount();
+            window.mpCardForm?.securityCode?.unmount();
+            window.mpCardForm?.expirationMonth?.unmount();
+            window.mpCardForm?.expirationYear?.unmount();
+            window.mpCardForm = {};
+            this.fields = {};
+            this.installmentWasCalculated(false);
+            this.mpCardHolderName('');
+            this.mpPayerType('');
         },
 
         /**
@@ -133,95 +133,102 @@ define([
                 },
                 codeCardtype;
 
+            self.resetCardForm();
+
             self.fields = {fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear};
 
-            self.mpCardForm = {
-                cardNumber: window.mp.fields.create('cardNumber', {style: styleField}),
-                securityCode: window.mp.fields.create('securityCode', {style: styleField}),
-                expirationMonth: window.mp.fields.create('expirationMonth', {style: styleField}),
-                expirationYear: window.mp.fields.create('expirationYear', {style: styleField}),
-            };
-
-            self.mpCardForm.cardNumber
-                .mount(fieldCcNumber)
-                .on('error', () => {
-                    self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
-                })
-                .on('binChange', (event) => {
-                    if (event.bin) {
-                        if (event.bin.length === 8) {
-                            self.mpCardBin(event.bin);
-                            window.mp.getPaymentMethods({bin: event.bin}).then((binDetails) => {
-                                codeCardtype = self.getCodeCardType(binDetails.results[0].id);
-                                self.mpSelectedCardType(codeCardtype);
-                                self.mpCardType(codeCardtype);
-                            });
+            if (fieldCcNumber) {
+                window.mpCardForm.cardNumber = window.mp.fields.create('cardNumber', {style: styleField});
+                window.mpCardForm.cardNumber
+                    .mount(fieldCcNumber)
+                    .on('error', () => {
+                        self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
+                    })
+                    .on('binChange', (event) => {
+                        if (event.bin) {
+                            if (event.bin.length === 8) {
+                                self.mpCardBin(event.bin);
+                                window.mp.getPaymentMethods({bin: event.bin}).then((binDetails) => {
+                                    codeCardtype = self.getCodeCardType(binDetails.results[0].id);
+                                    self.mpSelectedCardType(codeCardtype);
+                                    self.mpCardType(codeCardtype);
+                                });
+                            }
                         }
-                    }
-                })
-                .on('blur', () => {
-                    validateFormSF.removeClassesIfEmpyt(fieldCcNumber);
-                })
-                .on('focus', () => {
-                    validateFormSF.toogleFocusStyle(fieldCcNumber);
-                })
-                .on('validityChange', (event) => {
-                    validateFormSF.toogleValidityState(fieldCcNumber, event.errorMessages);
-                });
+                    })
+                    .on('blur', () => {
+                        validateFormSF.removeClassesIfEmpyt(fieldCcNumber);
+                    })
+                    .on('focus', () => {
+                        validateFormSF.toogleFocusStyle(fieldCcNumber);
+                    })
+                    .on('validityChange', (event) => {
+                        validateFormSF.toogleValidityState(fieldCcNumber, event.errorMessages);
+                    });
+            }
 
-            self.mpCardForm.securityCode
-                .mount(fieldSecurityCode)
-                .on('error', () => {
-                    self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
-                })
-                .on('blur', () => {
-                    validateFormSF.removeClassesIfEmpyt(fieldSecurityCode);
-                })
-                .on('focus', () => {
-                    validateFormSF.toogleFocusStyle(fieldSecurityCode);
-                })
-                .on('validityChange', (event) => {
-                    validateFormSF.toogleValidityState(fieldSecurityCode, event.errorMessages);
-                });
+            if (fieldSecurityCode) {
+                window.mpCardForm.securityCode = window.mp.fields.create('securityCode', {style: styleField});
+                window.mpCardForm.securityCode
+                    .mount(fieldSecurityCode)
+                    .on('error', () => {
+                        self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
+                    })
+                    .on('blur', () => {
+                        validateFormSF.removeClassesIfEmpyt(fieldSecurityCode);
+                    })
+                    .on('focus', () => {
+                        validateFormSF.toogleFocusStyle(fieldSecurityCode);
+                    })
+                    .on('validityChange', (event) => {
+                        validateFormSF.toogleValidityState(fieldSecurityCode, event.errorMessages);
+                    });
+            }
 
-            self.mpCardForm.expirationMonth
-                .mount(fieldExpMonth)
-                .on('error', () => {
-                    self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
-                })
-                .on('blur', () => {
-                    validateFormSF.removeClassesIfEmpyt(fieldExpMonth);
-                })
-                .on('focus', () => {
-                    validateFormSF.toogleFocusStyle(fieldExpMonth);
-                })
-                .on('validityChange', (event) => {
-                    validateFormSF.toogleValidityState(fieldExpMonth, event.errorMessages);
-                });
+            if (fieldExpMonth) {
+                window.mpCardForm.expirationMonth = window.mp.fields.create('expirationMonth', {style: styleField});
+                window.mpCardForm.expirationMonth
+                    .mount(fieldExpMonth)
+                    .on('error', () => {
+                        self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
+                    })
+                    .on('blur', () => {
+                        validateFormSF.removeClassesIfEmpyt(fieldExpMonth);
+                    })
+                    .on('focus', () => {
+                        validateFormSF.toogleFocusStyle(fieldExpMonth);
+                    })
+                    .on('validityChange', (event) => {
+                        validateFormSF.toogleValidityState(fieldExpMonth, event.errorMessages);
+                    });
+            }
 
-            self.mpCardForm.expirationYear
-                .mount(fieldExpYear)
-                .on('error', () => {
-                    self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
-                })
-                .on('blur', () => {
-                    validateFormSF.removeClassesIfEmpyt(fieldExpYear);
-                })
-                .on('focus', () => {
-                    validateFormSF.toogleFocusStyle(fieldExpYear);
-                })
-                .on('validityChange', (event) => {
-                    validateFormSF.toogleValidityState(fieldExpYear, event.errorMessages);
-                })
-                .on('ready', () => {
-                    self.isLoading(false);
-                });
+            if (fieldExpYear) {
+                window.mpCardForm.expirationYear = window.mp.fields.create('expirationYear', {style: styleField});
+                window.mpCardForm.expirationYear
+                    .mount(fieldExpYear)
+                    .on('error', () => {
+                        self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
+                    })
+                    .on('blur', () => {
+                        validateFormSF.removeClassesIfEmpyt(fieldExpYear);
+                    })
+                    .on('focus', () => {
+                        validateFormSF.toogleFocusStyle(fieldExpYear);
+                    })
+                    .on('validityChange', (event) => {
+                        validateFormSF.toogleValidityState(fieldExpYear, event.errorMessages);
+                    })
+                    .on('ready', () => {
+                        self.isLoading(false);
+                    });
+            }
         },
 
-        async generateToken() {
+        async generateToken(cardIndex) {
             var self = this,
-                isVaultEnabled = this.vaultEnabler.isVaultEnabled(),
-                saveCard = this.vaultEnabler.isActivePaymentTokenEnabler(),
+                isVaultEnabled = this.vaultEnabler?.isVaultEnabled() ?? false,
+                saveCard = this.vaultEnabler?.isActivePaymentTokenEnabler() ?? false,
                 quoteId = quote.getQuoteId(),
                 unsupportedPreAuth = self.getUnsupportedPreAuth(),
                 mpSiteId = self.getMpSiteId();
@@ -231,7 +238,7 @@ define([
                 saveCard = false;
             }
 
-            if (self.mpPayerDocument) {
+            if (self.mpPayerDocument()) {
                 self.mpPayerDocument(self.mpPayerDocument().replace(/\D/g, ''));
             }
 
@@ -258,7 +265,7 @@ define([
                         vaultData: {
                             token: token.id,
                             identificationNumber: self.mpPayerDocument(),
-                            identificationType: self.mpPayerType(0),
+                            identificationType: self.mpPayerType(),
                         }
                     };
 
@@ -278,15 +285,17 @@ define([
                         fullScreenLoader.stopLoader();
 
                     } catch (e) {
+                        console.log('ERROR IN VAULT', e);
                         fullScreenLoader.stopLoader();
+                        return false;
                     }
                 }
 
-                self.generatedCards.push({
+                self.generatedCards[cardIndex] = {
                     token,
                     cardNumber: token.first_six_digits + 'xxxxxx' + token.last_four_digits,
                     cardExpirationYear: token.expiration_year,
-                    cardExpirationMotn: token.expiration_month,
+                    cardExpirationMonth: token.expiration_month,
                     cardPublicId: self.mpCardPublicId(),
                     cardType: self.mpCardType(),
                     documentType: self.mpPayerType(),
@@ -294,12 +303,21 @@ define([
                     mpUserId: self.mpUserId(),
                     holderName: self.mpCardHolderName(),
                     cardInstallment: self.mpCardInstallment(),
-                });
+                };
+
+                return true;
             } catch(e) {
+                console.log('ERROR GENERATING TOKEN', e);
+
+                _.map(e, (error) => {
+                    self.displayErrorInField(error);
+                });
+
                 messageList.addErrorMessage({
                     message: $t('Unable to make payment, check card details.')
                 });
                 fullScreenLoader.stopLoader();
+                return false;
             }
         },
 
@@ -519,71 +537,6 @@ define([
                     'name': 'Credit Card Number', value: this.mpCardNumber()
                 }
             ];
-        },
-
-        /**
-         * Is document identification capture
-         * @returns {Boolean}
-         */
-        DocumentIdentificationCapture() {
-
-            if (this.getMpSiteId() === 'MLM') {
-                return false;
-            }
-
-            if (this.getMpSiteId() !== 'MLB') {
-                return true;
-            }
-
-            if (!quote.billingAddress()) {
-                return window.checkoutConfig.payment[this.getCode()].document_identification_capture;
-            }
-
-            if (!quote.billingAddress().vatId) {
-                return true;
-            }
-
-            return window.checkoutConfig.payment[this.getCode()].document_identification_capture;
-        },
-
-        /**
-         * Get logo
-         * @returns {String}
-         */
-        getLogo() {
-            return window.checkoutConfig.payment[this.getCode()].logo;
-        },
-
-        /**
-         * Get title
-         * @returns {String}
-         */
-        getTitle() {
-            return window.checkoutConfig.payment[this.getCode()].title;
-        },
-
-        /**
-         * Get Payment Id Method
-         * @returns {String}
-         */
-        getPaymentIdMethod() {
-            return window.checkoutConfig.payment[this.getCode()].payment_method_id;
-        },
-
-        /**
-         * Get Expiration
-         * @returns {String}
-         */
-        getExpiration() {
-            return window.checkoutConfig.payment[this.getCode()].expiration;
-        },
-
-        /**
-         * Get Mp Site Id
-         * @returns {String}
-         */
-        getMpSiteId() {
-            return window.checkoutConfig.payment['mercadopago_paymentmagento'].mp_site_id;
         },
 
         addFinanceCost() {
