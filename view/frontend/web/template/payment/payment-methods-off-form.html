@@ -1,11 +1,11 @@
 
-<!-- ko if: (getPaymentMethodsOffActive().length === 0)-->
+<!-- ko if: (getCountPaymentMethodsOffActive() === 0)-->
     <div style="margin-bottom: 10px;">
         <span data-bind="text: $t('There are no payment methods available, please contact the seller.')"></span>
     </div>
 <!-- /ko -->
 
-<!-- ko if: (paymentMethodsOff.length !== 0)-->
+<!-- ko if: (getCountPaymentMethodsOffActive() !== 0)-->
     <!-- ko if: NameCapture() || DocumentIdentificationCapture() -->
         <fieldset data-bind="attr: {class: 'fieldset payment items', id: 'payment_form_payer_persona' + getCode()}">
             <!-- ko if: NameCapture() -->

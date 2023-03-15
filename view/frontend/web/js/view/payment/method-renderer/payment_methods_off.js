@@ -60,6 +60,8 @@ define([
             self.payerLastName.subscribe((value) => {
                 mpData.payerLastName = value;
             });
+
+            this.loadPaymentMethodsOffActive();
         },
 
         /**
@@ -93,12 +95,29 @@ define([
             this.placeOrder();
         },
 
+        getPaymentSelected: function () {
+            if ( this.getCountPaymentMethodsOffActive() === 1) {
+              var input = document.getElementsByName("payment[payment_methods_off]")[0];
+              return { "id": input.value, "payment_type_id": input.getAttribute("payment_type_id")};
+            }
+    
+            var element = document.querySelector('input[name="payment[payment_methods_off]"]:checked');
+    
+            if (this.getCountPaymentMethodsOffActive() > 1 && element) {
+              return { "id": element.value, "payment_type_id": element.getAttribute("payment_type_id")};
+            } else {
+              return false;
+            }
+        },
+
         /**
          * Get data
          * @returns {Object}
          */
         getData() {
             let self = this;
+
+            console.log(this.getPaymentSelected());
 
             return {
                 method: self.getCode(),
@@ -121,12 +140,14 @@ define([
         },
 
         /**
-         * Get Payment Methods Off Active
-         * @returns {array}
+         * Load Payment Methods Off Active
          */
-        getPaymentMethodsOffActive() {
+        loadPaymentMethodsOffActive() {
             this.paymentMethodsOff = window.checkoutConfig.payment[this.getCode()].payment_methods_off_active;
-            return this.paymentMethodsOff;
+        },
+
+        getCountPaymentMethodsOffActive() {
+            return this.paymentMethodsOff.length;
         }
     });
 });
