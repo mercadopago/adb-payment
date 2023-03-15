@@ -7,6 +7,7 @@
 @mercadopago-checkout__box-shadow: 0 3px 5px rgba(57, 22, 58, .05);
 @mercadopago-checkout__border-radius: 3px;
 @mercadopago-checkout__margin-adjust: 21px;
+@import 'twocc.less';
 
 & when (@media-common =true) {
     .form-mercadopago {
@@ -14,25 +15,30 @@
             font-size: 12px;
             line-height: 1.1;
         }
+
         .text-cft {
             font-size: 27px;
             line-height: 1.1;
         }
+
         .payment-method-title {
             &.field {
                 display: inline-flex;
                 width: 100%;
             }
         }
+
         .control-mp-iframe {
             background-color: @input-text__background;
             border: @input-text__border;
             border-radius: @input-text__border-radius;
             height: 48px;
             position: relative;
+
             &.has-error {
                 border-color: @error__color;
             }
+
             .field-tooltip {
                 height: 0;
                 right: @indent__xs;
@@ -40,11 +46,13 @@
                 top: @indent__s;
                 width: 28px;
             }
+
             .input-mp-iframe {
                 height: 100%;
                 position: absolute;
                 width: 90%;
             }
+
             .label {
                 display: block;
                 font-weight: normal;
@@ -59,6 +67,7 @@
                 white-space: nowrap;
                 width: 70%;
             }
+
             &.in-focus,
             &.is-valid {
                 .label {
@@ -68,6 +77,7 @@
                 }
             }
         }
+
         .payment-method-label {
             display: table;
             vertical-align: middle;
@@ -136,19 +146,19 @@
             &.payment-mercadopago {
                 // border: 1px solid;
                 border-color: @color-gray-light2;
-        
+
                 /* stylelint-disable-next-line CssSyntaxError */
                 .lib-css(background-color, @color-gray-light2);
                 .lib-css(border-radius, @mercadopago-checkout__border-radius);
                 .lib-css(padding-bottom, @indent__s);
-        
+
                 .legend {
                     align-items: center;
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
                     &:extend(.abs-visually-hidden-reset all);
-        
+
                     border-top-left-radius: 4px;
                     border-top-right-radius: 4px;
                     // border-bottom: 1px solid;
@@ -156,13 +166,13 @@
                     padding: 10px 20px;
                     background-color: @color-gray-light01;
                     width: 100%;
-        
+
                     &-icon {
                         margin-right: 0;
                         text-align: right;
                     }
                 }
-        
+
                 .not-editable-title {
                     padding: @indent__base;
                     text-align: center;
@@ -170,6 +180,7 @@
                 }
 
             }
+
             .field {
                 &.choice {
                     margin-bottom: @indent__base;
@@ -375,6 +386,7 @@
     .full-checkout {
         .checkout-payment-method {
             .payment-method-content {
+
                 /**
 				 * @codingStandardsIgnoreStart
 				 */
@@ -388,41 +400,22 @@
         }
     }
 
- 
-    .checkout-payment-method .payment-method+.payment-method .payment-method-title.mercadopago-header-twocc {
-        border-top: 1px solid;
-    }
-
-    .payment-method-content .payment-method-title.mercadopago-header-twocc{
-        box-sizing: border-box;
-        padding-left: 16px;
-        border: 1px solid;
-        border-radius: 4px;
-        background: #F5F5F5;
-    }
-
-    .mp-display-form {
-        visibility: hidden ;
-        height: 0;
-    }
-    
 }
+    //
+    //  Desktop
+    //  _____________________________________________
 
-//
-//  Desktop
-//  _____________________________________________
+    .media-width(@extremum, @break) when (@extremum ='min') and (@break =@screen__m) {
 
-.media-width(@extremum, @break) when (@extremum ='min') and (@break =@screen__m) {
-
-    .form-mercadopago {
-        .legend {
-            .credit-card-types {
-                .item {
-                    img {
-                        width: 32px;
+        .form-mercadopago {
+            .legend {
+                .credit-card-types {
+                    .item {
+                        img {
+                            width: 32px;
+                        }
                     }
                 }
             }
         }
     }
-}

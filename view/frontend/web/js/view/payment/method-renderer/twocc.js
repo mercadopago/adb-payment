@@ -378,6 +378,8 @@ define([
             console.log(mpSecondCard)
 
             if(mpFirstCard.classList.contains('mp-display-form')) {
+                this.formShown('mp-twocc-first-radio')
+                this.formHidden('mp-twocc-second-radio')
                 mpFirstCard.classList.remove('mp-display-form')
                 mpSecondCard.classList.add('mp-display-form')
             }
@@ -387,11 +389,25 @@ define([
             var mpFirstCard = document.getElementById('mp-first-card');
             var mpSecondCard = document.getElementById('mp-second-card');
 
-            if(mpSecondCard.classList.contains('mp-display-form')) {              
+            if(mpSecondCard.classList.contains('mp-display-form')) { 
+                this.formShown('mp-twocc-second-radio')  
+                this.formHidden('mp-twocc-first-radio')           
                 mpSecondCard.classList.remove('mp-display-form')
                 mpFirstCard.classList.add('mp-display-form')
             }
+        },
 
+        formShown: function (id){
+            var mpRadio = document.getElementById(id);
+            mpRadio.style.borderBottom = '0'
+            mpRadio.style.borderRadius = '4px 4px 0 0'
+        },
+
+        formHidden: function (id){
+            console.log('hidden')
+            var mpRadio = document.getElementById(id);
+            mpRadio.style.borderBottom = '1px solid'
+            mpRadio.style.borderRadius = '4px'
         }
     });
 });

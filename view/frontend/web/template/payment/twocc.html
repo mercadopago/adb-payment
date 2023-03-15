@@ -24,7 +24,21 @@
         </label>
     </div>
     <div class="payment-method-content">
-        <div class="payment-method-title field choice mercadopago-header-twocc">
+        <div class="mp-twocc-badge-info">
+            <div class="mp-twocc-badge-circle"></div>
+            <div class="mp-twocc-badge-adjustment">
+                <div class="mp-twocc-badge-card-installments">
+                    <div class="mp-twocc-badge-card"><span>***8888</span></div>
+                    <div class="mp-twocc-badge-installments"><span>2x R$ 50,00</span></div>
+                </div>
+                <div class="mp-twocc-badge-edit">
+                    <img>
+                    <span>Editar</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mp-twocc-card-header" id="mp-twocc-first-radio">
             <input type="radio" name="payment[method]" class="radio" id="mp-first-card-radio" ko-value="getCode()"
                 ko-checked="isChecked" click="selectFirstCard" visible="isRadioButtonVisible()"></input>
             <label for="mp-first-card-radio" class="label">
@@ -48,7 +62,7 @@
             </form>
 
         </div>
-        <div class="payment-method-title field choice mercadopago-header-twocc">
+        <div class="mp-twocc-card-header" id="mp-twocc-second-radio">
             <input type="radio" name="payment[method]" class="radio" id="mp-first-card-radio" ko-value="getCode()"
                 ko-checked="isChecked" click="selectSecondCard" visible="isRadioButtonVisible()"></input>
             <label for="mp-first-card-radio" class="label">
@@ -64,9 +78,7 @@
                 </span>
             </label>
         </div>
-        <each args="getRegion('messages')" render=""></each>
         <div id="mp-second-card" class="mp-display-form">
-
             <form class="form mp-form" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
                 <render args="twoCcForm"></render>
             </form>
