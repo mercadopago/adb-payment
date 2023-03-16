@@ -118,11 +118,13 @@ define([
             let self = this;
 
             console.log(this.getPaymentSelected());
+            var payment_method_data = this.getPaymentSelected();
 
             return {
                 method: self.getCode(),
                 'additional_data': {
-                    'payment_method_id': self.getPaymentIdMethod(),
+                    'payment_method_id': payment_method_data.id,
+                    'payment_type_id': payment_method_data.payment_type_id,
                     'payer_first_name': self.payerFirstName(),
                     'payer_last_name': self.payerLastName(),
                     'payer_document_type': self.mpPayerType(),
