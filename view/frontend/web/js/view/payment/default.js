@@ -6,18 +6,68 @@
 /* @api */
 define([
     'underscore',
-    'jquery',
     'Magento_Checkout/js/view/payment/default',
     'Magento_Checkout/js/model/quote',
 ], function (
     _,
-    $,
     Component,
     quote,
 ) {
     'use strict';
 
     return Component.extend({
+        defaults: {
+            mpPayerOptionsTypes: '',
+            mpPayerDocument: '',
+            mpPayerType: '',
+        },
+
+        /** @inheritdoc */
+        initObservable: function () {
+            this._super()
+                .observe([
+                    'mpPayerOptionsTypes',
+                    'mpPayerDocument',
+                    'mpPayerType',
+                ]);
+            return this;
+        },
+
+        initialize: function () {
+            const self = this;
+
+            this._super();
+
+            self.active.subscribe((value) => {
+                if (value === true) {
+                    self.getSelectDocumentTypes();
+                }
+            });
+
+            self.mpPayerDocument.subscribe((value) => {
+                if (self.getMpSiteId() === 'MLB' && value) {
+                    self.mpPayerType(value.replace(/\D/g, '').length <= 11 ? 'CPF' : 'CNPJ');
+                }
+            });
+        },
+
+        /**
+         * Get Select Document Types
+         * @returns {void}
+         */
+        async getSelectDocumentTypes() {
+            const self = this;
+
+            self.mpPayerOptionsTypes(await window.mp.getIdentificationTypes());
+
+            if (quote.billingAddress()) {
+                const vatId = quote.billingAddress().vatId;
+                if (vatId) {
+                    self.mpPayerDocument(vatId);
+                }
+            }
+        },
+
         /**
          * Get logo
          * @returns {String}
@@ -81,6 +131,23 @@ define([
             }
 
             return window.checkoutConfig.payment[this.getCode()].document_identification_capture;
+        },
+
+        /**
+         * Get Validation For Document.
+         * @returns {Array}
+         */
+        getValidationForDocument() {
+            let self = this,
+                mpSiteId = self.getMpSiteId();
+
+            if (mpSiteId === 'MLB') {
+                return {
+                    'required': true,
+                    'mp-validate-document-identification': '#' + self.getCode() + '_document_identification'
+                };
+            }
+            return {'required': true};
         },
     });
 });

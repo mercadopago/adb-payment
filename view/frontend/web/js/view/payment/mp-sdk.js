@@ -42,11 +42,8 @@ define([
             generatedCards: [],
             // html fields
             mpCardHolderName: '',
-            mpPayerDocument: '',
-            mpPayerType: '',
             mpCardListInstallments: '',
             mpCardInstallment: '',
-            mpPayerOptionsTypes: '',
             mpSelectedCardType: '',
             mpCardType: '',
             mpCardBin: '',
@@ -59,11 +56,8 @@ define([
             this._super()
                 .observe([
                     'mpCardHolderName',
-                    'mpPayerDocument',
-                    'mpPayerType',
                     'mpCardListInstallments',
                     'mpCardInstallment',
-                    'mpPayerOptionsTypes',
                     'mpSelectedCardType',
                     'mpCardType',
                     'mpCardBin',
@@ -78,16 +72,10 @@ define([
          * Init component
          */
         initialize: function () {
-            let self = this,
-                defaultTypeDocument;
+            let self = this;
 
             this._super();
 
-            self.active.subscribe((value) => {
-                if (value === true) {
-                    self.getSelectDocumentTypes();
-                }
-            });
 
             self.mpCardBin.subscribe((value) => {
                 self.getListOptionsToInstallments(self.amount());
@@ -95,13 +83,6 @@ define([
 
             self.mpCardInstallment.subscribe((value) => {
                 self.addFinanceCost();
-            });
-
-            self.mpPayerDocument.subscribe((value) => {
-                if (self.getMpSiteId() === 'MLB' && value) {
-                    defaultTypeDocument = value.replace(/\D/g, '').length <= 11 ? 'CPF' : 'CNPJ';
-                    self.mpPayerType(defaultTypeDocument);
-                }
             });
         },
 
@@ -340,23 +321,6 @@ define([
         },
 
         /**
-         * Get Select Document Types
-         * @returns {void}
-         */
-        async getSelectDocumentTypes() {
-            const self = this;
-
-            self.mpPayerOptionsTypes(await window.mp.getIdentificationTypes());
-
-            if (quote.billingAddress()) {
-                const vatId = quote.billingAddress().vatId;
-                if (vatId) {
-                    self.mpPayerDocument(vatId);
-                }
-            }
-        },
-
-        /**
          * Get List Options to Instalments
          * @returns {Array}
          */
@@ -403,23 +367,6 @@ define([
                     }
                 });
             });
-        },
-
-        /**
-         * Get Validation For Document.
-         * @returns {Array}
-         */
-        getValidationForDocument() {
-            let self = this,
-                mpSiteId = self.getMpSiteId();
-
-            if (mpSiteId === 'MLB') {
-                return {
-                    'required': true,
-                    'mp-validate-document-identification': '#' + self.getCode() + '_document_identification'
-                };
-            }
-            return {'required': true};
         },
 
         /**
