@@ -1,10 +1,4 @@
 <?php
-/**
- * Copyright © MercadoPago. All rights reserved.
- *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
- * @license     See LICENSE for license details.
- */
 
 namespace MercadoPago\PaymentMagento\Gateway\Request;
 
@@ -15,12 +9,12 @@ use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
 use MercadoPago\PaymentMagento\Gateway\SubjectReader;
 
 /**
- * Gateway Requests Payment by Ticket Data.
+ * Gateway Requests Payment by PaymentMethodsOff Data.
  *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class TicketPaymentDataRequest implements BuilderInterface
+class PaymentMethodsOffDataRequest implements BuilderInterface
 {
     /**
      * Payment Method Id block name.
@@ -79,13 +73,11 @@ class TicketPaymentDataRequest implements BuilderInterface
 
         $paymentIdMethod = $payment->getAdditionalInformation('payment_method_id');
 
-        $options = [
-            ConfigPaymentMethodsOff::PAYMENT_METHOD_ID => $this->configPaymentMethodsOff->getExpirationFormatted(),
-        ];
+        $options = $this->configPaymentMethodsOff->getExpirationFormatted();
 
         $result = [
             self::PAYMENT_METHOD_ID  => $paymentIdMethod,
-            self::DATE_OF_EXPIRATION => $options[$paymentIdMethod],
+            self::DATE_OF_EXPIRATION => $options
         ];
 
         return $result;

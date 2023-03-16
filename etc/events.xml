@@ -21,7 +21,7 @@
         <observer name="mercadopago_paymentmagento_cc_vault_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignObserverCcVault" />
     </event>
     <event name="payment_method_assign_data_mercadopago_paymentmagento_payment_methods_off">
-        <observer name="mercadopago_paymentmagento_payment_methods_of_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
+        <observer name="mercadopago_paymentmagento_payment_methods_off_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
     </event>
     <event name="payment_method_assign_data_mercadopago_paymentmagento_pec">
         <observer name="mercadopago_paymentmagento_pec_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />

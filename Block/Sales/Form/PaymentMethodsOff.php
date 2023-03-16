@@ -105,13 +105,4 @@ class PaymentMethodsOff extends \Magento\Payment\Block\Form
         return $this->config->getMerchantGatewayClientId($storeId);
     }
 
-    /**
-     * Get Payment Method Id.
-     *
-     * @return string
-     */
-    public function getPaymentMethodId()
-    {
-        return ConfigPaymentMethodsOff::PAYMENT_METHOD_ID;
-    }
 }

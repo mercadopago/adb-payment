@@ -689,11 +689,11 @@
         </arguments>
     </virtualType>
 
-    <!-- Ticket - Order Commands -->
+    <!-- PaymentMethodsOff - Order Commands -->
     <virtualType name="MercadoPagoTicketOrderCommand" type="MercadoPago\PaymentMagento\Gateway\Command\PaymentCommand">
         <arguments>
             <argument name="commandPool" xsi:type="object">MercadoPagoTicketCommandPool</argument>
-            <argument name="requestBuilder" xsi:type="object">MercadoPagoTicketOrderRequest</argument>
+            <argument name="requestBuilder" xsi:type="object">MercadoPagoPaymentMethodsOffOrderRequest</argument>
             <argument name="handler" xsi:type="object">MercadoPagoTicketOrderResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
@@ -702,8 +702,8 @@
         </arguments>
     </virtualType>
 
-    <!-- Ticket - Order Request -->
-    <virtualType name="MercadoPagoTicketOrderRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+    <!-- PaymentMethodsOff - Order Request -->
+    <virtualType name="MercadoPagoPaymentMethodsOffOrderRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="storeId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\StoreIdDataRequest</item>
@@ -719,8 +719,8 @@
                 <item name="additionalInfoPayer" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\AdditionalInfoPayerDataRequest</item>
                 <item name="additionalInfoShippings" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\AdditionalInfoShippingsDataRequest</item>
                 <item name="metadata" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\MetadataPaymentDataRequest</item>
-                <item name="metadataTicket" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\MetadataPaymentTicketDataRequest</item>
-                <item name="paymentMethod" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\TicketPaymentDataRequest</item>
+                <item name="metadataPaymentMethodsOff" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\MetadataPaymentMethodsOffDataRequest</item>
+                <item name="paymentMethod" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\PaymentMethodsOffDataRequest</item>
             </argument>
         </arguments>
     </virtualType>

@@ -170,7 +170,9 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
                         'value' => $payment['id'],
                         'label' => $payment['name'],
                         'logo' => $payment['thumbnail'],
+                        'payment_method_id' => $payment['id'],
                         'payment_type_id' => $payment['payment_type_id'],
+                        
                     ];
                 } else {
                     foreach ($payment['payment_places'] as $payment_place) {
@@ -178,7 +180,9 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
                             'value' => $payment_place['payment_option_id'],
                             'label' => $payment_place['name'],
                             'logo' => $payment_place['thumbnail'],
+                            'payment_method_id' => $payment['id'],
                             'payment_type_id' => $payment['payment_type_id'],
+                            'payment_option_id' => $payment_place['payment_option_id'],
                         ];
                     }
                 }

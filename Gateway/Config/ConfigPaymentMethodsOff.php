@@ -18,11 +18,6 @@ class ConfigPaymentMethodsOff extends PaymentConfig
     public const METHOD = 'mercadopago_paymentmagento_payment_methods_off';
 
     /**
-     * Payment Method Id Payment Methods Off.
-     */
-    public const PAYMENT_METHOD_ID = 'bolbradesco';
-
-    /**
      * Active.
      */
     public const ACTIVE = 'active';

@@ -99,11 +99,18 @@
         </div>
 
         <div class="field-to-pay" data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
-            <fieldset data-bind="attr: {class: 'fieldset payment items mercadopago_checkout_custom_ticket', id: 'payment_form_options_' + getCode()}">
+            <fieldset data-bind="attr: {class: 'fieldset payment items mercadopago_checkout_custom_payment_methods_off', id: 'payment_form_options_' + getCode()}">
                 <ul id="payment-methods-off">
                     <!-- ko foreach: {data: paymentMethodsOff, as: 'paymentMethod'} -->
                         <li class="payment-methods-off-option">
-                            <input type="radio" class="payment-methods-off-input" name="payment[payment_methods_off]" data-bind="'attr':{ id: paymentMethod['value'], value: paymentMethod['value'], payment_type_id: paymentMethod['payment_type_id'], 'data-validate': JSON.stringify({ 'validate-one-required-by-name':true })}" />
+                            <input type="radio" class="payment-methods-off-input" name="payment[payment_methods_off]" data-bind="'attr':{ 
+                                id: paymentMethod['value'], 
+                                value: paymentMethod['value'], 
+                                payment_method_id: paymentMethod['payment_method_id'], 
+                                payment_type_id: paymentMethod['payment_type_id'], 
+                                payment_option_id: paymentMethod['payment_option_id'], 
+                                'data-validate': JSON.stringify({ 'validate-one-required-by-name':true })
+                            }" />
                             <label class="payment-methods-off-label" data-bind="'attr':{ for: paymentMethod['value'] }">
                                 <div class="payment-methods-off-logo-container">
                                     <img data-bind="'attr':{src: paymentMethod['logo'], alt: paymentMethod['label']}" class="img-fluid payment-methods-off-logo-image" />
