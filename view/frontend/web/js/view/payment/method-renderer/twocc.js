@@ -32,7 +32,7 @@ define([
     mpCardData,
     setFinanceCost,
     messageList,
-    $t
+    $t,
  ) {
     'use strict';
     return Component.extend({
@@ -48,7 +48,9 @@ define([
             installmentTextInfo: false,
             installmentTextTEA: null,
             installmentTextCFT: null,
-            isLoading: true
+            isLoading: true,
+            isFirstChecked: true,
+            isSecondChecked: false,
         },
 
         /**
@@ -71,7 +73,9 @@ define([
                 'isLoading',
                 'installmentTextInfo',
                 'installmentTextTEA',
-                'installmentTextCFT'
+                'installmentTextCFT',
+                'isFirstChecked',
+                'isSecondChecked'
             ]);
             return this;
         },
@@ -126,6 +130,18 @@ define([
                 mpCardData.amount = value;
                 self.getListOptionsToInstallments();
             });
+
+            this.isFirstChecked.subscribe(value => {
+                if(value === true) {
+                    self.selectFirstCard()
+                }
+            });
+
+            this.isSecondChecked.subscribe(value => {
+                if(value === true) {
+                    self.selectSecondCard()
+                }
+            })
         },
 
         /**
@@ -391,7 +407,7 @@ define([
 
             if(mpSecondCard.classList.contains('mp-display-form')) { 
                 this.formShown('mp-twocc-second-radio')  
-                this.formHidden('mp-twocc-first-radio')           
+                this.formHidden('mp-twocc-first-radio')
                 mpSecondCard.classList.remove('mp-display-form')
                 mpFirstCard.classList.add('mp-display-form')
             }
@@ -408,6 +424,18 @@ define([
             var mpRadio = document.getElementById(id);
             mpRadio.style.borderBottom = '1px solid'
             mpRadio.style.borderRadius = '4px'
-        }
+        },
+
+        // updateSelection: function () {
+        //     // const selectedOption = document.querySelector('input[name="mp-payment-twocc-radio"]:checked')
+        //     if(this.isFirstChecked()){
+        //         this.selectFirstCard()
+        //     }
+
+        //     if(this.isSecondChecked()){
+        //         $("mp-second-card-radio").prop("isChecked", true)
+        //         this.selectSecondCard()
+        //     }
+        // }
     });
 });

@@ -16,12 +16,13 @@
     width: 100%;
     padding: 20px 0 20px 16px;
     box-sizing: border-box;
-    border-top: 1px solid;
-    border-left: 1px solid;
-    border-right: 1px solid;
-    border-bottom: 1px solid;
+    border-top: 1px solid #BFBFBF;
+    border-left: 1px solid #BFBFBF;
+    border-right: 1px solid #BFBFBF;
+    border-bottom: 1px solid #BFBFBF !important;
     border-radius: 4px;
     background: #F5F5F5;
+    padding-bottom: 10px;
 }
 
 .mp-twocc-legend {
@@ -38,9 +39,9 @@
 }
 
 .mp-twocc-form {
-    border-left: 1px solid;
-    border-right: 1px solid;
-    border-bottom: 1px solid;
+    border-left: 1px solid #BFBFBF;
+    border-right: 1px solid #BFBFBF;
+    border-bottom: 1px solid #BFBFBF;
     border-radius: 0px 0px 4px 4px;
 
 }
@@ -52,11 +53,10 @@
     flex-direction: row;
     justify-content: start;
     padding: 0px;
-    background: gray;
     height: 70px;
     padding: 15px 16px;
     border-radius: 4px;
-    border: 1px solid;
+    border: 1px solid #BFBFBF;
 }
 
 
@@ -66,11 +66,9 @@
             width: 40px;
             height: 40px;
             box-sizing: border-box;
-            left: 0px;
-            top: 0px;
             background: #FFFFFF;
             border: 1px solid rgba(0, 0, 0, 0.07);
-            border-radius: 100px;
+            border-radius: 50%;
             margin-right: 16px;
         }
     }
@@ -129,4 +127,29 @@
             align-items: center;
         }
     }
+}
+
+.mp-twocc-form {
+    .fieldset:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.form-mercadopago {
+
+    .mp-twocc-form {
+
+        .fieldset.mp-twocc {
+            padding-bottom: 0;
+            border: 1px solid;
+            border-color: #bbb;
+            background-color: #fff;
+            border-radius: 3px;
+            padding-bottom: 10px;
+        }
+    }
+}
+
+.form-mercadopago .mp-twocc-form .fieldset.payment-mercadopago .legend {
+    background-color: #FFFFFF;
 }
