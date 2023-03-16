@@ -20,8 +20,8 @@
     <event name="payment_method_assign_data_mercadopago_paymentmagento_cc_vault">
         <observer name="mercadopago_paymentmagento_cc_vault_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignObserverCcVault" />
     </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_boleto">
-        <observer name="mercadopago_paymentmagento_boleto_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
+    <event name="payment_method_assign_data_mercadopago_paymentmagento_payment_methods_off">
+        <observer name="mercadopago_paymentmagento_payment_methods_of_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
     </event>
     <event name="payment_method_assign_data_mercadopago_paymentmagento_pec">
         <observer name="mercadopago_paymentmagento_pec_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
@@ -29,41 +29,8 @@
     <event name="payment_method_assign_data_mercadopago_paymentmagento_pix">
         <observer name="mercadopago_paymentmagento_pix_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
     </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_pagofacil">
-        <observer name="mercadopago_paymentmagento_pagofacil_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_rapipago">
-        <observer name="mercadopago_paymentmagento_rapipago_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_paycash">
-        <observer name="mercadopago_paymentmagento_paycash_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_oxxo">
-        <observer name="mercadopago_paymentmagento_oxxo_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_efecty">
-        <observer name="mercadopago_paymentmagento_efecty_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_abitab">
-        <observer name="mercadopago_paymentmagento_abitab_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_redpagos">
-        <observer name="mercadopago_paymentmagento_redpagos_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
     <event name="payment_method_assign_data_mercadopago_paymentmagento_pse">
         <observer name="mercadopago_paymentmagento_pse_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_banamex">
-        <observer name="mercadopago_paymentmagento_banamex_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_bancomer">
-        <observer name="mercadopago_paymentmagento_bancomer_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_serfin">
-        <observer name="mercadopago_paymentmagento_serfin_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
-    </event>
-    <event name="payment_method_assign_data_mercadopago_paymentmagento_pagoefectivo">
-        <observer name="mercadopago_paymentmagento_pagoefectivo_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
     </event>
     <event name="payment_method_assign_data_mercadopago_paymentmagento_webpay">
         <observer name="mercadopago_paymentmagento_webpay_data_assign" instance="MercadoPago\PaymentMagento\Observer\DataAssignCheckoutCustomObserver" />
