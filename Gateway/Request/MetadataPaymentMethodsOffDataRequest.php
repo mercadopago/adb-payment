@@ -8,7 +8,7 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 use MercadoPago\PaymentMagento\Gateway\SubjectReader;
 
 /**
- * Gateway requests for Payment Metadata by Ticket.
+ * Gateway requests for Payment Metadata by PaymentMethodsOff.
  */
 class MetadataPaymentMethodsOffDataRequest implements BuilderInterface
 {

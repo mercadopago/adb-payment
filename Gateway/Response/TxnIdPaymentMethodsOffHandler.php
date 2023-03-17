@@ -1,10 +1,4 @@
 <?php
-/**
- * Copyright © MercadoPago. All rights reserved.
- *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
- * @license     See LICENSE for license details.
- */
 
 namespace MercadoPago\PaymentMagento\Gateway\Response;
 
@@ -12,11 +6,12 @@ use InvalidArgumentException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
+use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
 
 /**
- * Gateway response to Transaction Details by Atm.
+ * Gateway response to Transaction Details by PaymentMethodsOff.
  */
-class TxnIdAtmHandler implements HandlerInterface
+class TxnIdPaymentMethodsOffHandler implements HandlerInterface
 {
     /**
      * Payment Id response value.
@@ -89,6 +84,20 @@ class TxnIdAtmHandler implements HandlerInterface
     public const FINANCIAL_INSTITUTION = 'financial_institution';
 
     /**
+     * @var ConfigPaymentMethodsOff
+     */
+    protected $configPaymentMethodsOff;
+
+    /**
+     * @param ConfigPaymentMethodsOff $configPaymentMethodsOff
+     */
+    public function __construct(
+        ConfigPaymentMethodsOff $configPaymentMethodsOff
+    ) {
+        $this->configPaymentMethodsOff = $configPaymentMethodsOff;
+    }
+
+    /**
      * Handles.
      *
      * @param array $handlingSubject
@@ -157,6 +166,15 @@ class TxnIdAtmHandler implements HandlerInterface
                     self::BARCODE,
                     $barcode
                 );
+
+                $lineCode = $this->configPaymentMethodsOff->getLineCode($barcode);
+
+                if ($lineCode){
+                    $payment->setAdditionalInformation(
+                        self::LINE_CODE,
+                        $lineCode
+                    );
+                }
             }
         }
 

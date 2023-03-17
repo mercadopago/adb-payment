@@ -5,14 +5,14 @@ namespace MercadoPago\PaymentMagento\Block\Sales\Info;
 use Magento\Payment\Block\ConfigurableInfo;
 
 /**
- * Payment details form block by ticket boleto.
+ * Payment details form block by PaymentMethodsOff.
  *
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class PaymentMethodsOff extends ConfigurableInfo
 {
     /**
-     * Ticket Info template.
+     * PaymentMethodsOff Info template.
      *
      * @var string
      */

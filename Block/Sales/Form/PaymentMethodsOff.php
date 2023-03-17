@@ -1,10 +1,4 @@
 <?php
-/**
- * Copyright © MercadoPago. All rights reserved.
- *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
- * @license     See LICENSE for license details.
- */
 
 namespace MercadoPago\PaymentMagento\Block\Sales\Form;
 
@@ -15,7 +9,7 @@ use MercadoPago\PaymentMagento\Gateway\Config\Config;
 use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
 
 /**
- * Payment form block by ticket.
+ * Payment form block by PaymentMethodsOff.
  *
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
