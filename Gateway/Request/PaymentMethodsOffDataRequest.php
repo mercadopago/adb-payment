@@ -73,11 +73,11 @@ class PaymentMethodsOffDataRequest implements BuilderInterface
 
         $paymentIdMethod = $payment->getAdditionalInformation('payment_method_id');
 
-        $options = $this->configPaymentMethodsOff->getExpirationFormatted();
+        $expirationDate = $this->configPaymentMethodsOff->getExpirationFormatted();
 
         $result = [
             self::PAYMENT_METHOD_ID  => $paymentIdMethod,
-            self::DATE_OF_EXPIRATION => $options
+            self::DATE_OF_EXPIRATION => $expirationDate
         ];
 
         return $result;
