@@ -18,7 +18,8 @@ define([
     'MercadoPago_PaymentMagento/js/model/mp-card-data',
     'MercadoPago_PaymentMagento/js/action/checkout/set-finance-cost',
     'Magento_Ui/js/model/messageList',
-    'mage/translate'
+    'mage/translate',
+    'Magento_Catalog/js/price-utils'
 ], function (
     _,
     $,
@@ -32,7 +33,8 @@ define([
     mpCardData,
     setFinanceCost,
     messageList,
-    $t
+    $t,
+    priceUtils
  ) {
     'use strict';
     return Component.extend({
@@ -48,7 +50,8 @@ define([
             installmentTextInfo: false,
             installmentTextTEA: null,
             installmentTextCFT: null,
-            isLoading: true
+            isLoading: true,
+            inputValueProgress:''
         },
 
         /**
@@ -71,7 +74,8 @@ define([
                 'isLoading',
                 'installmentTextInfo',
                 'installmentTextTEA',
-                'installmentTextCFT'
+                'installmentTextCFT',
+                'inputValueProgress'
             ]);
             return this;
         },
@@ -125,6 +129,10 @@ define([
             self.amount.subscribe((value) => {
                 mpCardData.amount = value;
                 self.getListOptionsToInstallments();
+            });
+
+            self.inputValueProgress.subscribe((value) => {
+                self.updateProgress(value);
             });
         },
 
@@ -368,6 +376,52 @@ define([
          */
         isVaultEnabled: function () {
             return this.vaultEnabler.isVaultEnabled();
+        },
+
+        /**
+         * Progress bar update
+         */
+        updateProgress(valueInput){
+            var progress = document.querySelector(".mp-progress-bar div");
+            var total = this.amount();
+            var porcent = (valueInput/total) * 100;
+            
+            progress.style.width = porcent + "%";
+            document.getElementById("mp-message-error").style.display = "none";
+  
+            if(valueInput >= total){
+                porcent = 0;
+                progress.style.width = porcent + "%";
+                document.getElementById("mp-message-error").style.display = "block";
+            }
+
+            if(valueInput < 0){
+                porcent = 0;
+                progress.style.width = porcent + "%";
+            }
+        },
+
+        /**
+         * Remaining value label update
+         */
+        updateRemainingAmount(){
+            var amount = this.amount();
+            var inputValueProgress = this.inputValueProgress();
+
+            if(inputValueProgress < amount){
+                amount = amount - inputValueProgress;
+            }
+
+            return priceUtils.formatPrice(amount);
+        },
+        /**
+         * Input progress placeholder
+         */
+        placeholderInputProgress(){
+            var amount = this.amount();
+            amount = (amount/2);
+            return priceUtils.formatPrice(amount);
         }
+
     });
 });
