@@ -106,7 +106,7 @@ define([
 
                 if (value === false) {
                     self.isLoading(true);
-                    self.unMountCardForm();
+                    self.resetCardForm();
                     creditCardData.creditCardInstallment =  null;
                     self.creditCardInstallment(null);
                 }
@@ -155,12 +155,12 @@ define([
          * Un Mount Cart Form
          * @return {void}
          */
-        unMountCardForm() {
-            let self = this,
-                vaultId = self.getId();
-
-            console.log(vaultId);
-            window.vaultSecurityCode.vaultId.unmount();
+        resetCardForm() {
+            window.mpCardForm?.cardNumber?.unmount();
+            window.mpCardForm?.securityCode?.unmount();
+            window.mpCardForm?.expirationMonth?.unmount();
+            window.mpCardForm?.expirationYear?.unmount();
+            window.mpCardForm = {};
         },
 
         /**
@@ -176,8 +176,10 @@ define([
                     padding: '30px 15px'
                 };
 
-            window.vaultSecurityCode = { vaultId : window.mp.fields.create('securityCode', { style: styleField }) };
-            window.vaultSecurityCode.vaultId
+            self.resetCardForm();
+
+            window.mpCardForm.securityCode = window.mp.fields.create('securityCode', { style: styleField });
+            window.mpCardForm.securityCode
                 .mount(fieldSecurityCode)
                 .on('error', () => { self.mountCardForm(); })
                 .on('blur', () => { validateFormSF.removeClassesIfEmpyt(fieldSecurityCode); })

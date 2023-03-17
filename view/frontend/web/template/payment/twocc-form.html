@@ -53,7 +53,7 @@
 <fieldset data-bind="attr: {class: 'fieldset payment items ccard payment-mercadopago field-to-pay' + getCode(), id: 'payment_form_cc_' + getCode()}">
     <!-- ko if: (isShowLegend())-->
     <legend class="legend">
-        <span class="legend-title"><!-- ko i18n: 'Card details'--><!-- /ko --></span>
+        <span class="legend-title"><!-- ko i18n: 'Card details' --><!-- /ko --></span>
         <span class="legend-icon">
             <ul class="credit-card-types">
                 <!-- ko foreach: {data: getCcAvailableTypesValues(), as: 'item'} -->
@@ -74,10 +74,7 @@
     </legend>
     <!-- /ko -->
     <div class="form-pay">
-        <div class="field-to-pay"  data-bind="css: { _hidden:isPlaceOrderActionAllowed() }">
-            <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
-        </div>
-        <div class="field-to-pay"  data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
+        <div class="field-to-pay">
             <div class="mp-loading" data-bind="blockLoader: isLoading">
                 <div class="field mercadopago-input-group type">
                     <div class="control">
@@ -96,7 +93,7 @@
                         <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
                             <span><!-- ko i18n: 'Card number'--><!-- /ko --></span>
                         </label>
-                        <div type="tel" class="input-mp-iframe number" id="mercadopago_paymentmagento_cc_number">
+                        <div type="tel" class="input-mp-iframe number" id="mercadopago_paymentmagento_twocc_number">
                         </div>
                         <span class="field-tooltip toggle">
                             <ul class="credit-card-types">
@@ -124,7 +121,7 @@
                         <label data-bind="attr: {for: getCode() + '_cid'}" class="label">
                             <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
                         </label>
-                        <div type="number" class="input-mp-iframe cvv" id="mercadopago_paymentmagento_cc_cid">
+                        <div type="number" class="input-mp-iframe cvv" id="mercadopago_paymentmagento_twocc_cid">
                         </div>
                         <div class="field-tooltip toggle">
                             <span class="field-tooltip-action action-cvv"
@@ -148,7 +145,7 @@
                                     <label data-bind="attr: {for: getCode() + '_expiration_month'}" class="label">
                                         <span><!-- ko i18n: 'Expiration month'--><!-- /ko --></span>
                                     </label>
-                                    <div class="input-mp-iframe date" id="mercadopago_paymentmagento_cc_expiration_month"></div>
+                                    <div class="input-mp-iframe date" id="mercadopago_paymentmagento_twocc_expiration_month"></div>
                                 </div>
                             </div>
                             <div class="field mercadopago-input-group year">
@@ -156,7 +153,7 @@
                                     <label data-bind="attr: {for: getCode() + '_expiration_yr'}" class="label">
                                         <span><!-- ko i18n: 'Expiration year'--><!-- /ko --></span>
                                     </label>
-                                    <div class="input-mp-iframe date" id="mercadopago_paymentmagento_cc_expiration_yr"></div>
+                                    <div class="input-mp-iframe date" id="mercadopago_paymentmagento_twocc_expiration_yr"></div>
                                 </div>
                             </div>
                         </div>
@@ -212,17 +209,6 @@
                 </div>
                 <!-- /ko -->
             </div>
-            <!-- ko if: (isVaultEnabled())-->
-            <div class="field choice">
-                <input type="checkbox"
-                    name="vault[is_enabled]"
-                    class="checkbox"
-                    data-bind="attr: {'id': getCode() + '_enable_vault'}, checked: vaultEnabler.isActivePaymentTokenEnabler"></input>
-                <label class="label" data-bind="attr: {'for': getCode() + '_enable_vault'}">
-                    <span><!-- ko i18n: 'Save for later use.'--><!-- /ko --></span>
-                </label>
-            </div>
-            <!-- /ko -->
         </div>
     </div>
 </fieldset>

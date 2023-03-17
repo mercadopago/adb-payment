@@ -75,10 +75,7 @@
     </legend>
     <!-- /ko -->
     <div class="form-pay">
-        <div class="field-to-pay"  data-bind="css: { _hidden:isPlaceOrderActionAllowed() }">
-            <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
-        </div>
-        <div class="field-to-pay"  data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
+        <div class="field-to-pay">
             <div class="mp-loading" data-bind="blockLoader: isLoading">
                 <div class="field mercadopago-input-group type">
                     <div class="control">

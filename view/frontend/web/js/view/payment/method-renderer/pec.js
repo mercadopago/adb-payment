@@ -8,7 +8,7 @@
 define([
     'underscore',
     'jquery',
-    'MercadoPago_PaymentMagento/js/view/payment/mp-security-form'
+    'MercadoPago_PaymentMagento/js/view/payment/default',
 ], function (
     _,
     $,

@@ -8,13 +8,11 @@
 define([
     'underscore',
     'jquery',
-    'MercadoPago_PaymentMagento/js/view/payment/mp-security-form',
-    'MercadoPago_PaymentMagento/js/model/mp-card-data'
+    'MercadoPago_PaymentMagento/js/view/payment/default',
 ], function (
     _,
     $,
     Component,
-    mpData
 ) {
     'use strict';
 
@@ -58,14 +56,6 @@ define([
             this._super();
 
             self.getSelectDocumentTypes();
-
-            self.payerEntityType.subscribe((value) => {
-                mpData.payerEntityType = value;
-            });
-
-            self.financialInstitution.subscribe((value) => {
-                mpData.financialInstitution = value;
-            });
         },
 
         /**

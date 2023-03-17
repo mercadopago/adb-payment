@@ -2,6 +2,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
+ * @author      Bruno Elisei <brunoelisei@o2ti.com>
  * @license     See LICENSE for license details.
  */
 
@@ -12,13 +13,7 @@ define([
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/model/totals',
     'Magento_Checkout/js/model/url-builder',
-    'MercadoPago_PaymentMagento/js/view/payment/mp-security-form',
-    'Magento_Vault/js/view/payment/vault-enabler',
-    'mage/url',
-    'MercadoPago_PaymentMagento/js/model/mp-card-data',
-    'MercadoPago_PaymentMagento/js/action/checkout/set-finance-cost',
-    'Magento_Ui/js/model/messageList',
-    'mage/translate'
+    'MercadoPago_PaymentMagento/js/view/payment/mp-sdk',
 ], function (
     _,
     $,
@@ -27,13 +22,7 @@ define([
     totals,
     urlBuilder,
     Component,
-    VaultEnabler,
-    urlFormatter,
-    mpCardData,
-    setFinanceCost,
-    messageList,
-    $t
- ) {
+) {
     'use strict';
     return Component.extend({
 
@@ -44,11 +33,16 @@ define([
             template: 'MercadoPago_PaymentMagento/payment/twocc',
             twoCcForm: 'MercadoPago_PaymentMagento/payment/twocc-form',
             securityField: 'MercadoPago_PaymentMagento/payment/security-field',
-            amount:  quote.totals().base_grand_total,
+            amount: '',
             installmentTextInfo: false,
             installmentTextTEA: null,
             installmentTextCFT: null,
-            isLoading: true
+            isLoading: true,
+            fieldCcNumber: 'mercadopago_paymentmagento_twocc_number',
+            fieldSecurityCode: 'mercadopago_paymentmagento_twocc_cid',
+            fieldExpMonth: 'mercadopago_paymentmagento_twocc_expiration_month',
+            fieldExpYear: 'mercadopago_paymentmagento_twocc_expiration_yr',
+            cardIndex: 0,
         },
 
         /**
@@ -71,7 +65,8 @@ define([
                 'isLoading',
                 'installmentTextInfo',
                 'installmentTextTEA',
-                'installmentTextCFT'
+                'installmentTextCFT',
+                'cardIndex',
             ]);
             return this;
         },
@@ -84,30 +79,29 @@ define([
 
             this._super();
 
-            this.vaultEnabler = new VaultEnabler();
-
-            this.vaultEnabler.setPaymentCode(this.getVaultCode());
-
             if (quote.billingAddress()) {
                 self.mpPayerDocument(quote.billingAddress().vatId);
             }
+
+            self.amount(quote.totals().base_grand_total);
 
             self.active.subscribe((value) => {
                 if (value === true) {
                     self.getSelectDocumentTypes();
                     self.getListOptionsToInstallments();
-                    mpCardData.mpCardInstallment =  null;
 
                     setTimeout(() => {
-                        self.mountCardForm();
+                        self.mountCardForm({
+                            fieldCcNumber: self.fieldCcNumber,
+                            fieldSecurityCode: self.fieldSecurityCode,
+                            fieldExpMonth: self.fieldExpMonth,
+                            fieldExpYear: self.fieldExpYear,
+                        });
                         self.isLoading(false);
                     }, 3000);
                 }
 
                 if (value === false) {
-                    mpCardData.mpCardInstallment =  null;
-                    self.mpCardInstallment(null);
-                    self.unMountCardForm();
                     self.isLoading(true);
                 }
             });
@@ -123,29 +117,8 @@ define([
             });
 
             self.amount.subscribe((value) => {
-                mpCardData.amount = value;
-                self.getListOptionsToInstallments();
+                self.getListOptionsToInstallments(value);
             });
-        },
-
-        /**
-         * Add Finance Cost in totals
-         * @returns {void}
-         */
-        addFinanceCost() {
-            var self = this,
-                selectInstallment = self.mpCardInstallment(),
-                rulesForFinanceCost = self.mpCardListInstallments();
-
-            if (self.getMpSiteId() === 'MLA') {
-                _.map(rulesForFinanceCost, (keys) => {
-                    if (keys.installments === selectInstallment) {
-                        self.addTextForInstallment(keys.labels);
-                    }
-                });
-            }
-
-            setFinanceCost.financeCost(selectInstallment, rulesForFinanceCost);
         },
 
         /**
@@ -174,118 +147,23 @@ define([
          * Before Place Order
          * @returns {void}
          */
-        beforePlaceOrder() {
+        async beforePlaceOrder() {
             if (!$(this.formElement).valid()) {
                 return;
             }
-            this.getTokenize();
-        },
 
-        /**
-         * Type Debit
-         */
+            const tokenResponse = await this.generateToken(this.cardIndex());
 
-        /**
-         * Get Tokenize
-         * @returns {void}
-         */
-        getTokenize() {
-            var self = this,
-                cardHolderName = self.mpCardHolderName(),
-                documentIdenfitication = self.mpPayerDocument(),
-                documentType = self.mpPayerType(),
-                isUsed = this.vaultEnabler.isVaultEnabled(),
-                saveCard = this.vaultEnabler.isActivePaymentTokenEnabler(),
-                quoteId = quote.getQuoteId(),
-                unsupportedPreAuth = self.getUnsupportedPreAuth(),
-                mpSiteId = self.getMpSiteId(),
-                payload,
-                payloadCreateVault,
-                serviceUrl,
-                formatNumber;
-
-            if (unsupportedPreAuth[mpSiteId].includes(self.mpCardType())) {
-                isUsed = false;
-                saveCard = false;
+            if (tokenResponse === false) {
+                return;
             }
 
-            if (documentIdenfitication) {
-                documentIdenfitication = documentIdenfitication.replace(/\D/g, '');
+            if (this.cardIndex() > 0) {
+                this.placeOrder();
+                return;
             }
 
-            fullScreenLoader.startLoader();
-
-            payload = {
-                cardholderName: cardHolderName,
-                identificationType: documentType,
-                identificationNumber: documentIdenfitication
-            };
-
-            if (saveCard && isUsed) {
-
-                window.mp.fields.createCardToken(payload).then((token) => {
-                    formatNumber = token.first_six_digits + 'xxxxxx' + token.last_four_digits;
-                    self.mpCardNumberToken(token.id);
-                    self.mpCardExpMonth(token.expiration_month);
-                    self.mpCardExpYear(token.expiration_year);
-                    self.mpCardNumber(formatNumber);
-
-                    serviceUrl = urlBuilder.createUrl('/carts/mine/mp-create-vault', {});
-                    payloadCreateVault = {
-                        cartId: quoteId,
-                        vaultData: {
-                            token: self.mpCardNumberToken(),
-                            identificationNumber: documentIdenfitication,
-                            identificationType: documentType
-                        }
-                    };
-
-                    $.ajax({
-                        url: urlFormatter.build(serviceUrl),
-                        data: JSON.stringify(payloadCreateVault),
-                        global: true,
-                        contentType: 'application/json',
-                        type: 'POST',
-                        async: false
-                    }).done(
-                        (response) => {
-                            self.mpCardPublicId(response[0].card_id);
-                            self.mpUserId(response[0].mp_user_id);
-                            self.placeOrder();
-                            fullScreenLoader.stopLoader();
-                        }
-                    ).fail(() => {
-                        fullScreenLoader.stopLoader();
-                    });
-                }).catch((errors) => {
-
-                    _.map(errors, (error) => {
-                        self.displayErrorInField(error);
-                    });
-
-                    messageList.addErrorMessage({
-                        message: $t('Unable to make payment, check card details.')
-                    });
-                    fullScreenLoader.stopLoader();
-                });
-            }
-
-            if (!saveCard || !isUsed) {
-                window.mp.fields.createCardToken(payload).then((token) => {
-                    formatNumber = token.first_six_digits + 'xxxxxx' + token.last_four_digits;
-                    self.mpCardNumberToken(token.id);
-                    self.mpCardExpMonth(token.expiration_month);
-                    self.mpCardExpYear(token.expiration_year);
-                    self.mpCardNumber(formatNumber);
-                    self.placeOrder();
-                    fullScreenLoader.stopLoader();
-                }).catch(() => {
-                    messageList.addErrorMessage({
-                        message: $t('Unable to make payment, check card details.')
-                    });
-                    fullScreenLoader.stopLoader();
-                });
-            }
+            this.cardIndex(this.cardIndex() + 1);
         },
 
         /**
@@ -298,36 +176,28 @@ define([
 
             data = {
                 'method': this.getCode(),
-                'additional_data': {
-                    'payer_document_type': self.mpPayerType(),
-                    'payer_document_identification': self.mpPayerDocument(),
-                    'card_number_token': self.mpCardNumberToken(),
-                    'card_holder_name': self.mpCardHolderName(),
-                    'card_number': self.mpCardNumber(),
-                    'card_exp_month': self.mpCardExpMonth(),
-                    'card_exp_year': self.mpCardExpYear(),
-                    'card_type': self.mpCardType(),
-                    'card_installments': self.mpCardInstallment(),
-                    'card_public_id': self.mpCardPublicId(),
-                    'mp_user_id': self.mpUserId()
-                }
+                'additional_data': {}
             };
 
-            data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
-            this.vaultEnabler.visitAdditionalData(data);
-            return data;
-        },
-
-        /**
-         * Formatted Currency to Installments
-         * @param {Float} amount
-         * @return {Boolean}
-         */
-        FormattedCurrencyToInstallments(amount) {
-            if (this.getMpSiteId() === 'MCO') {
-                return parseFloat(amount).toFixed(0);
+            for (let i = 0; i < self.generatedCards.length; i ++) {
+                data.additional_data[`payer_${i}_document_type`] = self.generatedCards[i]?.documentType;
+                data.additional_data[`payer_${i}_document_identification`] = self.generatedCards[i]?.documentValue;
+                data.additional_data[`card_${i}_number_token`] = self.generatedCards[i]?.token.id;
+                data.additional_data[`card_${i}_holder_name`] = self.generatedCards[i]?.holderName;
+                data.additional_data[`card_${i}_number`] = self.generatedCards[i]?.cardNumber;
+                data.additional_data[`card_${i}_exp_month`] = self.generatedCards[i]?.cardExpirationMonth;
+                data.additional_data[`card_${i}_exp_year`] = self.generatedCards[i]?.cardExpirationYear;
+                data.additional_data[`card_${i}_type`] = self.generatedCards[i]?.cardType;
+                data.additional_data[`card_${i}_installments`] = self.generatedCards[i]?.cardInstallment;
+                data.additional_data[`card_${i}_public_id`] = self.generatedCards[i]?.cardPublicId;
+                data.additional_data[`mp_${i}_user_id`] = self.generatedCards[i]?.mpUserId;
             }
-            return amount;
+
+            data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
+
+            console.log(data);
+
+            return data;
         },
 
         /**
@@ -354,20 +224,8 @@ define([
             return window.checkoutConfig.payment[this.getCode()].unsupported_pre_auth;
         },
 
-        /**
-         * Get Vault Code
-         * @returns {Boolean}
-         */
-        getVaultCode() {
-            return window.checkoutConfig.payment[this.getCode()].ccVaultCode;
-        },
-
-        /**
-         * Is Vault enabled
-         * @returns {Boolean}
-         */
         isVaultEnabled: function () {
-            return this.vaultEnabler.isVaultEnabled();
+            return false;
         }
     });
 });
