@@ -97,7 +97,7 @@
                 <active>1</active>
                 <model>MercadoPagoTwoCcFacade</model>
                 <order_status>processing</order_status>
-                <title>Dois Cartões de Crédito ou Débito</title>
+                <title>Pagar com dois cartões de crédito</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>mp_payment_id,card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
                 <privateInfoKeys>mp_payment_id,card_exp_month,card_exp_year,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>

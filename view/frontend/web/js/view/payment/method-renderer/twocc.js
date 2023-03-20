@@ -18,7 +18,8 @@ define([
     'MercadoPago_PaymentMagento/js/model/mp-card-data',
     'MercadoPago_PaymentMagento/js/action/checkout/set-finance-cost',
     'Magento_Ui/js/model/messageList',
-    'mage/translate'
+    'mage/translate',
+    'Magento_Catalog/js/price-utils'
 ], function (
     _,
     $,
@@ -33,6 +34,7 @@ define([
     setFinanceCost,
     messageList,
     $t,
+    priceUtils
  ) {
     'use strict';
     return Component.extend({
@@ -49,7 +51,9 @@ define([
             installmentTextTEA: null,
             installmentTextCFT: null,
             isLoading: true,
-            selectedCard: 'card-one'
+            selectedCard: 'card-one',
+            inputValueProgress:'',
+            placeholderInputProgress: priceUtils.formatPrice(),
         },
 
         /**
@@ -73,7 +77,9 @@ define([
                 'installmentTextInfo',
                 'installmentTextTEA',
                 'installmentTextCFT',
-                'selectedCard'
+                'selectedCard',
+                'inputValueProgress',
+                'placeholderInputProgress'
             ]);
             return this;
         },
@@ -129,7 +135,7 @@ define([
                 self.getListOptionsToInstallments();
             });
 
-            self.selectedCard.subscribe(value => {
+            self.selectedCard.subscribe((value) => {
                 if (value === 'card-one') {
                     self.selectFirstCard();
                 }
@@ -137,6 +143,10 @@ define([
                 if (value === 'card-two') {
                     self.selectSecondCard();
                 }
+            });
+
+            self.inputValueProgress.subscribe((value) => {
+                self.updateProgress(value);
             });
         },
 
@@ -424,5 +434,42 @@ define([
             mpRadio.style.borderBottom = '1px solid #BFBFBF'
             mpRadio.style.borderRadius = '4px'
         },
+        /**
+         * Progress bar update
+         */
+        updateProgress(valueInput){
+            var progress = document.querySelector(".mp-progress-bar div");
+            var total = this.amount();
+            var porcent = (valueInput/total) * 100;
+            
+            progress.style.width = porcent + "%";
+            document.getElementById("mp-message-error").style.display = "none";
+  
+            if(valueInput >= total){
+                porcent = 0;
+                progress.style.width = porcent + "%";
+                document.getElementById("mp-message-error").style.display = "block";
+            }
+
+            if(valueInput < 0){
+                porcent = 0;
+                progress.style.width = porcent + "%";
+            }
+        },
+
+        /**
+         * Remaining value label update
+         */
+        updateRemainingAmount(){
+            var amount = this.amount();
+            var inputValueProgress = this.inputValueProgress();
+
+            if(inputValueProgress < amount){
+                amount = amount - inputValueProgress;
+            }
+
+            return priceUtils.formatPrice(amount);
+        }
+
     });
 });

@@ -145,7 +145,7 @@ class ConfigProviderTwoCc implements ConfigProviderInterface
     public function getLogo()
     {
         $logo = [];
-        $asset = $this->ccConfig->createAsset('MercadoPago_PaymentMagento::images/cc/logo.svg');
+        $asset = $this->ccConfig->createAsset('MercadoPago_PaymentMagento::images/twocc/logo.svg');
         $placeholder = $this->assetSource->findSource($asset);
         if ($placeholder) {
             list($width, $height) = getimagesizefromstring($asset->getSourceFile());

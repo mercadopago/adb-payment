@@ -13,7 +13,7 @@
         <label attr="for: getCode()" class="label">
             <span class="payment-method-label">
                 <span class="payment-method-label-icon">
-                    <img data-bind="attr: {
+                    <img class="mp-logo-title" data-bind="attr: {
                         'src': getLogo().url,
                         'width': getLogo().width,
                         'height': getLogo().height
@@ -24,6 +24,23 @@
         </label>
     </div>
     <div class="payment-method-content">
+        <div class="mp-header-two-cards">
+            <p class="mp-header-title-one"><!-- ko i18n: 'Dados do primeiro cartão:' --><!-- /ko --></p>
+            <p class="mp-header-subtitle"><!-- ko i18n: 'Insira o valor a pagar com o primeiro meio *' --><!-- /ko -->
+            </p>
+            <input type="number" id="input-progress"
+                data-bind="attr: {placeholder: placeholderInputProgress},value: inputValueProgress, valueUpdate: 'keyup'">
+            </input>
+            <div class="mp-progress-bar">
+                <div></div>
+            </div>
+            <div class="mp-message" id="mp-message-error"><!-- ko i18n: 'Valor não permitido!' --><!-- /ko --></div>
+            <div class="mp-subtitle"><!-- ko i18n: 'Valor restante ' --><!-- /ko -->
+                <span data-bind="text: updateRemainingAmount()"></span>
+            </div>
+
+        </div>
+        <each args="getRegion('messages')" render=""></each>
         <div class="mp-twocc-badge-info">
             <div class="mp-twocc-badge-circle"></div>
             <div class="mp-twocc-badge-adjustment">
@@ -32,9 +49,9 @@
                     <div class="mp-twocc-badge-installments"><span>2x R$ 50,00</span></div>
                 </div>
                 <div class="mp-twocc-badge-edit">
-                  <div class="mp-twocc-edit-img" alt="edit">
-              </div>
-                        
+                    <div class="mp-twocc-edit-img" alt="edit">
+                    </div>
+
                     <div>
                         <span>Editar</span>
                     </div>
@@ -44,7 +61,7 @@
 
         <div class="mp-twocc-card-header open" id="mp-twocc-first-radio">
             <input type="radio" name="card-twocc" class="radio" id="card-one" value="card-one"
-            data-bind="checked: selectedCard"  ></input>
+                data-bind="checked: selectedCard"></input>
             <label for="mp-first-card-radio" class="label">
                 <span class="payment-method-label">
                     <span class="payment-method-label-icon">
@@ -58,7 +75,7 @@
                 </span>
             </label>
         </div>
-        <each args="getRegion('messages')" render=""></each>
+
         <div id="mp-first-card">
 
             <form class="open" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
@@ -66,9 +83,12 @@
             </form>
 
         </div>
+
+        <p class="mp-header-title-two"><!-- ko i18n: 'Dados do segundo cartão:' --><!-- /ko --></p>
+
         <div class="mp-twocc-card-header" id="mp-twocc-second-radio">
             <input type="radio" name="card-twocc" class="radio" id="card-two" value="card-two"
-            data-bind="checked: selectedCard"></input>
+                data-bind="checked: selectedCard"></input>
 
             <label for="mp-first-card-radio" class="label">
                 <span class="payment-method-label">
@@ -84,7 +104,7 @@
             </label>
         </div>
 
-        
+
         <div id="mp-second-card" class="mp-display-form">
             <form class="form mp-form" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
                 <render args="twoCcForm"></render>
@@ -92,11 +112,17 @@
 
         </div>
 
+        <div class="mp-footer">
+            <span class="mp-footer-logo"></span>
+            <span class="mp-footer-subtitle"><!-- ko i18n: 'Pago procesado por Mercado Pago' --><!-- /ko --></span>
+        </div>
+        <div class="mp-divider"></div>
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
+
         <div class="checkout-agreements-block">
             <each args="$parent.getRegion('before-place-order')" render=""></each>
         </div>
