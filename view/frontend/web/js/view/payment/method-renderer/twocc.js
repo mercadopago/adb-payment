@@ -51,6 +51,7 @@ define([
             installmentTextTEA: null,
             installmentTextCFT: null,
             isLoading: true,
+            selectedCard: 'card-one',
             inputValueProgress:'',
             placeholderInputProgress: priceUtils.formatPrice(),
         },
@@ -76,6 +77,7 @@ define([
                 'installmentTextInfo',
                 'installmentTextTEA',
                 'installmentTextCFT',
+                'selectedCard',
                 'inputValueProgress',
                 'placeholderInputProgress'
             ]);
@@ -131,6 +133,16 @@ define([
             self.amount.subscribe((value) => {
                 mpCardData.amount = value;
                 self.getListOptionsToInstallments();
+            });
+
+            self.selectedCard.subscribe((value) => {
+                if (value === 'card-one') {
+                    self.selectFirstCard();
+                }
+
+                if (value === 'card-two') {
+                    self.selectSecondCard();
+                }
             });
 
             self.inputValueProgress.subscribe((value) => {
@@ -380,6 +392,48 @@ define([
             return this.vaultEnabler.isVaultEnabled();
         },
 
+        selectFirstCard: function (){
+            console.log("it was called")
+            var mpFirstCard = document.getElementById('mp-first-card');
+            var mpSecondCard = document.getElementById('mp-second-card');
+
+            console.log(mpFirstCard)
+            console.log(mpSecondCard)
+
+            if(mpFirstCard.classList.contains('mp-display-form')) {
+                this.formShown('mp-twocc-first-radio')
+                this.formHidden('mp-twocc-second-radio')
+                mpFirstCard.classList.remove('mp-display-form')
+                mpSecondCard.classList.add('mp-display-form')
+            }
+        },
+
+        selectSecondCard: function (){
+            var mpFirstCard = document.getElementById('mp-first-card')
+            var mpSecondCard = document.getElementById('mp-second-card')
+            var mpFirstHeader = document.getElementById('mp-twocc-first-radio')
+            
+            if(mpSecondCard.classList.contains('mp-display-form')) { 
+                this.formShown('mp-twocc-second-radio')  
+                this.formHidden('mp-twocc-first-radio')
+                mpSecondCard.classList.remove('mp-display-form')
+                mpFirstCard.classList.add('mp-display-form')
+            }
+        },
+
+        formShown: function (id){
+            var mpRadio = document.getElementById(id);
+            mpRadio.style.borderBottom = '0'
+            mpRadio.style.borderRadius = '4px 4px 0 0'
+        },
+
+        formHidden: function (id){
+
+            console.log('hidden')
+            var mpRadio = document.getElementById(id);
+            mpRadio.style.borderBottom = '1px solid #BFBFBF'
+            mpRadio.style.borderRadius = '4px'
+        },
         /**
          * Progress bar update
          */

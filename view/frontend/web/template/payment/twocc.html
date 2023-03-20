@@ -5,34 +5,31 @@
  * @license     See LICENSE for license details.
  */
 -->
-<div class="payment-method form-mercadopago" css="_active: isActive()" data-bind="attr: {id: 'payment_form_' + getCode()}">
+<div class="payment-method form-mercadopago" css="_active: isActive()"
+    data-bind="attr: {id: 'payment_form_' + getCode()}">
     <div class="payment-method-title field choice">
-        <input type="radio"
-               name="payment[method]"
-               class="radio"
-               attr="id: getCode()"
-               ko-value="getCode()"
-               ko-checked="isChecked"
-               click="selectPaymentMethod"
-               visible="isRadioButtonVisible()"></input>
+        <input type="radio" name="payment[method]" class="radio" attr="id: getCode()" ko-value="getCode()"
+            ko-checked="isChecked" click="selectPaymentMethod" visible="isRadioButtonVisible()"></input>
         <label attr="for: getCode()" class="label">
             <span class="payment-method-label">
-                <span class="payment-method-label-icon"> 
+                <span class="payment-method-label-icon">
                     <img class="mp-logo-title" data-bind="attr: {
                         'src': getLogo().url,
                         'width': getLogo().width,
                         'height': getLogo().height
                         }">
                 </span>
-                <span class="payment-method-label-title" data-bind="text: getTitle()"></span> 
+                <span class="payment-method-label-title" data-bind="text: getTitle()"></span>
             </span>
         </label>
     </div>
     <div class="payment-method-content">
         <div class="mp-header-two-cards">
             <p class="mp-header-title-one"><!-- ko i18n: 'Dados do primeiro cartão:' --><!-- /ko --></p>
-            <p class="mp-header-subtitle"><!-- ko i18n: 'Insira o valor a pagar com o primeiro meio *' --><!-- /ko --></p>
-            <input type="number" id="input-progress" data-bind="attr: {placeholder: placeholderInputProgress},value: inputValueProgress, valueUpdate: 'keyup'">
+            <p class="mp-header-subtitle"><!-- ko i18n: 'Insira o valor a pagar com o primeiro meio *' --><!-- /ko -->
+            </p>
+            <input type="number" id="input-progress"
+                data-bind="attr: {placeholder: placeholderInputProgress},value: inputValueProgress, valueUpdate: 'keyup'">
             </input>
             <div class="mp-progress-bar">
                 <div></div>
@@ -41,16 +38,80 @@
             <div class="mp-subtitle"><!-- ko i18n: 'Valor restante ' --><!-- /ko -->
                 <span data-bind="text: updateRemainingAmount()"></span>
             </div>
-            
+
         </div>
         <each args="getRegion('messages')" render=""></each>
-        <form class="form mp-form" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
-            <render args="twoCcForm"></render>
-        </form>
+        <div class="mp-twocc-badge-info">
+            <div class="mp-twocc-badge-circle"></div>
+            <div class="mp-twocc-badge-adjustment">
+                <div class="mp-twocc-badge-card-installments">
+                    <div class="mp-twocc-badge-card"><span>***8888</span></div>
+                    <div class="mp-twocc-badge-installments"><span>2x R$ 50,00</span></div>
+                </div>
+                <div class="mp-twocc-badge-edit">
+                    <div class="mp-twocc-edit-img" alt="edit">
+                    </div>
+
+                    <div>
+                        <span>Editar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mp-twocc-card-header open" id="mp-twocc-first-radio">
+            <input type="radio" name="card-twocc" class="radio" id="card-one" value="card-one"
+                data-bind="checked: selectedCard"></input>
+            <label for="mp-first-card-radio" class="label">
+                <span class="payment-method-label">
+                    <span class="payment-method-label-icon">
+                        <img data-bind="attr: {
+                            'src': getLogo().url,
+                            'width': getLogo().width,
+                            'height': getLogo().height
+                            }">
+                    </span>
+                    <span class="payment-method-label-title" data-bind="text: getTitle()"></span>
+                </span>
+            </label>
+        </div>
+
+        <div id="mp-first-card">
+
+            <form class="open" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
+                <render args="twoCcForm"></render>
+            </form>
+
+        </div>
+
         <p class="mp-header-title-two"><!-- ko i18n: 'Dados do segundo cartão:' --><!-- /ko --></p>
-        <form class="form mp-form" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
-            <render args="twoCcForm"></render>
-        </form>
+
+        <div class="mp-twocc-card-header" id="mp-twocc-second-radio">
+            <input type="radio" name="card-twocc" class="radio" id="card-two" value="card-two"
+                data-bind="checked: selectedCard"></input>
+
+            <label for="mp-first-card-radio" class="label">
+                <span class="payment-method-label">
+                    <span class="payment-method-label-icon">
+                        <img data-bind="attr: {
+                            'src': getLogo().url,
+                            'width': getLogo().width,
+                            'height': getLogo().height
+                            }">
+                    </span>
+                    <span class="payment-method-label-title" data-bind="text: getTitle()"></span>
+                </span>
+            </label>
+        </div>
+
+
+        <div id="mp-second-card" class="mp-display-form">
+            <form class="form mp-form" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
+                <render args="twoCcForm"></render>
+            </form>
+
+        </div>
+
         <div class="mp-footer">
             <span class="mp-footer-logo"></span>
             <span class="mp-footer-subtitle"><!-- ko i18n: 'Pago procesado por Mercado Pago' --><!-- /ko --></span>
@@ -61,18 +122,14 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
- 
+
         <div class="checkout-agreements-block">
             <each args="$parent.getRegion('before-place-order')" render=""></each>
         </div>
         <div class="actions-toolbar">
             <div class="primary">
-                <button class="action primary checkout"
-                        type="submit"
-                        click="beforePlaceOrder"
-                        css="disabled: !isPlaceOrderActionAllowed()"
-                        attr="title: $t('Place Order')"
-                >
+                <button class="action primary checkout" type="submit" click="beforePlaceOrder"
+                    css="disabled: !isPlaceOrderActionAllowed()" attr="title: $t('Place Order')">
                     <span translate="'Place Order'"></span>
                 </button>
             </div>

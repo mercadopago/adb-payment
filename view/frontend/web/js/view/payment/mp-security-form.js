@@ -271,7 +271,7 @@ define([
                     }
                 }
 
-                if (self.getMpSiteId() === 'MLB') {
+                if ( vatId && self.getMpSiteId() === 'MLB') {
                     defaultTypeDocument = vatId.replace(/\D/g, '').length <= 11 ? 'CPF' : 'CNPJ';
                     self.mpPayerType(defaultTypeDocument);
                 }
