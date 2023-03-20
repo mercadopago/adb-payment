@@ -2,7 +2,6 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
  * @license     See LICENSE for license details.
  */
 
@@ -14,6 +13,11 @@ define([
     'Magento_Checkout/js/model/totals',
     'Magento_Checkout/js/model/url-builder',
     'MercadoPago_PaymentMagento/js/view/payment/mp-sdk',
+    'mage/url',
+    'MercadoPago_PaymentMagento/js/action/checkout/set-finance-cost',
+    'Magento_Ui/js/model/messageList',
+    'mage/translate',
+    'Magento_Catalog/js/price-utils'
 ], function (
     _,
     $,
@@ -22,7 +26,12 @@ define([
     totals,
     urlBuilder,
     Component,
-) {
+    urlFormatter,
+    setFinanceCost,
+    messageList,
+    $t,
+    priceUtils
+ ) {
     'use strict';
     return Component.extend({
 
@@ -38,6 +47,9 @@ define([
             installmentTextTEA: null,
             installmentTextCFT: null,
             isLoading: true,
+            selectedCard: 'card-one',
+            inputValueProgress:'',
+            placeholderInputProgress: priceUtils.formatPrice(),
             fieldCcNumber: 'mercadopago_paymentmagento_twocc_number',
             fieldSecurityCode: 'mercadopago_paymentmagento_twocc_cid',
             fieldExpMonth: 'mercadopago_paymentmagento_twocc_expiration_month',
@@ -67,6 +79,9 @@ define([
                 'installmentTextTEA',
                 'installmentTextCFT',
                 'cardIndex',
+                'selectedCard',
+                'inputValueProgress',
+                'placeholderInputProgress'
             ]);
             return this;
         },
@@ -118,6 +133,20 @@ define([
 
             self.amount.subscribe((value) => {
                 self.getListOptionsToInstallments(value);
+            });
+
+            self.selectedCard.subscribe((value) => {
+                if (value === 'card-one') {
+                    self.selectFirstCard();
+                }
+
+                if (value === 'card-two') {
+                    self.selectSecondCard();
+                }
+            });
+
+            self.inputValueProgress.subscribe((value) => {
+                self.updateProgress(value);
             });
         },
 
@@ -226,6 +255,86 @@ define([
 
         isVaultEnabled: function () {
             return false;
+        },
+
+        selectFirstCard: function (){
+            console.log("it was called")
+            var mpFirstCard = document.getElementById('mp-first-card');
+            var mpSecondCard = document.getElementById('mp-second-card');
+
+            console.log(mpFirstCard)
+            console.log(mpSecondCard)
+
+            if(mpFirstCard.classList.contains('mp-display-form')) {
+                this.formShown('mp-twocc-first-radio')
+                this.formHidden('mp-twocc-second-radio')
+                mpFirstCard.classList.remove('mp-display-form')
+                mpSecondCard.classList.add('mp-display-form')
+            }
+        },
+
+        selectSecondCard: function (){
+            var mpFirstCard = document.getElementById('mp-first-card')
+            var mpSecondCard = document.getElementById('mp-second-card')
+            var mpFirstHeader = document.getElementById('mp-twocc-first-radio')
+
+            if(mpSecondCard.classList.contains('mp-display-form')) {
+                this.formShown('mp-twocc-second-radio')
+                this.formHidden('mp-twocc-first-radio')
+                mpSecondCard.classList.remove('mp-display-form')
+                mpFirstCard.classList.add('mp-display-form')
+            }
+        },
+
+        formShown: function (id){
+            var mpRadio = document.getElementById(id);
+            mpRadio.style.borderBottom = '0'
+            mpRadio.style.borderRadius = '4px 4px 0 0'
+        },
+
+        formHidden: function (id){
+
+            console.log('hidden')
+            var mpRadio = document.getElementById(id);
+            mpRadio.style.borderBottom = '1px solid #BFBFBF'
+            mpRadio.style.borderRadius = '4px'
+        },
+        /**
+         * Progress bar update
+         */
+        updateProgress(valueInput){
+            var progress = document.querySelector(".mp-progress-bar div");
+            var total = this.amount();
+            var porcent = (valueInput/total) * 100;
+
+            progress.style.width = porcent + "%";
+            document.getElementById("mp-message-error").style.display = "none";
+
+            if(valueInput >= total){
+                porcent = 0;
+                progress.style.width = porcent + "%";
+                document.getElementById("mp-message-error").style.display = "block";
+            }
+
+            if(valueInput < 0){
+                porcent = 0;
+                progress.style.width = porcent + "%";
+            }
+        },
+
+        /**
+         * Remaining value label update
+         */
+        updateRemainingAmount(){
+            var amount = this.amount();
+            var inputValueProgress = this.inputValueProgress();
+
+            if(inputValueProgress < amount){
+                amount = amount - inputValueProgress;
+            }
+
+            return priceUtils.formatPrice(amount);
         }
+
     });
 });
