@@ -51,7 +51,8 @@ define([
             installmentTextTEA: null,
             installmentTextCFT: null,
             isLoading: true,
-            inputValueProgress:''
+            inputValueProgress:'',
+            placeholderInputProgress: priceUtils.formatPrice(),
         },
 
         /**
@@ -75,7 +76,8 @@ define([
                 'installmentTextInfo',
                 'installmentTextTEA',
                 'installmentTextCFT',
-                'inputValueProgress'
+                'inputValueProgress',
+                'placeholderInputProgress'
             ]);
             return this;
         },
@@ -412,14 +414,6 @@ define([
                 amount = amount - inputValueProgress;
             }
 
-            return priceUtils.formatPrice(amount);
-        },
-        /**
-         * Input progress placeholder
-         */
-        placeholderInputProgress(){
-            var amount = this.amount();
-            amount = (amount/2);
             return priceUtils.formatPrice(amount);
         }
 
