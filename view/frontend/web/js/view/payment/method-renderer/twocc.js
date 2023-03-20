@@ -49,8 +49,7 @@ define([
             installmentTextTEA: null,
             installmentTextCFT: null,
             isLoading: true,
-            isFirstChecked: true,
-            isSecondChecked: false,
+            selectedCard: 'card-one'
         },
 
         /**
@@ -74,8 +73,7 @@ define([
                 'installmentTextInfo',
                 'installmentTextTEA',
                 'installmentTextCFT',
-                'isFirstChecked',
-                'isSecondChecked'
+                'selectedCard'
             ]);
             return this;
         },
@@ -131,17 +129,15 @@ define([
                 self.getListOptionsToInstallments();
             });
 
-            this.isFirstChecked.subscribe(value => {
-                if(value === true) {
-                    self.selectFirstCard()
+            self.selectedCard.subscribe(value => {
+                if (value === 'card-one') {
+                    self.selectFirstCard();
+                }
+
+                if (value === 'card-two') {
+                    self.selectSecondCard();
                 }
             });
-
-            this.isSecondChecked.subscribe(value => {
-                if(value === true) {
-                    self.selectSecondCard()
-                }
-            })
         },
 
         /**
@@ -387,6 +383,7 @@ define([
         },
 
         selectFirstCard: function (){
+            console.log("it was called")
             var mpFirstCard = document.getElementById('mp-first-card');
             var mpSecondCard = document.getElementById('mp-second-card');
 
@@ -402,9 +399,10 @@ define([
         },
 
         selectSecondCard: function (){
-            var mpFirstCard = document.getElementById('mp-first-card');
-            var mpSecondCard = document.getElementById('mp-second-card');
-
+            var mpFirstCard = document.getElementById('mp-first-card')
+            var mpSecondCard = document.getElementById('mp-second-card')
+            var mpFirstHeader = document.getElementById('mp-twocc-first-radio')
+            
             if(mpSecondCard.classList.contains('mp-display-form')) { 
                 this.formShown('mp-twocc-second-radio')  
                 this.formHidden('mp-twocc-first-radio')
@@ -420,22 +418,11 @@ define([
         },
 
         formHidden: function (id){
+
             console.log('hidden')
             var mpRadio = document.getElementById(id);
-            mpRadio.style.borderBottom = '1px solid'
+            mpRadio.style.borderBottom = '1px solid #BFBFBF'
             mpRadio.style.borderRadius = '4px'
         },
-
-        // updateSelection: function () {
-        //     // const selectedOption = document.querySelector('input[name="mp-payment-twocc-radio"]:checked')
-        //     if(this.isFirstChecked()){
-        //         this.selectFirstCard()
-        //     }
-
-        //     if(this.isSecondChecked()){
-        //         $("mp-second-card-radio").prop("isChecked", true)
-        //         this.selectSecondCard()
-        //     }
-        // }
     });
 });

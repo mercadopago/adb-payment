@@ -32,25 +32,19 @@
                     <div class="mp-twocc-badge-installments"><span>2x R$ 50,00</span></div>
                 </div>
                 <div class="mp-twocc-badge-edit">
-                    <img>
-                    <span>Editar</span>
+                  <div class="mp-twocc-edit-img" alt="edit">
+              </div>
+                        
+                    <div>
+                        <span>Editar</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="mp-twocc-card-header" id="mp-twocc-first-radio">
-
-
-
+        <div class="mp-twocc-card-header open" id="mp-twocc-first-radio">
             <input type="radio" name="card-twocc" class="radio" id="card-one" value="card-one"
-            ko-checked="isFirstChecked"  ></input>
-
-
-            <!-- <input type="radio" name="mp-payment-twocc-radio" value="option1"  id="mp-first-card-radio" 
-                 click="updateSelection" ></input> -->
-
-
-
+            data-bind="checked: selectedCard"  ></input>
             <label for="mp-first-card-radio" class="label">
                 <span class="payment-method-label">
                     <span class="payment-method-label-icon">
@@ -65,18 +59,17 @@
             </label>
         </div>
         <each args="getRegion('messages')" render=""></each>
-        <div id="mp-first-card" class="mp-display-form">
+        <div id="mp-first-card">
 
-            <form class="form mp-form" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
+            <form class="open" id="co-payment-form-mp-card" method="post" afterRender="initFormElement">
                 <render args="twoCcForm"></render>
             </form>
 
         </div>
         <div class="mp-twocc-card-header" id="mp-twocc-second-radio">
-            <input type="radio" name="card-twocc" class="radio" id="card-one" value="card-two"
-            ko-checked="isSecondChecked"  ></input>
-            <!-- <input type="radio" name="mp-payment-twocc-radio" value="option2"  id="mp-first-card-radio"
-                 click="updateSelection" ></input> -->
+            <input type="radio" name="card-twocc" class="radio" id="card-two" value="card-two"
+            data-bind="checked: selectedCard"></input>
+
             <label for="mp-first-card-radio" class="label">
                 <span class="payment-method-label">
                     <span class="payment-method-label-icon">

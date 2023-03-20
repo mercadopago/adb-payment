@@ -19,11 +19,16 @@
     border-top: 1px solid #BFBFBF;
     border-left: 1px solid #BFBFBF;
     border-right: 1px solid #BFBFBF;
-    border-bottom: 1px solid #BFBFBF !important;
+    border-bottom: 1px solid #BFBFBF;
     border-radius: 4px;
     background: #F5F5F5;
-    padding-bottom: 10px;
 }
+
+.open {
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+}
+
 
 .mp-twocc-legend {
     align-items: center;
@@ -32,18 +37,35 @@
     justify-content: space-between;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    border-color: #bbb;
-    padding: 10px 20px;
-    background-color: #f4f4f4;
+    background-color: #FFFFFF;
+    padding: 10px 10px;
+    box-sizing: border-box;
     width: 100%;
+
+    .credit-card-types {
+        .item {
+            display: inline-flex;
+            list-style: none;
+            margin: 0;
+            text-align: right;
+            vertical-align: top;
+
+            img {
+                -webkit-filter: grayscale(0%);
+                filter: grayscale(0%);
+                width: 32px;
+            }
+        }
+    }
 }
+
+
 
 .mp-twocc-form {
     border-left: 1px solid #BFBFBF;
     border-right: 1px solid #BFBFBF;
     border-bottom: 1px solid #BFBFBF;
     border-radius: 0px 0px 4px 4px;
-
 }
 
 .mp-twocc-badge-info {
@@ -69,7 +91,6 @@
             background: #FFFFFF;
             border: 1px solid rgba(0, 0, 0, 0.07);
             border-radius: 50%;
-            margin-right: 16px;
         }
     }
 }
@@ -82,6 +103,7 @@
         font-family: 'Open Sans';
         font-style: normal;
         font-weight: 400;
+        padding-left: 16px;
     }
 
 }
@@ -120,12 +142,21 @@
 }
 
 .mp-twocc-badge-info {
-    .mp-twocc-badge-card-installments {
+    .mp-twocc-badge-adjustment {
         .mp-twocc-badge-edit {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
+            justify-content: flex-start;
         }
+      
+            .mp-twocc-edit-img {
+                background: url('../images/twocc/edit.svg') no-repeat center center; 
+                width: 11px; 
+                height: 11px;
+                margin: 4px;      
+            }
+        
     }
 }
 
