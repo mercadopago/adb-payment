@@ -49,6 +49,10 @@ define([
             mpCardBin: '',
             mpCardPublicId: '',
             mpUserId: '',
+            cardIndex: 0,
+            installmentsAmount: 0,
+            amount: 0,
+            installmentsResponse: {},
         },
 
         /** @inheritdoc */
@@ -64,6 +68,10 @@ define([
                     'installmentWasCalculated',
                     'mpCardPublicId',
                     'mpUserId',
+                    'cardIndex',
+                    'amount',
+                    'installmentsAmount',
+                    'installmentsResponse',
                 ]);
             return this;
         },
@@ -76,10 +84,9 @@ define([
 
             this._super();
 
-
-            self.mpCardBin.subscribe((value) => {
-                self.getListOptionsToInstallments(self.amount());
-            });
+            self.amount(quote.totals().base_grand_total);
+            
+            self.installmentsAmount(quote.totals().base_grand_total);
 
             self.mpCardInstallment.subscribe((value) => {
                 self.addFinanceCost();
@@ -91,8 +98,18 @@ define([
          * @return {void}
          */
         resetCardForm() {
-            window.mpCardForm?.cardNumber?.unmount();
-            window.mpCardForm?.securityCode?.unmount();
+            try {
+                window.mpCardForm?.cardNumber?.unmount();
+            } catch (e) {
+                //
+            }
+            
+            try {
+                window.mpCardForm?.securityCode?.unmount();
+            } catch (e) {
+                //
+            }
+
             window.mpCardForm?.expirationMonth?.unmount();
             window.mpCardForm?.expirationYear?.unmount();
             window.mpCardForm = {};
@@ -129,6 +146,7 @@ define([
                         if (event.bin) {
                             if (event.bin.length === 8) {
                                 self.mpCardBin(event.bin);
+                                self.getInstallments();
                                 window.mp.getPaymentMethods({bin: event.bin}).then((binDetails) => {
                                     codeCardtype = self.getCodeCardType(binDetails.results[0].id);
                                     self.mpSelectedCardType(codeCardtype);
@@ -206,7 +224,7 @@ define([
             }
         },
 
-        async generateToken(cardIndex) {
+        async generateToken() {
             var self = this,
                 isVaultEnabled = this.vaultEnabler?.isVaultEnabled() ?? false,
                 saveCard = this.vaultEnabler?.isActivePaymentTokenEnabler() ?? false,
@@ -266,13 +284,18 @@ define([
                         fullScreenLoader.stopLoader();
 
                     } catch (e) {
-                        console.log('ERROR IN VAULT', e);
                         fullScreenLoader.stopLoader();
                         return false;
                     }
                 }
 
-                self.generatedCards[cardIndex] = {
+                const selectedPayerCost = self.mpCardListInstallments().filter(obj => obj.installments === self.mpCardInstallment())[0];
+
+                if (!selectedPayerCost) {
+                    return false;
+                }
+
+                self.generatedCards[self.cardIndex()] = {
                     token,
                     cardNumber: token.first_six_digits + 'xxxxxx' + token.last_four_digits,
                     cardExpirationYear: token.expiration_year,
@@ -284,12 +307,16 @@ define([
                     mpUserId: self.mpUserId(),
                     holderName: self.mpCardHolderName(),
                     cardInstallment: self.mpCardInstallment(),
+                    amount: self.installmentsAmount(),
+                    sdkInformation: {
+                        installmentLabel: selectedPayerCost.recommended_message,
+                        installmentSelected: selectedPayerCost,
+                        issuerLogo: self.installmentsResponse().issuer.secure_thumbnail
+                    },
                 };
 
                 return true;
             } catch(e) {
-                console.log('ERROR GENERATING TOKEN', e);
-
                 _.map(e, (error) => {
                     self.displayErrorInField(error);
                 });
@@ -324,7 +351,7 @@ define([
          * Get List Options to Instalments
          * @returns {Array}
          */
-        getListOptionsToInstallments(amount) {
+        async getInstallments() {
             var self = this,
                 installments = {},
                 ccNumber = self.mpCardBin(),
@@ -332,14 +359,21 @@ define([
 
             self.installmentWasCalculated(false);
 
+            if (self.installmentsAmount() > self.amount()) {
+                self.installmentSelected(null);
+                return;
+            }
+            
+
             if (bin.length === 8) {
-                window.mp.getInstallments({
-                    amount: String(self.FormattedCurrencyToInstallments(amount)),
+                const result = await window.mp.getInstallments({
+                    amount: String(self.FormattedCurrencyToInstallments(self.installmentsAmount())),
                     bin: bin
-                }).then((result) => {
-                    self.installmentWasCalculated(true);
-                    self.mpCardListInstallments(result[0].payer_costs);
                 });
+
+                self.installmentWasCalculated(true);
+                self.installmentsResponse(result[0]);
+                self.mpCardListInstallments(result[0].payer_costs);
             }
 
             return installments;

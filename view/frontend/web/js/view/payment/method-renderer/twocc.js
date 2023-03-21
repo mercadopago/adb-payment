@@ -8,29 +8,19 @@
 define([
     'underscore',
     'jquery',
-    'Magento_Checkout/js/model/full-screen-loader',
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/model/totals',
-    'Magento_Checkout/js/model/url-builder',
     'MercadoPago_PaymentMagento/js/view/payment/mp-sdk',
-    'mage/url',
-    'MercadoPago_PaymentMagento/js/action/checkout/set-finance-cost',
-    'Magento_Ui/js/model/messageList',
-    'mage/translate',
-    'Magento_Catalog/js/price-utils'
+    'Magento_Catalog/js/price-utils',
+    'Magento_Checkout/js/model/payment/additional-validators',
 ], function (
     _,
     $,
-    fullScreenLoader,
     quote,
     totals,
-    urlBuilder,
     Component,
-    urlFormatter,
-    setFinanceCost,
-    messageList,
-    $t,
-    priceUtils
+    priceUtils,
+    additionalValidators,
  ) {
     'use strict';
     return Component.extend({
@@ -42,19 +32,16 @@ define([
             template: 'MercadoPago_PaymentMagento/payment/twocc',
             twoCcForm: 'MercadoPago_PaymentMagento/payment/twocc-form',
             securityField: 'MercadoPago_PaymentMagento/payment/security-field',
-            amount: '',
             installmentTextInfo: false,
             installmentTextTEA: null,
             installmentTextCFT: null,
             isLoading: true,
-            selectedCard: 'card-one',
             inputValueProgress:'',
             placeholderInputProgress: priceUtils.formatPrice(),
             fieldCcNumber: 'mercadopago_paymentmagento_twocc_number',
             fieldSecurityCode: 'mercadopago_paymentmagento_twocc_cid',
             fieldExpMonth: 'mercadopago_paymentmagento_twocc_expiration_month',
             fieldExpYear: 'mercadopago_paymentmagento_twocc_expiration_yr',
-            cardIndex: 0,
         },
 
         /**
@@ -73,13 +60,10 @@ define([
         initObservable() {
             this._super().observe([
                 'active',
-                'amount',
                 'isLoading',
                 'installmentTextInfo',
                 'installmentTextTEA',
                 'installmentTextCFT',
-                'cardIndex',
-                'selectedCard',
                 'inputValueProgress',
                 'placeholderInputProgress'
             ]);
@@ -98,22 +82,9 @@ define([
                 self.mpPayerDocument(quote.billingAddress().vatId);
             }
 
-            self.amount(quote.totals().base_grand_total);
-
             self.active.subscribe((value) => {
                 if (value === true) {
-                    self.getSelectDocumentTypes();
-                    self.getListOptionsToInstallments();
-
-                    setTimeout(() => {
-                        self.mountCardForm({
-                            fieldCcNumber: self.fieldCcNumber,
-                            fieldSecurityCode: self.fieldSecurityCode,
-                            fieldExpMonth: self.fieldExpMonth,
-                            fieldExpYear: self.fieldExpYear,
-                        });
-                        self.isLoading(false);
-                    }, 3000);
+                    self.initForm();
                 }
 
                 if (value === false) {
@@ -131,23 +102,34 @@ define([
                 self.amount(value.base_grand_total - financeCostAmount);
             });
 
-            self.amount.subscribe((value) => {
-                self.getListOptionsToInstallments(value);
-            });
-
-            self.selectedCard.subscribe((value) => {
-                if (value === 'card-one') {
-                    self.selectFirstCard();
-                }
-
-                if (value === 'card-two') {
-                    self.selectSecondCard();
-                }
-            });
-
             self.inputValueProgress.subscribe((value) => {
-                self.updateProgress(value);
+                self.installmentsAmount(value);
             });
+
+            self.installmentsAmount.subscribe((value) => {
+                self.getInstallments();
+            });
+
+            const am = Math.floor(self.amount() / 2);
+            self.inputValueProgress(am);
+        },
+
+        initForm() {
+            const self = this;
+
+            self.isLoading(true);
+            self.getSelectDocumentTypes();
+            self.getInstallments();
+
+            setTimeout(() => {
+                self.mountCardForm({
+                    fieldCcNumber: self.fieldCcNumber,
+                    fieldSecurityCode: self.fieldSecurityCode,
+                    fieldExpMonth: self.fieldExpMonth,
+                    fieldExpYear: self.fieldExpYear,
+                });
+                self.isLoading(false);
+            }, 3000);
         },
 
         /**
@@ -219,12 +201,11 @@ define([
                 data.additional_data[`card_${i}_type`] = self.generatedCards[i]?.cardType;
                 data.additional_data[`card_${i}_installments`] = self.generatedCards[i]?.cardInstallment;
                 data.additional_data[`card_${i}_public_id`] = self.generatedCards[i]?.cardPublicId;
+                data.additional_data[`card_${i}_amount`] = self.generatedCards[i]?.amount;
                 data.additional_data[`mp_${i}_user_id`] = self.generatedCards[i]?.mpUserId;
             }
 
             data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
-
-            console.log(data);
 
             return data;
         },
@@ -253,79 +234,66 @@ define([
             return window.checkoutConfig.payment[this.getCode()].unsupported_pre_auth;
         },
 
-        isVaultEnabled: function () {
+        isVaultEnabled() {
             return false;
         },
 
-        selectFirstCard: function (){
-            console.log("it was called")
-            var mpFirstCard = document.getElementById('mp-first-card');
-            var mpSecondCard = document.getElementById('mp-second-card');
-
-            console.log(mpFirstCard)
-            console.log(mpSecondCard)
-
-            if(mpFirstCard.classList.contains('mp-display-form')) {
-                this.formShown('mp-twocc-first-radio')
-                this.formHidden('mp-twocc-second-radio')
-                mpFirstCard.classList.remove('mp-display-form')
-                mpSecondCard.classList.add('mp-display-form')
-            }
-        },
-
-        selectSecondCard: function (){
-            var mpFirstCard = document.getElementById('mp-first-card')
-            var mpSecondCard = document.getElementById('mp-second-card')
-            var mpFirstHeader = document.getElementById('mp-twocc-first-radio')
-
-            if(mpSecondCard.classList.contains('mp-display-form')) {
-                this.formShown('mp-twocc-second-radio')
-                this.formHidden('mp-twocc-first-radio')
-                mpSecondCard.classList.remove('mp-display-form')
-                mpFirstCard.classList.add('mp-display-form')
-            }
-        },
-
-        formShown: function (id){
-            var mpRadio = document.getElementById(id);
-            mpRadio.style.borderBottom = '0'
-            mpRadio.style.borderRadius = '4px 4px 0 0'
-        },
-
-        formHidden: function (id){
-
-            console.log('hidden')
-            var mpRadio = document.getElementById(id);
-            mpRadio.style.borderBottom = '1px solid #BFBFBF'
-            mpRadio.style.borderRadius = '4px'
-        },
-        /**
-         * Progress bar update
-         */
-        updateProgress(valueInput){
-            var progress = document.querySelector(".mp-progress-bar div");
-            var total = this.amount();
-            var porcent = (valueInput/total) * 100;
-
-            progress.style.width = porcent + "%";
-            document.getElementById("mp-message-error").style.display = "none";
-
-            if(valueInput >= total){
-                porcent = 0;
-                progress.style.width = porcent + "%";
-                document.getElementById("mp-message-error").style.display = "block";
+        editFirstCard() {
+            if (!this.generatedCards[0]) {
+                return;
             }
 
-            if(valueInput < 0){
-                porcent = 0;
-                progress.style.width = porcent + "%";
+            if (0 === this.cardIndex()) {
+                return;
             }
+
+            delete this.generatedCards[1];
+
+            this.installmentsAmount(this.generatedCards[0].amount);
+            this.cardIndex(0);
+            this.resetCardForm();
+            this.initForm();
+        },
+
+        async finishFirstCard() {
+            if (!$(this.formElement).valid()) {
+                return;
+            }
+
+            const tokenGenerated = await this.generateToken();
+
+            if (tokenGenerated === false) {
+                return;
+            }
+            
+            this.cardIndex(1);
+            this.installmentsAmount(this.amount() - this.installmentsAmount());
+            this.resetCardForm();
+            this.initForm();
+        },
+
+        getProgressBarWidth() {
+            const w = (this.inputValueProgress() / this.amount()) * 100;
+
+            if (w < 0) {
+                return '0%';
+            }
+
+            if (w > 100) {
+                return '100%';
+            }
+
+            return `${w}%`;
+        },
+
+        progressHasError() {
+            return this.inputValueProgress() > this.amount() || this.inputValueProgress() < 0;
         },
 
         /**
          * Remaining value label update
          */
-        updateRemainingAmount(){
+        updateRemainingAmount() {
             var amount = this.amount();
             var inputValueProgress = this.inputValueProgress();
 
@@ -334,7 +302,26 @@ define([
             }
 
             return priceUtils.formatPrice(amount);
-        }
+        },
 
+        formatedInstallmentAmount() {
+            return priceUtils.formatPrice(this.installmentsAmount());
+        },
+
+        showFirstCardBlock() {
+            if (this.cardIndex() === 0) {
+                return 'first-card-opened-form';
+            } 
+
+            return 'first-card-edit-button';
+        },
+
+        showSecondCardBlock() {
+            if (this.cardIndex() === 0) {
+                return 'second-card-radio-selector';
+            }
+
+            return 'second-card-opened-form';
+        },
     });
 });
