@@ -37,7 +37,6 @@ define([
             installmentTextCFT: null,
             isLoading: true,
             inputValueProgress:'',
-            placeholderInputProgress: priceUtils.formatPrice(),
             fieldCcNumber: 'mercadopago_paymentmagento_twocc_number',
             fieldSecurityCode: 'mercadopago_paymentmagento_twocc_cid',
             fieldExpMonth: 'mercadopago_paymentmagento_twocc_expiration_month',
@@ -65,7 +64,6 @@ define([
                 'installmentTextTEA',
                 'installmentTextCFT',
                 'inputValueProgress',
-                'placeholderInputProgress'
             ]);
             return this;
         },
@@ -112,6 +110,11 @@ define([
 
             const am = Math.floor(self.amount() / 2);
             self.inputValueProgress(am);
+           
+        },
+
+        currencySymbol() {
+            return priceUtils.formatPrice().replaceAll(/[0-9\s\.\,]/g, '');
         },
 
         initForm() {
@@ -256,7 +259,7 @@ define([
         },
 
         async finishFirstCard() {
-            if (!$(this.formElement).valid()) {
+            if (!$(this.formElement).valid() || this.progressHasError()) {
                 return;
             }
 
@@ -275,11 +278,7 @@ define([
         getProgressBarWidth() {
             const w = (this.inputValueProgress() / this.amount()) * 100;
 
-            if (w < 0) {
-                return '0%';
-            }
-
-            if (w > 100) {
+            if (w <= 0 || w > 100) {
                 return '100%';
             }
 
@@ -287,7 +286,8 @@ define([
         },
 
         progressHasError() {
-            return this.inputValueProgress() > this.amount() || this.inputValueProgress() < 0;
+            const v = parseFloat(this.inputValueProgress());
+            return v > this.amount() - 1 || v < 1;
         },
 
         /**

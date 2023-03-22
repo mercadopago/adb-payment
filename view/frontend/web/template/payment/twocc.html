@@ -33,14 +33,17 @@
         <!-- ko if: showFirstCardBlock() === 'first-card-opened-form' -->
         <div class="mp-header-two-cards">
             <p class="mp-header-subtitle"><!-- ko i18n: 'Insira o valor a pagar com o primeiro meio *' --><!-- /ko --></p>
-            <input type="number" id="input-progress"
-                data-bind="attr: {placeholder: placeholderInputProgress}, value: inputValueProgress, valueUpdate: 'keyup'">
-            </input>
+            <div class="mp-twocc-amount-selector">
+                <div data-bind="text: currencySymbol()"></div> 
+                <input type="number" id="input-progress" step=".01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00"
+                    data-bind="value: inputValueProgress, valueUpdate: 'keyup'">
+                </input>
+            </div>
             <div class="mp-progress-bar">
-                <div data-bind="style: { width: getProgressBarWidth() }"></div>
+                <div data-bind="style: { width: getProgressBarWidth(), backgroundColor: progressHasError() ? 'red' : '#3483FA' }"></div>
             </div>
             <!-- ko if: progressHasError() -->
-            <div class="mp-message" id="mp-message-error"><!-- ko i18n: 'Valor não permitido!' --><!-- /ko --></div>
+            <div class="mp-message" id="mp-message-error" style="display:block;"><!-- ko i18n: 'Valor não permitido!' --><!-- /ko --></div>
             <!-- /ko -->
             <div class="mp-subtitle"><!-- ko i18n: 'Valor restante ' --><!-- /ko -->
                 <span data-bind="text: updateRemainingAmount()"></span>
