@@ -92,7 +92,7 @@ define([
             self.active.subscribe((value) => {
                 if (value === true) {
                     self.getSelectDocumentTypes();
-                    self.getListOptionsToInstallments();
+                    self.getInstallments();
 
                     setTimeout(() => {
                         self.mountCardForm({
@@ -121,7 +121,7 @@ define([
             });
 
             self.amount.subscribe((value) => {
-                self.getListOptionsToInstallments(value);
+                self.getInstallments();
             });
         },
 
