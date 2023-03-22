@@ -84,6 +84,56 @@ class TxnIdPaymentMethodsOffHandler implements HandlerInterface
     public const FINANCIAL_INSTITUTION = 'financial_institution';
 
     /**
+     * Site Id block name.
+     */
+    public const SITE_ID = 'site_id';
+
+    /**
+     * Meta Data block name.
+     */
+    public const METADATA = 'metadata';
+
+    /**
+     * Message information.
+     */
+    public const MESSAGE_INFO = 'message_info';
+
+    /**
+     * Message from line code.
+     */
+    public const MESSAGE_LINE_CODE = 'message_line_code';
+
+    /**
+     * Message from document.
+     */
+    public const MESSAGE_DOCUMENT = 'message_document';
+
+    /**
+     * Message Will be approved.
+     */
+    public const MESSAGE_WILL_APPROVED = 'message_will_approved';
+
+    /**
+     * Payment Method Id block name.
+     */
+    public const PAYMENT_METHOD_ID = 'payment_method_id';
+
+    /**
+     * Payment Method Id MLB PEC.
+     */
+    public const PEC = 'pec';
+
+    /**
+     * Payment Method Id MLB Boleto.
+     */
+    public const BOLETO = 'bolbradesco';
+
+    /**
+     * Payment Method Id MLB.
+     */
+    public const MLB = 'MLB';
+
+    /**
      * @var ConfigPaymentMethodsOff
      */
     protected $configPaymentMethodsOff;
@@ -166,15 +216,6 @@ class TxnIdPaymentMethodsOffHandler implements HandlerInterface
                     self::BARCODE,
                     $barcode
                 );
-
-                $lineCode = $this->configPaymentMethodsOff->getLineCode($barcode);
-
-                if ($lineCode){
-                    $payment->setAdditionalInformation(
-                        self::LINE_CODE,
-                        $lineCode
-                    );
-                }
             }
         }
 
@@ -199,5 +240,53 @@ class TxnIdPaymentMethodsOffHandler implements HandlerInterface
             self::VERIFICATION_CODE,
             $transactionDetails[self::VERIFICATION_CODE]
         );
+
+        $payment->setAdditionalInformation(
+            self::MESSAGE_INFO,
+            'Generate the ticket and pay it wherever you want.'
+        );
+
+        if ($response[self::METADATA][self::SITE_ID] === self::MLB) {
+            $this->setAddtionalInformationMLB($payment, $response);
+        } 
+    }
+
+    public function setAddtionalInformationMLB($payment, $response) {
+        if ($response[self::PAYMENT_METHOD_ID] === self::BOLETO) {
+            $barcode = $response[self::BARCODE][self::CONTENT];
+            $lineCode = $this->configPaymentMethodsOff->getLineCode($barcode);
+            
+            $payment->setAdditionalInformation(
+                self::LINE_CODE,
+                $lineCode
+            );
+
+            $payment->setAdditionalInformation(
+                self::MESSAGE_LINE_CODE,
+                'The Line Code is'
+            );
+            
+            $payment->setAdditionalInformation(
+                self::MESSAGE_WILL_APPROVED,
+                'Will be approved within 2 business days.'
+            );
+        } else if ($response[self::PAYMENT_METHOD_ID] === self::PEC) {
+            $transactionDetails = $response[self::TRANSACTION_DETAILS];
+
+            $payment->setAdditionalInformation(
+                self::LINE_CODE,
+                $transactionDetails[self::FINANCIAL_INSTITUTION]
+            );
+
+            $payment->setAdditionalInformation(
+                self::MESSAGE_LINE_CODE,
+                'Mercado Pago partnership code'
+            );
+
+            $payment->setAdditionalInformation(
+                self::MESSAGE_DOCUMENT,
+                'Enter the ID Document you used in the purchase'
+            );
+        }
     }
 }

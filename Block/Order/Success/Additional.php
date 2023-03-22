@@ -15,6 +15,7 @@ use Magento\Framework\View\Element\Template\Context;
 use MercadoPago\PaymentMagento\Gateway\Config\Config as PaymentConfig;
 use Magento\Sales\Model\Order\Config as OrderConfig;
 use Magento\Sales\Model\Order;
+use Magento\Framework\View\Asset\Repository;
 
 /**
  * Success page additional information.
@@ -56,11 +57,16 @@ class Additional extends Template
      * @var PaymentConfig
      */
     protected $paymentConfig;
-    
+
     /**
      * @var HttpContext
      */
     protected $httpContext;
+
+    /**
+     * @var Repository
+     */
+    protected $_assetRepo;
 
     /**
      * @param Context       $context
@@ -76,6 +82,7 @@ class Additional extends Template
         OrderConfig $orderConfig,
         PaymentConfig $paymentConfig,
         HttpContext $httpContext,
+        Repository $assetRepo,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -83,16 +90,17 @@ class Additional extends Template
         $this->orderConfig = $orderConfig;
         $this->paymentConfig = $paymentConfig;
         $this->httpContext = $httpContext;
+        $this->_assetRepo = $assetRepo;
 
-        if ($this->getMethodCode() === 'mercadopago_paymentmagento_boleto') {
-            $this->setTemplate('MercadoPago_PaymentMagento::order/success/boleto.phtml');
-        } elseif ($this->getMethodCode() === 'mercadopago_paymentmagento_pec') {
-            $this->setTemplate('MercadoPago_PaymentMagento::order/success/pec.phtml');
-        } elseif ($this->getMethodCode() === 'mercadopago_paymentmagento_pix') {
+        $methodCode = $this->getMethodCode();
+
+        if ($methodCode === 'mercadopago_paymentmagento_payment_methods_off') {
+            $this->setTemplate('MercadoPago_PaymentMagento::order/success/payment-method-off.phtml');
+        } elseif ($methodCode === 'mercadopago_paymentmagento_pix') {
             $this->setTemplate('MercadoPago_PaymentMagento::order/success/pix.phtml');
-        } elseif ($this->getMethodCode() === 'mercadopago_paymentmagento_twocc') {
+        } elseif ($methodCode === 'mercadopago_paymentmagento_twocc') {
             $this->setTemplate('MercadoPago_PaymentMagento::order/success/twocc.phtml');
-        } elseif (str_contains($this->getMethodCode(), 'mercadopago_paymentmagento')) {
+        } elseif (strpos($methodCode, 'mercadopago_paymentmagento') !== false) {
             $this->setTemplate('MercadoPago_PaymentMagento::order/success/default.phtml');
         }
     }
@@ -144,6 +152,16 @@ class Additional extends Template
     }
 
     /**
+     * Get Logo Mercado Pago.
+     *     *
+     * @return string
+     */
+    public function getLogoMP()
+    {
+       return $this->_assetRepo->getUrl('MercadoPago_PaymentMagento::images/core/logo.svg');
+    }
+
+    /**
      * Statement Descriptor.
      *
      * @return string
@@ -163,8 +181,8 @@ class Additional extends Template
     public function getTitleByPaymentStatus()
     {
         $status = $this->getInfo(self::MP_STATUS);
-        
-        if ($this->getMethodCode() === 'mercadopago_paymentmagento_twocc' 
+
+        if ($this->getMethodCode() === 'mercadopago_paymentmagento_twocc'
             && strcasecmp(isset($status) ? $status : '', self::STATUS_APPROVED) <> 0
         ) {
             return self::TITLE_PROCESSING_ORDER;

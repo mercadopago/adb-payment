@@ -126,7 +126,7 @@ Instruction,Instrucciones
 "The Line Code is","El line code es"
 Copy,Copiar
 Copied,Copiado
-"Enter the ID Document you used in the purchase: %1","Ingresa el Documento de identificación usado en la compra: %1"
+"Enter the ID Document you used in the purchase","Ingresa el Documento de identificación usado en la compra"
 Pix,Pix
 Waiting...,Esperando...
 "Place Order","Realizar Pedido"
@@ -1179,6 +1179,8 @@ site_disabled.,site_disabled.
 "Payment Title","Título del metodo de pago"
 "Accept all payment methods","Aceptar todos los medios de pago"
 "There are no payment methods available, please contact the seller.", "No hay métodos de pago disponibles, póngase en contacto con el vendedor."
+"Generate the ticket and pay it wherever you want.","Genere el ticket de pago y pague."
+"Will be approved within 2 business days.","Será aprobado en hasta 2 días hábiles."
 "PAYMENT INFORMATION","INFORMACIÓN DE PAGO"
 "Payment Number (Mercado Pago): %1","Número de Pago (Mercado Pago): %1"
 "FIRST PAYMENT METHOD", "PRIMERA FORMA DE PAGO"

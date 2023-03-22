@@ -126,7 +126,7 @@ Instruction,Instruções
 "The Line Code is","O código de barras é"
 Copy,Copiar
 Copied,Copiado
-"Enter the ID Document you used in the purchase: %1","Informe o Documento de Identificação usado na compra: %1"
+"Enter the ID Document you used in the purchase","Informe o Documento de Identificação usado na compra"
 Pix,Pix
 Waiting...,Aguardando...
 "Place Order","Place Order"
@@ -1204,6 +1204,8 @@ Expiration,Expiração
 "Payment Title","Título do Método de Pagamento"
 "Accept all payment methods","Aceite todos os métodos de pagamento"
 "There are no payment methods available, please contact the seller.", "Não há métodos de pagamento disponíveis, entre em contato com o vendedor."
+"Generate the ticket and pay it wherever you want.", "Gere o boleto e pague-o onde quiser."
+"Will be approved within 2 business days.","Será aprovado até 2 dias úteis."
 "Expiration","Expiração"
 "PAYMENT INFORMATION","INFORMAÇÃO DE PAGAMENTO"
 "Payment Number (Mercado Pago): %1","Número de Pagamento (Mercado Pago): %1"

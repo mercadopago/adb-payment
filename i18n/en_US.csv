@@ -131,7 +131,7 @@ Link,Link
 Copy,Copy
 Copied,Copied
 "Mercado Pago partnership code","Mercado Pago partnership code"
-"Enter the ID Document you used in the purchase: %1","Enter the ID Document you used in the purchase: %1"
+"Enter the ID Document you used in the purchase","Enter the ID Document you used in the purchase"
 "To pay, please scan the QR code","To pay, please scan the QR code"
 Pix,Pix
 "or, if you prefer, copy-paste the code","or, if you prefer, copy-paste the code"
@@ -1193,6 +1193,8 @@ site_disabled.,site_disabled.
 "Payment Title","Payment Title"
 "Accept all payment methods","Accept all payment methods"
 "There are no payment methods available, please contact the seller.", "There are no payment methods available, please contact the seller."
+"Generate the ticket and pay it wherever you want.","Generate the ticket and pay it wherever you want."
+"Will be approved within 2 business days.","Will be approved within 2 business days."
 "PAYMENT INFORMATION","PAYMENT INFORMATION"
 "Payment Number (Mercado Pago): %1","Payment Number (Mercado Pago): %1"
 "FIRST PAYMENT METHOD", "FIRST PAYMENT METHOD"
