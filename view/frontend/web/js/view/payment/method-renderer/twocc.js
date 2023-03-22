@@ -286,6 +286,10 @@ define([
         },
 
         progressHasError() {
+            if (this.inputValueProgress() == '') {
+                return true;
+            }
+
             const v = parseFloat(this.inputValueProgress());
             return v > this.amount() - 1 || v < 1;
         },

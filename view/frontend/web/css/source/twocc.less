@@ -198,7 +198,8 @@
     border-radius: 6px;
     margin-bottom: 10px;
     padding: 0;
-    width: 294px;
+    width: 324px;
+    box-sizing: border-box;
 
     > div {
         padding: 15px 0 15px 15px;
@@ -209,5 +210,13 @@
         padding: 15px!important;
         margin: 0!important;
         height: auto!important;
+        background: transparent;
+
+        &:focus {
+            outline: none;
+            border-color: inherit;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
     }
 }
