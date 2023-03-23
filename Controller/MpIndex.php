@@ -214,8 +214,27 @@ abstract class MpIndex extends Action
     public function filterInvalidNotification(
         $mpStatus,
         $order,
-        $mpAmountRefound = null
+        $mpAmountRefound = null,
+        $checkoutType = null
     ) {
+
+        $this->logger->debug([
+            'Class'     => 'mp index',
+            'Caller' => $checkoutType,
+            'Action'    => 'validity check',
+            'Mpstatus' => $mpStatus,
+            'Order status' => $order->getStatus(),
+            'Order state' => $order->getState(),
+        ]);
+
+        if($mpAmountRefound) {
+            $this->logger->debug([
+                'Class'     => 'mp index',
+                'Caller' => $checkoutType,
+                'amount' => $mpAmountRefound
+            ]);
+        }
+
         $result = [];
 
         if (!$order->getEntityId()) {
@@ -229,12 +248,31 @@ abstract class MpIndex extends Action
         }
 
         if ($mpStatus === 'refunded') {
+
+            $this->logger->debug([
+                'Class'     => 'mp index',
+                'Caller' => $checkoutType,
+                'state'    => $order->getState(),
+            ]);
+
             if ($order->getState() !== \Magento\Sales\Model\Order::STATE_CLOSED) {
+                $this->logger->debug([
+                    'Class'     => 'mp index',
+                    'Caller' => $checkoutType,
+                    'action'    => 'mprefunded, order not closed',
+                ]);
+                
                 $storeId = $order->getStoreId();
                 $applyRefund = $this->config->isApplyRefund($storeId);
 
+                $this->logger->debug([
+                    'Class'     => 'mp index',
+                    'Caller' => $checkoutType,
+                    'apply'    => $applyRefund,
+                ]);
+
                 if ($applyRefund) {
-                    $this->refund($order, $mpAmountRefound);
+                    $this->refund($order, $mpAmountRefound, $checkoutType);
 
                     $header = __('Mercado Pago, refund notification');
 
@@ -245,7 +283,39 @@ abstract class MpIndex extends Action
 
                     $this->notifierPool->addCritical($header, $description);
                 }
+
+                $this->logger->debug([
+                    'Class'     => 'mp index',
+                    'Caller' => $checkoutType,
+                    'action'    => 'offline refund applyed',
+                ]);
+
+                $result = [
+                    'isInvalid' => true,
+                    'code'      => 999,
+                    'msg'       => __('Refund notification for order not previously closed.'),
+                ];
+    
+                return $result;
             }
+
+            if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {{
+                $this->logger->debug([
+                    'Class'     => 'mp index',
+                    'Caller' => $checkoutType,
+                    'action'    => 'mprefunded, order already closed',
+                    'mpstatus' => $mpStatus,
+                    'order' => $order->getState(),
+                ]);
+
+                $result = [
+                'isInvalid' => true,
+                'code'      => 888,
+                'msg'       => __('Refund notification for order already closed.'),
+                ];
+    
+                return $result;
+            }}
 
             $result = [
                 'isInvalid' => true,
@@ -257,6 +327,14 @@ abstract class MpIndex extends Action
         }
 
         if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
+            $this->logger->debug([
+                'Class'     => 'mp index',
+                'Caller' => $checkoutType,
+                'action'    => 'state closed not on refund',
+                'mpstatus' => $mpStatus,
+                'order' => $order->getState(),
+            ]);
+            
             $result = [
                 'isInvalid' => true,
                 'code'      => 412,
@@ -273,7 +351,14 @@ abstract class MpIndex extends Action
         $result = [
             'isInvalid' => false,
         ];
-
+        
+        $this->logger->debug([
+            'Class'     => 'mp index',
+            'Caller' => $checkoutType,
+            'action'    => 'validity check end',
+            'result' => $result,
+        ]);
+        
         return $result;
     }
 
@@ -287,9 +372,16 @@ abstract class MpIndex extends Action
      */
     public function checkoutProAddChildInformation(
         $orderId,
-        $childId
+        $childId,
+        $checkoutType
     ) {
         $this->addChildPayment->add($orderId, $childId);
+
+        $this->logger->debug([
+            'Class'     => 'mp index',
+            'Caller' => $checkoutType,
+            'action'    => 'cho pro add child info',
+        ]);
     }
 
     /**
@@ -304,15 +396,38 @@ abstract class MpIndex extends Action
      */
     public function refund(
         OrderInterface $order,
-        $mpAmountRefound = null
+        $mpAmountRefound = null,
+        $checkoutType = null
     ): void {
+
+        $this->logger->debug([
+            'Class'     => 'mp index',
+            'Caller' => $checkoutType,
+            'action'    => 'refund',
+        ]);
+
         $invoices = $order->getInvoiceCollection();
 
+        $this->logger->debug([
+            'count' => count($invoices),
+        ]);
+
         if (count($invoices) == 0) {
+            $this->logger->debug([
+                'Class'     => 'mp index',
+                'Caller' => $checkoutType,
+                'action'    => 'no invoices',
+            ]);
             return;
         }
 
         foreach ($invoices as $invoice) {
+            $this->logger->debug([
+                'Class'     => 'mp index',
+                'Caller' => $checkoutType,
+                'Action'    => 'in foreach invoice',
+            ]);
+
             $invoice = $this->invoice->loadByIncrementId($invoice->getIncrementId());
             $creditMemo = $this->creditMemoFactory->createByOrder($order);
 
@@ -323,7 +438,25 @@ abstract class MpIndex extends Action
 
             $order->addCommentToStatusHistory(__('Order refunded.'));
 
-            $this->creditMemoService->refund($creditMemo, false);
+            $this->logger->debug([
+                'Class'     => 'mp index',
+                'Caller' => $checkoutType,
+                'Action'    => 'before refund',
+                'order status' => $order->getStatus(),
+                'order state' => $order->getState(),
+            ]);
+
+            $newCreditMemo = $this->creditMemoService->refund($creditMemo, false);
+
+            $this->logger->debug([
+                'Class'     => 'mp index',
+                'Caller' => $checkoutType,
+                'Action'    => 'after refund',
+                'order status' => $order->getStatus(),
+                'order state' => $order->getState(),
+                'memo state' => $newCreditMemo->getState(),
+                'memo status' => $newCreditMemo->getStatus(),
+            ]);
         }
     }
 }

@@ -99,6 +99,13 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $mpTransactionId = $mercadopagoData['preference_id'];
         $childTransactionId = $mercadopagoData['payments_details'][0]['id'];
 
+        $this->logger->debug([
+            'Checkout type'    => 'Pro',
+            'Mp payment status' => $mpStatus,
+            'Mp transaction id - preference' => $mpTransactionId,
+            'Child transaction id - payment' => $childTransactionId,
+        ]);
+
         $searchCriteria = $this->searchCriteria
             ->addFilter('txn_id', $mpTransactionId)
             ->addFilter('txn_type', 'order')
@@ -117,11 +124,34 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
             );
         }
 
+        $this->logger->debug([
+            'Class'    => 'CheckoutPro',
+            'Action'    => 'for each transaction',
+        ]);
+
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
-
+            
+            $this->logger->debug([
+                'Class'    => 'CheckoutPro',
+                'Order status'    => $order->getStatus(),
+                'Order id' => $transaction->getOrderId(),
+            ]);
+            
+            
             if ($mpStatus === 'pending') {
+
+                $this->logger->debug([
+                    'Class'    => 'CheckoutPro',
+                    'action'    => 'Updating payment detail to pending',
+                ]);
+
                 $this->updateDetails($mercadopagoData, $order);
+
+                $this->logger->debug([
+                    'Class'    => 'CheckoutPro',
+                    'action'    => 'Updated details',
+                ]);
 
                 /** @var ResultInterface $result */
                 $result = $this->createResult(
@@ -137,8 +167,16 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                 $status,
                 $childTransactionId,
                 $order,
-                $mpAmountRefund
+                $mpAmountRefund,
+                $mercadopagoData
             );
+
+            $this->logger->debug([
+                'Class'    => 'CheckoutPro',
+                'Action'    => 'After process notification',
+                'code' => $process['code'],
+                'msg' => $process['msg'],
+            ]);
 
             /** @var ResultInterface $result */
             $result = $this->createResult(
@@ -148,6 +186,11 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
 
             return $result;
         }
+
+        $this->logger->debug([
+            'Class'    => 'CheckoutPro',
+            'action'    => 'no transactions',
+        ]);
 
         /** @var ResultInterface $result */
         $result = $this->createResult(200, ['empty' => null]);
@@ -165,11 +208,18 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $mercadopagoData,
         $order
     ) {
+        $this->logger->debug([
+            'Class'    => 'CheckoutPro',
+            'action'    => 'details',
+            'data' => $this->json->serialize($mercadopagoData),
+            'status' => $order->getStatus(),
+            'state' => $order->getState(),
+        ]);
         $orderId = $order->getId();
         $childTransctions = $mercadopagoData['payments_details'];
 
         foreach ($childTransctions as $child) {
-            $this->checkoutProAddChildInformation($orderId, $child['id']);
+            $this->checkoutProAddChildInformation($orderId, $child['id'], 'CheckoutPro');
         }
     }
 
@@ -187,6 +237,11 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $childTransactionId,
         $order
     ) {
+        $this->logger->debug([
+            'Class'    => 'CheckoutPro',
+            'action'    => 'create child',
+            'order status' => $order->getStatus(),
+        ]);
         $payment = $order->getPayment();
         $payment->setShouldCloseParentTransaction(true);
         $payment->setParentTransactionId($mpTransactionId);
@@ -214,18 +269,103 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $mpStatus,
         $childTransactionId,
         $order,
-        $mpAmountRefund = null
+        $mpAmountRefund = null,
+        $mercadopagoData = null
     ) {
+        $this->logger->debug([
+            'Class'    => 'CheckoutPro',
+            'Action'    => 'Process notification',
+            'Order status' => $order->getStatus(),
+        ]);
+
         $result = [];
 
-        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund);
+        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund, 'CheckoutPro');
 
         if ($isNotApplicable['isInvalid']) {
+            if ($isNotApplicable['code'] === 999) {
+                $this->logger->debug([
+                    'Class'    => 'CheckoutPro',
+                    'action'    => 'Updating payment details status for order not closed',
+                ]);
+                $this->updateDetails($mercadopagoData, $order);
+
+                $this->logger->debug([
+                    'Class'    => 'CheckoutPro',
+                    'action'    => 'After updating details status for order not closed',
+                ]);
+
+                $result = [
+                    'isInvalid' => true,
+                    'code'      => 200,
+                    'msg'       => [
+                        'error'   => 200,
+                        'message' => __('Order not yet closed in Magento.'),
+                        'state'   => $order->getState(),
+                        'tatus'   => $order->getStatus(),
+                    ],
+                ];
+
+                return $result;
+            }
+            if ($isNotApplicable['code'] === 888) {
+                $this->logger->debug([
+                    'Class'    => 'CheckoutPro',
+                    'action'    => 'Updating payment details status for order already closed',
+                ]);
+                
+                $this->updateDetails($mercadopagoData, $order);
+
+                $this->logger->debug([
+                    'Class'    => 'CheckoutPro',
+                    'action'    => 'After updating details status for order already closed',
+                ]);
+
+                $result = [
+                    'isInvalid' => true,
+                    'code'      => 200,
+                    'msg'       => [
+                        'error'   => 200,
+                        'message' => __('Order already closed in Magento.'),
+                        'state'   => $order->getState(),
+                        'tatus'   => $order->getStatus(),
+                    ],
+                ];
+
+                return $result;
+            }
+
             return $isNotApplicable;
         }
 
+        $this->logger->debug([
+            'Class'    => 'CheckoutPro',
+            'Notification validity'    => 'valid',
+            'Action' => 'Before creating child',
+        ]);
+
         $this->createChild($mpTransactionId, $childTransactionId, $order);
-        $this->fetchStatus->fetch($order->getEntityId());
+
+        $this->logger->debug([
+            'Class'     => 'CheckoutPro',
+            'Action'    => 'After creating child',
+            'Action'    => 'Before fetch',
+            'order'     => $order->getIncrementId(),
+            'state'     => $order->getState(),
+            'status'    => $order->getStatus(),
+            'entity id' => $order->getEntityId(),
+        ]);
+
+        $order = $this->fetchStatus->fetch($order->getEntityId(), 'checkout pro');
+       
+        $this->logger->debug([
+            'Class'     => 'CheckoutPro',
+            'Action'    => 'After fetch',
+            'order'     => $order->getIncrementId(),
+            'state'     => $order->getState(),
+            'status'    => $order->getStatus(),
+            'entity id' => $order->getEntityId(),
+        ]);
 
         $result = [
             'code'  => 200,
@@ -235,6 +375,12 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                 'status'    => $order->getStatus(),
             ],
         ];
+
+        $this->logger->debug([
+            'Class'    => 'CheckoutPro',
+            'Action'    => 'Notification processed',
+            'msg'   => $result,
+        ]);
 
         return $result;
     }

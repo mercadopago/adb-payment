@@ -55,8 +55,17 @@ class CheckoutProAddChildPayment extends AbstractModel
     {
         $this->writeln('Init Fetch Checkout Pro Payments');
 
+        $this->logger->debug([
+            'action'    => 'add child payment',
+        ]);
+
         /** @var Order $order */
         $order = $this->order->load($orderId);
+
+        $this->logger->debug([
+            'order status'    => $order->getStatus(),
+            'order state'    => $order->getState(),
+        ]);
 
         $payment = $order->getPayment();
 
@@ -75,9 +84,19 @@ class CheckoutProAddChildPayment extends AbstractModel
         }
 
         if ($order->getState() === Order::STATE_PAYMENT_REVIEW) {
-            $order = $payment->getOrder();
-            $order->setState(Order::STATE_NEW);
-            $order->setStatus('pending');
+            if ($order->getStatus() === Order::STATE_CLOSED) {
+                $this->logger->debug([
+                    'action'    => 'block review on closed child',
+                ]);
+            } else {
+                $order = $payment->getOrder();
+                $order->setState(Order::STATE_NEW);
+                $order->setStatus('pending');
+                
+                $this->logger->debug([
+                    'action'    => 'review',
+                ]);
+            }
         }
 
         $this->writeln(

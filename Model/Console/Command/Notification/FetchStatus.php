@@ -53,7 +53,6 @@ class FetchStatus extends AbstractModel
     public function fetch($orderId, $notificationId)
     {
         $this->writeln('Init Fetch Status');
-
         /** @var Order $order */
         $order = $this->order->load($orderId);
 
