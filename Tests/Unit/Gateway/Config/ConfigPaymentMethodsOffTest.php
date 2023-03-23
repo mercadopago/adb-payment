@@ -2,9 +2,11 @@
 
 namespace Tests\Unit\Gateway\Config;
 
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
+use PHPUnit\Framework\TestCase;
 
-class ConfigPaymentMethodsOffTest {
+use MercadoPago\PaymentMagento\Model\Ui\Config;
+
+class ConfigPaymentMethodsOffTest extends TestCase {
 
         /**
      * @var ConfigPaymentMethodsOff
