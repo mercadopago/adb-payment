@@ -1346,27 +1346,6 @@
         </arguments>
     </virtualType>
 
-    <!-- TwoCc - Commands infrastructure -->
-    <virtualType name="MercadoPagoTwoCcCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">MercadoPagoInitializeCcCommand</item>
-                <item name="authorize" xsi:type="string">MercadoPagoAuthorizeTwoCcCommand</item>
-                <item name="capture" xsi:type="string">MercadoPagoCaptureCcCommand</item>
-                <item name="refund" xsi:type="string">MercadoPagoRefundCommand</item>
-                <item name="cancel" xsi:type="string">MercadoPagoDenyPaymentCommand</item>
-                <item name="void" xsi:type="string">MercadoPagoDenyPaymentCommand</item>
-                <item name="accept_payment" xsi:type="string">MercadoPagoAcceptPaymentCommand</item>
-                <item name="deny_payment" xsi:type="string">MercadoPagoDenyPaymentCommand</item>
-                <item name="vault_initialize" xsi:type="string">MercadoPagoCcVaultInitializeCommand</item>
-                <item name="vault_authorize" xsi:type="string">MercadoPagoCcVaultAuthorizeCommand</item>
-                <item name="vault_capture" xsi:type="string">MercadoPagoCcVaultCaptureCommand</item>
-                <item name="vault_sale" xsi:type="string">MercadoPagoCcVaultCaptureCommand</item>
-                <item name="fetch_transaction_information" xsi:type="string">MercadoPagoCcFetchCommand</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
     <!-- TwoCc - Commands Initialize -->
     <virtualType name="MercadoPagoInitializeTwoCcCommand" type="MercadoPago\PaymentMagento\Gateway\Command\PaymentCommand">
         <arguments>

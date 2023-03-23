@@ -15,7 +15,7 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 /**
  * Gateway response to Transaction Details by Card.
  */
-class TxnIdCcHandler implements HandlerInterface
+class TxnIdTwoCcHandler implements HandlerInterface
 {
     /**
      * Payment Id response value.
