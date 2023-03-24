@@ -318,6 +318,8 @@ define([
                 return true;
             } catch(e) {
 
+                validateFormSF.clearSecureFieldsErrors();
+
                 self.displayErrorInField(e);
 
                 messageList.addErrorMessage({

@@ -82,6 +82,14 @@ define([
                 return $('#' + element).closest('.control-mp-iframe').addClass('has-error').removeClass('is-valid');
             }
             return $('#' + element).closest('.control-mp-iframe').addClass('is-valid').removeClass('has-error');
-        }
+        },
+
+        /**
+         * Clear Errors in Field
+         * @return {void}
+         */
+        clearSecureFieldsErrors(){
+            const secureFields = $('#form-secure-fields div.field-error').remove()  
+        },
     };
 });
