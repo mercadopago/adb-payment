@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\Mocks;
+namespace MercadoPago\PaymentMagento\Tests\Unit\Mocks;
 
 class PaymentsMethodsActiveMock {
-    public const paymentsMethodsActive = [
+    public const PAYMENT_METHODS_OFF_TICKET = [
         0 => [
             "accreditation_time" => 60,
             "additional_info_needed" => [
@@ -52,20 +52,20 @@ class PaymentsMethodsActiveMock {
         ]
     ];
 
-    public const expectedArray = [
-            0 => [     
-                'value' => "bolbradesco",
-                'label' => "Boleto",
-                'logo' => "https://http2.mlstatic.com/storage/logos-api-admin/00174300-571e-11e8-8364-bff51f08d440-xl.png",
-                'payment_method_id' => "bolbradesco",
-                'payment_type_id' => "ticket"
-                ],
-            1 => [
-                'value' => "pec",
-                'label' => "Pagamento na lotérica sem boleto",
-                'logo' => "https://http2.mlstatic.com/storage/logos-api-admin/70965f00-f3c2-11eb-a186-1134488bf456-xl.png",
-                'payment_method_id' => "pec",
-                'payment_type_id' => "ticket"
-            ]
-        ];
+    public const EXPECTED_TICKET = [
+        0 => [     
+            'value' => "bolbradesco",
+            'label' => "Boleto",
+            'logo' => "https://http2.mlstatic.com/storage/logos-api-admin/00174300-571e-11e8-8364-bff51f08d440-xl.png",
+            'payment_method_id' => "bolbradesco",
+            'payment_type_id' => "ticket"
+            ],
+        1 => [
+            'value' => "pec",
+            'label' => "Pagamento na lotérica sem boleto",
+            'logo' => "https://http2.mlstatic.com/storage/logos-api-admin/70965f00-f3c2-11eb-a186-1134488bf456-xl.png",
+            'payment_method_id' => "pec",
+            'payment_type_id' => "ticket"
+        ]
+    ];
 }
