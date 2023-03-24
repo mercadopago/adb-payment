@@ -875,6 +875,12 @@
         </arguments>
     </type>
 
+    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\TwoCc">
+        <arguments>
+            <argument name="config" xsi:type="object">MercadoPagoTwoCcConfig</argument>
+        </arguments>
+    </type>
+
     <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Webpay">
         <arguments>
             <argument name="config" xsi:type="object">MercadoPagoWebpayConfig</argument>
