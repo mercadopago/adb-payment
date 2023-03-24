@@ -317,9 +317,8 @@ define([
 
                 return true;
             } catch(e) {
-                _.map(e, (error) => {
-                    self.displayErrorInField(error);
-                });
+
+                self.displayErrorInField(e);
 
                 messageList.addErrorMessage({
                     message: $t('Unable to make payment, check card details.')
@@ -335,16 +334,34 @@ define([
          * @return {void}
          */
         displayErrorInField(error) {
-            let field = error.field,
-                msg = error.message,
-                fieldsMage = {
-                    cardNumber: this.fields.fieldCcNumber,
-                    securityCode: this.fields.fieldSecurityCode,
-                    expirationMonth: this.fields.fieldExpMonth,
-                    expirationYear: this.fields.fieldExpYear,
-                };
 
-            validateFormSF.singleToogleValidityState(fieldsMage[field], msg);
+            var previousField = undefined;
+
+            let msg = error.message || error[0].message;
+
+            let field = error.field || error[0]?.field;
+        
+            if (error.length >= 1) {
+
+                error.forEach((error) => {
+                    if (error.field && previousField !== error.field) {
+                    
+                        field = error.field;
+                    
+                        msg = error.message
+                        let fieldsMage = {
+                        cardNumber: this.fields.fieldCcNumber,
+                        securityCode: this.fields.fieldSecurityCode,
+                        expirationMonth: this.fields.fieldExpMonth,
+                        expirationYear: this.fields.fieldExpYear,
+                    };
+  
+                    validateFormSF.singleToogleValidityState(fieldsMage[field], msg);
+                 
+                    }
+                    previousField = error.field;
+                });
+            }
         },
 
         /**
