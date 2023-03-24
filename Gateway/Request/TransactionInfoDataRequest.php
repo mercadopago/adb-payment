@@ -13,7 +13,6 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Payment\Model\InfoInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\Config;
 use MercadoPago\PaymentMagento\Gateway\Config\ConfigTwoCc;
-use MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapterFactory;
 use MercadoPago\PaymentMagento\Gateway\SubjectReader;
 
 /**
@@ -68,26 +67,18 @@ class TransactionInfoDataRequest implements BuilderInterface
     protected $configTwoCc;
 
     /**
-     * @var OrderAdapterFactory
-     */
-    protected $orderAdapterFactory;
-
-    /**
      * @param SubjectReader       $subjectReader
      * @param Config              $config
      * @param ConfigTwoCc         $configTwoCc
-     * @param OrderAdapterFactory $orderAdapterFactory
      */
     public function __construct(
         SubjectReader $subjectReader,
         Config $config,
-        ConfigTwoCc $configTwoCc,
-        OrderAdapterFactory $orderAdapterFactory
+        ConfigTwoCc $configTwoCc
     ) {
         $this->subjectReader = $subjectReader;
         $this->config = $config;
         $this->configTwoCc = $configTwoCc;
-        $this->orderAdapterFactory = $orderAdapterFactory;
     }
 
     /**
@@ -124,17 +115,6 @@ class TransactionInfoDataRequest implements BuilderInterface
     public function getDataPaymetTwoCc($payment)
     {
         $instruction = [];
-
-        /** @var OrderAdapterFactory $orderAdapter */
-        $orderAdapter = $this->orderAdapterFactory->create(
-            ['order' => $payment->getOrder()]
-        );
-
-        $grandTotal = $orderAdapter->getGrandTotalAmount();
-
-        $financeCost = $orderAdapter->getFinanceCostAmount();
-
-        $total = $grandTotal - $financeCost;
     
         $instruction[self::TRANSACTION_INFO] = [];
 

@@ -1366,7 +1366,6 @@
                 <item name="extOrdId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\ExtOrdIdHandler</item>
                 <item name="txnIdCc" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\TxnIdCcHandler</item>
                 <item name="transaction" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\CcTransactionInitializeHandler</item>
-                <item name="vaultBuilder" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\VaultDetailsHandler</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1415,7 +1414,6 @@
                 <item name="extOrdId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\ExtOrdIdHandler</item>
                 <item name="txnIdCc" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\TxnIdTwoCcHandler</item>
                 <item name="transaction" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\CcTransactionAuthorizationHandler</item>
-                <item name="vaultBuilder" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\VaultDetailsTwoCcHandler</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1440,7 +1438,6 @@
                 <item name="extOrdId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\ExtOrdIdHandler</item>
                 <item name="txnIdCc" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\TxnIdTwoCcHandler</item>
                 <item name="transaction" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\CcTransactionAuthorizationHandler</item>
-                <item name="vaultBuilder" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\VaultDetailsTwoCcHandler</item>
             </argument>
         </arguments>
     </virtualType>

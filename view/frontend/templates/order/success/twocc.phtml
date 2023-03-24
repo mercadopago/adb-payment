@@ -14,7 +14,7 @@
     <h2><?= $block->escapeHtml(__($block->getTitleByPaymentStatus())) ?></h2>
     
     <div class="mercadopago-payment-success-details-two-cc">
-        <p><?= $block->escapeHtml(__('Your order is: <b>%1</b>!', $block->getOrderId()), ['b']) ?></p>
+        <p><?= $block->escapeHtml(__('Your order is <b>%1</b>!', $block->getOrderId()), ['b']) ?></p>
     </div>
 
     <div class="mercadopago-payment-success-details-two-cc">
@@ -42,7 +42,7 @@
         </p>
         <p>
             <span>&#8226;</span> 
-            <b><?= $block->escapeHtml(__('Cardholder:')) ?></b> 
+            <b><?= $block->escapeHtml(__('Card holder:')) ?></b> 
             <?= $block->escapeHtml(__($block->getInfo('card_'.$i.'_holder_name'))) ?>
         </p>
         <p>
@@ -57,7 +57,7 @@
         </p>
         <p>
             <span>&#8226;</span> 
-            <b><?= $block->escapeHtml(__('Invoice identification:')) ?></b> 
+            <b><?= $block->escapeHtml(__('Identification in the invoice:')) ?></b> 
             <?= $block->escapeHtml(__($block->getStatementDescriptor())) ?> 
         </p>
         <p>

@@ -25,6 +25,11 @@ class Additional extends Template
     /**
      * Status Approved.
      */
+    public const MP_STATUS = 'mp_status';
+
+    /**
+     * Status Approved.
+     */
     public const STATUS_APPROVED = 'approved';
 
     /**
@@ -157,7 +162,7 @@ class Additional extends Template
      */
     public function getTitleByPaymentStatus()
     {
-        $status = $this->getInfo('mp_status');
+        $status = $this->getInfo(self::MP_STATUS);
         
         if ($this->getMethodCode() === 'mercadopago_paymentmagento_twocc' 
             && strcasecmp(isset($status) ? $status : '', self::STATUS_APPROVED) <> 0

@@ -43,11 +43,6 @@ class TxnIdTwoCcHandler implements HandlerInterface
     public const STATUS_DETAIL = 'status_detail';
 
     /**
-     * MP Status Detail block name.
-     */
-    public const MP_STATUS_DETAIL = 'mp_status_detail';
-
-    /**
      * Card Type - Payment Addtional Information.
      */
     public const CARD_TYPE = 'card_%_type';
@@ -78,19 +73,14 @@ class TxnIdTwoCcHandler implements HandlerInterface
     public const NUMBER_TOKEN = 'card_%_number_token';
 
     /**
-     * Response Pay Credit - Block name.
+     * Transaction Info - Payment Addtional Information.
      */
-    public const CREDIT = 'credit';
+    public const TRANSACTION_INFO = 'transaction_info';
 
     /**
      * Response Pay Transaction Id - Block name.
      */
     public const RESPONSE_TRANSACTION_ID = 'transaction_id';
-
-    /**
-     * Response Pay Delayed - Block name.
-     */
-    public const RESPONSE_DELAYED = 'delayed';
 
     /**
      * Handles.
@@ -121,21 +111,39 @@ class TxnIdTwoCcHandler implements HandlerInterface
             self::MP_STATUS,
             $response[self::STATUS]
         );
-        
+
         $transactionInfo = [];
 
         for ($i = 0; $i < 2; $i++):
+            
+            $cardType = str_replace('%', $i, self::CARD_TYPE);
+            $cardNumber = str_replace('%', $i, self::CARD_NUMBER);
+            $cardHolderName = str_replace('%', $i, self::CARD_HOLDER_NAME);
+            $cardExpMonth = str_replace('%', $i, self::CARD_EXP_MONTH);
+            $cardExpYear = str_replace('%', $i, self::CARD_EXP_YEAR);
+            $cardNumberToken = str_replace('%', $i, self::NUMBER_TOKEN);
+            
             $cardInfo = [
-                str_replace('%', $i, self::CARD_TYPE)        => $payment->getAdditionalInformation(str_replace('%', $i, self::CARD_TYPE)),
-                str_replace('%', $i, self::CARD_NUMBER)      => $payment->getAdditionalInformation(str_replace('%', $i, self::CARD_NUMBER)),
-                str_replace('%', $i, self::CARD_HOLDER_NAME) => $payment->getAdditionalInformation(str_replace('%', $i, self::CARD_HOLDER_NAME)),
-                str_replace('%', $i, self::CARD_EXP_MONTH)   => $payment->getAdditionalInformation(str_replace('%', $i, self::CARD_EXP_MONTH)),
-                str_replace('%', $i, self::CARD_EXP_YEAR)    => $payment->getAdditionalInformation(str_replace('%', $i, self::CARD_EXP_YEAR)),
-                str_replace('%', $i, self::NUMBER_TOKEN)     => $payment->getAdditionalInformation(str_replace('%', $i, self::NUMBER_TOKEN)),
+                $cardType        => $payment->getAdditionalInformation($cardType),
+                $cardNumber      => $payment->getAdditionalInformation($cardNumber),
+                $cardHolderName => $payment->getAdditionalInformation($cardHolderName),
+                $cardExpMonth   => $payment->getAdditionalInformation($cardExpMonth),
+                $cardExpYear    => $payment->getAdditionalInformation($cardExpYear),
+                $cardNumberToken    => $payment->getAdditionalInformation($cardNumberToken),
             ];
 
             array_push($transactionInfo, $cardInfo);
 
+            $payment->setAdditionalInformation(
+                str_replace('%', $i,'mp_%_status'),
+                $response[self::TRANSACTION_INFO][$i][self::STATUS]
+            );
+
+            $payment->setAdditionalInformation(
+                str_replace('%', $i,'mp_%_status_detail'),
+                $response[self::TRANSACTION_INFO][$i][self::STATUS_DETAIL],
+            );
+   
         endfor;
         
         $payment->setTransactionInfo($transactionInfo);
