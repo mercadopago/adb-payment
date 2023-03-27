@@ -36,7 +36,7 @@
                 <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
             </div>
             <div class="field-to-pay" data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
-                <div class="mp-loading" data-bind="blockLoader: isLoading">
+                <div class="mp-loading" data-bind="blockLoader: isLoading" id="form-secure-fields">
                     <div class="field mercadopago-input-group type">
                         <div class="control">
                             <input type="hidden" name="payment[card_type]" class="input-text" value="" data-bind="

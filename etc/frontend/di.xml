@@ -161,6 +161,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="mercadopago_paymentmagento_twocc" xsi:type="const">MercadoPago\PaymentMagento\Gateway\Config\ConfigTwoCc::METHOD</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Magento\Vault\Model\Ui\TokensConfigProvider">
         <arguments>
             <argument name="tokenUiComponentProviders" xsi:type="array">
