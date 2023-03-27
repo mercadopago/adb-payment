@@ -1198,3 +1198,13 @@ Pix,Pix
 "Enable Google pixel","Ativar pixel do Google"
 "Please check store id %1 credentials, they are invalid so they were deleted.","Por favor, verifique as credenciais da loja ID %1, elas são inválidas portanto vão ser apagadas."
 Expiration,Expiração
+"Dados do primeiro cartão:","Dados do primeiro cartão:"
+"Insira o valor a pagar com o primeiro meio *", "Insira o valor a pagar com o primeiro meio *"
+"Valor não permitido!","Valor não permitido!"
+"Valor restante ","Valor restante "
+"Cartão de crédito","Cartão de crédito"
+"Dados do segundo cartão:","Dados do segundo cartão:"
+"Pago procesado por Mercado Pago","Pago procesado por Mercado Pago"
+"This is a required field.","Este é um campo obrigatório."
+"You can track your order status by creating an account.","Você pode acompanhar o status do seu pedido criando uma conta."
+"Pagar com dois cartões de crédito","Pagar com dois cartões de crédito"
