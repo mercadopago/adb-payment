@@ -84,6 +84,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         if ($status !== 'approved'
             && $status !== 'refunded'
             && $status !== 'pending'
+            && $status !== 'cancelled'
         ) {
             /** @var ResultInterface $result */
             $result = $this->createResult(200, ['empty' => null]);

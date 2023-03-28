@@ -39,8 +39,12 @@ class ExtPaymentIdDataRequest implements BuilderInterface
 
         $payment = $paymentDO->getPayment();
 
+        $addInfo = $payment->getAdditionalInformation();
+
+        $mpPaymentId = $addInfo['mp_payment_id'] ?? $payment->getLastTransId();
+
         return [
-            self::MP_REFERENCE_ID => preg_replace('/[^0-9]/', '', $payment->getLastTransId()),
+            self::MP_REFERENCE_ID => preg_replace('/[^0-9]/', '', $mpPaymentId),
         ];
     }
 }
