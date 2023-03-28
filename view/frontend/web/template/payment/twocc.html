@@ -27,12 +27,12 @@
         <each args="getRegion('messages')" render=""></each>
 
         <div class="mp-header-two-cards">
-            <p class="mp-header-title-one"><!-- ko i18n: 'Dados do primeiro cartão:' --><!-- /ko --></p>
+            <p class="mp-header-title-one"><!-- ko i18n: 'First card details:' --><!-- /ko --></p>
         </div>
 
         <!-- ko if: showFirstCardBlock() === 'first-card-opened-form' -->
         <div class="mp-header-two-cards">
-            <p class="mp-header-subtitle"><!-- ko i18n: 'Insira o valor a pagar com o primeiro meio *' --><!-- /ko --></p>
+            <p class="mp-header-subtitle"><!-- ko i18n: 'Enter the amount to be paid with the first method *' --><!-- /ko --></p>
             <div class="mp-twocc-amount-selector">
                 <div data-bind="text: currencySymbol()"></div> 
                 <input type="number" id="input-progress" step=".01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00"
@@ -43,9 +43,9 @@
                 <div data-bind="style: { width: getProgressBarWidth(), backgroundColor: progressHasError() ? 'red' : '#3483FA' }"></div>
             </div>
             <!-- ko if: progressHasError() -->
-            <div class="mp-message" id="mp-message-error" style="display:block;"><!-- ko i18n: 'Valor não permitido!' --><!-- /ko --></div>
+            <div class="mp-message" id="mp-message-error" style="display:block;"><!-- ko i18n: 'Value not allowed!' --><!-- /ko --></div>
             <!-- /ko -->
-            <div class="mp-subtitle"><!-- ko i18n: 'Valor restante ' --><!-- /ko -->
+            <div class="mp-subtitle"><!-- ko i18n: 'Remaining value ' --><!-- /ko -->
                 <span data-bind="text: updateRemainingAmount()"></span>
             </div>
         </div>
@@ -58,7 +58,7 @@
                         </span>
                     </span>
                     <span class="payment-method-label-title">
-                        <!-- ko i18n: 'Cartão de crédito' --><!-- /ko -->
+                        <!-- ko i18n: 'Credit card' --><!-- /ko -->
                         <span class="payment-method-label-subtitle-amount" data-bind="text: formatedInstallmentAmount()"></span>
                     </span>
                 </span>
@@ -96,7 +96,7 @@
         </div>
         <!-- /ko -->
 
-        <p class="mp-header-title-two"><!-- ko i18n: 'Dados do segundo cartão:' --><!-- /ko --></p>
+        <p class="mp-header-title-two"><!-- ko i18n: 'Second card details:' --><!-- /ko --></p>
 
         <!-- ko if: showSecondCardBlock() == 'second-card-radio-selector' -->
         <div class="mp-twocc-card-header" id="mp-twocc-second-radio">
@@ -108,7 +108,7 @@
                             
                         </span>
                     </span>
-                    <span class="payment-method-label-title"><!-- ko i18n: 'Cartão de crédito' --><!-- /ko --></span>
+                    <span class="payment-method-label-title"><!-- ko i18n: 'Credit card' --><!-- /ko --></span>
                 </span>
             </label>
         </div>
@@ -127,7 +127,7 @@
                             }">
                     </span>
                     <span class="payment-method-label-title">
-                        <!-- ko i18n: 'Cartão de crédito' --><!-- /ko -->
+                        <!-- ko i18n: 'Credit card' --><!-- /ko -->
                         <span class="payment-method-label-subtitle-amount" data-bind="text: formatedInstallmentAmount()"></span>
                     </span>
                 </span>
@@ -142,7 +142,7 @@
 
         <div class="mp-footer">
             <span class="mp-footer-logo"></span>
-            <span class="mp-footer-subtitle"><!-- ko i18n: 'Pago procesado por Mercado Pago' --><!-- /ko --></span>
+            <span class="mp-footer-subtitle"><!-- ko i18n: 'Payment processed by Mercado Pago' --><!-- /ko --></span>
         </div>
         <div class="mp-divider"></div>
         <div class="payment-method-billing-address">
