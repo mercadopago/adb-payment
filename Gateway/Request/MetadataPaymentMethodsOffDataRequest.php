@@ -38,7 +38,7 @@ class MetadataPaymentMethodsOffDataRequest implements BuilderInterface
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        SubjectReader $subjectReader,
+        SubjectReader $subjectReader
     ) {
         $this->subjectReader = $subjectReader;
     }

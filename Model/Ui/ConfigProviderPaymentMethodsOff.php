@@ -5,11 +5,10 @@ namespace MercadoPago\PaymentMagento\Model\Ui;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\Phrase;
-use Magento\Framework\View\Asset\Source;
-use Magento\Payment\Model\CcConfig;
 use Magento\Quote\Api\Data\CartInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
 use MercadoPago\PaymentMagento\Gateway\Config\Config as MercadoPagoConfig;
+use Magento\Framework\View\Asset\Repository;
 
 /**
  * User interface model for settings Payment Methods Off.
@@ -21,7 +20,20 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      */
     public const CODE = 'mercadopago_paymentmagento_payment_methods_off';
 
-    public const PAYMENT_METHODS_ALLOWED = ['ticket', 'atm'];
+    /**
+     * Payment Types Id Allowed.
+     */
+    public const PAYMENT_TYPE_ID_ALLOWED = ['ticket', 'atm'];
+
+    /**
+     * Payment Status.
+     */
+    public const PAYMENT_STATUS_ACTIVE = 'active';
+
+    /**
+     * Path Logo use in checkout
+     */
+    public const PATH_LOGO = 'MercadoPago_PaymentMagento::images/boleto/logo.svg';
 
     /**
      * @var ConfigPaymentMethodsOff
@@ -33,11 +45,6 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      */
     protected $cart;
 
-    /**
-     * @var CcConfig
-     */
-    protected $ccConfig;
-
      /**
      * @var MercadoPagoConfig
      */
@@ -48,32 +55,28 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      */
     protected $escaper;
 
-    /**
-     * @var Source
+        /**
+     * @var Repository
      */
-    protected $assetSource;
+    protected $assetRepo;
 
     /**
      * @param ConfigPaymentMethodsOff  $config
      * @param CartInterface $cart
-     * @param CcConfig      $ccConfig
      * @param Escaper       $escaper
-     * @param Source        $assetSource
      */
     public function __construct(
         ConfigPaymentMethodsOff $config,
         CartInterface $cart,
-        CcConfig $ccConfig,
         Escaper $escaper,
-        Source $assetSource,
-        MercadoPagoConfig $mercadopagoConfig
+        MercadoPagoConfig $mercadopagoConfig,
+        Repository $assetRepo
     ) {
         $this->config = $config;
         $this->cart = $cart;
         $this->escaper = $escaper;
-        $this->ccConfig = $ccConfig;
-        $this->assetSource = $assetSource;
         $this->mercadopagoConfig = $mercadopagoConfig;
+        $this->assetRepo = $assetRepo;
     }
 
     /**
@@ -113,37 +116,44 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
     public function getLogo()
     {
         $logo = [];
-        $asset = $this->ccConfig->createAsset('MercadoPago_PaymentMagento::images/boleto/logo.svg');
-        $placeholder = $this->assetSource->findSource($asset);
-        if ($placeholder) {
-            list($width, $height) = getimagesizefromstring($asset->getSourceFile());
+        $url = $this->assetRepo->getUrl(Self::PATH_LOGO);
+        if ($url) {
             $logo = [
-                'url'    => $asset->getUrl(),
-                'width'  => $width,
-                'height' => $height,
-                'title'  => __('Boleto - MercadoPago'),
+                'url'    => $url,
+                'title'  => __('Ticket - MercadoPago"'),
             ];
         }
 
         return $logo;
     }
     
-    public function getPaymentMethodsOffActive($storeId) {
-
+    /**
+     * Get Payment methods.
+     *
+     * @return array
+     */
+    public function getPaymentMethodsOffActive($storeId) 
+    {
         $paymentMethodsOffActive = $this->config->getPaymentMethodsOffActive($storeId);
 
         $options = [];
         $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
 
         if ($payments['success'] === true) {
-            $options = array_merge($options, $this->filterPaymentMethods($payments['response']));
+            $options = array_merge($options, $this->mountPaymentMethodsOff($payments['response']));
         }
 
-        return $this->filterPaymentMethodsOffActive($options, $paymentMethodsOffActive);
+        return $this->filterPaymentMethodsOffConfigActive($options, $paymentMethodsOffActive);
     }
 
-    public function filterPaymentMethodsOffActive(array $paymentMethods, ?string $paymentMethodsOffActive): ?array {
-        
+
+    /**
+     * Filters the list of configured in admin payment methods off.
+     *
+     * @return array
+     */
+    public function filterPaymentMethodsOffConfigActive(array $paymentMethods, ?string $paymentMethodsOffActive): ?array 
+    {    
         if (empty($paymentMethodsOffActive)) {
             return $paymentMethods;
         }
@@ -160,10 +170,17 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         return $options;
     }
 
-    public function filterPaymentMethods(array $paymentMethods): ?array {
+    /**
+     * Make a list with the necessary information from the payment Methods Off.
+     *
+     * @return array
+     */
+    public function mountPaymentMethodsOff(array $paymentMethods = []): array 
+    {
         $options = [];
         foreach ($paymentMethods as $payment) {
-            if (in_array($payment['payment_type_id'], self::PAYMENT_METHODS_ALLOWED)) {
+            if (in_array($payment['payment_type_id'], self::PAYMENT_TYPE_ID_ALLOWED) &&
+                $payment['status'] === self::PAYMENT_STATUS_ACTIVE) {
 
                 if (empty($payment['payment_places'])) {
                     $options[] = [
@@ -176,14 +193,16 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
                     ];
                 } else {
                     foreach ($payment['payment_places'] as $payment_place) {
-                        $options[] = [
-                            'value' => $payment_place['payment_option_id'],
-                            'label' => $payment_place['name'],
-                            'logo' => $payment_place['thumbnail'],
-                            'payment_method_id' => $payment['id'],
-                            'payment_type_id' => $payment['payment_type_id'],
-                            'payment_option_id' => $payment_place['payment_option_id'],
-                        ];
+                        if ($payment_place['status'] === self::PAYMENT_STATUS_ACTIVE) {
+                            $options[] = [
+                                'value' => $payment_place['payment_option_id'],
+                                'label' => $payment_place['name'],
+                                'logo' => $payment_place['thumbnail'],
+                                'payment_method_id' => $payment['id'],
+                                'payment_type_id' => $payment['payment_type_id'],
+                                'payment_option_id' => $payment_place['payment_option_id'],
+                            ];
+                        }
                     }
                 }
             }

@@ -1181,6 +1181,7 @@ site_disabled.,site_disabled.
 "There are no payment methods available, please contact the seller.", "No hay métodos de pago disponibles, póngase en contacto con el vendedor."
 "Generate the ticket and pay it wherever you want.","Genere el ticket de pago y pague."
 "Will be approved within 2 business days.","Será aprobado en hasta 2 días hábiles."
+"Ticket - MercadoPago","Ticket - MercadoPago"
 "PAYMENT INFORMATION","INFORMACIÓN DE PAGO"
 "Payment Number (Mercado Pago): %1","Número de Pago (Mercado Pago): %1"
 "FIRST PAYMENT METHOD", "PRIMERA FORMA DE PAGO"

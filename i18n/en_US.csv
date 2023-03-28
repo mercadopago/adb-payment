@@ -1195,6 +1195,7 @@ site_disabled.,site_disabled.
 "There are no payment methods available, please contact the seller.", "There are no payment methods available, please contact the seller."
 "Generate the ticket and pay it wherever you want.","Generate the ticket and pay it wherever you want."
 "Will be approved within 2 business days.","Will be approved within 2 business days."
+"Ticket - MercadoPago","Ticket - MercadoPago"
 "PAYMENT INFORMATION","PAYMENT INFORMATION"
 "Payment Number (Mercado Pago): %1","Payment Number (Mercado Pago): %1"
 "FIRST PAYMENT METHOD", "FIRST PAYMENT METHOD"
