@@ -44,6 +44,11 @@ class RefundHandler implements HandlerInterface
     public const RESPONSE_STATUS_DENIED = 'DENIED';
 
     /**
+     * Response Pay Status Approved - Value.
+     */
+    public const RESPONSE_STATUS_APPROVED = 'approved';
+
+    /**
      * Handles.
      *
      * @param array $handlingSubject
@@ -64,7 +69,7 @@ class RefundHandler implements HandlerInterface
 
         $payment->setTransactionId($response[self::RESPONSE_REFUND_ID]);
 
-        if ($response[self::RESPONSE_STATUS] === self::RESPONSE_STATUS_ACCEPTED) {
+        if ($response[self::RESPONSE_STATUS] === self::RESPONSE_STATUS_ACCEPTED || $response[self::RESPONSE_STATUS] === self::RESPONSE_STATUS_APPROVED) {
             $creditmemo = $payment->getCreditmemo();
             $creditmemo->setState(Creditmemo::STATE_REFUNDED);
         }
