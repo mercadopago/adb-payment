@@ -68,7 +68,7 @@ class FetchStatus extends AbstractModel
             $this->writeln('<error>'.$exc->getMessage().'</error>');
         }
 
-        if ($order->getState() === Order::STATE_PAYMENT_REVIEW) {
+        if ($order->getState() === Order::STATE_PAYMENT_REVIEW && $order->getStatus() !== Order::STATE_CLOSED) {
             $order = $payment->getOrder();
             $order->setState(Order::STATE_NEW);
             $order->setStatus('pending');
