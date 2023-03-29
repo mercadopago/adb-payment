@@ -97,7 +97,7 @@ class RefundRequest implements BuilderInterface
                 self::MERCADOPAGO_PAYMENT_ID => preg_replace('/[^0-9]/', '', $payment->getTransactionId()),
                 self::X_IDEMPOTENCY_KEY      => $payment->getTransactionId(),
                 self::AMOUNT                 => $totalCreditmemo,
-            ]);
+            ];
         }
 
         $result = [
