@@ -172,8 +172,8 @@ Debug,Debug
 "With this number, we are able to identify all your transactions and know how many sales were processed using your account. Become a certified Mercado Pago partner and request your integrator_id <a href='https://docs.google.com/forms/d/1EeO__nZuqHf4cb81NpwtDSybPT7COluSZVrXR4A8F7Q/viewform?edit_requested=true' target='_blank'>here</a>.","Com este número, nós podemos identificar todas as suas transações e saber quantas vendas foram processadas com a sua conta. Torne-se um parceiro certificado do Mercado Pago e solicite seu integrator_id <a href="https://docs.google.com/forms/d/1EeO__nZuqHf4cb81NpwtDSybPT7COluSZVrXR4A8F7Q/viewform?edit_requested=true" target="_blank">here</a>."
 "Sales requirements","Exigências de vendas"
 "Checkout Pro","Checkout Pro"
-Enabled,Ativado
-Title,Título
+"Enabled","Ativado"
+"Title","Título"
 "Payment method title at the store's checkout.","Título da forma de pagamento no checkout da loja."
 "Deadline for payment","Prazo limite para pagamento"
 "Calendar days.","Dias corridos."
@@ -1173,9 +1173,9 @@ site_disabled.,site_disabled.
 "payer_document_type","Tipo de Documento"
 "mp_status","Status (Mercado Pago)"
 "mp_status_detail","Status Detalhado (Mercado Pago)"
-mp_payment_id,"Código de Identificação (Mercado Pago)"
-Expiration,Expiration
-Link,Link
+"mp_payment_id","Código de Identificação (Mercado Pago)"
+"Expiration","Expiration"
+"Link","Link"
 "Line Code","Código de Barras"
 "Payer Document Type","Tipo de Documento"
 "Download the Boleto","Download do Boleto"
@@ -1186,7 +1186,7 @@ Link,Link
 "Your access credential for store %1 is valid but you don't have production use permission. Request approval before use by <a href=""%2"">click here</a>.","Sua credencial de acesso para a loja %1 é válida, mas você não tem permissão de uso de produção. Solicitar aprovação antes de usar por <a href=""%2"">clique aqui</a>."
 "Your payment will be valid until","Pagar até"
 "Link for payment","Link para pagamento"
-Pix,Pix
+"Pix","Pix"
 "The order %1, was refunded directly on Mercado Pago, you need to check stock of sold items.","O pedido %1, foi reembolsado diretamente no Mercado Pago, você precisa verificar o estoque de itens vendidos."
 "Order refunded in Mercado Pago, refunded offline in the store.","Pedido reembolsado no Mercado Pago, reembolsado offline criado na loja."
 "Order refunded.","Pedido reembolsado."
@@ -1197,6 +1197,7 @@ Pix,Pix
 "Enable Facebook pixel","Ativar pixel do Facebook"
 "Enable Google pixel","Ativar pixel do Google"
 "Please check store id %1 credentials, they are invalid so they were deleted.","Por favor, verifique as credenciais da loja ID %1, elas são inválidas portanto vão ser apagadas."
+<<<<<<< Updated upstream
 Expiration,Expiração
 "PAYMENT INFORMATION","INFORMAÇÃO DE PAGAMENTO"
 "Payment Number (Mercado Pago): %1","Número de Pagamento (Mercado Pago): %1"
@@ -1225,3 +1226,8 @@ Expiration,Expiração
 "This is a required field.","Este é um campo obrigatório."
 "You can track your order status by creating an account.","Você pode acompanhar o status do seu pedido criando uma conta."
 "Pay with two credit cards","Pagar com dois cartões de crédito"
+=======
+"Expiration","Expiração""
+"Pay with two credit cards","Pagar com dois cartões de crédito"
+"Payment with two credit cards","Pagamento com dois cartões de crédito"
+>>>>>>> Stashed changes
