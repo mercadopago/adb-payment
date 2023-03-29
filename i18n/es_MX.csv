@@ -1174,6 +1174,7 @@ site_disabled.,site_disabled.
 "mp_status","Status (Mercado Pago)"
 "mp_status_detail","Status Detallado (Mercado Pago)"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 "PAYMENT INFORMATION","INFORMACIÓN DE PAGO"
 "Payment Number (Mercado Pago): %1","Número de Pago (Mercado Pago): %1"
 "FIRST PAYMENT METHOD", "PRIMERA FORMA DE PAGO"
@@ -1201,6 +1202,10 @@ site_disabled.,site_disabled.
 "This is a required field.","Este es un campo obligatorio."
 "You can track your order status by creating an account.","Puede rastrear el estado de su pedido creando una cuenta."
 "Pay with two credit cards","Pagar con dos tarjetas de crédito"
+=======
+"Pay with two credit cards","Paga con dos tarjetas de crédito"
+"Payment with two credit cards","Pago con dos tarjetas de crédito"
+>>>>>>> Stashed changes
 =======
 "Pay with two credit cards","Paga con dos tarjetas de crédito"
 "Payment with two credit cards","Pago con dos tarjetas de crédito"

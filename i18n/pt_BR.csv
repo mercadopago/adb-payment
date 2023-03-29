@@ -1198,6 +1198,7 @@ site_disabled.,site_disabled.
 "Enable Google pixel","Ativar pixel do Google"
 "Please check store id %1 credentials, they are invalid so they were deleted.","Por favor, verifique as credenciais da loja ID %1, elas são inválidas portanto vão ser apagadas."
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 Expiration,Expiração
 "PAYMENT INFORMATION","INFORMAÇÃO DE PAGAMENTO"
 "Payment Number (Mercado Pago): %1","Número de Pagamento (Mercado Pago): %1"
@@ -1226,6 +1227,11 @@ Expiration,Expiração
 "This is a required field.","Este é um campo obrigatório."
 "You can track your order status by creating an account.","Você pode acompanhar o status do seu pedido criando uma conta."
 "Pay with two credit cards","Pagar com dois cartões de crédito"
+=======
+"Expiration","Expiração""
+"Pay with two credit cards","Pagar com dois cartões de crédito"
+"Payment with two credit cards","Pagamento com dois cartões de crédito"
+>>>>>>> Stashed changes
 =======
 "Expiration","Expiração""
 "Pay with two credit cards","Pagar com dois cartões de crédito"

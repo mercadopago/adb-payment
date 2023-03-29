@@ -1188,6 +1188,7 @@ site_disabled.,site_disabled.
 "mp_status","Status (Mercado Pago)"
 "mp_status_detail","Status Detail (Mercado Pago)"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 "PAYMENT INFORMATION","PAYMENT INFORMATION"
 "Payment Number (Mercado Pago): %1","Payment Number (Mercado Pago): %1"
 "FIRST PAYMENT METHOD", "FIRST PAYMENT METHOD"
@@ -1214,6 +1215,10 @@ site_disabled.,site_disabled.
 "Payment processed by Mercado Pago","Payment processed by Mercado Pago"
 "This is a required field.","This is a required field."
 "Pay with two credit cards","Pay with two credit cards"
+=======
+"Pay with two credit cards","Pay with two credit cards"
+"Payment with two credit cards","Payment with two credit cards"
+>>>>>>> Stashed changes
 =======
 "Pay with two credit cards","Pay with two credit cards"
 "Payment with two credit cards","Payment with two credit cards"
