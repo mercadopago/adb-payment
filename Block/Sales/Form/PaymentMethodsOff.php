@@ -16,7 +16,7 @@ use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
 class PaymentMethodsOff extends \Magento\Payment\Block\Form
 {
     /**
-     * Boleto template.
+     * Payment Methods Off template.
      *
      * @var string
      */

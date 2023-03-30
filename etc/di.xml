@@ -25,7 +25,6 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="fetchMerchantInfo" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Adminstrative\FetchMerchantInfo</item>
-                <item name="fetchAllowedPaymentMethods" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Adminstrative\FetchAllowedPaymentMethods</item>
                 <item name="setPaymentExpired" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Adminstrative\PaymentExpirations</item>
                 <item name="fetchOrderStatus" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Notification\FetchOrderStatus</item>
                 <item name="checkoutProAddChild" xsi:type="object">MercadoPago\PaymentMagento\Console\Command\Notification\CheckoutProAddChild</item>
@@ -204,21 +203,6 @@
         <plugin name="mp_site_id" type="MercadoPago\PaymentMagento\Model\Checks\SpecificationPlugin"/>
     </type>
 
-    <!-- Abitab - Validator -->
-    <virtualType name="MercadoPagoAbitabCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigAbitab</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoAbitabValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoAbitabCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
     <!-- PaymentMethodsOff - Validator -->
     <virtualType name="MercadoPagoPaymentMethodsOffCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
         <arguments>
@@ -279,81 +263,6 @@
         </arguments>
     </virtualType>
 
-    <!-- Efecty - Validator -->
-    <virtualType name="MercadoPagoEfectyCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigEfecty</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoEfectyValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoEfectyCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Oxxo - Validator -->
-    <virtualType name="MercadoPagoOxxoCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigOxxo</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoOxxoValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoOxxoCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- PagoFacil - Validator -->
-    <virtualType name="MercadoPagoPagoFacilCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigPagoFacil</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoPagoFacilValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoPagoFacilCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- PayCash - Validator -->
-    <virtualType name="MercadoPagoPayCashCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigPayCash</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoPayCashValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoPayCashCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Pec - Validator -->
-    <virtualType name="MercadoPagoPecCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigPec</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoPecValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoPecCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
     <!-- Pix - Validator -->
     <virtualType name="MercadoPagoPixCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
         <arguments>
@@ -369,36 +278,6 @@
         </arguments>
     </virtualType>
 
-    <!-- RapiPago - Validator -->
-    <virtualType name="MercadoPagoRapiPagoCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigRapiPago</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoRapiPagoValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoRapiPagoCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Redpagos - Validator -->
-    <virtualType name="MercadoPagoRedpagosCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigRedpagos</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoRedpagosValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoRedpagosCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
     <!-- Pse - Validator -->
     <virtualType name="MercadoPagoPseCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
         <arguments>
@@ -410,66 +289,6 @@
         <arguments>
             <argument name="validators" xsi:type="array">
                 <item name="country" xsi:type="string">MercadoPagoPseCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Banamex - Validator -->
-    <virtualType name="MercadoPagoBanamexCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigBanamex</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoBanamexValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoBanamexCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Bancomer - Validator -->
-    <virtualType name="MercadoPagoBancomerCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigBancomer</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoBancomerValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoBancomerCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Serfin - Validator -->
-    <virtualType name="MercadoPagoSerfinCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigSerfin</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoSerfinValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoSerfinCountryValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- PagoEfectivo - Validator -->
-    <virtualType name="MercadoPagoPagoEfectivoCountryValidator" type="Magento\Payment\Gateway\Validator\CountryValidator">
-        <arguments>
-            <argument name="config" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Config\ConfigPagoEfectivo</argument>
-        </arguments>
-    </virtualType>
-
-    <virtualType name="MercadoPagoPagoEfectivoValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="country" xsi:type="string">MercadoPagoPagoEfectivoCountryValidator</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1949,12 +1768,6 @@
     </type>
 
     <type name="MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\PaymentExpiration">
-        <arguments>
-            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
-        </arguments>
-    </type>
-
-    <type name="MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\FetchPaymentMethods">
         <arguments>
             <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>

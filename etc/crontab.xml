@@ -9,9 +9,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="mercadopago_paymentmagento">
-        <job name="mercadopago_fetch_disable_payments" instance="MercadoPago\PaymentMagento\Cron\DisablePaymentMethods" method="execute">
-            <schedule>0 0 * * 0</schedule>
-        </job>
         <job name="mercadopago_fetch_merchant_info" instance="MercadoPago\PaymentMagento\Cron\FetchMerchantInfo" method="execute">
             <schedule>0 0 1 * *</schedule>
         </job>

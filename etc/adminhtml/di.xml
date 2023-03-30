@@ -44,13 +44,6 @@
             </argument>
         </arguments>
     </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Pec">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
     <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Pix">
         <arguments>
             <argument name="data" xsi:type="array">
@@ -58,84 +51,7 @@
             </argument>
         </arguments>
     </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\PagoFacil">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\RapiPago">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\PayCash">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Oxxo">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Efecty">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Abitab">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Redpagos">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
     <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Pse">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Banamex">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Bancomer">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\Serfin">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">0</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="MercadoPago\PaymentMagento\Block\Sales\Info\PagoEfectivo">
         <arguments>
             <argument name="data" xsi:type="array">
                 <item xsi:type="string" name="is_secure_mode">0</item>
