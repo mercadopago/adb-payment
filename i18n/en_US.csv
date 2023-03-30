@@ -1226,5 +1226,6 @@ site_disabled.,site_disabled.
 "expirationMonth should be a value from 1 to 12.","expirationMonth should be a value from 1 to 12."
 "expirationYear value should be greater or equal than %1.", "Expiration year is invalid"
 "expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'.", "Expiration month or expiration year value is invalid."
+"cardNumber should be of length '16'.","Card number should be of length 16."
 "Pay with two cards","Pay with two cards"
 "Payment with two cards","Payment with two cards"

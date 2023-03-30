@@ -1238,5 +1238,6 @@ site_disabled.,site_disabled.
 "expirationMonth should be a value from 1 to 12.","Mês de expiração deve ser um valor entre 1 e 12."
 "expirationYear value should be greater or equal than %1.", "Ano de expiração é inválido"
 "expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'.", "Mês de expiração ou ano de expiração é inválido."
+"cardNumber should be of length '16'.","Número do cartão deve ter tamanho de 16 dígitos."
 "Pay with two cards","Pagar com dois cartões"
 "Payment with two cards","Pagamento com dois cartões"
