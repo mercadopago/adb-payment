@@ -105,7 +105,7 @@ Finished,Finalizado
 "Serfin - MercadoPago","Serfin - MercadoPago"
 "Webpay - MercadoPago","Webpay - MercadoPago"
 "Document Type","Tipo de documento"
-"Payer Document Identification","Documento de identificación del pagador"
+"Document number","Número del Documento"
 Instruction,Instrucciones
 "Due date","Vencimiento"
 "In order to comply with PCI regulations, the administrator cannot capture this payment method.","Debido al cumplimiento de la normativa PCI, no es posible capturar este método de pago por el administrador."
@@ -139,7 +139,7 @@ Waiting...,Esperando...
 "Expiration month","Mes de vencimiento"
 "Expiration year","Año de vencimiento"
 "Card holder full name","Nombre impreso en la tarjeta"
-"Choose the number of installments","Seleccionar cuotas"
+"Number of installments","Número de cuotas"
 "Save for later use.","Guardar para uso futuro."
 "A 3-digit number in italics on the back of your card.","Un número de 3 dígitos en itálica en el dorso de tu tarjeta."
 "Entity Type","Tipo de entidad"

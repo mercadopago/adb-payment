@@ -32,10 +32,10 @@ $publicToken = $block->escapeHtml($block->getMpPublicKey());
     </div>
     <div class="field-text required admin__field _required">
         <label class="admin__field-label" for="<?= /* @noEscape */ $code ?>_payer_document_identification">
-            <span><?= $block->escapeHtml(__('Payer Document Identification')) ?></span>
+            <span><?= $block->escapeHtml(__('Document number')) ?></span>
         </label>
         <div class="admin__field-control">
-            <input type="text" title="<?= $block->escapeHtml(__('Payer Document Identification')) ?>"
+            <input type="text" title="<?= $block->escapeHtml(__('Document number')) ?>"
                     class="required-entry admin__control-text"
                     id="<?= /* @noEscape */ $code ?>_payer_document_identification"
                     name="payment[payer_document_identification]"
