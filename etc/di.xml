@@ -2441,12 +2441,6 @@
         </arguments>
     </type>
 
-    <type name="MercadoPago\PaymentMagento\Gateway\Validator\TwoCcResponseValidator">
-        <arguments>
-            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
-        </arguments>
-    </type>
-
     <type name="MercadoPago\PaymentMagento\Model\NumberTokenManagement">
         <arguments>
             <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
