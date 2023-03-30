@@ -36,8 +36,8 @@
                     data-bind="attr: {
                                     autocomplete: 'taxvat',
                                     id: getCode() + '_document_identification',
-                                    title: $t('Payer Document Identification'),
-                                    placeholder: $t('Payer Document Identification'),
+                                    title: $t('Document number'),
+                                    placeholder: $t('Document number'),
                                     'data-container': getCode() + '-document-identification',
                                     'data-validate': JSON.stringify(getValidationForDocument())
                                 },
@@ -45,7 +45,7 @@
                                 value: mpPayerDocument,
                                 valueUpdate: 'keyup' "></input>
             <label data-bind="attr: {for: getCode() + '_document_identification'}" class="label">
-                <span><!-- ko i18n: 'Payer Document Identification'--><!-- /ko --></span>
+                <span><!-- ko i18n: 'Document number'--><!-- /ko --></span>
             </label>
         </div>
     </div>

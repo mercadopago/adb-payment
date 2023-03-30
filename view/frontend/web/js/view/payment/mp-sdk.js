@@ -479,8 +479,9 @@ define([
          * @returns {Boolean}
          */
         getIcons: function (type) {
-            return window.checkoutConfig.payment.mercadopago_paymentmagento_cc.icons.hasOwnProperty(type) ?
-                window.checkoutConfig.payment.mercadopago_paymentmagento_cc.icons[type]
+        
+            return window.checkoutConfig.payment[this.getCode()].icons.hasOwnProperty(type) ?
+                window.checkoutConfig.payment[this.getCode()].icons[type]
                 : false;
         },
 
@@ -489,7 +490,7 @@ define([
          * @returns {Object}
          */
         getCcMonths: function () {
-            return window.checkoutConfig.payment.ccform.months['cc'];
+            return window.checkoutConfig.payment.ccform.months[this.getCode()];
         },
 
         /**
@@ -497,7 +498,7 @@ define([
          * @returns {Object}
          */
         getCcYears: function () {
-            return window.checkoutConfig.payment.ccform.years['cc'];
+            return window.checkoutConfig.payment.ccform.years[this.getCode()];
         },
 
         /**
