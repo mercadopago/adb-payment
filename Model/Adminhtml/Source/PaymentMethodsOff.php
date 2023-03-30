@@ -12,8 +12,15 @@ use MercadoPago\PaymentMagento\Gateway\Config\Config as MercadoPagoConfig;
  */
 class PaymentMethodsOff implements ArrayInterface
 {
+    /**
+     * Mercado Pago Payment Types Id Allowed.
+     */
+    public const PAYMENT_TYPE_ID_ALLOWED = ['ticket', 'atm'];
 
-    public const PAYMENT_METHODS_ALLOWED = ['ticket', 'atm'];
+    /**
+     * Mercado Pago Payment Status.
+     */
+    public const PAYMENT_STATUS_ACTIVE = 'active';
 
     /**
      * @var RequestInterface
@@ -52,17 +59,18 @@ class PaymentMethodsOff implements ArrayInterface
         $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
 
         if ($payments['success'] === true) {
-            $options = array_merge($options, $this->filterPaymentMethods($payments['response']));
+            $options = array_merge($options, $this->mountPaymentMethodsOff($payments['response']));
         }
 
         return $options;
     }
 
-    public function filterPaymentMethods(array $paymentMethods): ?array {
+    public function mountPaymentMethodsOff(array $paymentMethods): ?array {
 
         $options = [];
         foreach ($paymentMethods as $payment) {
-            if (in_array($payment['payment_type_id'], self::PAYMENT_METHODS_ALLOWED)) {
+            if (in_array($payment['payment_type_id'], self::PAYMENT_TYPE_ID_ALLOWED) &&
+                $payment['status'] === self::PAYMENT_STATUS_ACTIVE) {
 
                 if (empty($payment['payment_places'])) {
                     $options[] = [
@@ -71,18 +79,19 @@ class PaymentMethodsOff implements ArrayInterface
                     ];
                 } else {
                     foreach ($payment['payment_places'] as $payment_place) {
-                        $options[] = [
-                            'value' => $payment_place['payment_option_id'],
-                            'label' => $payment_place['name'],
-                        ];
+                        if ($payment_place['status'] === self::PAYMENT_STATUS_ACTIVE) {
+                            $options[] = [
+                                'value' => $payment_place['payment_option_id'],
+                                'label' => $payment_place['name'],
+                            ];
+                        }
                     }
                 }
             }
         }
 
         $labels = array();
-        foreach ($options as $key => $row)
-        {
+        foreach ($options as $key => $row) {
             $labels[$key] = $row['label'];
             
         }
