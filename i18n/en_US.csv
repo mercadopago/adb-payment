@@ -1187,8 +1187,6 @@ site_disabled.,site_disabled.
 "payer_document_type","Payer Document Type"
 "mp_status","Status (Mercado Pago)"
 "mp_status_detail","Status Detail (Mercado Pago)"
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 "PAYMENT INFORMATION","PAYMENT INFORMATION"
 "Payment Number (Mercado Pago): %1","Payment Number (Mercado Pago): %1"
 "FIRST PAYMENT METHOD", "FIRST PAYMENT METHOD"
@@ -1214,7 +1212,6 @@ site_disabled.,site_disabled.
 "Second card details:","Second card details:"
 "Payment processed by Mercado Pago","Payment processed by Mercado Pago"
 "This is a required field.","This is a required field."
-"Pay with two credit cards","Pay with two credit cards"
 "cardNumber should be a number.","cardNumber should be a number."
 "cardNumber is empty.","cardNumber is empty."
 "cardNumber should be of length between '8' and '19'.","cardNumber should be of length between '8' and '19'."
@@ -1229,3 +1226,5 @@ site_disabled.,site_disabled.
 "expirationMonth should be a value from 1 to 12.","expirationMonth should be a value from 1 to 12."
 "expirationYear value should be greater or equal than %1.", "Expiration year is invalid"
 "expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'.", "Expiration month or expiration year value is invalid."
+"Pay with two cards","Pay with two cards"
+"Payment with two cards","Payment with two cards"

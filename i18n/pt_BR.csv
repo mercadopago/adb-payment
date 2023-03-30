@@ -1197,9 +1197,7 @@ site_disabled.,site_disabled.
 "Enable Facebook pixel","Ativar pixel do Facebook"
 "Enable Google pixel","Ativar pixel do Google"
 "Please check store id %1 credentials, they are invalid so they were deleted.","Por favor, verifique as credenciais da loja ID %1, elas são inválidas portanto vão ser apagadas."
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-Expiration,Expiração
+"Expiration","Expiração"
 "PAYMENT INFORMATION","INFORMAÇÃO DE PAGAMENTO"
 "Payment Number (Mercado Pago): %1","Número de Pagamento (Mercado Pago): %1"
 "FIRST PAYMENT METHOD", "PRIMEIRO MEIO DE PAGAMENTO"
@@ -1226,7 +1224,6 @@ Expiration,Expiração
 "Payment processed by Mercado Pago","Pagamento procesado por Mercado Pago"
 "This is a required field.","Este é um campo obrigatório."
 "You can track your order status by creating an account.","Você pode acompanhar o status do seu pedido criando uma conta."
-"Pay with two credit cards","Pagar com dois cartões de crédito"
 "cardNumber should be a number.","Número do cartão deve ser um número."
 "cardNumber is empty.","Número do cartão está vazio."
 "cardNumber should be of length between '8' and '19'.","Número do cartão deve ter tamanho entre '8' ou '19' dígitos."
@@ -1241,3 +1238,5 @@ Expiration,Expiração
 "expirationMonth should be a value from 1 to 12.","Mês de expiração deve ser um valor entre 1 e 12."
 "expirationYear value should be greater or equal than %1.", "Ano de expiração é inválido"
 "expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'.", "Mês de expiração ou ano de expiração é inválido."
+"Pay with two cards","Pagar com dois cartões"
+"Payment with two cards","Pagamento com dois cartões"
