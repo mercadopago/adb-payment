@@ -1360,7 +1360,7 @@
             <argument name="handler" xsi:type="object">MercadoPagoTwoCcInitializeResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">MercadoPagoTwoCcTransactionValidator</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
             <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
@@ -1408,7 +1408,7 @@
             <argument name="handler" xsi:type="object">MercadoPagoTwoCcAuthorizationResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">MercadoPagoTwoCcTransactionValidator</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
             <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
@@ -1432,7 +1432,7 @@
             <argument name="handler" xsi:type="object">MercadoPagoTwoCcCaptureResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\CreateOrderPaymentCustomClient</argument>
-            <argument name="validator" xsi:type="object">MercadoPagoTwoCcTransactionValidator</argument>
+            <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
             <argument name="errorMessageMapper" xsi:type="object">MercadoPagoVirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
@@ -1928,18 +1928,6 @@
             </argument>
             <argument name="validators" xsi:type="array">
                 <item name="general" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Validator\GeneralResponseValidator</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <!-- TwoCc - Validator -->
-    <virtualType name="MercadoPagoTwoCcTransactionValidator" type="Magento\Payment\Gateway\Validator\ValidatorComposite">
-        <arguments>
-            <argument name="chainBreakingValidators" xsi:type="array">
-                <item name="general" xsi:type="boolean">true</item>
-            </argument>
-            <argument name="validators" xsi:type="array">
-                <item name="general" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Validator\TwoCcResponseValidator</item>
             </argument>
         </arguments>
     </virtualType>
@@ -2448,12 +2436,6 @@
 
     <!-- All - Implements Logger -->
     <type name="MercadoPago\PaymentMagento\Gateway\Validator\GeneralResponseValidator">
-        <arguments>
-            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
-        </arguments>
-    </type>
-
-    <type name="MercadoPago\PaymentMagento\Gateway\Validator\TwoCcResponseValidator">
         <arguments>
             <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>
