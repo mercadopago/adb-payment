@@ -147,11 +147,11 @@ class ConfigTwoCc extends PaymentConfig
     {
         $pathPattern = 'payment/%s/%s';
 
-        return $this->scopeConfig->getValue(
+        return __($this->scopeConfig->getValue(
             sprintf($pathPattern, self::METHOD, self::TITLE),
             ScopeInterface::SCOPE_STORE,
             $storeId
-        );
+        ));
     }
 
     /**

@@ -98,7 +98,7 @@
                 <model>MercadoPagoTwoCcFacade</model>
                 <order_status>processing</order_status>
                 <payment_action>authorize_capture</payment_action>
-                <title>Pay with two credit cards</title>
+                <title translate="true">Pay with two credit cards</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>mp_payment_id,card_0_installments,card_0_type,card_0_number,card_0_holder_name,card_0_exp_month,card_0_exp_year,payer_0_document_identification,payer_0_document_type,mp_0_status,mp_0_status_detail,card_1_installments,card_1_type,card_1_number,card_1_holder_name,card_1_exp_month,card_1_exp_year,payer_1_document_identification,payer_1_document_type,mp_1_status,mp_1_status_detail</paymentInfoKeys>
                 <privateInfoKeys>mp_payment_id,card_0_exp_month,card_0_exp_year,payer_0_document_type,mp_0_status,mp_0_status_detail,card_1_exp_month,card_1_exp_year,payer_1_document_type,mp_1_status,mp_1_status_detail</privateInfoKeys>
