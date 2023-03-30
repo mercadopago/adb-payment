@@ -604,6 +604,7 @@ define([
             $t("expirationMonth should be a value from 1 to 12.");
             $t("expirationYear value should be greater or equal than %1.");
             $t("expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'.");
+            $t("cardNumber should be of length '16'.");
         },
 
         /**

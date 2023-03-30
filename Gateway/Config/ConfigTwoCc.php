@@ -150,8 +150,8 @@ class ConfigTwoCc extends PaymentConfig
         return __($this->scopeConfig->getValue(
             sprintf($pathPattern, self::METHOD, self::TITLE),
             ScopeInterface::SCOPE_STORE,
-            $storeId
-        ));
+            $storeId)
+        );
     }
 
     /**
