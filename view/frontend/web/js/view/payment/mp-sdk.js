@@ -91,6 +91,8 @@ define([
             self.mpCardInstallment.subscribe((value) => {
                 self.addFinanceCost();
             });
+
+            self.iniTranslateErrorsFromSDK();
         },
 
         /**
@@ -197,7 +199,13 @@ define([
                     .on('focus', () => {
                         validateFormSF.toogleFocusStyle(fieldExpMonth);
                     })
-                    .on('validityChange', (event) => {
+                    .on('validityChange', (event) => {                        
+                        if (event.errorMessages.length)
+                        {
+                            _.map(event.errorMessages, (error) => {
+                                error.message = this.getMessageError(error.message);
+                            });
+                        }
                         validateFormSF.toogleValidityState(fieldExpMonth, event.errorMessages);
                     });
             }
@@ -216,6 +224,12 @@ define([
                         validateFormSF.toogleFocusStyle(fieldExpYear);
                     })
                     .on('validityChange', (event) => {
+                        if (event.errorMessages.length)
+                        {
+                            _.map(event.errorMessages, (error) => {
+                                error.message = this.getMessageError(error.message);
+                            });
+                        }
                         validateFormSF.toogleValidityState(fieldExpYear, event.errorMessages);
                     })
                     .on('ready', () => {
@@ -350,7 +364,7 @@ define([
                     
                         field = error.field;
                     
-                        msg = error.message
+                        msg = this.getMessageError(error.message);
                         let fieldsMage = {
                         cardNumber: this.fields.fieldCcNumber,
                         securityCode: this.fields.fieldSecurityCode,
@@ -364,6 +378,25 @@ define([
                     previousField = error.field;
                 });
             }
+        },
+
+        /**
+         * Returns error message and handles month and year validation
+         * @param {String} message 
+         * @returns {String} 
+         */
+        getMessageError(message) {
+            let currentDate = new Date();
+            currentDate.setDate(- 1);
+            if(message.toLowerCase() === "expirationYear value should be greater or equal than %1.".replace('%1', currentDate.getFullYear()).toLowerCase()) {
+                message = "expirationYear value should be greater or equal than %1.";
+            } else if (message.toLowerCase() === "expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'."
+                        .replace('%1', currentDate.toLocaleString('default', { month: '2-digit' }))
+                        .replace('%2', currentDate.getFullYear())
+                        .toLowerCase()) {
+                message = "expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'.";
+            }
+            return message;
         },
 
         /**
@@ -554,6 +587,23 @@ define([
             }
 
             setFinanceCost.financeCost(selectInstallment, rulesForFinanceCost);
+        },
+
+        iniTranslateErrorsFromSDK() {
+            $t("cardNumber should be a number.");
+            $t("cardNumber is empty.");
+            $t("cardNumber should be of length between '8' and '19'.");
+            $t("securityCode should be a number.");
+            $t("securityCode should be of length '3' or '4'.");
+            $t("securityCode is empty.");
+            $t("expirationMonth should be a number.");
+            $t("expirationMonth is empty.");
+            $t("expirationYear should be of length '2' or '4'.");
+            $t("expirationYear should be a number.");
+            $t("expirationYear is empty.");
+            $t("expirationMonth should be a value from 1 to 12.");
+            $t("expirationYear value should be greater or equal than %1.");
+            $t("expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'.");
         },
 
         /**

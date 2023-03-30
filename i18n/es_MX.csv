@@ -1202,11 +1202,17 @@ site_disabled.,site_disabled.
 "This is a required field.","Este es un campo obligatorio."
 "You can track your order status by creating an account.","Puede rastrear el estado de su pedido creando una cuenta."
 "Pay with two credit cards","Pagar con dos tarjetas de crédito"
-=======
-"Pay with two credit cards","Paga con dos tarjetas de crédito"
-"Payment with two credit cards","Pago con dos tarjetas de crédito"
->>>>>>> Stashed changes
-=======
-"Pay with two credit cards","Paga con dos tarjetas de crédito"
-"Payment with two credit cards","Pago con dos tarjetas de crédito"
->>>>>>> Stashed changes
+"cardNumber should be a number.","Número de la tarjeta debería ser un número."
+"cardNumber is empty.","Número de la tarjeta está vacío."
+"cardNumber should be of length between '8' and '19'.","Número de la tarjeta debe ser de longitud entre '8' y '19'."
+"securityCode should be a number.","CVV - Código de seguridad debería ser un número."
+"securityCode should be of length '3' or '4'.","CVV - Código de seguridad debe ser de longitud '3' o '4'."
+"securityCode is empty.","CVV - Código de seguridad esta vacio."
+"expirationMonth should be a number.","Mes de vencimiento debería ser un número."
+"expirationMonth is empty.","Mes de vencimiento esta vacio."
+"expirationYear should be of length '2' or '4'.","Año de vencimiento debe ser de longitud '2' o '4'."
+"expirationYear should be a number.","Año de vencimiento debería ser un número."
+"expirationYear is empty.","Año de vencimiento esta vacio."
+"expirationMonth should be a value from 1 to 12.","Mes de vencimiento debe ser un valor de 1 a 12."
+"expirationYear value should be greater or equal than %1.", "Año de vencimiento no es válido"
+"expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'.", "Mes de vencimiento o el valor del año de vencimiento no es válido."
