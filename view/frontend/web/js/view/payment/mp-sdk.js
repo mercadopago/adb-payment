@@ -426,7 +426,9 @@ define([
 
                 self.installmentWasCalculated(true);
                 self.installmentsResponse(result[0]);
-                self.mpCardListInstallments(result[0].payer_costs);
+                var listInstallments = result[0].payer_costs;
+                self.addTextInterestForInstallment(listInstallments);
+                self.mpCardListInstallments(listInstallments);
             }
 
             return installments;
@@ -618,6 +620,28 @@ define([
                 return parseFloat(amount).toFixed(0);
             }
             return amount;
+        },
+
+        /**
+         * Add interest text for installments
+         * @param {Array} labels
+         * @return {void}
+         */
+        addTextInterestForInstallment(listInstallments) {
+            _.map(listInstallments, (installment) => {
+                var installmentRate = installment.installment_rate;
+                var installmentRateCollector = installment.installment_rate_collector;
+
+                if(installmentRate === 0 && installmentRateCollector[0] === 'MERCADOPAGO'){
+                    installment.recommended_message = installment.recommended_message + ' ' + $t("Interest-free");
+                }
+
+                if(installmentRate === 0 && installmentRateCollector[0] === 'THIRD_PARTY'){
+                    installment.recommended_message = installment.recommended_message + ' ' + $t("Your Bank will apply Interest");
+                }
+            
+                return installment;
+            });
         },
 
     });
