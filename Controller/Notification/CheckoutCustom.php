@@ -128,7 +128,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
 
-            $process = $this->processNotification($mpStatus, $order, $mpAmountRefund, $notificationId);
+            $process = $this->processNotification($mpStatus, $order, $notificationId, $mpAmountRefund);
 
             /** @var ResultInterface $result */
             $result = $this->createResult(
@@ -158,8 +158,8 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
     public function processNotification(
         $mpStatus,
         $order,
-        $mpAmountRefund = null,
-        $notificationId
+        $notificationId,
+        $mpAmountRefund = null
     ) {
         $result = [];
 
