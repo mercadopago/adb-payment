@@ -20,7 +20,7 @@ class FetchPaymentHandler implements HandlerInterface
     /**
      * Payment Id response value.
      */
-    public const PAYMENT_ID = 'id';
+    public const PAYMENT_ID = 'transaction_id';
 
     /**
      * Payment Id block name.
@@ -63,6 +63,11 @@ class FetchPaymentHandler implements HandlerInterface
     public const INSTALLMENTS = 'installments';
 
     /**
+     * Response Installments block name.
+     */
+    public const PAYMENT_METHOD_INFO = 'payment_method_info';
+
+    /**
      * MP Installments block name.
      */
     public const MP_INSTALLMENTS = 'mp_installments';
@@ -91,6 +96,11 @@ class FetchPaymentHandler implements HandlerInterface
      * Response Pay Status Pending - Value.
      */
     public const RESPONSE_STATUS_PENDING = 'pending';
+
+    /**
+     * Response multiple_payment_transaction_id - Block Name.
+     */
+    public const MULTIPAYMENT_TRANSACTION_ID = 'multiple_payment_transaction_id';
 
     /**
      * Handles.
@@ -141,31 +151,54 @@ class FetchPaymentHandler implements HandlerInterface
                 $payment->setAmountCanceled($amount);
                 $payment->setBaseAmountCanceled($baseAmount);
             }
+            
+            if(!empty($response["multiple_payment_transaction_id"])){
 
-            $payment->setAdditionalInformation(
-                self::MP_PAYMENT_ID,
-                $response[self::PAYMENT_ID]
-            );
+                $i = 0;
+                foreach ($response["payments_details"] as $mpPayment) {
 
-            $payment->setAdditionalInformation(
-                self::MP_PAYMENT_TYPE_ID,
-                $response[self::PAYMENT_TYPE_ID]
-            );
+                    $mpStatus = 'mp_'.$i.'_status';
+                    $payment->setAdditionalInformation(
+                        $mpStatus,$mpPayment["status"]
+                    );
 
-            $payment->setAdditionalInformation(
-                self::MP_INSTALLMENTS,
-                $response[self::INSTALLMENTS]
-            );
+                    $mpStatusDetail = 'mp_'.$i.'_status_detail';
+                    $payment->setAdditionalInformation(
+                        $mpStatusDetail,
+                        $mpPayment["status_detail"]
+                    );
 
-            $payment->setAdditionalInformation(
-                self::MP_STATUS,
-                $response[self::STATUS]
-            );
+                    $i++;
+                }
 
-            $payment->setAdditionalInformation(
-                self::MP_STATUS_DETAIL,
-                $response[self::STATUS_DETAIL]
-            );
+            } else {
+
+                $payment->setAdditionalInformation(
+                    self::MP_PAYMENT_ID,
+                    $response[self::PAYMENT_ID]
+                );
+    
+                $payment->setAdditionalInformation(
+                    self::MP_PAYMENT_TYPE_ID,
+                    $response["payments_details"][0][self::PAYMENT_TYPE_ID]
+                );
+    
+                $payment->setAdditionalInformation(
+                    self::MP_INSTALLMENTS,
+                    $response["payments_details"][0]["payment_method_info"][self::INSTALLMENTS]
+                );
+    
+                $payment->setAdditionalInformation(
+                    self::MP_STATUS,
+                    $response[self::STATUS]
+                );
+    
+                $payment->setAdditionalInformation(
+                    self::MP_STATUS_DETAIL,
+                    $response["payments_details"][0][self::STATUS_DETAIL]
+                );
+            }  
+            
         }
     }
 }

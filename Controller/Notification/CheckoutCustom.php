@@ -71,6 +71,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         $mercadopagoData = $this->json->unserialize($response);
         $mpTransactionId = $mercadopagoData['transaction_id'];
         $mpStatus = $mercadopagoData['status'];
+        $notificationId = $mercadopagoData['notification_id'];
 
         $this->logger->debug([
             'action'    => 'checkout_custom',
@@ -82,7 +83,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
             $txnType = 'capture';
         }
 
-        return $this->initProcess($txnType, $mpTransactionId, $mpStatus, $mpAmountRefund);
+        return $this->initProcess($txnType, $mpTransactionId, $mpStatus, $mpAmountRefund, $notificationId);
     }
 
     /**
@@ -92,6 +93,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
      * @param string $mpTransactionId
      * @param string $mpStatus
      * @param string $mpAmountRefund
+     * @param string $notificationId
      *
      * @return ResultInterface
      */
@@ -99,7 +101,8 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         $txnType,
         $mpTransactionId,
         $mpStatus,
-        $mpAmountRefund
+        $mpAmountRefund,
+        $notificationId
     ) {
         $searchCriteria = $this->searchCriteria->addFilter('txn_id', $mpTransactionId)
             ->addFilter('txn_type', $txnType)
@@ -125,7 +128,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
 
-            $process = $this->processNotification($mpStatus, $order, $mpAmountRefund);
+            $process = $this->processNotification($mpStatus, $order, $mpAmountRefund, $notificationId);
 
             /** @var ResultInterface $result */
             $result = $this->createResult(
@@ -148,13 +151,15 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
      * @param string          $mpStatus
      * @param OrderRepository $order
      * @param string|null     $mpAmountRefund
+     * @param string $notificationId
      *
      * @return array
      */
     public function processNotification(
         $mpStatus,
         $order,
-        $mpAmountRefund = null
+        $mpAmountRefund = null,
+        $notificationId
     ) {
         $result = [];
 
@@ -164,7 +169,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
             return $isNotApplicable;
         }
 
-        $this->fetchStatus->fetch($order->getEntityId());
+        $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
 
         $result = [
             'code'  => 200,

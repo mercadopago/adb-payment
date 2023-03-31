@@ -919,6 +919,7 @@
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="storeId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\StoreIdDataRequest</item>
+                <item name="notificationId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\NotificationIdDataRequest</item>
                 <item name="extPaymentId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\ExtPaymentIdDataRequest</item>
             </argument>
         </arguments>
@@ -1294,6 +1295,7 @@
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="storeId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\StoreIdDataRequest</item>
+                <item name="notificationId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\NotificationIdDataRequest</item>
                 <item name="extPaymentId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\ExtPaymentIdDataRequest</item>
             </argument>
         </arguments>
@@ -1587,6 +1589,7 @@
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="storeId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\StoreIdDataRequest</item>
+                <item name="notificationId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\NotificationIdDataRequest</item>
                 <item name="extPaymentId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\ExtPaymentIdDataRequest</item>
             </argument>
         </arguments>
@@ -1696,6 +1699,7 @@
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="storeId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\StoreIdDataRequest</item>
+                <item name="notificationId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\NotificationIdDataRequest</item>
                 <item name="extPaymentId" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Request\ExtPaymentIdDataRequest</item>
             </argument>
         </arguments>
