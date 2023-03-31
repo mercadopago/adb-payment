@@ -140,7 +140,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
 
         if ($payments['success'] === true) {
-            $options[] = $this->mountPaymentMethodsOff($payments['response']);
+            $options = $this->mountPaymentMethodsOff($payments['response']);
         }
 
         return $this->filterPaymentMethodsOffConfigActive($options, $paymentMethodsOffActive);
