@@ -267,7 +267,9 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
 
         $this->createChild($mpTransactionId, $childTransactionId, $order);
 
-        $order = $this->fetchStatus->fetch($order->getEntityId());
+        $notificationId = $mercadopagoData['notification_id'];
+
+        $order = $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
        
         $result = [
             'code'  => 200,
