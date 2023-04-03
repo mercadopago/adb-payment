@@ -636,11 +636,11 @@ define([
                 var installmentRate = installment.installment_rate;
                 var installmentRateCollector = installment.installment_rate_collector;
 
-                if(installmentRate === 0 && installmentRateCollector[0] === 'MERCADOPAGO'){
+                if (installmentRate === 0 && installmentRateCollector[0] === 'MERCADOPAGO') {
                     installment.recommended_message = installment.recommended_message + ' ' + $t("Interest-free");
                 }
 
-                if(installmentRate === 0 && installmentRateCollector[0] === 'THIRD_PARTY'){
+                if (installmentRate === 0 && installmentRateCollector[0] === 'THIRD_PARTY') {
                     installment.recommended_message = installment.recommended_message + ' ' + $t("Your Bank will apply Interest");
                 }
             
