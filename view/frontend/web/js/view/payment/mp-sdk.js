@@ -486,6 +486,14 @@ define([
         },
 
         /**
+         * Get terms and conditions
+         * @returns {String}
+         */
+        getFingerprint: function () {
+            return window.checkoutConfig.payment[this.getCode()].fingerprint;
+        },
+
+        /**
          * Get list of months
          * @returns {Object}
          */
@@ -606,6 +614,18 @@ define([
             $t("expirationYear value should be greater or equal than %1.");
             $t("expirationMonth value should be greater than '%1' or expirationYear value should be greater than '%2'.");
             $t("cardNumber should be of length '16'.");
+        },
+
+        /**
+         * Formatted Currency to Installments
+         * @param {Float} amount
+         * @return {Boolean}
+         */
+        FormattedCurrencyToInstallments(amount) {
+            if (this.getMpSiteId() === 'MCO') {
+                return parseFloat(amount).toFixed(0);
+            }
+            return amount;
         },
 
         /**
