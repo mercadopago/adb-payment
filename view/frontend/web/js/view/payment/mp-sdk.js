@@ -427,7 +427,11 @@ define([
                 self.installmentWasCalculated(true);
                 self.installmentsResponse(result[0]);
                 var listInstallments = result[0].payer_costs;
-                self.addTextInterestForInstallment(listInstallments);
+
+                if (self.getMpSiteId() === 'MCO' || self.getMpSiteId() === 'MPE' || self.getMpSiteId() === 'MLC') {
+                    self.addTextInterestForInstallment(listInstallments);
+                }
+                
                 self.mpCardListInstallments(listInstallments);
             }
 
@@ -624,8 +628,8 @@ define([
 
         /**
          * Add interest text for installments
-         * @param {Array} labels
-         * @return {void}
+         * @param {Array} 
+         * @return {Array}
          */
         addTextInterestForInstallment(listInstallments) {
             _.map(listInstallments, (installment) => {
