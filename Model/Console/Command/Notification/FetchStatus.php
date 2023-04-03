@@ -58,8 +58,9 @@ class FetchStatus extends AbstractModel
 
         $payment = $order->getPayment();
 
-        $additionalData = json_decode($payment->getAdditionalData(), false);
-        $additionalData->notificationId = $notificationId;
+        $additionalData = (array('notificationId' => $notificationId));
+        $additionalData = (object)$additionalData;
+
         $payment->setAdditionalData(json_encode($additionalData));
 
         try {
