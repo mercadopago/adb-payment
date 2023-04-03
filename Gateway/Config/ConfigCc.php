@@ -12,6 +12,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
 use Magento\Store\Model\ScopeInterface;
+use MercadoPago\PaymentMagento\Gateway\Data\Checkout\Fingerprint;
 
 /**
  * Gateway setting for the payment method for Card.
@@ -84,21 +85,29 @@ class ConfigCc extends PaymentConfig
     protected $json;
 
     /**
+     * @var Fingerprint
+     */
+    protected $fingerprint;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param Json                 $json
      * @param Config               $config
      * @param string               $methodCode
+     * @param Fingerprint          $fingerprint
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         Json $json,
         Config $config,
+        Fingerprint $fingerprint,
         $methodCode = self::METHOD
     ) {
         parent::__construct($scopeConfig, $methodCode);
         $this->scopeConfig = $scopeConfig;
         $this->json = $json;
         $this->config = $config;
+        $this->fingerprint = $fingerprint;
     }
 
     /**
@@ -305,5 +314,19 @@ class ConfigCc extends PaymentConfig
         }
 
         return true;
+    }
+
+    /**
+     * Get terms and conditions link
+     *
+     * @param int|null $storeId
+     *
+     * @return string
+     */
+    public function getFingerPrintLink($storeId = null): string
+    {
+        $mpSiteId = $this->config->getMpSiteId($storeId);
+
+        return $this->fingerprint->getFingerPrintLink($mpSiteId);
     }
 }

@@ -98,6 +98,7 @@ class ConfigProviderCc implements ConfigProviderInterface
                     'document_identification_capture' => $this->configCc->hasUseDocumentIdentificationCapture($storeId),
                     'unsupported_pre_auth'            => $this->configCc->getUnsupportedPreAuth($storeId),
                     'ccVaultCode'                     => self::VAULT_CODE,
+                    'fingerprint'                     => $this->configCc->getFingerPrintLink()
                 ],
             ],
         ];

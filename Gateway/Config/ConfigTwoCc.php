@@ -108,8 +108,6 @@ class ConfigTwoCc extends PaymentConfig
         $this->fingerprint = $fingerprint;
     }
 
-
-
     /**
      * Should the cvv field be shown.
      *
@@ -319,7 +317,7 @@ class ConfigTwoCc extends PaymentConfig
     }
 
     /**
-     * Get agreements link
+     * Get terms and conditions link
      *
      * @param int|null $storeId
      *
@@ -328,7 +326,7 @@ class ConfigTwoCc extends PaymentConfig
     public function getFingerPrintLink($storeId = null): string
     {
         $mpSiteId = $this->config->getMpSiteId($storeId);
-        
+
         return $this->fingerprint->getFingerPrintLink($mpSiteId);
     }
 

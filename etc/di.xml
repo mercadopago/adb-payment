@@ -110,8 +110,6 @@
         </arguments>
     </virtualType>
 
-    <!-- <preference for="Magento\Payment\Helper\Data" type="MercadoPago\PaymentMagento\Gateway\Data\Checkout\Fingerprint" /> -->
-
     <!-- CcVault - Facade Configuration -->
     <virtualType name="MercadoPagoCcVaultFacade" type="Magento\Vault\Model\Method\Vault">
         <arguments>
