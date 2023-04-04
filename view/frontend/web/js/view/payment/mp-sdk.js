@@ -635,18 +635,7 @@ define([
         },
 
         /**
-         * Formatted Currency to Installments
-         * @param {Float} amount
-         * @return {Boolean}
-         */
-        FormattedCurrencyToInstallments(amount) {
-            if (this.getMpSiteId() === 'MCO') {
-                return parseFloat(amount).toFixed(0);
-            }
-            return amount;
-        },
-
-         /* Add interest text for installments
+         * Add interest text for installments
          * @param {Array} 
          * @return {Array}
          */

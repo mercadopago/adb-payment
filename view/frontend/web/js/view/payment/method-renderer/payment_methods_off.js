@@ -149,6 +149,14 @@ define([
 
         getPaymentMethodsOff() {
             return this.paymentMethodsOff;
-        }
+        },
+
+        /**
+         * Is name capture
+         * @returns {string}
+         */
+        getFingerprint() {
+            return window.checkoutConfig.payment[this.getCode()].fingerprint;
+        },
     });
 });
