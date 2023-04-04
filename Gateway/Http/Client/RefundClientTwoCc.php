@@ -117,7 +117,7 @@ class RefundClientTwoCc implements ClientInterface
     unset($request[self::STORE_ID]);
     unset($request[self::X_IDEMPOTENCY_KEY]);
 
-    $urlRefund = $url . '/alpha/asgard/multipayments/' . $paymentId . '/refund';
+    $urlRefund = $url . '/v1/asgard/multipayments/' . $paymentId . '/refund';
 
     try {
       $client->setUri($urlRefund);

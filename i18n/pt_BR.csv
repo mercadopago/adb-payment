@@ -384,3 +384,5 @@ Expiration,Expiração
 "cardNumber should be of length '16'.","Número do cartão deve ter tamanho de 16 dígitos."
 "Pay with two cards","Pagar com dois cartões"
 "Payment with two cards","Pagamento com dois cartões"
+"Interest-free","Sem juros"
+"Your Bank will apply Interest","Seu banco aplicará juros"

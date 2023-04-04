@@ -101,7 +101,7 @@
         <div class="field-to-pay" data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
             <fieldset data-bind="attr: {class: 'fieldset payment items mercadopago_checkout_custom_payment_methods_off', id: 'payment_form_options_' + getCode()}">
                 <ul id="payment-methods-off">
-                    <!-- ko foreach: {data: paymentMethodsOff, as: 'paymentMethod'} -->
+                    <!-- ko foreach: {data: getPaymentMethodsOff(), as: 'paymentMethod'} -->
                         <li class="payment-methods-off-option">
                             <input type="radio" class="payment-methods-off-input" name="payment[payment_methods_off]" data-bind="'attr':{ 
                                 id: paymentMethod['value'], 

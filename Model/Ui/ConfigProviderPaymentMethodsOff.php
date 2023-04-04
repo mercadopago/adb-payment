@@ -103,6 +103,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
                     'expiration'                      => $this->config->getExpirationFormat($storeId),
                     'logo'                            => $this->getLogo(),
                     'payment_methods_off_active'      => $this->getPaymentMethodsOffActive($storeId),
+                    'fingerprint'                     => $this->config->getFingerPrintLink()
                 ],
             ],
         ];
@@ -126,13 +127,13 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
 
         return $logo;
     }
-    
+
     /**
      * Get Payment methods.
      *
      * @return array
      */
-    public function getPaymentMethodsOffActive($storeId) 
+    public function getPaymentMethodsOffActive($storeId)
     {
         $paymentMethodsOffActive = $this->config->getPaymentMethodsOffActive($storeId);
 
@@ -140,7 +141,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
 
         if ($payments['success'] === true) {
-            $options[] = $this->mountPaymentMethodsOff($payments['response']);
+            $options = $this->mountPaymentMethodsOff($payments['response']);
         }
 
         return $this->filterPaymentMethodsOffConfigActive($options, $paymentMethodsOffActive);
@@ -152,8 +153,8 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      *
      * @return array
      */
-    public function filterPaymentMethodsOffConfigActive(array $paymentMethods, ?string $paymentMethodsOffActive): ?array 
-    {    
+    public function filterPaymentMethodsOffConfigActive(array $paymentMethods, ?string $paymentMethodsOffActive): ?array
+    {
         if (empty($paymentMethodsOffActive)) {
             return $paymentMethods;
         }
@@ -162,7 +163,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         $actives = explode(",", $paymentMethodsOffActive);
 
         foreach ($paymentMethods as $payment) {
-            if(in_array($payment['value'], $actives)){
+            if(isset($payment['value']) && in_array($payment['value'], $actives)){
                 $options[] = $payment;
             }
         }
@@ -175,7 +176,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      *
      * @return array
      */
-    public function mountPaymentMethodsOff(array $paymentMethods = []): array 
+    public function mountPaymentMethodsOff(array $paymentMethods = []): array
     {
         $options = [];
         foreach ($paymentMethods as $payment) {
@@ -189,7 +190,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
                         'logo' => $payment['thumbnail'],
                         'payment_method_id' => $payment['id'],
                         'payment_type_id' => $payment['payment_type_id'],
-                        
+
                     ];
                 } else {
                     foreach ($payment['payment_places'] as $payment_place) {

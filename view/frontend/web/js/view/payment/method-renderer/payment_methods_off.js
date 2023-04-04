@@ -2,13 +2,11 @@
 define([
     'underscore',
     'jquery',
-    'MercadoPago_PaymentMagento/js/view/payment/mp-security-form',
-    'MercadoPago_PaymentMagento/js/model/mp-card-data'
+    'MercadoPago_PaymentMagento/js/view/payment/default'
 ], function (
     _,
     $,
-    Component,
-    mpData
+    Component
 ) {
     'use strict';
 
@@ -18,10 +16,9 @@ define([
             template: 'MercadoPago_PaymentMagento/payment/payment-methods-off',
             paymentMethodsOffForm: 'MercadoPago_PaymentMagento/payment/payment-methods-off-form',
             payerFirstName: '',
-            payerLastName: ''
+            payerLastName: '',
+            paymentMethodsOff: []
         },
-
-        paymentMethodsOff: [],
 
         /**
          * Initializes model instance.
@@ -49,17 +46,7 @@ define([
          * Init component
          */
         initialize() {
-            var self = this;
-
             this._super();
-
-            self.payerFirstName.subscribe((value) => {
-                mpData.payerFirstName = value;
-            });
-
-            self.payerLastName.subscribe((value) => {
-                mpData.payerLastName = value;
-            });
 
             this.loadPaymentMethodsOffActive();
         },
@@ -158,6 +145,10 @@ define([
 
         getCountPaymentMethodsOffActive() {
             return this.paymentMethodsOff.length;
+        },
+
+        getPaymentMethodsOff() {
+            return this.paymentMethodsOff;
         }
     });
 });
