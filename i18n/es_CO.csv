@@ -358,3 +358,5 @@ Webpay,Webpay
 "cardNumber should be of length '16'.","Número de la tarjeta debe ser de longitud 16."
 "Pay with two cards","Pagar con dos tarjetas"
 "Payment with two cards","Pago con dos tarjetas"
+"Interest-free","Sin interés"
+"Your Bank will apply Interest","Tu Banco aplicará Intereses"
