@@ -97,7 +97,7 @@ class CreateOrderPaymentCheckoutProClient implements ClientInterface
         $clientHeaders = $this->config->getClientHeaders($storeId);
 
         try {
-            $client->setUri($url.'/alpha/asgard/preferences');
+            $client->setUri($url.'/v1/asgard/preferences');
             $client->setConfig($clientConfigs);
             $client->setHeaders($clientHeaders);
             $client->setRawData($serializeResquest, 'application/json');
@@ -120,7 +120,7 @@ class CreateOrderPaymentCheckoutProClient implements ClientInterface
         unset($clientHeaders['Authorization']);
         $this->logger->debug(
             [
-                'url'      => $url.'/alpha/asgard/preferences',
+                'url'      => $url.'/v1/asgard/preferences',
                 'header'   => $this->json->serialize($clientHeaders),
                 'request'  => $serializeResquest,
                 'response' => $this->json->serialize($responseBody),
