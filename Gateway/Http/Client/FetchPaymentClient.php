@@ -148,6 +148,7 @@ class FetchPaymentClient implements ClientInterface
                     'response' => $this->json->serialize($data),
                 ]
             );
+            
         } catch (InvalidArgumentException $exc) {
             $this->logger->debug(
                 [
