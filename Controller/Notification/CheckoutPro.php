@@ -219,12 +219,6 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $mpAmountRefund = null,
         $mercadopagoData = null
     ) {
-        $this->logger->debug([
-            'Class'    => 'CheckoutPro',
-            'Action'    => 'Process notification',
-            'Order status' => $order->getStatus(),
-        ]);
-
         $result = [];
 
         $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund);
