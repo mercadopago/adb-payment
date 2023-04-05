@@ -99,7 +99,7 @@ class ConfigProviderTwoCc implements ConfigProviderInterface
                     'document_identification_capture' => $this->configTwoCc->hasUseDocumentIdentificationCapture($storeId),
                     'unsupported_pre_auth'            => $this->configTwoCc->getUnsupportedPreAuth($storeId),
                     'ccVaultCode'                     => self::VAULT_CODE,
-                    'fingerprint'                     => $this->configTwoCc->getFingerPrintLink()
+                    'fingerprint'                     => $this->configTwoCc->getFingerPrintLink($storeId)
                 ],
             ],
         ];

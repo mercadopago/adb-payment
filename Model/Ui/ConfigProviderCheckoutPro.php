@@ -98,6 +98,7 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
                         'headerColor'   => $this->config->getStylesHeaderColor($storeId),
                         'elementsColor' => $this->config->getStylesElementsColor($storeId),
                     ],
+                    'fingerprint'           => $this->config->getFingerPrintLink($storeId),
                 ],
             ],
         ];

@@ -152,7 +152,7 @@ define([
         },
 
         /**
-         * Is name capture
+         * Adds terms and conditions link to checkout
          * @returns {string}
          */
         getFingerprint() {
