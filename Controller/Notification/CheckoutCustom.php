@@ -163,7 +163,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
     ) {
         $result = [];
 
-        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund, 'cho custom');
+        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund);
 
         if ($isNotApplicable['isInvalid']) {
             return $isNotApplicable;
