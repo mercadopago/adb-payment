@@ -144,14 +144,15 @@ class FetchPaymentClient implements ClientInterface
             }
             $this->logger->debug(
                 [
-                    'url'      => $url.'/v1/asgard/notification/'.$paymentId,
+                    'url'      => $url.'/v1/asgard/notification/'.$notificationId,
                     'response' => $this->json->serialize($data),
                 ]
             );
+            
         } catch (InvalidArgumentException $exc) {
             $this->logger->debug(
                 [
-                    'url'       => $url.'/v1/asgard/notification/'.$paymentId,
+                    'url'       => $url.'/v1/asgard/notification/'.$notificationId,
                     'response'  => $this->json->serialize($transferObject->getBody()),
                     'error'     => $exc->getMessage(),
                 ]

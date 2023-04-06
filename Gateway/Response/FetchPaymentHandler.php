@@ -23,6 +23,11 @@ class FetchPaymentHandler implements HandlerInterface
     public const PAYMENT_ID = 'transaction_id';
 
     /**
+     * Payment Id response value.
+     */
+    public const ID = 'id';
+
+    /**
      * Payment Id block name.
      */
     public const MP_PAYMENT_ID = 'mp_payment_id';
@@ -175,7 +180,7 @@ class FetchPaymentHandler implements HandlerInterface
 
                 $payment->setAdditionalInformation(
                     self::MP_PAYMENT_ID,
-                    $response[self::PAYMENT_ID]
+                    $response["payments_details"][0][self::ID]
                 );
     
                 $payment->setAdditionalInformation(
