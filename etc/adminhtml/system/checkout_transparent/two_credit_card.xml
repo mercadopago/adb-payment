@@ -12,12 +12,6 @@
             <comment>Payment method title at the store's checkout.</comment>
             <config_path>payment/mercadopago_paymentmagento_twocc/title</config_path>
         </field>
-        <field id="vault_active" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-            <label>Enable vault</label>
-            <comment>Allows buyer to save the card for future use.</comment>
-            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-            <config_path>payment/mercadopago_paymentmagento_twocc_vault/active</config_path>
-        </field>
         <group id="document" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Capture of customer details in the payment form</label>
             <comment>Activate this option if you want to obtain buyer`s documents details, using an additional field on the payment form. Disable it if your store already gets these details.</comment>
