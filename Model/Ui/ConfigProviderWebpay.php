@@ -97,6 +97,7 @@ class ConfigProviderWebpay implements ConfigProviderInterface
                     'logo'                            => $this->getLogo(),
                     'payment_method_id'               => ConfigWebpay::PAYMENT_METHOD_ID,
                     'finance_inst_options'            => $this->config->getListFinancialInstitution($storeId),
+                    'fingerprint'                     => $this->config->getFingerPrintLink($storeId)
                 ],
             ],
         ];

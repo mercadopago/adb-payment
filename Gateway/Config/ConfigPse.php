@@ -14,6 +14,7 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
 use Magento\Store\Model\ScopeInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\Config as BaseConfig;
+use MercadoPago\PaymentMagento\Gateway\Data\Checkout\Fingerprint;
 
 /**
  * Gateway setting for the payment method for Pse.
@@ -81,17 +82,24 @@ class ConfigPse extends PaymentConfig
     protected $json;
 
     /**
+     * @var Fingerprint
+     */
+    protected $fingerprint;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param DateTime             $date
      * @param BaseConfig           $configBase
      * @param Json                 $json
      * @param string               $methodCode
+     * @param Fingerprint          $fingerprint
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         DateTime $date,
         BaseConfig $configBase,
         Json $json,
+        Fingerprint $fingerprint,
         $methodCode = self::METHOD
     ) {
         parent::__construct($scopeConfig, $methodCode);
@@ -99,6 +107,7 @@ class ConfigPse extends PaymentConfig
         $this->date = $date;
         $this->configBase = $configBase;
         $this->json = $json;
+        $this->fingerprint = $fingerprint;
     }
 
     /**
@@ -275,5 +284,19 @@ class ConfigPse extends PaymentConfig
         $result = $this->json->unserialize($types);
 
         return is_array($result) ? $result : [];
+    }
+
+     /**
+     * Get terms and conditions link
+     *
+     * @param int|null $storeId
+     *
+     * @return string
+     */
+    public function getFingerPrintLink($storeId = null): string
+    {
+        $mpSiteId = $this->configBase->getMpSiteId($storeId);
+
+        return $this->fingerprint->getFingerPrintLink($mpSiteId);
     }
 }

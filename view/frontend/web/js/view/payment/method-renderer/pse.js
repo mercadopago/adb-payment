@@ -130,6 +130,14 @@ define([
          */
         getInstructionCheckoutPse() {
             return window.checkoutConfig.payment[this.getCode()].instruction_checkout_pse;
-        }
+        },
+        
+        /**
+         * Adds terms and conditions link to checkout
+         * @returns {string}
+         */
+        getFingerprint() {
+            return window.checkoutConfig.payment[this.getCode()].fingerprint;
+        },
     });
 });

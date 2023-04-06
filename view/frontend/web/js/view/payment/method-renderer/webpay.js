@@ -121,6 +121,14 @@ define([
          */
         getInstructionCheckoutWebpay() {
             return window.checkoutConfig.payment[this.getCode()].instruction_checkout_webpay;
-        }
+        },
+
+        /**
+         * Adds terms and conditions link to checkout
+         * @returns {string}
+         */
+        getFingerprint() {
+            return window.checkoutConfig.payment[this.getCode()].fingerprint;
+        },
     });
 });

@@ -13,6 +13,7 @@ use Magento\Framework\View\Asset\Source;
 use Magento\Payment\Model\CcConfig;
 use Magento\Quote\Api\Data\CartInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\ConfigTwoCc;
+use Magento\Payment\Gateway\Config\Config;
 
 /**
  * User interface model for settings Card.
@@ -20,7 +21,7 @@ use MercadoPago\PaymentMagento\Gateway\Config\ConfigTwoCc;
 class ConfigProviderTwoCc implements ConfigProviderInterface
 {
     /**
-     * Mercadopago Payment Magento Cc Code.
+     * Mercadopago Payment Magento TwoCc Code.
      */
     public const CODE = 'mercadopago_paymentmagento_twocc';
 
@@ -55,7 +56,7 @@ class ConfigProviderTwoCc implements ConfigProviderInterface
     protected $assetSource;
 
     /**
-     * @param ConfigTwoCc      $configTwoCc
+     * @param ConfigTwoCc   $configTwoCc
      * @param CartInterface $cart
      * @param CcConfig      $ccConfig
      * @param Source        $assetSource
@@ -64,7 +65,7 @@ class ConfigProviderTwoCc implements ConfigProviderInterface
         ConfigTwoCc $configTwoCc,
         CartInterface $cart,
         CcConfig $ccConfig,
-        Source $assetSource
+        Source $assetSource,
     ) {
         $this->configTwoCc = $configTwoCc;
         $this->cart = $cart;
@@ -98,6 +99,7 @@ class ConfigProviderTwoCc implements ConfigProviderInterface
                     'document_identification_capture' => $this->configTwoCc->hasUseDocumentIdentificationCapture($storeId),
                     'unsupported_pre_auth'            => $this->configTwoCc->getUnsupportedPreAuth($storeId),
                     'ccVaultCode'                     => self::VAULT_CODE,
+                    'fingerprint'                     => $this->configTwoCc->getFingerPrintLink($storeId)
                 ],
             ],
         ];

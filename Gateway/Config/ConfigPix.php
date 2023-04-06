@@ -13,6 +13,7 @@ use Magento\Framework\Phrase;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
 use Magento\Store\Model\ScopeInterface;
+use MercadoPago\PaymentMagento\Gateway\Data\Checkout\Fingerprint;
 
 /**
  * Gateway setting for the payment method for Pix.
@@ -65,21 +66,29 @@ class ConfigPix extends PaymentConfig
     protected $config;
 
     /**
+     * @var Fingerprint
+     */
+    protected $fingerprint;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param Config               $config
      * @param DateTime             $date
      * @param string               $methodCode
+     * @param Fingerprint          $fingerprint
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         Config $config,
         DateTime $date,
+        Fingerprint $fingerprint,
         $methodCode = self::METHOD
     ) {
         parent::__construct($scopeConfig, $methodCode);
         $this->scopeConfig = $scopeConfig;
         $this->config = $config;
         $this->date = $date;
+        $this->fingerprint = $fingerprint;
     }
 
     /**
@@ -206,5 +215,19 @@ class ConfigPix extends PaymentConfig
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
+    }
+
+    /**
+     * Get terms and conditions link
+     *
+     * @param int|null $storeId
+     *
+     * @return string
+     */
+    public function getFingerPrintLink($storeId = null): string
+    {
+        $mpSiteId = $this->config->getMpSiteId($storeId);
+
+        return $this->fingerprint->getFingerPrintLink($mpSiteId);
     }
 }

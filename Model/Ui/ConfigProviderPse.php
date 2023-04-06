@@ -98,6 +98,7 @@ class ConfigProviderPse implements ConfigProviderInterface
                     'payment_method_id'               => ConfigPse::PAYMENT_METHOD_ID,
                     'finance_inst_options'            => $this->config->getListFinancialInstitution($storeId),
                     'payer_entity_types'              => $this->config->getListPayerEntityTypes($storeId),
+                    'fingerprint'                     => $this->config->getFingerPrintLink($storeId)
                 ],
             ],
         ];

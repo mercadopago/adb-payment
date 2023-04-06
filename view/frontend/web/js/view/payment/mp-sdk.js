@@ -492,6 +492,14 @@ define([
         },
 
         /**
+         * Get terms and conditions
+         * @returns {String}
+         */
+        getFingerprint: function () {
+            return window.checkoutConfig.payment[this.getCode()].fingerprint;
+        },
+
+        /**
          * Get list of months
          * @returns {Object}
          */

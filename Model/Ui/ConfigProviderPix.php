@@ -94,6 +94,7 @@ class ConfigProviderPix implements ConfigProviderInterface
                     'document_identification_capture' => $this->config->hasUseDocumentIdentificationCapture($storeId),
                     'instruction_checkout'            => nl2br($this->getDescriptions($storeId)),
                     'logo'                            => $this->getLogo(),
+                    'fingerprint'                     => $this->config->getFingerPrintLink($storeId)
                 ],
             ],
         ];

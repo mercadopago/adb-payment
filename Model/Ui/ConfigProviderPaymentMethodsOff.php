@@ -103,6 +103,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
                     'expiration'                      => $this->config->getExpirationFormat($storeId),
                     'logo'                            => $this->getLogo(),
                     'payment_methods_off_active'      => $this->getPaymentMethodsOffActive($storeId),
+                    'fingerprint'                     => $this->config->getFingerPrintLink($storeId)
                 ],
             ],
         ];
