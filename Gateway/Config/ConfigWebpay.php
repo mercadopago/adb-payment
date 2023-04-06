@@ -11,10 +11,10 @@ namespace MercadoPago\PaymentMagento\Gateway\Config;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Stdlib\DateTime\DateTime;
-use MercadoPago\PaymentMagento\Gateway\Data\Checkout\Fingerprint;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
 use Magento\Store\Model\ScopeInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\Config as BaseConfig;
+use MercadoPago\PaymentMagento\Gateway\Data\Checkout\Fingerprint;
 
 /**
  * Gateway setting for the payment method for Webpay.
@@ -76,11 +76,6 @@ class ConfigWebpay extends PaymentConfig
      */
     protected $json;
 
-    // /**
-    //  * @var PaymentConfig
-    //  */
-    // protected $config;
-
     /**
      * @var Fingerprint
      */
@@ -92,7 +87,6 @@ class ConfigWebpay extends PaymentConfig
      * @param BaseConfig           $configBase
      * @param Json                 $json
      * @param string               $methodCode
-    //  * @param PaymentConfig        $config
      * @param Fingerprint          $fingerprint
      */
     public function __construct(
@@ -100,7 +94,6 @@ class ConfigWebpay extends PaymentConfig
         DateTime $date,
         BaseConfig $configBase,
         Json $json,
-        // PaymentConfig $config,
         Fingerprint $fingerprint,
         $methodCode = self::METHOD
     ) {
@@ -108,7 +101,6 @@ class ConfigWebpay extends PaymentConfig
         $this->scopeConfig = $scopeConfig;
         $this->date = $date;
         $this->configBase = $configBase;
-        // $this->config = $config;
         $this->fingerprint = $fingerprint;
         $this->json = $json;
     }
