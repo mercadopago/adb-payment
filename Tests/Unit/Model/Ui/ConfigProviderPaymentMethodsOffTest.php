@@ -171,22 +171,22 @@ class ConfigProviderPaymentMethodsOffTest extends TestCase {
         $this->assertEquals($paymentMethods, $result);
     }
 
-    public function test_filterPaymentMethodsOffConfigActive_paymentMethodsOffActive_7eleven(): void
+    public function test_filterPaymentMethodsOffConfigActive_paymentMethodsOffInactive_7eleven(): void
     {
         $paymentMethods = FilterPaymentMethodsOffConfigActiveMock::EXPECTED_PAYMENT_METHODS;
-        $paymentMethodsOffActive = '7eleven';
+        $paymentMethodsOffInactive = '7eleven';
 
-        $result = $this->configProviderPaymentMethodsOff->filterPaymentMethodsOffConfigActive($paymentMethods, $paymentMethodsOffActive);
-        $this->assertEquals(FilterPaymentMethodsOffConfigActiveMock::EXPECTED_WITH_7ELEVEN, $result);
+        $result = $this->configProviderPaymentMethodsOff->filterPaymentMethodsOffConfigActive($paymentMethods, $paymentMethodsOffInactive);
+        $this->assertEquals(FilterPaymentMethodsOffConfigActiveMock::EXPECTED_PAYMENT_METHODS_WITHOUT_7ELEVEN, $result);
     }
 
-    public function test_filterPaymentMethodsOffConfigActive_paymentMethodsOffActive_7eleven_serfin(): void
+    public function test_filterPaymentMethodsOffConfigActive_paymentMethodsOffInactive_7eleven_serfin(): void
     {
         $paymentMethods = FilterPaymentMethodsOffConfigActiveMock::EXPECTED_PAYMENT_METHODS;
-        $paymentMethodsOffActive = '7eleven,serfin';
+        $paymentMethodsOffInactive = '7eleven,serfin';
 
-        $result = $this->configProviderPaymentMethodsOff->filterPaymentMethodsOffConfigActive($paymentMethods, $paymentMethodsOffActive);
-        $this->assertEquals(FilterPaymentMethodsOffConfigActiveMock::EXPECTED_WITH_7ELEVEN_SERFIN, $result);
+        $result = $this->configProviderPaymentMethodsOff->filterPaymentMethodsOffConfigActive($paymentMethods, $paymentMethodsOffInactive);
+        $this->assertEquals(FilterPaymentMethodsOffConfigActiveMock::EXPECTED_PAYMENT_METHODS_WITHOUT_7ELEVEN_AND_SERFIN, $result);
     }
 
     public function test_filterPaymentMethodsOffConfigActive_paymentMethodsOffActive_does_not_exist(): void
@@ -195,16 +195,16 @@ class ConfigProviderPaymentMethodsOffTest extends TestCase {
         $paymentMethodsOffActive = 'does_not_exist';
 
         $result = $this->configProviderPaymentMethodsOff->filterPaymentMethodsOffConfigActive($paymentMethods, $paymentMethodsOffActive);
-        $this->assertEmpty($result);
+        $this->assertEquals(FilterPaymentMethodsOffConfigActiveMock::EXPECTED_PAYMENT_METHODS, $result);
     }
 
-    public function test_filterPaymentMethodsOffConfigActive_paymentMethodsOffActive_7eleven_and_does_not_exist(): void
+    public function test_filterPaymentMethodsOffConfigActive_paymentMethodsOffInactive_whitout_7eleven_and_does_not_exist(): void
     {
         $paymentMethods = FilterPaymentMethodsOffConfigActiveMock::EXPECTED_PAYMENT_METHODS;
-        $paymentMethodsOffActive = '7eleven,does_not_exist';
+        $paymentMethodsOffInactive = '7eleven,does_not_exist';
 
-        $result = $this->configProviderPaymentMethodsOff->filterPaymentMethodsOffConfigActive($paymentMethods, $paymentMethodsOffActive);
-        $this->assertEquals(FilterPaymentMethodsOffConfigActiveMock::EXPECTED_WITH_7ELEVEN, $result);
+        $result = $this->configProviderPaymentMethodsOff->filterPaymentMethodsOffConfigActive($paymentMethods, $paymentMethodsOffInactive);
+        $this->assertEquals(FilterPaymentMethodsOffConfigActiveMock::EXPECTED_PAYMENT_METHODS_WITHOUT_7ELEVEN, $result);
     }
 
     /**

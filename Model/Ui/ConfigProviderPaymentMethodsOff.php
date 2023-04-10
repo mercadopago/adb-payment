@@ -163,7 +163,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         $actives = explode(",", $paymentMethodsOffActive);
 
         foreach ($paymentMethods as $payment) {
-            if(isset($payment['value']) && in_array($payment['value'], $actives)){
+            if(isset($payment['value']) && !in_array($payment['value'], $actives)){
                 $options[] = $payment;
             }
         }
