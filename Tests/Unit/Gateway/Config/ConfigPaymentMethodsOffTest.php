@@ -7,6 +7,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\Config;
 use Magento\Store\Model\ScopeInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
+use MercadoPago\PaymentMagento\Gateway\Data\Checkout\Fingerprint;
 
 use PHPUnit\Framework\TestCase;
 
@@ -47,6 +48,11 @@ class ConfigPaymentMethodsOffTest extends TestCase {
      */
     private $configMock;
 
+    /**
+     * @var Fingerprint
+     */
+    protected $fingerprintMock;
+
     public function setUp(): void {
         $this->scopeConfigMock = $this->getMockBuilder(ScopeConfigInterface::class)
             ->setMethods([self::CONFIG_METHOD])->getMockForAbstractClass();
@@ -59,7 +65,8 @@ class ConfigPaymentMethodsOffTest extends TestCase {
                     'scopeConfig' => $this->scopeConfigMock,
                     'date' => $this->dateMock,
                     'config' => $this->configMock,
-                    'methodCode' => ConfigPaymentMethodsOff::METHOD
+                    'methodCode' => ConfigPaymentMethodsOff::METHOD,
+                    'fingerprint' => $this->fingerprintMock
             ])->getMock();
     }
 
@@ -76,6 +83,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->isActive(null);
@@ -92,6 +100,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->getTitle(null);
@@ -108,6 +117,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->hasUseDocumentIdentificationCapture(null);
@@ -124,6 +134,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->hasUseNameCapture(null);
@@ -140,6 +151,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->getPaymentMethodsOffActive(null);
@@ -162,6 +174,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
+            $this->fingerprintMock
         );
 
         $result = $configPaymentMethodsOff->getLineCode($code_parameter);
@@ -184,6 +197,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
+            $this->fingerprintMock
         );
 
         $result = $configPaymentMethodsOff->calcDigit($code_to_calc);
@@ -202,6 +216,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
+            $this->fingerprintMock
         );
 
         $result = $configPaymentMethodsOff->calcDigit($invalid_code_to_calc);
