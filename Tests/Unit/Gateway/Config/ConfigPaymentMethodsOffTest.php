@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Gateway\Config;
 
-use Magento\Framework\Stdlib\DateTime\Datetime;
+use Magento\Framework\Stdlib\DateTime;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\Config;
 use Magento\Store\Model\ScopeInterface;
