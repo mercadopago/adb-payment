@@ -84,7 +84,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
-            $this->fingerprintMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->isActive(null);
@@ -101,7 +101,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
-            $this->fingerprintMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->getTitle(null);
@@ -118,7 +118,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
-            $this->fingerprintMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->hasUseDocumentIdentificationCapture(null);
@@ -135,7 +135,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
-            $this->fingerprintMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->hasUseNameCapture(null);
@@ -152,7 +152,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
-            $this->fingerprintMock,
+            $this->fingerprintMock
         );
 
          $result = $configPaymentMethodsOff->getPaymentMethodsOffActive(null);
@@ -175,7 +175,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
-            $this->fingerprintMock,
+            $this->fingerprintMock
         );
 
         $result = $configPaymentMethodsOff->getLineCode($code_parameter);
@@ -198,7 +198,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
-            $this->fingerprintMock,
+            $this->fingerprintMock
         );
 
         $result = $configPaymentMethodsOff->calcDigit($code_to_calc);
@@ -217,7 +217,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
-            $this->fingerprintMock,
+            $this->fingerprintMock
         );
 
         $result = $configPaymentMethodsOff->calcDigit($invalid_code_to_calc);
