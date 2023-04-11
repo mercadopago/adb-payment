@@ -66,7 +66,7 @@ class ConfigPaymentMethodsOffTest extends TestCase {
                     'scopeConfig' => $this->scopeConfigMock,
                     'date' => $this->dateMock,
                     'config' => $this->configMock,
-                    'methodCode' => ConfigPaymentMethodsOff::METHOD
+                    'methodCode' => ConfigPaymentMethodsOff::METHOD,
                     'fingerprint' => $this->fingerprintMock
             ])->getMock();
     }
