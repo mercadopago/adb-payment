@@ -59,13 +59,14 @@ class ConfigPaymentMethodsOffTest extends TestCase {
 
         $this->configMock = $this->getMockBuilder(Config::class)->disableOriginalConstructor()->getMock();
         $this->dateMock = $this->getMockBuilder(DateTime::class)->disableOriginalConstructor()->getMock();
+        $this->fingerprintMock = $this->getMockBuilder(Fingerprint::class)->disableOriginalConstructor()->getMock();
 
         $this->configPaymentMethodsOffMock = $this->getMockBuilder(ConfigPaymentMethodsOff::class)
                 ->setConstructorArgs([
                     'scopeConfig' => $this->scopeConfigMock,
                     'date' => $this->dateMock,
                     'config' => $this->configMock,
-                    'methodCode' => ConfigPaymentMethodsOff::METHOD,
+                    'methodCode' => ConfigPaymentMethodsOff::METHOD
                     'fingerprint' => $this->fingerprintMock
             ])->getMock();
     }
