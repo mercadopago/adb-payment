@@ -78,11 +78,11 @@ class PaymentMethodsOff implements ArrayInterface
                         'label' => $payment['name'],
                     ];
                 } else {
-                    foreach ($payment['payment_places'] as $payment_place) {
-                        if ($payment_place['status'] === self::PAYMENT_STATUS_ACTIVE) {
+                    foreach ($payment['payment_places'] as $paymentPlace) {
+                        if ($paymentPlace['status'] === self::PAYMENT_STATUS_ACTIVE) {
                             $options[] = [
-                                'value' => $payment_place['payment_option_id'],
-                                'label' => $payment_place['name'],
+                                'value' => $paymentPlace['payment_option_id'],
+                                'label' => $paymentPlace['name'],
                             ];
                         }
                     }

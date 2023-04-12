@@ -60,7 +60,7 @@ class PaymentMethodsOffTest extends TestCase {
      * Tests function toOptionArray()
      */
 
-    public function test_toOptionArray_just_default_value(): void
+    public function testToOptionArrayJustDefaultValue(): void
     {        
         $this->mercadopagoConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
@@ -80,7 +80,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertNull($result[0]['value']);
     }
 
-    public function test_toOptionArray_without_payment_places(): void
+    public function testToOptionArrayWithoutPaymentPlaces(): void
     {
         $this->mercadopagoConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
@@ -97,7 +97,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(ToOptionArrayMock::EXPECTED_WITHOUT_PAYMENT_PLACES, $result);
     }
 
-    public function test_toOptionArray_with_payment_places(): void
+    public function testToOptionArrayWithPaymentPlaces(): void
     {
         $this->mercadopagoConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
@@ -114,7 +114,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(ToOptionArrayMock::EXPECTED_WITH_PAYMENT_PLACES, $result);
     }
 
-    public function test_toOptionArray_without_payment_places_and_with_inactive(): void
+    public function testToOptionArrayWithoutPaymentPlacesAndWithInactive(): void
     {
         $this->mercadopagoConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
@@ -131,7 +131,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(ToOptionArrayMock::EXPECTED_WITHOUT_PAYMENT_PLACES_AND_WITH_INACTIVE, $result);
     }
 
-    public function test_toOptionArray_with_payment_places_and_inactive(): void
+    public function testToOptionArrayWithPaymentPlacesAndInactive(): void
     {
         $this->mercadopagoConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
@@ -152,14 +152,14 @@ class PaymentMethodsOffTest extends TestCase {
      * Tests function mountPaymentMethodsOff()
      */
 
-    public function test_mountPaymentMethodsOff_empty(): void
+    public function testMountPaymentMethodsOffEmpty(): void
     {        
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff([]);
 
         $this->assertEmpty($result);
     }
  
-    public function test_mountPaymentMethodsOff_without_payment_places(): void
+    public function testMountPaymentMethodsOffWithoutPaymentPlaces(): void
     {
         $response = PaymentMethodsResponseMock::WITHOUT_PAYMENT_PLACES['response'];
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff($response);
@@ -167,7 +167,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(MountPaymentMethodsOffMock::EXPECTED_WITHOUT_PAYMENT_PLACES, $result);
     }
  
-    public function test_mountPaymentMethodsOff_with_payment_places(): void
+    public function testMountPaymentMethodsOffWithPaymentPlaces(): void
     {
         $response = PaymentMethodsResponseMock::WITH_PAYMENT_PLACES['response'];
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff($response);
@@ -175,7 +175,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(MountPaymentMethodsOffMock::EXPECTED_WITH_PAYMENT_PLACES, $result);
     }
  
-    public function test_mountPaymentMethodsOff_without_payment_places_and_with_inactive(): void
+    public function testMountPaymentMethodsOffWithoutPaymentPlacesAndWithInactive(): void
     {
         $response = PaymentMethodsResponseMock::WITHOUT_PAYMENT_PLACES_AND_WITH_INACTIVE['response'];
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff($response);
@@ -183,7 +183,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(MountPaymentMethodsOffMock::EXPECTED_WITHOUT_PAYMENT_PLACES_AND_WITH_INACTIVE, $result);
     }
  
-    public function test_mountPaymentMethodsOff_with_payment_places_and_inactive(): void
+    public function testMountPaymentMethodsOffWithPaymentPlacesAndInactive(): void
     {
         $response = PaymentMethodsResponseMock::WITH_PAYMENT_PLACES_AND_INACTIVE['response'];
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff($response);

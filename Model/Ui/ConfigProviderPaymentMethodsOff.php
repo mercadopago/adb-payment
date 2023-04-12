@@ -193,15 +193,15 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
 
                     ];
                 } else {
-                    foreach ($payment['payment_places'] as $payment_place) {
-                        if ($payment_place['status'] === self::PAYMENT_STATUS_ACTIVE) {
+                    foreach ($payment['payment_places'] as $paymentPlace) {
+                        if ($paymentPlace['status'] === self::PAYMENT_STATUS_ACTIVE) {
                             $options[] = [
-                                'value' => $payment_place['payment_option_id'],
-                                'label' => $payment_place['name'],
-                                'logo' => $payment_place['thumbnail'],
+                                'value' => $paymentPlace['payment_option_id'],
+                                'label' => $paymentPlace['name'],
+                                'logo' => $paymentPlace['thumbnail'],
                                 'payment_method_id' => $payment['id'],
                                 'payment_type_id' => $payment['payment_type_id'],
-                                'payment_option_id' => $payment_place['payment_option_id'],
+                                'payment_option_id' => $paymentPlace['payment_option_id'],
                             ];
                         }
                     }
