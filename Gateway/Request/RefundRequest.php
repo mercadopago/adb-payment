@@ -92,11 +92,6 @@ class RefundRequest implements BuilderInterface
 
         $totalCreditmemo = $this->configPayment->formatPrice($creditmemo->getGrandTotal(), $storeId);
 
-        $result = [
-            self::MERCADOPAGO_PAYMENT_ID => preg_replace('/[^0-9]/', '', $payment->getLastTransId()),
-            self::X_IDEMPOTENCY_KEY      => $payment->getLastTransId(),
-        ];
-
         if ($grandTotal !== $totalCreditmemo) {
             $result = [
                 self::MERCADOPAGO_PAYMENT_ID => preg_replace('/[^0-9]/', '', $payment->getTransactionId()),
@@ -104,6 +99,11 @@ class RefundRequest implements BuilderInterface
                 self::AMOUNT                 => $totalCreditmemo,
             ];
         }
+
+        $result = [
+            self::MERCADOPAGO_PAYMENT_ID => preg_replace('/[^0-9]/', '', $payment->getLastTransId()),
+            self::X_IDEMPOTENCY_KEY      => $payment->getLastTransId(),
+        ];
 
         return $result;
     }

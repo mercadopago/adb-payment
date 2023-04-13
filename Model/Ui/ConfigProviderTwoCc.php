@@ -65,7 +65,7 @@ class ConfigProviderTwoCc implements ConfigProviderInterface
         ConfigTwoCc $configTwoCc,
         CartInterface $cart,
         CcConfig $ccConfig,
-        Source $assetSource
+        Source $assetSource,
     ) {
         $this->configTwoCc = $configTwoCc;
         $this->cart = $cart;
