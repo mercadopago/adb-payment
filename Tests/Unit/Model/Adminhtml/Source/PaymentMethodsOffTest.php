@@ -21,9 +21,9 @@ class PaymentMethodsOffTest extends TestCase {
     private $paymentMethodsOff;
 
     /**
-     * @var PaymentMethodsOffMock
+     * @var methodsOffMock
      */
-    private $paymentMethodsOffMock;
+    private $methodsOffMock;
 
     /**
      * @var RequestInterface
@@ -32,11 +32,11 @@ class PaymentMethodsOffTest extends TestCase {
      /**
      * @var MercadoPagoConfig
      */
-    private $mercadopagoConfigMock;
+    private $mpConfigMock;
 
     public function setUp(): void
     {
-        $this->mercadopagoConfigMock = $this->getMockBuilder(MercadoPagoConfig::class)->disableOriginalConstructor()->getMock();
+        $this->mpConfigMock = $this->getMockBuilder(MercadoPagoConfig::class)->disableOriginalConstructor()->getMock();
 
         $this->requestMock = $this->getMockBuilder(RequestInterface::class)->disableOriginalConstructor()->getMock();
         $this->requestMock->expects($this->any())
@@ -44,14 +44,14 @@ class PaymentMethodsOffTest extends TestCase {
             ->with('store', 0)
             ->willReturn(1);
         
-        $this->paymentMethodsOffMock = $this->getMockBuilder(PaymentMethodsOff::class)->setConstructorArgs([
+        $this->methodsOffMock = $this->getMockBuilder(PaymentMethodsOff::class)->setConstructorArgs([
             'request' => $this->requestMock,
-            'mercadopagoConfig' => $this->mercadopagoConfigMock
+            'mercadopagoConfig' => $this->mpConfigMock
         ])->getMock();
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
     }
 
@@ -60,16 +60,16 @@ class PaymentMethodsOffTest extends TestCase {
      * Tests function toOptionArray()
      */
 
-    public function test_toOptionArray_just_default_value(): void
+    public function testToOptionArrayJustDefaultValue(): void
     {        
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::SUCCESS_FALSE);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();
@@ -80,16 +80,16 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertNull($result[0]['value']);
     }
 
-    public function test_toOptionArray_without_payment_places(): void
+    public function testToOptionArrayWithoutPaymentPlaces(): void
     {
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::WITHOUT_PAYMENT_PLACES);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();
@@ -97,16 +97,16 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(ToOptionArrayMock::EXPECTED_WITHOUT_PAYMENT_PLACES, $result);
     }
 
-    public function test_toOptionArray_with_payment_places(): void
+    public function testToOptionArrayWithPaymentPlaces(): void
     {
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::WITH_PAYMENT_PLACES);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();
@@ -114,16 +114,16 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(ToOptionArrayMock::EXPECTED_WITH_PAYMENT_PLACES, $result);
     }
 
-    public function test_toOptionArray_without_payment_places_and_with_inactive(): void
+    public function testToOptionArrayWithoutPaymentPlacesAndWithInactive(): void
     {
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::WITHOUT_PAYMENT_PLACES_AND_WITH_INACTIVE);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();
@@ -131,16 +131,16 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(ToOptionArrayMock::EXPECTED_WITHOUT_PAYMENT_PLACES_AND_WITH_INACTIVE, $result);
     }
 
-    public function test_toOptionArray_with_payment_places_and_inactive(): void
+    public function testToOptionArrayWithPaymentPlacesAndInactive(): void
     {
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::WITH_PAYMENT_PLACES_AND_INACTIVE);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();
@@ -152,14 +152,14 @@ class PaymentMethodsOffTest extends TestCase {
      * Tests function mountPaymentMethodsOff()
      */
 
-    public function test_mountPaymentMethodsOff_empty(): void
+    public function testMountPaymentMethodsOffEmpty(): void
     {        
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff([]);
 
         $this->assertEmpty($result);
     }
  
-    public function test_mountPaymentMethodsOff_without_payment_places(): void
+    public function testMountPaymentMethodsOffWithoutPaymentPlaces(): void
     {
         $response = PaymentMethodsResponseMock::WITHOUT_PAYMENT_PLACES['response'];
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff($response);
@@ -167,7 +167,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(MountPaymentMethodsOffMock::EXPECTED_WITHOUT_PAYMENT_PLACES, $result);
     }
  
-    public function test_mountPaymentMethodsOff_with_payment_places(): void
+    public function testMountPaymentMethodsOffWithPaymentPlaces(): void
     {
         $response = PaymentMethodsResponseMock::WITH_PAYMENT_PLACES['response'];
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff($response);
@@ -175,7 +175,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(MountPaymentMethodsOffMock::EXPECTED_WITH_PAYMENT_PLACES, $result);
     }
  
-    public function test_mountPaymentMethodsOff_without_payment_places_and_with_inactive(): void
+    public function testMountPaymentMethodsOffWithoutPaymentPlacesAndWithInactive(): void
     {
         $response = PaymentMethodsResponseMock::WITHOUT_PAYMENT_PLACES_AND_WITH_INACTIVE['response'];
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff($response);
@@ -183,7 +183,7 @@ class PaymentMethodsOffTest extends TestCase {
         $this->assertEquals(MountPaymentMethodsOffMock::EXPECTED_WITHOUT_PAYMENT_PLACES_AND_WITH_INACTIVE, $result);
     }
  
-    public function test_mountPaymentMethodsOff_with_payment_places_and_inactive(): void
+    public function testMountPaymentMethodsOffWithPaymentPlacesAndInactive(): void
     {
         $response = PaymentMethodsResponseMock::WITH_PAYMENT_PLACES_AND_INACTIVE['response'];
         $result = $this->paymentMethodsOff->mountPaymentMethodsOff($response);
