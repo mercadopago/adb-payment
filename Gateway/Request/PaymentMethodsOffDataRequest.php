@@ -29,7 +29,7 @@ class PaymentMethodsOffDataRequest implements BuilderInterface
     /**
      * @var ConfigPaymentMethodsOff
      */
-    protected $configPaymentMethodsOff;
+    protected $configMethodsOff;
 
     /**
      * @var SubjectReader
@@ -38,16 +38,16 @@ class PaymentMethodsOffDataRequest implements BuilderInterface
 
     /**
      * @param SubjectReader   $subjectReader
-     * @param ConfigPaymentMethodsOff    $configPaymentMethodsOff
+     * @param ConfigPaymentMethodsOff    $configMethodsOff
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         SubjectReader $subjectReader,
-        ConfigPaymentMethodsOff $configPaymentMethodsOff
+        ConfigPaymentMethodsOff $configMethodsOff
     ) {
         $this->subjectReader = $subjectReader;
-        $this->configPaymentMethodsOff = $configPaymentMethodsOff;
+        $this->configMethodsOff = $configMethodsOff;
     }
 
     /**
@@ -73,7 +73,7 @@ class PaymentMethodsOffDataRequest implements BuilderInterface
 
         $paymentIdMethod = $payment->getAdditionalInformation('payment_method_id');
 
-        $expirationDate = $this->configPaymentMethodsOff->getExpirationFormatted();
+        $expirationDate = $this->configMethodsOff->getExpirationFormatted();
 
         $result = [
             self::PAYMENT_METHOD_ID  => $paymentIdMethod,

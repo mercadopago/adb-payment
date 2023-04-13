@@ -6,7 +6,7 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use MercadoPago\PaymentMagento\Gateway\Config\Config;
 use Magento\Store\Model\ScopeInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff;
+use MercadoPago\PaymentMagento\Gateway\Config\ConfigPaymentMethodsOff as ConfigMethodsOff;
 use MercadoPago\PaymentMagento\Gateway\Data\Checkout\Fingerprint;
 
 use PHPUnit\Framework\TestCase;
@@ -24,9 +24,9 @@ class ConfigPaymentMethodsOffTest extends TestCase {
     public const CONFIG_METHOD = 'getValue';
 
     /**
-     * @var configPaymentMethodsOffMock
+     * @var configMethodsOffMock
      */
-    private $configPaymentMethodsOffMock;
+    private $configMethodsOffMock;
 
     /**
      * @var ScopeConfigInterface
@@ -56,13 +56,13 @@ class ConfigPaymentMethodsOffTest extends TestCase {
         $this->dateMock = $this->getMockBuilder(DateTime::class)->disableOriginalConstructor()->getMock();
         $this->fingerprintMock = $this->getMockBuilder(Fingerprint::class)->disableOriginalConstructor()->getMock();
 
-        $this->configPaymentMethodsOffMock = $this->getMockBuilder(ConfigPaymentMethodsOff::class)
+        $this->configMethodsOffMock = $this->getMockBuilder(ConfigMethodsOff::class)
                 ->setConstructorArgs([
                     'scopeConfig' => $this->scopeConfigMock,
                     'date' => $this->dateMock,
                     'config' => $this->configMock,
                     'fingerprint' => $this->fingerprintMock,
-                    'methodCode' => ConfigPaymentMethodsOff::METHOD
+                    'methodCode' => ConfigMethodsOff::METHOD
             ])->getMock();
     }
 
@@ -73,16 +73,16 @@ class ConfigPaymentMethodsOffTest extends TestCase {
     public function testIsActiveGetTrue() {
 
         $this->scopeConfigMock->expects($this->any())->method(self::CONFIG_METHOD)
-        ->with(sprintf(self::PATH_PATTERN, ConfigPaymentMethodsOff::METHOD, ConfigPaymentMethodsOff::ACTIVE))->willReturn(true);
+        ->with(sprintf(self::PATH_PATTERN, ConfigMethodsOff::METHOD, ConfigMethodsOff::ACTIVE))->willReturn(true);
 
-        $configPaymentMethodsOff = new ConfigPaymentMethodsOff(
+        $configMethodsOff = new ConfigMethodsOff(
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
             $this->fingerprintMock
         );
 
-         $result = $configPaymentMethodsOff->isActive(null);
+         $result = $configMethodsOff->isActive(null);
 
         $this->assertTrue($result);
     }
@@ -90,16 +90,16 @@ class ConfigPaymentMethodsOffTest extends TestCase {
     public function testGetTitleGetWithValue() {
 
         $this->scopeConfigMock->expects($this->any())->method(self::CONFIG_METHOD)
-        ->with(sprintf(self::PATH_PATTERN, ConfigPaymentMethodsOff::METHOD, ConfigPaymentMethodsOff::TITLE))->willReturn('PaymentsOff');
+        ->with(sprintf(self::PATH_PATTERN, ConfigMethodsOff::METHOD, ConfigMethodsOff::TITLE))->willReturn('PaymentsOff');
 
-        $configPaymentMethodsOff = new ConfigPaymentMethodsOff(
+        $configMethodsOff = new ConfigMethodsOff(
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
             $this->fingerprintMock
         );
 
-         $result = $configPaymentMethodsOff->getTitle(null);
+         $result = $configMethodsOff->getTitle(null);
 
         $this->assertEquals('PaymentsOff', $result);
     }
@@ -107,16 +107,16 @@ class ConfigPaymentMethodsOffTest extends TestCase {
     public function testHasUseDocumentIdentificationCaptureGetTrue() {
 
         $this->scopeConfigMock->expects($this->any())->method(self::CONFIG_METHOD)
-        ->with(sprintf(self::PATH_PATTERN, ConfigPaymentMethodsOff::METHOD, ConfigPaymentMethodsOff::USE_GET_DOCUMENT_IDENTIFICATION))->willReturn(true);
+        ->with(sprintf(self::PATH_PATTERN, ConfigMethodsOff::METHOD, ConfigMethodsOff::USE_GET_DOCUMENT_IDENTIFICATION))->willReturn(true);
 
-        $configPaymentMethodsOff = new ConfigPaymentMethodsOff(
+        $configMethodsOff = new ConfigMethodsOff(
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
             $this->fingerprintMock
         );
 
-         $result = $configPaymentMethodsOff->hasUseDocumentIdentificationCapture(null);
+         $result = $configMethodsOff->hasUseDocumentIdentificationCapture(null);
 
         $this->assertTrue($result);
     }
@@ -124,16 +124,16 @@ class ConfigPaymentMethodsOffTest extends TestCase {
     public function testHasUseNameCaptureGetTrue() {
 
         $this->scopeConfigMock->expects($this->any())->method(self::CONFIG_METHOD)
-        ->with(sprintf(self::PATH_PATTERN, ConfigPaymentMethodsOff::METHOD, ConfigPaymentMethodsOff::USE_GET_NAME))->willReturn(true);
+        ->with(sprintf(self::PATH_PATTERN, ConfigMethodsOff::METHOD, ConfigMethodsOff::USE_GET_NAME))->willReturn(true);
 
-        $configPaymentMethodsOff = new ConfigPaymentMethodsOff(
+        $configMethodsOff = new ConfigMethodsOff(
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
             $this->fingerprintMock
         );
 
-         $result = $configPaymentMethodsOff->hasUseNameCapture(null);
+         $result = $configMethodsOff->hasUseNameCapture(null);
 
         $this->assertTrue($result);
     }
@@ -141,16 +141,16 @@ class ConfigPaymentMethodsOffTest extends TestCase {
     public function testGetPaymentMethodsOffActiveGetValue() {
         $stringGetMethods = 'boleto, pec';
         $this->scopeConfigMock->expects($this->any())->method(self::CONFIG_METHOD)
-        ->with(sprintf(self::PATH_PATTERN, ConfigPaymentMethodsOff::METHOD, ConfigPaymentMethodsOff::PAYMENT_METHODS))->willReturn($stringGetMethods);
+        ->with(sprintf(self::PATH_PATTERN, ConfigMethodsOff::METHOD, ConfigMethodsOff::PAYMENT_METHODS))->willReturn($stringGetMethods);
 
-        $configPaymentMethodsOff = new ConfigPaymentMethodsOff(
+        $configMethodsOff = new ConfigMethodsOff(
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
             $this->fingerprintMock
         );
 
-         $result = $configPaymentMethodsOff->getPaymentMethodsOffActive(null);
+         $result = $configMethodsOff->getPaymentMethodsOffActive(null);
 
          $this->assertEquals($stringGetMethods, $result);
     }
@@ -163,17 +163,17 @@ class ConfigPaymentMethodsOffTest extends TestCase {
         $codeParameter = '23791930400000054003380260600346799100633330';
         $expectFormatedCode = '23793.38029 60600.346799 91006.333305 1 93040000005400';
 
-        $this->configPaymentMethodsOffMock->expects($this->any())->method('getLineCode')
+        $this->configMethodsOffMock->expects($this->any())->method('getLineCode')
             ->with($codeParameter)->willReturn($expectFormatedCode);
 
-        $configPaymentMethodsOff = new ConfigPaymentMethodsOff(
+        $configMethodsOff = new ConfigMethodsOff(
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
             $this->fingerprintMock
         );
 
-        $result = $configPaymentMethodsOff->getLineCode($codeParameter);
+        $result = $configMethodsOff->getLineCode($codeParameter);
 
         $this->assertEquals($expectFormatedCode, $result);
     }
@@ -186,17 +186,17 @@ class ConfigPaymentMethodsOffTest extends TestCase {
         $expectedDigit = 9;
         $codeToCalc = '23793.3802';
 
-        $this->configPaymentMethodsOffMock->expects($this->any())->method('calcDigit')
+        $this->configMethodsOffMock->expects($this->any())->method('calcDigit')
             ->with($codeToCalc)->willReturn($expectedDigit);
 
-        $configPaymentMethodsOff = new ConfigPaymentMethodsOff(
+        $configMethodsOff = new ConfigMethodsOff(
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
             $this->fingerprintMock
         );
 
-        $result = $configPaymentMethodsOff->calcDigit($codeToCalc);
+        $result = $configMethodsOff->calcDigit($codeToCalc);
 
         $this->assertEquals($expectedDigit, $result);
     }
@@ -205,17 +205,17 @@ class ConfigPaymentMethodsOffTest extends TestCase {
         $expectedDigit = 9;
         $invalidCodeToCalc = '23793.3803';
         
-        $this->configPaymentMethodsOffMock->expects($this->any())->method('calcDigit')
+        $this->configMethodsOffMock->expects($this->any())->method('calcDigit')
             ->with($invalidCodeToCalc)->willReturn($expectedDigit);
 
-        $configPaymentMethodsOff = new ConfigPaymentMethodsOff(
+        $configMethodsOff = new ConfigMethodsOff(
             $this->scopeConfigMock,
             $this->dateMock,
             $this->configMock,
             $this->fingerprintMock
         );
 
-        $result = $configPaymentMethodsOff->calcDigit($invalidCodeToCalc);
+        $result = $configMethodsOff->calcDigit($invalidCodeToCalc);
 
         $this->assertNotEquals($expectedDigit, $result);
     }

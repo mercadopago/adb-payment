@@ -21,9 +21,9 @@ class PaymentMethodsOffTest extends TestCase {
     private $paymentMethodsOff;
 
     /**
-     * @var PaymentMethodsOffMock
+     * @var methodsOffMock
      */
-    private $paymentMethodsOffMock;
+    private $methodsOffMock;
 
     /**
      * @var RequestInterface
@@ -32,11 +32,11 @@ class PaymentMethodsOffTest extends TestCase {
      /**
      * @var MercadoPagoConfig
      */
-    private $mercadopagoConfigMock;
+    private $mpConfigMock;
 
     public function setUp(): void
     {
-        $this->mercadopagoConfigMock = $this->getMockBuilder(MercadoPagoConfig::class)->disableOriginalConstructor()->getMock();
+        $this->mpConfigMock = $this->getMockBuilder(MercadoPagoConfig::class)->disableOriginalConstructor()->getMock();
 
         $this->requestMock = $this->getMockBuilder(RequestInterface::class)->disableOriginalConstructor()->getMock();
         $this->requestMock->expects($this->any())
@@ -44,14 +44,14 @@ class PaymentMethodsOffTest extends TestCase {
             ->with('store', 0)
             ->willReturn(1);
         
-        $this->paymentMethodsOffMock = $this->getMockBuilder(PaymentMethodsOff::class)->setConstructorArgs([
+        $this->methodsOffMock = $this->getMockBuilder(PaymentMethodsOff::class)->setConstructorArgs([
             'request' => $this->requestMock,
-            'mercadopagoConfig' => $this->mercadopagoConfigMock
+            'mercadopagoConfig' => $this->mpConfigMock
         ])->getMock();
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
     }
 
@@ -62,14 +62,14 @@ class PaymentMethodsOffTest extends TestCase {
 
     public function testToOptionArrayJustDefaultValue(): void
     {        
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::SUCCESS_FALSE);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();
@@ -82,14 +82,14 @@ class PaymentMethodsOffTest extends TestCase {
 
     public function testToOptionArrayWithoutPaymentPlaces(): void
     {
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::WITHOUT_PAYMENT_PLACES);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();
@@ -99,14 +99,14 @@ class PaymentMethodsOffTest extends TestCase {
 
     public function testToOptionArrayWithPaymentPlaces(): void
     {
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::WITH_PAYMENT_PLACES);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();
@@ -116,14 +116,14 @@ class PaymentMethodsOffTest extends TestCase {
 
     public function testToOptionArrayWithoutPaymentPlacesAndWithInactive(): void
     {
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::WITHOUT_PAYMENT_PLACES_AND_WITH_INACTIVE);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();
@@ -133,14 +133,14 @@ class PaymentMethodsOffTest extends TestCase {
 
     public function testToOptionArrayWithPaymentPlacesAndInactive(): void
     {
-        $this->mercadopagoConfigMock->expects($this->any())
+        $this->mpConfigMock->expects($this->any())
             ->method('getMpPaymentMethods')
             ->with(1)
             ->willReturn(PaymentMethodsResponseMock::WITH_PAYMENT_PLACES_AND_INACTIVE);
 
         $this->paymentMethodsOff = new PaymentMethodsOff(
             $this->requestMock,
-            $this->mercadopagoConfigMock
+            $this->mpConfigMock
         );
 
         $result = $this->paymentMethodsOff->toOptionArray();

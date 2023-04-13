@@ -135,7 +135,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      */
     public function getPaymentMethodsOffActive($storeId)
     {
-        $paymentMethodsOffActive = $this->config->getPaymentMethodsOffActive($storeId);
+        $methodsOffActive = $this->config->getPaymentMethodsOffActive($storeId);
 
         $options = [];
         $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
@@ -144,7 +144,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
             $options = $this->mountPaymentMethodsOff($payments['response']);
         }
 
-        return $this->filterPaymentMethodsOffConfigActive($options, $paymentMethodsOffActive);
+        return $this->filterPaymentMethodsOffConfigActive($options, $methodsOffActive);
     }
 
 
@@ -153,14 +153,14 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      *
      * @return array
      */
-    public function filterPaymentMethodsOffConfigActive(array $paymentMethods, ?string $paymentMethodsOffActive): ?array
+    public function filterPaymentMethodsOffConfigActive(array $paymentMethods, ?string $methodsOffActive): ?array
     {
-        if (empty($paymentMethodsOffActive)) {
+        if (empty($methodsOffActive)) {
             return $paymentMethods;
         }
 
         $options = [];
-        $actives = explode(",", $paymentMethodsOffActive);
+        $actives = explode(",", $methodsOffActive);
 
         foreach ($paymentMethods as $payment) {
             if(isset($payment['value']) && !in_array($payment['value'], $actives)){
