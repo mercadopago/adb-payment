@@ -17,7 +17,7 @@ class Fingerprint extends PaymentHelper {
      */
     public function getFingerPrintLink($localization)
     {
-        $site_id = [
+        $siteId = [
             'MLA' => 'https://www.mercadopago.com.ar/ayuda/terminos-y-politicas_194',
             'MLB' => 'https://www.mercadopago.com.br/ajuda/termos-e-politicas_194',
             'MLC' => 'https://www.mercadopago.cl/ayuda/terminos-y-politicas_194',
@@ -27,11 +27,11 @@ class Fingerprint extends PaymentHelper {
             'MCO' => 'https://www.mercadopago.com.co/ayuda/terminos-y-politicas_194',
         ];
 
-        if (array_key_exists($localization, $site_id)) {
-            return $site_id[$localization];
+        if (array_key_exists($localization, $siteId)) {
+            return $siteId[$localization];
         }
 
-        return $site_id['MLA'];
+        return $siteId['MLA'];
     }
 
 }

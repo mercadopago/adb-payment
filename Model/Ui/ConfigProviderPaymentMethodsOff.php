@@ -135,7 +135,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      */
     public function getPaymentMethodsOffActive($storeId)
     {
-        $paymentMethodsOffActive = $this->config->getPaymentMethodsOffActive($storeId);
+        $methodsOffActive = $this->config->getPaymentMethodsOffActive($storeId);
 
         $options = [];
         $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
@@ -144,7 +144,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
             $options = $this->mountPaymentMethodsOff($payments['response']);
         }
 
-        return $this->filterPaymentMethodsOffConfigActive($options, $paymentMethodsOffActive);
+        return $this->filterPaymentMethodsOffConfigActive($options, $methodsOffActive);
     }
 
 
@@ -153,17 +153,17 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      *
      * @return array
      */
-    public function filterPaymentMethodsOffConfigActive(array $paymentMethods, ?string $paymentMethodsOffActive): ?array
+    public function filterPaymentMethodsOffConfigActive(array $paymentMethods, ?string $methodsOffActive): ?array
     {
-        if (empty($paymentMethodsOffActive)) {
+        if (empty($methodsOffActive)) {
             return $paymentMethods;
         }
 
         $options = [];
-        $actives = explode(",", $paymentMethodsOffActive);
+        $actives = explode(",", $methodsOffActive);
 
         foreach ($paymentMethods as $payment) {
-            if(isset($payment['value']) && in_array($payment['value'], $actives)){
+            if(isset($payment['value']) && !in_array($payment['value'], $actives)){
                 $options[] = $payment;
             }
         }
@@ -193,15 +193,15 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
 
                     ];
                 } else {
-                    foreach ($payment['payment_places'] as $payment_place) {
-                        if ($payment_place['status'] === self::PAYMENT_STATUS_ACTIVE) {
+                    foreach ($payment['payment_places'] as $paymentPlace) {
+                        if ($paymentPlace['status'] === self::PAYMENT_STATUS_ACTIVE) {
                             $options[] = [
-                                'value' => $payment_place['payment_option_id'],
-                                'label' => $payment_place['name'],
-                                'logo' => $payment_place['thumbnail'],
+                                'value' => $paymentPlace['payment_option_id'],
+                                'label' => $paymentPlace['name'],
+                                'logo' => $paymentPlace['thumbnail'],
                                 'payment_method_id' => $payment['id'],
                                 'payment_type_id' => $payment['payment_type_id'],
-                                'payment_option_id' => $payment_place['payment_option_id'],
+                                'payment_option_id' => $paymentPlace['payment_option_id'],
                             ];
                         }
                     }

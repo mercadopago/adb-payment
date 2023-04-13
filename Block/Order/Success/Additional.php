@@ -66,7 +66,7 @@ class Additional extends Template
     /**
      * @var Repository
      */
-    protected $_assetRepo;
+    protected $assetRepo;
 
     /**
      * @param Context       $context
@@ -90,7 +90,7 @@ class Additional extends Template
         $this->orderConfig = $orderConfig;
         $this->paymentConfig = $paymentConfig;
         $this->httpContext = $httpContext;
-        $this->_assetRepo = $assetRepo;
+        $this->assetRepo = $assetRepo;
 
         $methodCode = $this->getMethodCode();
 
@@ -158,7 +158,7 @@ class Additional extends Template
      */
     public function getLogoMP()
     {
-       return $this->_assetRepo->getUrl('MercadoPago_PaymentMagento::images/core/logo.svg');
+       return $this->assetRepo->getUrl('MercadoPago_PaymentMagento::images/core/logo.svg');
     }
 
     /**

@@ -136,15 +136,15 @@ class TxnIdPaymentMethodsOffHandler implements HandlerInterface
     /**
      * @var ConfigPaymentMethodsOff
      */
-    protected $configPaymentMethodsOff;
+    protected $configMethodsOff;
 
     /**
-     * @param ConfigPaymentMethodsOff $configPaymentMethodsOff
+     * @param ConfigPaymentMethodsOff $configMethodsOff
      */
     public function __construct(
-        ConfigPaymentMethodsOff $configPaymentMethodsOff
+        ConfigPaymentMethodsOff $configMethodsOff
     ) {
-        $this->configPaymentMethodsOff = $configPaymentMethodsOff;
+        $this->configMethodsOff = $configMethodsOff;
     }
 
     /**
@@ -254,7 +254,7 @@ class TxnIdPaymentMethodsOffHandler implements HandlerInterface
     public function setAddtionalInformationMLB($payment, $response) {
         if ($response[self::PAYMENT_METHOD_ID] === self::BOLETO) {
             $barcode = $response[self::BARCODE][self::CONTENT];
-            $lineCode = $this->configPaymentMethodsOff->getLineCode($barcode);
+            $lineCode = $this->configMethodsOff->getLineCode($barcode);
             
             $payment->setAdditionalInformation(
                 self::LINE_CODE,

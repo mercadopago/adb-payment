@@ -30,7 +30,7 @@ class PaymentMethodsOff extends \Magento\Payment\Block\Form
     /**
      * @var ConfigPaymentMethodsOff
      */
-    protected $configPaymentMethodsOff;
+    protected $configMethodsOff;
 
     /**
      * @var Quote
@@ -40,18 +40,18 @@ class PaymentMethodsOff extends \Magento\Payment\Block\Form
     /**
      * @param Context      $context
      * @param Config       $config
-     * @param ConfigPaymentMethodsOff $configPaymentMethodsOff
+     * @param ConfigPaymentMethodsOff $configMethodsOff
      * @param Quote        $sessionQuote
      */
     public function __construct(
         Context $context,
         Config $config,
-        ConfigPaymentMethodsOff $configPaymentMethodsOff,
+        ConfigPaymentMethodsOff $configMethodsOff,
         Quote $sessionQuote
     ) {
         parent::__construct($context);
         $this->config = $config;
-        $this->configPaymentMethodsOff = $configPaymentMethodsOff;
+        $this->configMethodsOff = $configMethodsOff;
         $this->sessionQuote = $sessionQuote;
     }
 
@@ -72,7 +72,7 @@ class PaymentMethodsOff extends \Magento\Payment\Block\Form
     {
         $storeId = $this->getBackendSessionQuote()->getStoreId();
 
-        return $this->configPaymentMethodsOff->getTitle($storeId);
+        return $this->configMethodsOff->getTitle($storeId);
     }
 
     /**
@@ -84,7 +84,7 @@ class PaymentMethodsOff extends \Magento\Payment\Block\Form
     {
         $storeId = $this->getBackendSessionQuote()->getStoreId();
 
-        return $this->configPaymentMethodsOff->getExpirationFormat($storeId);
+        return $this->configMethodsOff->getExpirationFormat($storeId);
     }
 
     /**
