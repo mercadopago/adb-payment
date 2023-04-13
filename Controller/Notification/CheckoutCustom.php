@@ -166,7 +166,12 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund);
 
         if ($isNotApplicable['isInvalid']) {
-            return $isNotApplicable;
+            if (
+                !strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.')
+                && !strcmp($isNotApplicable['msg'], 'Refund notification for order already closed.')
+            ) {
+                return $isNotApplicable;
+            }
         }
 
         $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
