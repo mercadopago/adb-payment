@@ -95,7 +95,7 @@ class RefundRequestTwoCc implements BuilderInterface
 
     $result = [
       self::MERCADOPAGO_PAYMENT_ID => preg_replace('/[^0-9]/', '', $payment->getTransactionId()),
-      self::X_IDEMPOTENCY_KEY      => $payment->getTransactionId(),
+      self::X_IDEMPOTENCY_KEY      => $payment->getTransactionId() . '-' .  uniqid(),
       self::AMOUNT                 => $totalCreditmemo,
     ];
 

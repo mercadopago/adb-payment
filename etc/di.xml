@@ -1143,7 +1143,7 @@
         <arguments>
             <argument name="commandPool" xsi:type="object">MercadoPagoPaymentMethodsOffCommandPool</argument>
             <argument name="requestBuilder" xsi:type="object">MercadoPagoCaptureRequest</argument>
-            <argument name="handler" xsi:type="object">MercadoPagoCaptureResponseHandlerComposite</argument>
+            <argument name="handler" xsi:type="object">MercadoPagoBaseCaptureResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
             <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
@@ -1155,7 +1155,7 @@
         <arguments>
             <argument name="commandPool" xsi:type="object">MercadoPagoBankTransferCommandPool</argument>
             <argument name="requestBuilder" xsi:type="object">MercadoPagoCaptureRequest</argument>
-            <argument name="handler" xsi:type="object">MercadoPagoCaptureResponseHandlerComposite</argument>
+            <argument name="handler" xsi:type="object">MercadoPagoBaseCaptureResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
             <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
@@ -1167,7 +1167,7 @@
         <arguments>
             <argument name="commandPool" xsi:type="object">MercadoPagoCheckoutProCommandPool</argument>
             <argument name="requestBuilder" xsi:type="object">MercadoPagoCaptureRequest</argument>
-            <argument name="handler" xsi:type="object">MercadoPagoCaptureResponseHandlerComposite</argument>
+            <argument name="handler" xsi:type="object">MercadoPagoBaseCaptureResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
             <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
@@ -1187,7 +1187,7 @@
     </virtualType>
 
     <!-- Capture Payment Response handlers -->
-    <virtualType name="MercadoPagoCaptureResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="MercadoPagoBaseCaptureResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
                 <item name="capture" xsi:type="string">MercadoPago\PaymentMagento\Gateway\Response\CapturePaymentHandler</item>
@@ -1239,7 +1239,7 @@
         <arguments>
             <argument name="commandPool" xsi:type="object">MercadoPagoPixCommandPool</argument>
             <argument name="requestBuilder" xsi:type="object">MercadoPagoCaptureRequest</argument>
-            <argument name="handler" xsi:type="object">MercadoPagoCaptureResponseHandlerComposite</argument>
+            <argument name="handler" xsi:type="object">MercadoPagoBaseCaptureResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">MercadoPago\PaymentMagento\Gateway\Http\Client\FetchPaymentClient</argument>
             <argument name="validator" xsi:type="object">MercadoPagoTransactionValidator</argument>
