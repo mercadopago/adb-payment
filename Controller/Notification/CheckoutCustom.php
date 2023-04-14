@@ -66,7 +66,6 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         }
 
         $mpAmountRefund = null;
-        $txnType = 'authorization';
         $response = $this->getRequest()->getContent();
         $mercadopagoData = $this->json->unserialize($response);
         $mpTransactionId = $mercadopagoData['transaction_id'];
@@ -80,16 +79,14 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
 
         if ($mpStatus === 'refunded') {
             $mpAmountRefund = $mercadopagoData['total_refunded'];
-            $txnType = 'capture';
         }
 
-        return $this->initProcess($txnType, $mpTransactionId, $mpStatus, $mpAmountRefund, $notificationId);
+        return $this->initProcess($mpTransactionId, $mpStatus, $mpAmountRefund, $notificationId);
     }
 
     /**
      * Init Process.
      *
-     * @param string $txnType
      * @param string $mpTransactionId
      * @param string $mpStatus
      * @param string $mpAmountRefund
@@ -98,14 +95,12 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
      * @return ResultInterface
      */
     public function initProcess(
-        $txnType,
         $mpTransactionId,
         $mpStatus,
         $mpAmountRefund,
         $notificationId
     ) {
         $searchCriteria = $this->searchCriteria->addFilter('txn_id', $mpTransactionId)
-            ->addFilter('txn_type', $txnType)
             ->create();
 
         try {
@@ -166,7 +161,12 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund);
 
         if ($isNotApplicable['isInvalid']) {
-            return $isNotApplicable;
+            if (
+                !strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.')
+                && !strcmp($isNotApplicable['msg'], 'Refund notification for order already closed.')
+            ) {
+                return $isNotApplicable;
+            }
         }
 
         $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
