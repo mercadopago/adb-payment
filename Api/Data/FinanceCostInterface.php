@@ -34,6 +34,20 @@ interface FinanceCostInterface extends ExtensibleDataInterface
     public const BASE_FINANCE_COST_AMOUNT = 'base_finance_cost_amount';
 
     /**
+     * First card value.
+     *
+     * @var string
+     */
+    public const FIRST_CARD_AMOUNT = 'first_card_amount';
+
+    /**
+     * Second card value.
+     *
+     * @var string
+     */
+    public const SECOND_CARD_AMOUNT = 'second_card_amount';
+
+    /**
      * Get selected installment.
      *
      * @return int

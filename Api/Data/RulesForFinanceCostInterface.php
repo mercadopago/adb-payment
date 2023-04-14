@@ -45,6 +45,21 @@ interface RulesForFinanceCostInterface extends ExtensibleDataInterface
     public const TOTAL_AMOUNT = 'total_amount';
 
     /**
+     * Card Amount.
+     */
+    public const CARD_AMOUNT = 'card_amount';
+
+    /**
+     * Card Index.
+     */
+    public const CARD_INDEX = 'card_index';
+
+    /**
+     * Payment Method.
+     */
+    public const PAYMENT_METHOD = 'payment_method';
+
+    /**
      * Get installments for rule.
      *
      * @return int|null
@@ -123,4 +138,53 @@ interface RulesForFinanceCostInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setTotalAmount($totalAmount);
+
+    /**
+     * Get Card Amount.
+     *
+     * @return float|null
+     */
+    public function getCardAmount();
+
+    /**
+     * Set Card Amount.
+     *
+     * @param bool $cardAmount
+     *
+     * @return $this
+     */
+    public function setCardAmount($cardAmount);
+
+    /**
+     * Get Card Index.
+     *
+     * @return float|null
+     */
+    public function getCardIndex();
+
+    /**
+     * Set Card Index.
+     *
+     * @param bool $cartIndex
+     *
+     * @return $this
+     */
+    public function setCardIndex($cartIndex);
+
+
+    /**
+     * Get Payment Method.
+     *
+     * @return float|null
+     */
+    public function getPaymentMethod();
+
+    /**
+     * Set Payment Method.
+     *
+     * @param bool $paymentMethod
+     *
+     * @return $this
+     */
+    public function setPaymentMethod($paymentMethod);
 }

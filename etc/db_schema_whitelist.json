@@ -13,7 +13,9 @@
     "quote": {
         "column": {
             "finance_cost_amount": true,
-            "base_finance_cost_amount": true
+            "base_finance_cost_amount": true,
+            "first_card_amount": true,
+            "second_card_amount": true
         }
     },
     "quote_address": {

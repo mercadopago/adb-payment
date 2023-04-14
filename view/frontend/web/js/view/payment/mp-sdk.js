@@ -601,7 +601,7 @@ define([
                 });
             }
 
-            setFinanceCost.financeCost(selectInstallment, rulesForFinanceCost);
+            setFinanceCost.financeCost(selectInstallment, rulesForFinanceCost, self.cardIndex(), self.item.method);
         },
 
         iniTranslateErrorsFromSDK() {

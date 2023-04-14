@@ -96,4 +96,52 @@ class RulesForFinanceCost extends AbstractSimpleObject implements
     {
         return $this->setData(RulesForFinanceCostInterface::TOTAL_AMOUNT, $discountRate);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCardAmount()
+    {
+        return $this->_get(RulesForFinanceCostInterface::CARD_AMOUNT);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCardAmount($cardAmount)
+    {
+        return $this->setData(RulesForFinanceCostInterface::CARD_AMOUNT, $cardAmount);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCardIndex()
+    {
+        return $this->_get(RulesForFinanceCostInterface::CARD_INDEX);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCardIndex($cardIndex)
+    {
+        return $this->setData(RulesForFinanceCostInterface::CARD_INDEX, $cardIndex);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPaymentMethod()
+    {
+        return $this->_get(RulesForFinanceCostInterface::PAYMENT_METHOD);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPaymentMethod($paymentMethod)
+    {
+        return $this->setData(RulesForFinanceCostInterface::PAYMENT_METHOD, $paymentMethod);
+    }
 }
