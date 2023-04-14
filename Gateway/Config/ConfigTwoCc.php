@@ -99,7 +99,7 @@ class ConfigTwoCc extends PaymentConfig
         Json $json,
         Config $config,
         Fingerprint $fingerprint,
-        $methodCode = self::METHOD,
+        $methodCode = self::METHOD
     ) {
         parent::__construct($scopeConfig, $methodCode);
         $this->scopeConfig = $scopeConfig;

@@ -34,7 +34,6 @@
                 <neighborhood>2</neighborhood>
                 <allowspecific>1</allowspecific>
                 <receive_refund>1</receive_refund>
-                <specificcountry>BR,AR,UY,MX,CO,CL,PE</specificcountry>
                 <restrict_payment_on_mp_site_id><![CDATA[{"mercadopago_paymentmagento_pix":["MLB"],"mercadopago_paymentmagento_pse":["MCO"],"mercadopago_paymentmagento_webpay":["MLC"]}]]></restrict_payment_on_mp_site_id>
             </mercadopago_paymentmagento>
             <mercadopago_paymentmagento_cc>
@@ -89,7 +88,6 @@
                 <min_order_total>1</min_order_total>
                 <max_order_total>200000</max_order_total>
                 <allowspecific>1</allowspecific>
-                <specificcountry>BR,AR,UY,MX,CO,CL,PE</specificcountry>
                 <active_for_mp_site_id>MLB,MLA,MLU,MLM,MCO,MLC,MPE</active_for_mp_site_id>
                 <sort_order>10</sort_order>
             </mercadopago_paymentmagento_cc>
@@ -144,7 +142,6 @@
                 <min_order_total>1</min_order_total>
                 <max_order_total>200000</max_order_total>
                 <allowspecific>1</allowspecific>
-                <specificcountry>BR,AR,UY,MX,CO,CL,PE</specificcountry>
                 <active_for_mp_site_id>MLB,MLA,MLU,MLM,MCO,MLC,MPE</active_for_mp_site_id>
                 <sort_order>10</sort_order>
             </mercadopago_paymentmagento_twocc>
@@ -196,7 +193,7 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
                 <theme_elements>#7d0fd0</theme_elements>
                 <min_order_total>1</min_order_total>
                 <max_order_total>200000</max_order_total>
-                <allowspecific>0</allowspecific>
+                <allowspecific>1</allowspecific>
                 <mp_site_id>MLB,MLA,MLU,MLM,MCO,MLC,MPE</mp_site_id>
                 <sort_order>12</sort_order>
             </mercadopago_paymentmagento_checkout_pro>
@@ -229,7 +226,7 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
                 <expiration>1</expiration>
                 <get_name></get_name>
                 <get_document_identification>0</get_document_identification>
-                <specificcountry></specificcountry>
+                <allowspecific>1</allowspecific>
                 <sort_order>13</sort_order>
             </mercadopago_paymentmagento_payment_methods_off>
             <mercadopago_paymentmagento_pix>
