@@ -132,9 +132,9 @@ class FinanceCostManagement implements FinanceCostManagementInterface
 
         try {
             if((int)$rules->getCardIndex() === 0){
-                $quoteCart->setData(FinanceCostInterface::FIRST_CARD_VALUE, $grandTotal);
+                $quoteCart->setData(FinanceCostInterface::FIRST_CARD_AMOUNT, $grandTotal);
             } else {
-                $quoteCart->setData(FinanceCostInterface::SECOND_CARD_VALUE, $grandTotal);
+                $quoteCart->setData(FinanceCostInterface::SECOND_CARD_AMOUNT, $grandTotal);
             }
             
             $quoteCart->setData(FinanceCostInterface::FINANCE_COST_AMOUNT, $financeCost);
