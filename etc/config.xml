@@ -332,7 +332,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <group>mercadopago_group</group>
                 <expiration>1</expiration>
-                <instruction_checkout_webpay><![CDATA[lorem.]]></instruction_checkout_webpay>
+                <instruction_checkout_webpay><![CDATA[Complete your order to proceed with payment.]]></instruction_checkout_webpay>
                 <get_document_identification>1</get_document_identification>
                 <min_order_total>50</min_order_total>
                 <max_order_total>3000000</max_order_total>

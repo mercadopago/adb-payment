@@ -62,7 +62,6 @@ define([
          * @returns {Array}
          */
         getSelectFinancialInstitutions() {
-            console.log(window.checkoutConfig.payment[this.getCode()].finance_inst_options);
             return window.checkoutConfig.payment[this.getCode()].finance_inst_options;
         },
 
