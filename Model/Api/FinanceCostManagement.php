@@ -120,21 +120,21 @@ class FinanceCostManagement implements FinanceCostManagementInterface
 
         $quoteTotal = $this->quoteTotalRepository->get($cartId);
 
-        $grandTotal = $rules->getCardAmount(); //$quoteTotal->getBaseGrandTotal();
-        $grandTotal -= $quoteCart->getData(FinanceCostInterface::FINANCE_COST_AMOUNT);
+        $grandTotal = $quoteTotal->getBaseGrandTotal();
+        $cardAmount = $rules->getCardAmount();
         $installment = $userSelect->getSelectedInstallment();
         $totalAmount = round($rules->getTotalAmount(), 2);
-        $financeCost = $totalAmount - $grandTotal;
+        $financeCost = $totalAmount - $cardAmount;
 
-        if ($installment <= 1) {
-            $financeCost = null;
+        if($rules->getCardIndex() !== 0){
+            $financeCost = $totalAmount - $cardAmount + $quoteCart->getData(FinanceCostInterface::FIRST_CARD_AMOUNT);;
         }
 
         try {
-            if((int)$rules->getCardIndex() === 0){
-                $quoteCart->setData(FinanceCostInterface::FIRST_CARD_AMOUNT, $grandTotal);
+            if($rules->getCardIndex() === 0){
+                $quoteCart->setData(FinanceCostInterface::FIRST_CARD_AMOUNT, $financeCost);
             } else {
-                $quoteCart->setData(FinanceCostInterface::SECOND_CARD_AMOUNT, $grandTotal);
+                $quoteCart->setData(FinanceCostInterface::SECOND_CARD_AMOUNT, $financeCost);
             }
             
             $quoteCart->setData(FinanceCostInterface::FINANCE_COST_AMOUNT, $financeCost);

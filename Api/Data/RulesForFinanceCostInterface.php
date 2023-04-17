@@ -149,7 +149,7 @@ interface RulesForFinanceCostInterface extends ExtensibleDataInterface
     /**
      * Set Card Amount.
      *
-     * @param bool $cardAmount
+     * @param float $cardAmount
      *
      * @return $this
      */
@@ -158,14 +158,14 @@ interface RulesForFinanceCostInterface extends ExtensibleDataInterface
     /**
      * Get Card Index.
      *
-     * @return float|null
+     * @return int|null
      */
     public function getCardIndex();
 
     /**
      * Set Card Index.
      *
-     * @param bool $cartIndex
+     * @param int $cartIndex
      *
      * @return $this
      */
@@ -175,14 +175,14 @@ interface RulesForFinanceCostInterface extends ExtensibleDataInterface
     /**
      * Get Payment Method.
      *
-     * @return float|null
+     * @return string|null
      */
     public function getPaymentMethod();
 
     /**
      * Set Payment Method.
      *
-     * @param bool $paymentMethod
+     * @param string $paymentMethod
      *
      * @return $this
      */
