@@ -127,7 +127,7 @@ class FinanceCostManagement implements FinanceCostManagementInterface
         $financeCost = $totalAmount - $cardAmount;
 
         if($rules->getCardIndex() !== 0){
-            $financeCost = $totalAmount - $cardAmount + $quoteCart->getData(FinanceCostInterface::FIRST_CARD_AMOUNT);;
+            $financeCost = $totalAmount - $cardAmount + $quoteCart->getData(FinanceCostInterface::FIRST_CARD_AMOUNT);
         }
 
         try {
