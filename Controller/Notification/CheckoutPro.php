@@ -120,6 +120,9 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
 
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
+            $payment = $order->getPayment();
+            $transactionId = $payment->getLastTransId();
+            $origin = $mercadopagoData['payments_details'][0]['refunds'][$transactionId]['metadata']['origem'];
 
             $process = $this->processNotification(
                 $mpTransactionId,
@@ -127,7 +130,8 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                 $childTransactionId,
                 $order,
                 $mpAmountRefund,
-                $mercadopagoData
+                $mercadopagoData,
+                $origin
             );
             
             if ($mpStatus === 'pending') {
@@ -209,11 +213,12 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $childTransactionId,
         $order,
         $mpAmountRefund = null,
-        $mercadopagoData = null
+        $mercadopagoData = null,
+        $origin = null
     ) {
         $result = [];
 
-        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund);
+        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund, $origin);
 
         if ($isNotApplicable['isInvalid']) {
             if (strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.')) {
@@ -240,6 +245,21 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                     'msg'       => [
                         'error'   => 200,
                         'message' => __('Order already closed in Magento.'),
+                        'state'   => $order->getState(),
+                        'tatus'   => $order->getStatus(),
+                    ],
+                ];
+
+                return $result;
+            } else if (strcmp($isNotApplicable['msg'], 'Notification response for online refund created in magento')) {
+                $this->updateDetails($mercadopagoData, $order);
+
+                $result = [
+                    'isInvalid' => true,
+                    'code'      => 200,
+                    'msg'       => [
+                        'error'   => 200,
+                        'message' => __('Notification response for online refund.'),
                         'state'   => $order->getState(),
                         'tatus'   => $order->getStatus(),
                     ],

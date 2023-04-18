@@ -214,7 +214,8 @@ abstract class MpIndex extends Action
     public function filterInvalidNotification(
         $mpStatus,
         $order,
-        $mpAmountRefound = null
+        $mpAmountRefound = null,
+        $origin = null
     ) {
         $result = [];
 
@@ -229,6 +230,14 @@ abstract class MpIndex extends Action
         }
 
         if ($mpStatus === 'refunded') {
+            if (isset($origin) && $origin === 'magento') {
+                $result = [
+                    'isInvalid' => true,
+                    'code'      => 200,
+                    'msg'       => 'Notification response for online refund created in magento',
+                ];
+                return $result;
+            }
             if ($order->getState() !== \Magento\Sales\Model\Order::STATE_CLOSED) {
                 $storeId = $order->getStoreId();
                 $applyRefund = $this->config->isApplyRefund($storeId);

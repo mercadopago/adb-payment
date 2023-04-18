@@ -54,6 +54,11 @@ class RefundClient implements ClientInterface
     public const X_IDEMPOTENCY_KEY = 'x-idempotency-key';
 
     /**
+     * Notification Origin - Magento
+     */
+    public const NOTIFICATION_ORIGIN = 'magento';
+
+    /**
      * @var Logger
      */
     protected $logger;
@@ -107,7 +112,6 @@ class RefundClient implements ClientInterface
         $url = $this->config->getApiUrl();
         $clientConfigs = $this->config->getClientConfigs();
         $clientHeaders = $this->config->getClientHeaders($storeId);
-
         $clientConfigs = array_merge_recursive($clientConfigs, [
             self::X_IDEMPOTENCY_KEY => $request[self::X_IDEMPOTENCY_KEY],
         ]);
@@ -116,15 +120,15 @@ class RefundClient implements ClientInterface
         unset($request['payment_id']);
         unset($request[self::STORE_ID]);
         unset($request[self::X_IDEMPOTENCY_KEY]);
+        $metadata = ['origem' => self::NOTIFICATION_ORIGIN];
 
         try {
             $client->setUri($url.'/v1/payments/'.$paymentId.'/refunds');
             $client->setConfig($clientConfigs);
             $client->setHeaders($clientHeaders);
 
-            if (isset($request['amount'])) {
-                $client->setRawData($this->json->serialize($request), 'application/json');
-            }
+            $request = (object) array_merge( (array)$request, array( 'metadata' => $metadata ) );
+            $client->setRawData($this->json->serialize($request), 'application/json');
 
             $client->setMethod(ZendClient::POST);
 

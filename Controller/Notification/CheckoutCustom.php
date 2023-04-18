@@ -71,17 +71,19 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         $mpTransactionId = $mercadopagoData['transaction_id'];
         $mpStatus = $mercadopagoData['status'];
         $notificationId = $mercadopagoData['notification_id'];
+        $paymentsDetails = $mercadopagoData['payments_details'];
+
+        if ($mpStatus === 'refunded') {
+            $mpAmountRefund = $mercadopagoData['total_refunded'];
+        }
 
         $this->logger->debug([
             'action'    => 'checkout_custom',
             'payload'   => $mercadopagoData,
         ]);
 
-        if ($mpStatus === 'refunded') {
-            $mpAmountRefund = $mercadopagoData['total_refunded'];
-        }
 
-        return $this->initProcess($mpTransactionId, $mpStatus, $mpAmountRefund, $notificationId);
+        return $this->initProcess($mpTransactionId, $mpStatus, $mpAmountRefund, $notificationId, $paymentsDetails);
     }
 
     /**
@@ -98,7 +100,8 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         $mpTransactionId,
         $mpStatus,
         $mpAmountRefund,
-        $notificationId
+        $notificationId,
+        $paymentsDetails
     ) {
         $searchCriteria = $this->searchCriteria->addFilter('txn_id', $mpTransactionId)
             ->create();
@@ -123,7 +126,16 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
 
-            $process = $this->processNotification($mpStatus, $order, $notificationId, $mpAmountRefund);
+            $origin = '';
+            if ($mpStatus === 'refunded') {
+                $payment = $order->getPayment();
+                $transacId = $payment->getLastTransId();
+                if (isset($paymentsDetails['0']['refunds'][$transacId])){
+                    $origin = $paymentsDetails['0']['refunds'][$transacId]['metadata']['origem'];
+                }
+            }
+
+            $process = $this->processNotification($mpStatus, $order, $notificationId, $mpAmountRefund, $origin);
 
             /** @var ResultInterface $result */
             $result = $this->createResult(
@@ -154,21 +166,22 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         $mpStatus,
         $order,
         $notificationId,
-        $mpAmountRefund = null
+        $mpAmountRefund = null,
+        $origin = null
     ) {
         $result = [];
 
-        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund);
+        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund, $origin);
 
         if ($isNotApplicable['isInvalid']) {
             if (
                 !strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.')
                 && !strcmp($isNotApplicable['msg'], 'Refund notification for order already closed.')
+                && !strcmp($isNotApplicable['msg'], 'Notification response for online refund created in magento')
             ) {
                 return $isNotApplicable;
             }
         }
-
         $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
 
         $result = [
