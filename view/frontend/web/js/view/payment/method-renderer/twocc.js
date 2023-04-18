@@ -327,5 +327,10 @@ define([
 
             return 'second-card-opened-form';
         },
+
+        resetFirstCard() {
+            this.editFirstCard();
+            document.querySelector('#mercadopago_paymentmagento_twocc_installments').select.value = 1;
+        },
     });
 });
