@@ -145,6 +145,7 @@ define([
                         self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
                     })
                     .on('binChange', (event) => {
+                        this.mpSelectedCardType('');
                         if (event.bin) {
                             if (event.bin.length === 8) {
                                 self.mpCardBin(event.bin);

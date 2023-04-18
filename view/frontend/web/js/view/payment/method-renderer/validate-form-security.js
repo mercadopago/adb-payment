@@ -91,7 +91,16 @@ define([
          * @return {void}
          */
         clearSecureFieldsErrors(){
-            const secureFields = $('#form-secure-fields div.field-error').remove()  
+            return $('#form-secure-fields div.field-error').remove()  
+        },
+
+
+        /**
+         * Clear All Fields
+         * @return {void}
+         */
+        clearFormContent(){
+            document.getElementById('mercadopago_paymentmagento_twocc_document_identification').value = "";   
         },
     };
 });

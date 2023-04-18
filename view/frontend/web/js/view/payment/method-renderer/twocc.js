@@ -13,6 +13,7 @@ define([
     'MercadoPago_PaymentMagento/js/view/payment/mp-sdk',
     'Magento_Catalog/js/price-utils',
     'Magento_Checkout/js/model/payment/additional-validators',
+    'MercadoPago_PaymentMagento/js/view/payment/method-renderer/validate-form-security',
 ], function (
     _,
     $,
@@ -21,6 +22,7 @@ define([
     Component,
     priceUtils,
     additionalValidators,
+    vfs
  ) {
     'use strict';
     return Component.extend({
@@ -271,6 +273,8 @@ define([
             
             this.cardIndex(1);
             this.installmentsAmount(this.amount() - this.installmentsAmount());
+            this.mpSelectedCardType('');
+            vfs.clearFormContent();
             this.resetCardForm();
             this.initForm();
         },
