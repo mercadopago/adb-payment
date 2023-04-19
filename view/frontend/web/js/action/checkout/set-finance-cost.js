@@ -55,7 +55,7 @@
                         total_amount: 0,
                         card_amount: 0,
                         card_index: 0,
-                        payment_method: ''
+                        payment_method: paymentMethod
                     };
 
                 if (totals && totals.getSegment('finance_cost_amount')) {

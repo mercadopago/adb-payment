@@ -111,6 +111,11 @@ class FinanceCostManagement implements FinanceCostManagementInterface
         FinanceCostInterface $userSelect,
         RulesForFinanceCostInterface $rules
     ) {
+
+        if(!$userSelect->getSelectedInstallment()){
+            return;
+        }
+        
         $calculate = [];
         $quoteCart = $this->quoteCartRepository->getActive($cartId);
 

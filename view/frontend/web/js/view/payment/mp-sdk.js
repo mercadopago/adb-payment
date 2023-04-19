@@ -93,6 +93,8 @@ define([
             });
 
             self.iniTranslateErrorsFromSDK();
+
+            quote.paymentMethod.subscribe(function(method){self.resetCardAmount(method)}, null, 'change');
         },
 
         /**
@@ -117,8 +119,10 @@ define([
             window.mpCardForm = {};
             this.fields = {};
             this.installmentWasCalculated(false);
+            this.mpSelectedCardType('');
+            this.mpCardBin(''); 
             this.mpCardHolderName('');
-            this.mpPayerType('');
+            this.mpCardInstallment(null);
         },
 
         /**
@@ -656,5 +660,13 @@ define([
             });
         },
 
+        resetCardAmount(id) {
+            console.log('clicouuuu resetCardAmount');
+            console.log(id);
+          
+            this.installmentSelected = null;
+            this.mpCardInstallment(null);
+            this.addFinanceCost();
+        },
     });
 });

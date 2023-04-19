@@ -329,10 +329,12 @@ define([
         },
 
         resetFirstCard(id) {
-            console.log('clicouuuu');
+            console.log('clicouuuu editFirstCard');
             console.log(id);
+          
             this.editFirstCard();
-            this.installmentWasCalculated(false);
+            this.mpPayerDocument('');
+            this.mpPayerType('');
         },
     });
 });
