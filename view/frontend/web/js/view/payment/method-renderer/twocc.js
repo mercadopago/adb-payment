@@ -256,6 +256,8 @@ define([
 
             this.installmentsAmount(this.generatedCards[0].amount);
             this.cardIndex(0);
+            this.mpSelectedCardType('');
+            this.mpCardListInstallments('')
             validateFormSecurity.clearFormContent();
             this.resetCardForm();
             this.initForm();
@@ -275,6 +277,7 @@ define([
             this.cardIndex(1);
             this.installmentsAmount(this.amount() - this.installmentsAmount());
             this.mpSelectedCardType('');
+            this.mpCardListInstallments('');
             this.installmentWasCalculated(false),
             validateFormSecurity.clearFormContent();
             this.resetCardForm();

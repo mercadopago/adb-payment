@@ -80,8 +80,7 @@ define([
          * Init component
          */
         initialize: function () {
-
-            console.log('initialize')
+            
             let self = this;
 
             this._super();
