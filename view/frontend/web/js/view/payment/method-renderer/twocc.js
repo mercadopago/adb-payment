@@ -73,7 +73,7 @@ define([
          */
         initialize() {
             let self = this;
-
+            quote.paymentMethod.subscribe(function(method){self.resetFirstCard(method)}, null, 'change');
             this._super();
 
             if (quote.billingAddress()) {
@@ -328,9 +328,11 @@ define([
             return 'second-card-opened-form';
         },
 
-        resetFirstCard() {
+        resetFirstCard(id) {
+            console.log('clicouuuu');
+            console.log(id);
             this.editFirstCard();
-            document.querySelector('#mercadopago_paymentmagento_twocc_installments').select.value = 1;
+            this.installmentWasCalculated(false);
         },
     });
 });

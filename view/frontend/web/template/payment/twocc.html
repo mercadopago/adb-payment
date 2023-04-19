@@ -9,7 +9,6 @@
     data-bind="attr: {id: 'payment_form_' + getCode()}">
     <div class="payment-method-title field choice">
         <input type="radio" name="payment[method]" class="radio" attr="id: getCode()" 
-            data-bind="event: { change: resetFirstCard }"
             ko-value="getCode()"
             ko-checked="isChecked" click="selectPaymentMethod" visible="isRadioButtonVisible()"></input>
         <label attr="for: getCode()" class="label">
