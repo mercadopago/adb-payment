@@ -100,7 +100,7 @@ define([
          * @return {void}
          */
         clearFormContent(){
-            document.getElementById('mercadopago_paymentmagento_twocc_document_identification').value = "";   
+            document.getElementById('mercadopago_paymentmagento_twocc_document_identification').value = "";
         },
     };
 });

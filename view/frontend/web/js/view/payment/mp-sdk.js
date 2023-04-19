@@ -80,6 +80,8 @@ define([
          * Init component
          */
         initialize: function () {
+
+            console.log('initialize')
             let self = this;
 
             this._super();
@@ -143,9 +145,11 @@ define([
                     .mount(fieldCcNumber)
                     .on('error', () => {
                         self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
+                        this.installmentWasCalculated(false);
                     })
                     .on('binChange', (event) => {
                         this.mpSelectedCardType('');
+                        this.installmentWasCalculated(false);
                         if (event.bin) {
                             if (event.bin.length === 8) {
                                 self.mpCardBin(event.bin);
