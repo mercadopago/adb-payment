@@ -79,7 +79,12 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
 
         $this->logger->debug([
             'action'    => 'checkout_custom',
-            'payload'   => $mercadopagoData,
+            'payload'   => $response,
+            'mpstatus'  => $mpStatus,
+            'transac'   => $mpTransactionId,
+            'notif'     => $notificationId,
+            'refund'    => $mpAmountRefund,
+            'details'    => $this->json->serialize($paymentsDetails)
         ]);
 
 
@@ -182,7 +187,7 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
                 return $isNotApplicable;
             }
         }
-        $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
+        $order = $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
 
         $result = [
             'code'  => 200,

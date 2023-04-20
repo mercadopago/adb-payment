@@ -85,6 +85,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
             && $status !== 'refunded'
             && $status !== 'pending'
             && $status !== 'cancelled'
+            && $status !== 'complete'
         ) {
             /** @var ResultInterface $result */
             $result = $this->createResult(200, ['empty' => null]);
@@ -119,11 +120,15 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         }
 
         foreach ($transactions as $transaction) {
+            $origin = '';
             $order = $this->getOrderData($transaction->getOrderId());
             $payment = $order->getPayment();
             $transactionId = $payment->getLastTransId();
-            $origin = $mercadopagoData['payments_details'][0]['refunds'][$transactionId]['metadata']['origem'];
-
+            if (
+                isset($paymentsDetails['0']['refunds'][$transactionId]['metadata']['origem'])
+            ){
+                $origin = $paymentsDetails['0']['refunds'][$transactionId]['metadata']['origem'];
+            }
             $process = $this->processNotification(
                 $mpTransactionId,
                 $status,
@@ -275,7 +280,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
 
         $notificationId = $mercadopagoData['notification_id'];
 
-        $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
+        $order = $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
        
         $result = [
             'code'  => 200,
