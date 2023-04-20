@@ -73,7 +73,7 @@ define([
          */
         initialize() {
             let self = this;
-            quote.paymentMethod.subscribe(function(method){self.resetFirstCard(method)}, null, 'change');
+            quote.paymentMethod.subscribe(function(method){self.resetFirstCard()}, null, 'change');
             this._super();
 
             if (quote.billingAddress()) {
@@ -328,10 +328,7 @@ define([
             return 'second-card-opened-form';
         },
 
-        resetFirstCard(id) {
-            console.log('clicouuuu editFirstCard');
-            console.log(id);
-          
+        resetFirstCard() {
             this.editFirstCard();
             this.mpPayerDocument('');
             this.mpPayerType('');

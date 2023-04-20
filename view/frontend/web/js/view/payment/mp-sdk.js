@@ -94,7 +94,7 @@ define([
 
             self.iniTranslateErrorsFromSDK();
 
-            quote.paymentMethod.subscribe(function(method){self.resetCardAmount(method)}, null, 'change');
+            quote.paymentMethod.subscribe(function(method){self.resetCardAmount()}, null, 'change');
         },
 
         /**
@@ -660,10 +660,7 @@ define([
             });
         },
 
-        resetCardAmount(id) {
-            console.log('clicouuuu resetCardAmount');
-            console.log(id);
-          
+        resetCardAmount() {
             this.installmentSelected = null;
             this.mpCardInstallment(null);
             this.addFinanceCost();
