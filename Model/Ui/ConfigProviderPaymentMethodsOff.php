@@ -187,7 +187,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
                     $options[] = [
                         'value' => $payment['id'],
                         'label' => $payment['name'],
-                        'logo' => $payment['thumbnail'],
+                        'logo' => $payment['secure_thumbnail'],
                         'payment_method_id' => $payment['id'],
                         'payment_type_id' => $payment['payment_type_id'],
 
@@ -198,7 +198,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
                             $options[] = [
                                 'value' => $paymentPlace['payment_option_id'],
                                 'label' => $paymentPlace['name'],
-                                'logo' => $paymentPlace['thumbnail'],
+                                'logo' => $paymentPlace['secure_thumbnail'],
                                 'payment_method_id' => $payment['id'],
                                 'payment_type_id' => $payment['payment_type_id'],
                                 'payment_option_id' => $paymentPlace['payment_option_id'],
