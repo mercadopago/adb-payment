@@ -107,7 +107,7 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         $clientHeaders = $this->config->getClientHeaders($storeId);
 
         try {
-            $client->setUri($url.'/v1/asgard/payments');
+            $client->setUri($url.'/v2/asgard/payments');
             $client->setConfig($clientConfigs);
             $client->setHeaders($clientHeaders);
             $client->setRawData($serializeResquest, 'application/json');
@@ -135,7 +135,7 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         unset($clientHeaders['Authorization']);
         $this->logger->debug(
             [
-                'url'      => $url.'/v1/asgard/payments',
+                'url'      => $url.'/v2/asgard/payments',
                 'header'   => $this->json->serialize($clientHeaders),
                 'request'  => $serializeResquest,
                 'response' => $this->json->serialize($responseBody),

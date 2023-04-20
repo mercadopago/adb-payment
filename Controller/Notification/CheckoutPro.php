@@ -120,18 +120,6 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
 
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
-            
-            if ($mpStatus === 'pending') {
-                $this->updateDetails($mercadopagoData, $order);
-
-                /** @var ResultInterface $result */
-                $result = $this->createResult(
-                    200,
-                    'Update Details.',
-                );
-
-                return $result;
-            }
 
             $process = $this->processNotification(
                 $mpTransactionId,
@@ -141,6 +129,10 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                 $mpAmountRefund,
                 $mercadopagoData
             );
+            
+            if ($mpStatus === 'pending') {
+                $this->updateDetails($mercadopagoData, $order);
+            }
 
             /** @var ResultInterface $result */
             $result = $this->createResult(
