@@ -91,7 +91,7 @@ define([
          * @return {void}
          */
         clearSecureFieldsErrors(){
-            const secureFields = $('#form-secure-fields div.field-error').remove()  
+            return $('#form-secure-fields div.field-error').remove()  
         },
     };
 });
