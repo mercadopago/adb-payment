@@ -15,7 +15,6 @@ use Magento\Framework\View\Element\Template\Context;
 use MercadoPago\PaymentMagento\Gateway\Config\Config as PaymentConfig;
 use Magento\Sales\Model\Order\Config as OrderConfig;
 use Magento\Sales\Model\Order;
-use Magento\Framework\View\Asset\Repository;
 
 /**
  * Success page additional information.
@@ -64,11 +63,6 @@ class Additional extends Template
     protected $httpContext;
 
     /**
-     * @var Repository
-     */
-    protected $assetRepo;
-
-    /**
      * @param Context       $context
      * @param Session       $checkoutSession
      * @param OrderConfig   $orderConfig
@@ -82,7 +76,6 @@ class Additional extends Template
         OrderConfig $orderConfig,
         PaymentConfig $paymentConfig,
         HttpContext $httpContext,
-        Repository $assetRepo,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -90,7 +83,6 @@ class Additional extends Template
         $this->orderConfig = $orderConfig;
         $this->paymentConfig = $paymentConfig;
         $this->httpContext = $httpContext;
-        $this->assetRepo = $assetRepo;
 
         $methodCode = $this->getMethodCode();
 
@@ -149,16 +141,6 @@ class Additional extends Template
     public function getInfo(string $info)
     {
         return $this->getPayment()->getInfoInstance()->getAdditionalInformation($info);
-    }
-
-    /**
-     * Get Logo Mercado Pago.
-     *     *
-     * @return string
-     */
-    public function getLogoMP()
-    {
-       return $this->assetRepo->getUrl('MercadoPago_PaymentMagento::images/core/logo.svg');
     }
 
     /**
