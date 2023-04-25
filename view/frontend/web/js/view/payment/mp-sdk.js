@@ -80,6 +80,7 @@ define([
          * Init component
          */
         initialize: function () {
+            
             let self = this;
 
             this._super();
@@ -93,6 +94,8 @@ define([
             });
 
             self.iniTranslateErrorsFromSDK();
+
+            quote.paymentMethod.subscribe(function(method){self.resetCardAmount()}, null, 'change');
         },
 
         /**
@@ -117,8 +120,10 @@ define([
             window.mpCardForm = {};
             this.fields = {};
             this.installmentWasCalculated(false);
+            this.mpSelectedCardType('');
+            this.mpCardBin(''); 
             this.mpCardHolderName('');
-            this.mpPayerType('');
+            this.mpCardInstallment(null);
         },
 
         /**
@@ -143,8 +148,11 @@ define([
                     .mount(fieldCcNumber)
                     .on('error', () => {
                         self.mountCardForm({fieldCcNumber, fieldSecurityCode, fieldExpMonth, fieldExpYear});
+                        this.installmentWasCalculated(false);
                     })
                     .on('binChange', (event) => {
+                        this.mpSelectedCardType('');
+                        this.installmentWasCalculated(false);
                         if (event.bin) {
                             if (event.bin.length === 8) {
                                 self.mpCardBin(event.bin);
@@ -656,5 +664,10 @@ define([
             });
         },
 
+        resetCardAmount() {
+            this.installmentSelected = null;
+            this.mpCardInstallment(null);
+            this.addFinanceCost();
+        },
     });
 });

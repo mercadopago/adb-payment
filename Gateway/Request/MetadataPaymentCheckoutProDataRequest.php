@@ -2,7 +2,6 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
  * @license     See LICENSE for license details.
  */
 
@@ -11,6 +10,7 @@ namespace MercadoPago\PaymentMagento\Gateway\Request;
 use InvalidArgumentException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
+use MercadoPago\PaymentMagento\Gateway\Config\ConfigCheckoutPro;
 
 /**
  * Gateway requests for Payment Metadata by Checkout Pro.
@@ -28,6 +28,20 @@ class MetadataPaymentCheckoutProDataRequest implements BuilderInterface
     public const CHECKOUT_TYPE = 'checkout_type';
 
     /**
+     * @var ConfigCheckoutPro
+     */
+    protected $config;
+
+    /**
+     * @param ConfigCheckoutPro $config
+     */
+    public function __construct(
+        ConfigCheckoutPro $config
+    ) {
+        $this->config = $config;
+    }
+
+    /**
      * Build.
      *
      * @param array $buildSubject
@@ -43,7 +57,7 @@ class MetadataPaymentCheckoutProDataRequest implements BuilderInterface
 
         $result[MetadataPaymentDataRequest::METADATA] = [
             self::CHECKOUT      => 'pro',
-            self::CHECKOUT_TYPE => 'redirect',
+            self::CHECKOUT_TYPE => $this->config->getTypeRedirect(),
         ];
 
         return $result;
