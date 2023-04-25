@@ -1262,6 +1262,7 @@ Expiration,Expiração
 "Complete your order to proceed with payment.","Finalize seu pedido para seguir com o pagamento."
 "approved","Aprovado"
 "accredited","Acreditado"
+<<<<<<< HEAD
 "rejected","Rejeitado"
 "pending","Pendente"
 "partially_refunded","Reembolso Parcial"
@@ -1293,3 +1294,6 @@ Expiration,Expiração
 "pending_waiting_for_remedy","Pendente aguardando solução"
 "unavailable","Indisponível"
 "pending_waiting_transfer"."Peendente aguardando transferencia"
+=======
+"Credit or Debit Card","Cartão de Crédito ou Débito"
+>>>>>>> 5762563642e8d5a3c712209b1f3ec387eb1484e8
