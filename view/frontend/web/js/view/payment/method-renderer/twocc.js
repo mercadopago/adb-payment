@@ -258,7 +258,6 @@ define([
             this.cardIndex(0);
             this.mpSelectedCardType('');
             this.mpCardListInstallments('')
-            validateFormSecurity.clearFormContent();
             this.resetCardForm();
             this.initForm();
         },
@@ -279,7 +278,6 @@ define([
             this.mpSelectedCardType('');
             this.mpCardListInstallments('');
             this.installmentWasCalculated(false),
-            validateFormSecurity.clearFormContent();
             this.resetCardForm();
             this.initForm();
         },
