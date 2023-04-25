@@ -343,6 +343,9 @@ abstract class MpIndex extends Action
             $invoice = $this->invoice->loadByIncrementId($invoice->getIncrementId());
             $creditMemo = $this->creditMemoFactory->createByOrder($order);
 
+            if ($mpAmountRefound < $creditMemo->getBaseGrandTotal()) {
+                $creditMemo->setItems([]);
+            }
             $creditMemo->setState(1);
             $creditMemo->setBaseGrandTotal($mpAmountRefound);
             $creditMemo->setGrandTotal($mpAmountRefound);

@@ -100,6 +100,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $mpStatus = $mercadopagoData['status'];
         $mpTransactionId = $mercadopagoData['preference_id'];
         $childTransactionId = $mercadopagoData['payments_details'][0]['id'];
+        $paymentsDetails = $mercadopagoData['payments_details'];
 
         $searchCriteria = $this->searchCriteria
             ->addFilter('txn_id', $mpTransactionId)
