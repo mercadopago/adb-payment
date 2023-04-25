@@ -1249,7 +1249,6 @@ site_disabled.,site_disabled.
 "Complete your order to proceed with payment.","Complete your order to proceed with payment."
 "approved","Approved"
 "accredited","Accredited"
-<<<<<<< HEAD
 "rejected","Rejected"
 "pending","Pending"
 "partially_refunded","Partially Refunded"
@@ -1281,6 +1280,4 @@ site_disabled.,site_disabled.
 "pending_waiting_for_remedy","Pending awaiting solution"
 "unavailable","Unavailable"
 "pending_waiting_transfer"."Pending awaiting transfer"
-=======
 "Credit or Debit Card","Credit or Debit Card"
->>>>>>> 5762563642e8d5a3c712209b1f3ec387eb1484e8

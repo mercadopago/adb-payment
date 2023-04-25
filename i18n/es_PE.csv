@@ -1236,7 +1236,6 @@ site_disabled.,site_disabled.
 "Complete your order to proceed with payment.","Finaliza tu pedido para proceder con el pago."
 "approved","Aprobado"
 "accredited","Autorizado"
-<<<<<<< HEAD
 "rejected","Rechazado"
 "pending","Pendiente"
 "partially_refunded","Reembolso Parcial"
@@ -1268,6 +1267,4 @@ site_disabled.,site_disabled.
 "pending_waiting_for_remedy","Pendiente en espera de solución"
 "unavailable","Indisponible"
 "pending_waiting_transfer"."Pendiente aguardando transferencia"
-=======
 "Credit or Debit Card","Tarjeta de Crédito o Débito"
->>>>>>> 5762563642e8d5a3c712209b1f3ec387eb1484e8
