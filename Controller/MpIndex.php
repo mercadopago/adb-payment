@@ -265,6 +265,15 @@ abstract class MpIndex extends Action
             }
 
             if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {{
+                $header = __('Mercado Pago, refund notification');
+
+                $description = __(
+                    'Invalid notification. The order %1 has already been closed.',
+                    $order->getIncrementId()
+                );
+
+                $this->notifierPool->addCritical($header, $description);
+
                 $result = [
                 'isInvalid' => true,
                 'code'      => 200,
