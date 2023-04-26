@@ -93,7 +93,7 @@ $statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_sta
                         <?= $block->escapeHtml(__('Status (Mercado Pago)')); ?>
                     </th>
                     <td>
-                        <?= $block->escapeHtml($status) ?>
+                        <?= $block->escapeHtml(__($status)) ?>
                     </td>
                 </tr>
             <?php endif; ?>
@@ -103,7 +103,7 @@ $statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_sta
                         <?= $block->escapeHtml(__('Status Detail (Mercado Pago)')); ?>
                     </th>
                     <td>
-                        <?= $block->escapeHtml($statusDetail) ?>
+                        <?= $block->escapeHtml(__($statusDetail)) ?>
                     </td>
                 </tr>
             <?php endif; ?>
