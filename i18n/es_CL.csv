@@ -1263,7 +1263,7 @@ site_disabled.,site_disabled.
 "pending_review_manual","Pendiente de revisión manual"
 "pending_capture","Captura pendiente"
 "reimbursed","Reintegrado"
-"pending_waiting_payment","Aguaradndo pago pendiente"
+"pending_waiting_payment","Aguardando pago pendiente"
 "pending_waiting_for_remedy","Pendiente en espera de solución"
 "unavailable","Indisponible"
 "pending_waiting_transfer"."Pendiente aguardando transferencia"
