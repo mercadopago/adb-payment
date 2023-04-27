@@ -48,7 +48,7 @@ class FetchStatus extends AbstractModel
      * @param int $orderId
      * @param string $notificationId
      *
-     * @return void
+     * @return Order $order
      */
     public function fetch($orderId, $notificationId)
     {
@@ -68,11 +68,19 @@ class FetchStatus extends AbstractModel
         } catch (Exception $exc) {
             $this->writeln('<error>'.$exc->getMessage().'</error>');
         }
-
-        if ($order->getState() === Order::STATE_PAYMENT_REVIEW && $order->getStatus() !== Order::STATE_CLOSED) {
-            $order = $payment->getOrder();
-            $order->setState(Order::STATE_NEW);
-            $order->setStatus('pending');
+        if ($order->getState() === Order::STATE_PAYMENT_REVIEW) {
+            if(
+                $order->getStatus() === Order::STATE_CLOSED
+                || $order->getStatus() === Order::STATE_PROCESSING
+                || $order->getStatus() === Order::STATE_COMPLETE
+            ) {
+                $order = $payment->getOrder();
+                $order->setState($order->getStatus());
+            } else {
+                $order = $payment->getOrder();
+                $order->setState(Order::STATE_NEW);
+                $order->setStatus('pending');
+            }
         }
 
         $this->writeln(
@@ -89,5 +97,7 @@ class FetchStatus extends AbstractModel
         $order->save();
 
         $this->writeln(__('Finished'));
+
+        return $order;
     }
 }

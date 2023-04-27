@@ -214,7 +214,8 @@ abstract class MpIndex extends Action
     public function filterInvalidNotification(
         $mpStatus,
         $order,
-        $mpAmountRefound = null
+        $mpAmountRefound = null,
+        $origin = null
     ) {
         $result = [];
 
@@ -229,6 +230,14 @@ abstract class MpIndex extends Action
         }
 
         if ($mpStatus === 'refunded') {
+            if (isset($origin) && $origin === 'magento') {
+                $result = [
+                    'isInvalid' => true,
+                    'code'      => 200,
+                    'msg'       => 'Notification response for online refund created in magento',
+                ];
+                return $result;
+            }
             if ($order->getState() !== \Magento\Sales\Model\Order::STATE_CLOSED) {
                 $storeId = $order->getStoreId();
                 $applyRefund = $this->config->isApplyRefund($storeId);
@@ -256,6 +265,15 @@ abstract class MpIndex extends Action
             }
 
             if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {{
+                $header = __('Mercado Pago, refund notification');
+
+                $description = __(
+                    'Invalid notification. The order %1 has already been closed.',
+                    $order->getIncrementId()
+                );
+
+                $this->notifierPool->addCritical($header, $description);
+
                 $result = [
                 'isInvalid' => true,
                 'code'      => 200,
@@ -334,6 +352,9 @@ abstract class MpIndex extends Action
             $invoice = $this->invoice->loadByIncrementId($invoice->getIncrementId());
             $creditMemo = $this->creditMemoFactory->createByOrder($order);
 
+            if ($mpAmountRefound < $creditMemo->getBaseGrandTotal()) {
+                $creditMemo->setItems([]);
+            }
             $creditMemo->setState(1);
             $creditMemo->setBaseGrandTotal($mpAmountRefound);
             $creditMemo->setGrandTotal($mpAmountRefound);
