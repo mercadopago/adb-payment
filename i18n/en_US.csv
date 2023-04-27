@@ -1281,3 +1281,7 @@ site_disabled.,site_disabled.
 "unavailable","Unavailable"
 "pending_waiting_transfer"."Pending awaiting transfer"
 "Credit or Debit Card","Credit or Debit Card"
+"Email Address","Email Address"
+"We'll email you an order confirmation with details and tracking info.","We'll email you an order confirmation with details and tracking info."
+"Your order number is: %1.","Your order number is: %1!"
+"Your order # is: <span>%1</span>.","Your order # is: <span>%1</span>!"
