@@ -164,6 +164,8 @@ define([
          * @returns {void}
          */
         async beforePlaceOrder() {
+            const self = this;
+
             if (!$(this.formElement).valid()) {
                 return;
             }
@@ -175,7 +177,14 @@ define([
             }
 
             if (this.cardIndex() > 0) {
+
+                this.getPlaceOrderDeferredObject()
+                    .fail(function() {
+                        self.resetFirstCard();
+                    });
+
                 this.placeOrder();
+
                 return;
             }
 
