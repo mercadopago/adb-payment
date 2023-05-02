@@ -13,6 +13,7 @@ use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\HTTP\ZendClient;
 use MercadoPago\PaymentMagento\Controller\MpIndex;
 
 /**
@@ -86,7 +87,6 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
             'refund'    => $mpAmountRefund,
             'details'    => $this->json->serialize($paymentsDetails)
         ]);
-
 
         return $this->initProcess($mpTransactionId, $mpStatus, $mpAmountRefund, $notificationId, $paymentsDetails);
     }
@@ -180,9 +180,9 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
 
         if ($isNotApplicable['isInvalid']) {
             if (
-                !strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.')
-                && !strcmp($isNotApplicable['msg'], 'Refund notification for order already closed.')
-                && !strcmp($isNotApplicable['msg'], 'Notification response for online refund created in magento')
+                strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.') !== 0
+                && strcmp($isNotApplicable['msg'], 'Refund notification for order already closed.') !== 0
+                && strcmp($isNotApplicable['msg'], 'Notification response for online refund created in magento') !== 0
             ) {
                 return $isNotApplicable;
             }

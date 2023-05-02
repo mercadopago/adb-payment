@@ -14,6 +14,7 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Notification\NotifierInterface as NotifierPool;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Result\PageFactory;
@@ -107,6 +108,11 @@ abstract class MpIndex extends Action
     protected $addChildPayment;
 
     /**
+     * @var ZendClientFactory
+     */
+    protected $httpClientFactory;
+
+    /**
      * @param Config                         $config
      * @param Context                        $context
      * @param Json                           $json
@@ -122,6 +128,7 @@ abstract class MpIndex extends Action
      * @param CreditmemoService              $creditMemoService
      * @param Invoice                        $invoice
      * @param CheckoutProAddChildPayment     $addChildPayment
+     * @param ZendClientFactory              $httpClientFactory
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -140,7 +147,8 @@ abstract class MpIndex extends Action
         CreditmemoFactory $creditMemoFactory,
         CreditmemoService $creditMemoService,
         Invoice $invoice,
-        CheckoutProAddChildPayment $addChildPayment
+        CheckoutProAddChildPayment $addChildPayment,
+        ZendClientFactory $httpClientFactory,
     ) {
         parent::__construct($context);
         $this->config = $config;
@@ -157,6 +165,7 @@ abstract class MpIndex extends Action
         $this->creditMemoService = $creditMemoService;
         $this->invoice = $invoice;
         $this->addChildPayment = $addChildPayment;
+        $this->httpClientFactory = $httpClientFactory;
     }
 
     /**
@@ -243,22 +252,21 @@ abstract class MpIndex extends Action
                 $applyRefund = $this->config->isApplyRefund($storeId);
 
                 if ($applyRefund) {
-                    $this->refund($order, $mpAmountRefound);
+                    $result = $this->refund($order, $mpAmountRefound);
 
                     $header = __('Mercado Pago, refund notification');
 
-                    $description = __(
-                        'The order %1, was refunded directly on Mercado Pago, you need to check stock of sold items.',
-                        $order->getIncrementId()
-                    );
+                    $description = $result['description'];
 
                     $this->notifierPool->addCritical($header, $description);
+
+                    return $result;
                 }
 
                 $result = [
                     'isInvalid' => true,
                     'code'      => 200,
-                    'msg'       => __('Refund notification for order refunded directly in Mercado Pago.'),
+                    'msg'       => __('Unable to apply refund.'),
                 ];
     
                 return $result;
@@ -277,7 +285,7 @@ abstract class MpIndex extends Action
                 $result = [
                 'isInvalid' => true,
                 'code'      => 200,
-                'msg'       => __('Refund notification for order already closed.'),
+                'msg'       => 'Refund notification for order already closed.',
                 ];
     
                 return $result;
@@ -336,12 +344,12 @@ abstract class MpIndex extends Action
      *
      * @throws \Magento\Framework\Exception\LocalizedException
      *
-     * @return void
+     * @return array
      */
     public function refund(
         OrderInterface $order,
         $mpAmountRefound = null
-    ): void {
+    ) {
         $invoices = $order->getInvoiceCollection();
 
         if (count($invoices) == 0) {
@@ -360,9 +368,27 @@ abstract class MpIndex extends Action
             $creditMemo->setGrandTotal($mpAmountRefound);
             $creditMemo->addComment(__('Order refunded in Mercado Pago, refunded offline in the store.'));
 
+            try {
+                $this->creditMemoService->refund($creditMemo, false);
+                $result = [
+                    'isInvalid'     => true,
+                    'code'          => 200,
+                    'msg'           => 'Refund notification for order refunded directly in Mercado Pago.',
+                    'description'   => __('The order %1, was refunded directly on Mercado Pago, you need to check stock of sold items.',
+                    $order->getIncrementId()),
+                ];
+            } catch (Exception $exc) {
+                $result = [
+                    'isInvalid'     => true,
+                    'code'          => 200,
+                    'msg'           => 'Failed to process refund notification.',
+                    'description'   => __('The order %1, was refunded directly on Mercado Pago, but an error occured when refunding offline, you need to check order refunds and stock of sold items.',
+                    $order->getIncrementId()),
+                ];
+            }
             $order->addCommentToStatusHistory(__('Order refunded.'));
-
-            $this->creditMemoService->refund($creditMemo, false);
+            
+            return $result;
         }
     }
 }
