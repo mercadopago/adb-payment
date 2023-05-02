@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Adminhtml\Source;
+namespace MercadoPago\AdbPayment\Model\Adminhtml\Source;
 
 use Exception;
 use Magento\Framework\HTTP\ZendClient;
@@ -14,7 +14,7 @@ use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Option\ArrayInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Model\Method\Logger;
-use MercadoPago\PaymentMagento\Gateway\Config\Config as MercadoPagoConfig;
+use MercadoPago\AdbPayment\Gateway\Config\Config as MercadoPagoConfig;
 
 /**
  * Categories Options in Mercado Pago.

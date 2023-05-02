@@ -2,7 +2,7 @@
 /**
 * Copyright © MercadoPago. All rights reserved.
 *
-* @author      Bruno Elisei <brunoelisei@o2ti.com>
+* @author      Mercado Pago
 * @license     See LICENSE for license details.
 */
 -->
@@ -32,7 +32,7 @@
                     <label data-bind="attr: {for: getId() + '_cc_id'}" class="label">
                         <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
                     </label>
-                    <div type="number" class="input-mp-iframe cvv" data-bind="attr: {id: getId() + '_cc_id'}"">
+                    <div type="number" class="input-mp-iframe cvv" data-bind="attr: {id: getId() + '_cc_id'}">
                     </div>
                     <div class="field-tooltip toggle">
                         <span class="field-tooltip-action action-cvv"
@@ -57,11 +57,11 @@
                                     options: creditCardListInstallments(),
                                     optionsValue: 'installments',
                                     optionsText: 'recommended_message',
-                                    optionsCaption: $t('Choose the number of installments'),
+                                    optionsCaption: $t('Number of installments'),
                                     value: creditCardInstallment">
                     </select>
                     <label data-bind="attr: {for: getId() + '_installments'}" class="label">
-                        <span><!-- ko i18n: 'Choose the number of installments' --><!-- /ko --></span>
+                        <span><!-- ko i18n: 'Number of installments' --><!-- /ko --></span>
                     </label>
                 </div>
                 <!-- ko if: installmentTextInfo() === true -->

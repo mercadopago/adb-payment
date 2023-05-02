@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Gateway\Http\Client;
+namespace MercadoPago\AdbPayment\Gateway\Http\Client;
 
 use Exception;
 use InvalidArgumentException;
@@ -16,7 +16,7 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Http\ClientInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
-use MercadoPago\PaymentMagento\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Config\Config;
 
 /**
  * Communication with Gateway to refund payment.
@@ -52,6 +52,11 @@ class RefundClient implements ClientInterface
      * Idempotency Key block name.
      */
     public const X_IDEMPOTENCY_KEY = 'x-idempotency-key';
+
+    /**
+     * Notification Origin - Magento
+     */
+    public const NOTIFICATION_ORIGIN = 'magento';
 
     /**
      * @var Logger
@@ -107,7 +112,6 @@ class RefundClient implements ClientInterface
         $url = $this->config->getApiUrl();
         $clientConfigs = $this->config->getClientConfigs();
         $clientHeaders = $this->config->getClientHeaders($storeId);
-
         $clientConfigs = array_merge_recursive($clientConfigs, [
             self::X_IDEMPOTENCY_KEY => $request[self::X_IDEMPOTENCY_KEY],
         ]);
@@ -116,15 +120,15 @@ class RefundClient implements ClientInterface
         unset($request['payment_id']);
         unset($request[self::STORE_ID]);
         unset($request[self::X_IDEMPOTENCY_KEY]);
+        $metadata = ['origem' => self::NOTIFICATION_ORIGIN];
 
         try {
             $client->setUri($url.'/v1/payments/'.$paymentId.'/refunds');
             $client->setConfig($clientConfigs);
             $client->setHeaders($clientHeaders);
 
-            if (isset($request['amount'])) {
-                $client->setRawData($this->json->serialize($request), 'application/json');
-            }
+            $request = (object) array_merge( (array)$request, array( 'metadata' => $metadata ) );
+            $client->setRawData($this->json->serialize($request), 'application/json');
 
             $client->setMethod(ZendClient::POST);
 

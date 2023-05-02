@@ -2,16 +2,16 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Ui;
+namespace MercadoPago\AdbPayment\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Locale\Resolver;
 use Magento\Quote\Api\Data\CartInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Config\Config;
 
 /**
  * User interface model for settings Base Method.
@@ -21,7 +21,7 @@ class ConfigProviderBase implements ConfigProviderInterface
     /**
      * Mercado Pago Payment Magento Code.
      */
-    public const CODE = 'mercadopago_paymentmagento';
+    public const CODE = 'mercadopago_adbpayment';
 
     /**
      * @var Resolver

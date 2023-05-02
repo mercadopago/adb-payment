@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Gateway\Config;
+namespace MercadoPago\AdbPayment\Gateway\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\ProductMetadataInterface;
@@ -16,7 +16,7 @@ use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
 use Magento\Store\Model\ScopeInterface;
-use MercadoPago\PaymentMagento\Gateway\Data\Order\OrderAdapterFactory;
+use MercadoPago\AdbPayment\Gateway\Data\Order\OrderAdapterFactory;
 
 /**
  * Gateway setting for the payment method.
@@ -26,7 +26,7 @@ class Config extends PaymentConfig
     /**
      * Method Name.
      */
-    public const METHOD = 'mercadopago_paymentmagento';
+    public const METHOD = 'mercadopago_adbpayment';
 
     /**
      * Product Id.
@@ -56,7 +56,7 @@ class Config extends PaymentConfig
     /**
      * Client.
      */
-    public const CLIENT = 'PaymentMagento';
+    public const CLIENT = 'AdbPayment';
 
     /**
      * @var ProductMetadataInterface
@@ -305,7 +305,7 @@ class Config extends PaymentConfig
      */
     public function getModuleVersion(): ?string
     {
-        return $this->resourceModule->getDbVersion('MercadoPago_PaymentMagento');
+        return $this->resourceModule->getDbVersion('MercadoPago_AdbPayment');
     }
 
     /**
@@ -495,7 +495,7 @@ class Config extends PaymentConfig
         $clientHeaders = $this->getClientHeaders($storeId);
 
         $client = $this->httpClientFactory->create();
-        $client->setUri($uri.'/v1/payment_methods');
+        $client->setUri($uri.'/v1/bifrost/payment-methods');
         $client->setConfig($clientConfigs);
         $client->setHeaders($clientHeaders);
         $client->setMethod(ZendClient::GET);

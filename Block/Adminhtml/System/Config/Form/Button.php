@@ -2,16 +2,16 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Block\Adminhtml\System\Config\Form;
+namespace MercadoPago\AdbPayment\Block\Adminhtml\System\Config\Form;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\App\RequestInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Config\Config;
 
 /**
  * Button Element.
@@ -55,7 +55,7 @@ class Button extends Field
     protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('MercadoPago_PaymentMagento::system/config/form/field/button.phtml');
+        $this->setTemplate('MercadoPago_AdbPayment::system/config/form/field/button.phtml');
     }
 
     /**

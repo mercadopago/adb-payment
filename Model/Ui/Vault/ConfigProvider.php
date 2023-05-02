@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Ui\Vault;
+namespace MercadoPago\AdbPayment\Model\Ui\Vault;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Exception\InputException;
@@ -14,15 +14,15 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Asset\Source;
 use Magento\Payment\Model\CcConfig;
 use Magento\Quote\Api\Data\CartInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigCc;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigCcVault;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigCc;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigCcVault;
 
 /**
  * User interface model for settings Vault.
  */
 class ConfigProvider implements ConfigProviderInterface
 {
-    public const CODE = 'mercadopago_paymentmagento_cc_vault';
+    public const CODE = 'mercadopago_adbpayment_cc_vault';
 
     /**
      * @var Config
@@ -115,7 +115,7 @@ class ConfigProvider implements ConfigProviderInterface
         foreach ($types as $code => $label) {
             if (!array_key_exists($code, $this->icons)) {
                 $asset = $this->ccConfig->createAsset(
-                    'MercadoPago_PaymentMagento::images/cc/'.strtolower($label).'.svg'
+                    'MercadoPago_AdbPayment::images/cc/'.strtolower($label).'.svg'
                 );
                 $placeholder = $this->assetSource->findSource($asset);
                 if ($placeholder) {

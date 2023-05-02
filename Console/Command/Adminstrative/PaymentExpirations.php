@@ -2,14 +2,14 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Console\Command\Adminstrative;
+namespace MercadoPago\AdbPayment\Console\Command\Adminstrative;
 
 use Magento\Framework\App\State;
-use MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\PaymentExpiration;
+use MercadoPago\AdbPayment\Model\Console\Command\Adminstrative\PaymentExpiration;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Gateway\Http\Client;
+namespace MercadoPago\AdbPayment\Gateway\Http\Client;
 
 use Exception;
 use InvalidArgumentException;
@@ -16,8 +16,8 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Http\ClientInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
-use MercadoPago\PaymentMagento\Gateway\Config\Config;
-use MercadoPago\PaymentMagento\Gateway\Request\ExtPaymentIdDataRequest;
+use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Request\ExtPaymentIdDataRequest;
 
 /**
  * Communication with the Gateway to Accept Payment.

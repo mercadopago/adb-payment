@@ -2,17 +2,17 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Block\Sales\Form;
+namespace MercadoPago\AdbPayment\Block\Sales\Form;
 
 use Magento\Backend\Model\Session\Quote;
 use Magento\Framework\Phrase;
 use Magento\Framework\View\Element\Template\Context;
-use MercadoPago\PaymentMagento\Gateway\Config\Config;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigWebpay;
+use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigWebpay;
 
 /**
  * Payment form block by Webpay.
@@ -26,7 +26,7 @@ class Webpay extends \Magento\Payment\Block\Form
      *
      * @var string
      */
-    protected $_template = 'MercadoPago_PaymentMagento::form/webpay.phtml';
+    protected $_template = 'MercadoPago_AdbPayment::form/webpay.phtml';
 
     /**
      * @var Config

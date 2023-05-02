@@ -3,7 +3,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 -->
@@ -11,7 +11,7 @@
     <body>
         <referenceContainer name="content">
             <referenceBlock name="vault.cards.list">
-                <block class="MercadoPago\PaymentMagento\Block\Customer\CardRenderer" name="mercadopago.card.renderer" template="Magento_Vault::customer_account/credit_card.phtml"/>
+                <block class="MercadoPago\AdbPayment\Block\Customer\CardRenderer" name="mercadopago.card.renderer" template="Magento_Vault::customer_account/credit_card.phtml"/>
             </referenceBlock>
         </referenceContainer>
     </body>

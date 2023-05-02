@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Ui;
+namespace MercadoPago\AdbPayment\Model\Ui;
 
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Vault\Api\Data\PaymentTokenInterface;
@@ -60,7 +60,7 @@ class TokenUiComponentProvider implements TokenUiComponentProviderInterface
                     TokenUiComponentProviderInterface::COMPONENT_DETAILS     => $jsonDetails,
                     TokenUiComponentProviderInterface::COMPONENT_PUBLIC_HASH => $paymentToken->getPublicHash(),
                 ],
-                'name' => 'MercadoPago_PaymentMagento/js/view/payment/method-renderer/vault',
+                'name' => 'MercadoPago_AdbPayment/js/view/payment/method-renderer/vault',
             ]
         );
 

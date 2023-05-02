@@ -1,6 +1,6 @@
 <img src="view/base/web/images/core/logo.svg" align="right" width="200"/>
 
-# Mercado Pago para Magento 2
+# Mercado Pago para Adobe Commerce
 
 Oferece pagamentos com cartões de crédito, débito e também meios offline - além de vantagens exclusivas para quem paga logado na conta Mercado Pago, como créditos, descontos e outras condições especiais.
 
@@ -86,4 +86,4 @@ Visite nossa [Wiki][wiki] e veja como configurar e instalar nosso módulo.
 
 [Open Source License](LICENSE)
 
-   [wiki]: <https://github.com/mercadopago/payment-magento/wiki>
+   [wiki]: <https://github.com/mercadopago/adb-payment/wiki>

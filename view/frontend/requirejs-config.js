@@ -1,13 +1,13 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 let config = {
     paths: {
         'mercadoPagoSkdJs':'https://sdk.mercadopago.com/js/v2?source=Magento',
-        'initMPCheckout': 'MercadoPago_PaymentMagento/js/view/payment/initMPCheckout',
-        'observerCheckoutPro': 'MercadoPago_PaymentMagento/js/view/payment/observerCheckoutPro'
+        'initMPCheckout': 'MercadoPago_AdbPayment/js/view/payment/initMPCheckout',
+        'observerCheckoutPro': 'MercadoPago_AdbPayment/js/view/payment/observerCheckoutPro'
     },
     shim: {
         'mercadoPagoSkdJs': {
@@ -17,7 +17,7 @@ let config = {
     config: {
         mixins: {
             'mage/validation': {
-                'MercadoPago_PaymentMagento/js/validation/custom-validation-mixin': true
+                'MercadoPago_AdbPayment/js/validation/custom-validation-mixin': true
             }
         }
     }

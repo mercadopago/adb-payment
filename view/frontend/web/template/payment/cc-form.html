@@ -2,7 +2,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 -->
@@ -36,8 +36,8 @@
                     data-bind="attr: {
                                     autocomplete: 'taxvat',
                                     id: getCode() + '_document_identification',
-                                    title: $t('Payer Document Identification'),
-                                    placeholder: $t('Payer Document Identification'),
+                                    title: $t('Document number'),
+                                    placeholder: $t('Document number'),
                                     'data-container': getCode() + '-document-identification',
                                     'data-validate': JSON.stringify(getValidationForDocument())
                                 },
@@ -45,7 +45,7 @@
                                 value: mpPayerDocument,
                                 valueUpdate: 'keyup' "></input>
             <label data-bind="attr: {for: getCode() + '_document_identification'}" class="label">
-                <span><!-- ko i18n: 'Payer Document Identification'--><!-- /ko --></span>
+                <span><!-- ko i18n: 'Document number'--><!-- /ko --></span>
             </label>
         </div>
     </div>
@@ -59,7 +59,7 @@
             <ul class="credit-card-types">
                 <!-- ko foreach: {data: getCcAvailableTypesValues(), as: 'item'} -->
                     <!--ko if: $parent.getIcons(item.value) -->
-                    <li class="item">  
+                    <li class="item">
                         <img data-bind="attr: {
                             'src': $parent.getIcons(item.value).url,
                             'alt': item.value,
@@ -75,11 +75,8 @@
     </legend>
     <!-- /ko -->
     <div class="form-pay">
-        <div class="field-to-pay"  data-bind="css: { _hidden:isPlaceOrderActionAllowed() }">
-            <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
-        </div>
-        <div class="field-to-pay"  data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
-            <div class="mp-loading" data-bind="blockLoader: isLoading">
+        <div class="field-to-pay">
+            <div class="mp-loading" data-bind="blockLoader: isLoading" id="form-secure-fields">
                 <div class="field mercadopago-input-group type">
                     <div class="control">
                         <input type="hidden" name="payment[card_type]" class="input-text" value=""
@@ -97,14 +94,14 @@
                         <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
                             <span><!-- ko i18n: 'Card number'--><!-- /ko --></span>
                         </label>
-                        <div type="tel" class="input-mp-iframe number" id="mercadopago_paymentmagento_cc_number">
+                        <div type="tel" class="input-mp-iframe number" id="mercadopago_adbpayment_cc_number">
                         </div>
                         <span class="field-tooltip toggle">
                             <ul class="credit-card-types">
                                  <!-- ko foreach: {data: getCcAvailableTypesValues(), as: 'item'} -->
                                  <li class="item _hidden" data-bind="css: {
                                                        _active: $parent.mpSelectedCardType() == item.value,
-                                                       _hidden: $parent.mpSelectedCardType() != item.value || !$parent.mpSelectedCardType() 
+                                                       _hidden: $parent.mpSelectedCardType() != item.value || !$parent.mpSelectedCardType()
                                                        } ">
                                     <!--ko if: $parent.getIcons(item.value) -->
                                     <img data-bind="attr: {
@@ -125,7 +122,7 @@
                         <label data-bind="attr: {for: getCode() + '_cid'}" class="label">
                             <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
                         </label>
-                        <div type="number" class="input-mp-iframe cvv" id="mercadopago_paymentmagento_cc_cid">
+                        <div type="number" class="input-mp-iframe cvv" id="mercadopago_adbpayment_cc_cid">
                         </div>
                         <div class="field-tooltip toggle">
                             <span class="field-tooltip-action action-cvv"
@@ -149,7 +146,7 @@
                                     <label data-bind="attr: {for: getCode() + '_expiration_month'}" class="label">
                                         <span><!-- ko i18n: 'Expiration month'--><!-- /ko --></span>
                                     </label>
-                                    <div class="input-mp-iframe date" id="mercadopago_paymentmagento_cc_expiration_month"></div>
+                                    <div class="input-mp-iframe date" id="mercadopago_adbpayment_cc_expiration_month"></div>
                                 </div>
                             </div>
                             <div class="field mercadopago-input-group year">
@@ -157,7 +154,7 @@
                                     <label data-bind="attr: {for: getCode() + '_expiration_yr'}" class="label">
                                         <span><!-- ko i18n: 'Expiration year'--><!-- /ko --></span>
                                     </label>
-                                    <div class="input-mp-iframe date" id="mercadopago_paymentmagento_cc_expiration_yr"></div>
+                                    <div class="input-mp-iframe date" id="mercadopago_adbpayment_cc_expiration_yr"></div>
                                 </div>
                             </div>
                         </div>
@@ -199,11 +196,11 @@
                                     options: mpCardListInstallments(),
                                     optionsValue: 'installments',
                                     optionsText: 'recommended_message',
-                                    optionsCaption: $t('Choose the number of installments'),
+                                    optionsCaption: $t('Number of installments'),
                                     value: mpCardInstallment">
                         </select>
                         <label data-bind="attr: {for: getCode() + '_installments'}" class="label">
-                            <span><!-- ko i18n: 'Choose the number of installments' --><!-- /ko --></span>
+                            <span><!-- ko i18n: 'Number of installments' --><!-- /ko --></span>
                         </label>
                     </div>
                     <!-- ko if: installmentTextInfo() === true -->

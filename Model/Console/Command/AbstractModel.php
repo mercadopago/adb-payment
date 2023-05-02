@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Console\Command;
+namespace MercadoPago\AdbPayment\Model\Console\Command;
 
 use Magento\Payment\Model\Method\Logger;
 use Symfony\Component\Console\Output\OutputInterface;

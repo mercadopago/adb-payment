@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Adminhtml\Source;
+namespace MercadoPago\AdbPayment\Model\Adminhtml\Source;
 
 use Magento\Config\Block\System\Config\Form\Fieldset;
 use Magento\Framework\App\ObjectManager;

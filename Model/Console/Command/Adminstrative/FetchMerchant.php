@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative;
+namespace MercadoPago\AdbPayment\Model\Console\Command\Adminstrative;
 
 use Exception;
 use Magento\Config\Model\ResourceModel\Config;
@@ -20,8 +20,8 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\Config as MercadoPagoConfig;
-use MercadoPago\PaymentMagento\Model\Console\Command\AbstractModel;
+use MercadoPago\AdbPayment\Gateway\Config\Config as MercadoPagoConfig;
+use MercadoPago\AdbPayment\Model\Console\Command\AbstractModel;
 
 /**
  * Model for Command lines to capture Merchant details on Mercado Pago.
@@ -421,11 +421,11 @@ class FetchMerchant extends AbstractModel
         $scope = ScopeInterface::SCOPE_WEBSITES;
 
         foreach ($data as $field => $value) {
-            $pathPattern = 'payment/mercadopago_paymentmagento/%s_%s';
+            $pathPattern = 'payment/mercadopago_adbpayment/%s_%s';
             $pathConfigId = sprintf($pathPattern, $field, $environment);
 
             if ($field === 'site_id') {
-                $pathPattern = 'payment/mercadopago_paymentmagento/%s';
+                $pathPattern = 'payment/mercadopago_adbpayment/%s';
                 $pathConfigId = sprintf($pathPattern, $field);
             }
 
@@ -470,7 +470,7 @@ class FetchMerchant extends AbstractModel
         $data = ['client_id' => null, 'client_secret' => null];
 
         foreach ($data as $field => $value) {
-            $pathPattern = 'payment/mercadopago_paymentmagento/%s_%s';
+            $pathPattern = 'payment/mercadopago_adbpayment/%s_%s';
             $pathConfigId = sprintf($pathPattern, $field, $environment);
 
             try {

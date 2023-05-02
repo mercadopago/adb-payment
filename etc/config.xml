@@ -3,14 +3,14 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
-            <mercadopago_paymentmagento>
+            <mercadopago_adbpayment>
                 <debug>0</debug>
                 <active>1</active>
                 <environment>production</environment>
@@ -34,15 +34,14 @@
                 <neighborhood>2</neighborhood>
                 <allowspecific>1</allowspecific>
                 <receive_refund>1</receive_refund>
-                <specificcountry>BR,AR,UY,MX,CO,CL,PE</specificcountry>
-                <restrict_payment_on_mp_site_id><![CDATA[{"mercadopago_paymentmagento_boleto":["MLB"],"mercadopago_paymentmagento_pec":["MLB"],"mercadopago_paymentmagento_pix":["MLB"],"mercadopago_paymentmagento_pagofacil":["MLA"],"mercadopago_paymentmagento_rapipago":["MLA"],"mercadopago_paymentmagento_paycash":["MLM"],"mercadopago_paymentmagento_oxxo":["MLM"],"mercadopago_paymentmagento_efecty":["MCO"],"mercadopago_paymentmagento_abitab":["MLU"],"mercadopago_paymentmagento_redpagos":["MLU"],"mercadopago_paymentmagento_pse":["MCO"],"mercadopago_paymentmagento_banamex":["MLM"],"mercadopago_paymentmagento_bancomer":["MLM"],"mercadopago_paymentmagento_serfin":["MLM"],"mercadopago_paymentmagento_pagoefectivo":["MPE"],"mercadopago_paymentmagento_webpay":["MLC"]}]]></restrict_payment_on_mp_site_id>
-            </mercadopago_paymentmagento>
-            <mercadopago_paymentmagento_cc>
+                <restrict_payment_on_mp_site_id><![CDATA[{"mercadopago_adbpayment_pix":["MLB"],"mercadopago_adbpayment_pse":["MCO"],"mercadopago_adbpayment_webpay":["MLC"]}]]></restrict_payment_on_mp_site_id>
+            </mercadopago_adbpayment>
+            <mercadopago_adbpayment_cc>
                 <active>1</active>
                 <model>MercadoPagoCcFacade</model>
                 <order_status>processing</order_status>
                 <payment_action>authorize_capture</payment_action>
-                <title>Cartão de Crédito ou Débito</title>
+                <title translate="true">Credit or Debit Card</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>mp_payment_id,card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
                 <privateInfoKeys>mp_payment_id,card_exp_month,card_exp_year,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
@@ -82,18 +81,73 @@
                 <cctypes_mapper_mlm><![CDATA[{"Visa":"visa","Mastercard":"master","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Tengo":"TENGO","Sodexo":"SODEXO","Carnet":"CARNET","Toka":"TOKA","Tarjeta MercadoPago":"MERCADOPAGOCARD","Edenred":"EDENRED"}]]></cctypes_mapper_mlm>
                 <cctypes_mapper_mlu><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners","Lider":"LIDER","Creditel":"CREDITEL","Oca":"OCA"}]]></cctypes_mapper_mlu>
                 <cctypes_mapper_mpe><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners"}]]></cctypes_mapper_mpe>
-                <unsupported_pre_auth><![CDATA[{"MLB":["debelo"],"MLA":["debvisa","debmaster","debcabal","maestro"],"MLC":["redcompra","debvisa","debmaster","mastercard_prepaid","magna","presto"],"MCO":["debvisa","debmaster","amex","master","diners","codensa"],"MLM":["edenred","sodexo","debvisa","tengo","carnet","debmaster","toka"],"MLU":["diners","lider","debvisa","creditel","visa","oca","master","debmaster"]}]]></unsupported_pre_auth>
+                <unsupported_pre_auth><![CDATA[{"MLB":["debelo"],"MLA":["debvisa","debmaster","debcabal","maestro"],"MLC":["redcompra","debvisa","debmaster","mastercard_prepaid","magna","presto"],"MCO":["debvisa","debmaster","amex","master","diners","codensa"],"MLM":["edenred","sodexo","debvisa","tengo","carnet","debmaster","toka"],"MLU":["diners","lider","debvisa","creditel","visa","oca","master","debmaster"],"MPE":[]}]]></unsupported_pre_auth>
                 <cvv_enabled>1</cvv_enabled>
                 <is_binary>1</is_binary>
                 <get_document_identification>0</get_document_identification>
                 <min_order_total>1</min_order_total>
                 <max_order_total>200000</max_order_total>
                 <allowspecific>1</allowspecific>
-                <specificcountry>BR,AR,UY,MX,CO,CL,PE</specificcountry>
+                <specificcountry>AF,ZA,AL,DE,AD,AO,AI,AQ,AG,AN,SA,DZ,AR,AM,AW,AU,AT,AZ,BS,BD,BB,BH,BY,BE,BZ,BX,BJ,BM,BO,BA,BW,BR,BG,BN,BF,BI,BT,CV,CM,KH,CA,QA,KZ,TD,GW,GQ,HT,NL,HN,HK,HU,YE,BV,IM,CX,NF,KY,CC,CK,GG,FO,HM,FK,MP,MH,UM,SB,TC,VG,VI,WF,IN,ID,IR,IQ,IE,IS,IL,ID,IR,IQ,IE,IS,IL,IT,JM,JP,JE,PW,PA,PG,PK,PY,PE,PN,PF,PL,PR,PT,KE,KG,GB,CF,KR,MK,MD,CD,DO,KP,CZ,TZ,RE,RO,RW,EH,PM,AS,WS,SH,LC,SM,VC,SL,SC,SY,LK,SD,CL,CN,CY,CO,KM,CG,CI,CR,HR,CU,DK,DJ,DM,EG,SV,AE,EC,ER,EM,SK,SI,ES,US,EE,ET,RU,FJ,PH,FI,FR,GA,GM,GE,GH,GS,GI,GD,GR,GL,GP,GU,GT,GY,GN,JO,KI,KW,LA,LS,LV,LB,LR,LY,LI,LT,LU,MO,MG,MY,MW,MV,ML,MT,MA,MQ,MU,MR,MX,MM,FM,MZ,MC,MN,MS,ME,NA,NR,NP,NI,NE,NG,NO,NC,NZ,OM,OA,WO,AP,SE,CH,SR,SJ,TJ,TH,TW,TF,IO,PS,TL,TG,TK,TO,TT,TN,TM,TR,TV,UA,UG,UY,UZ,VU,VA,VE,VN,YU,ZR,ZM,ZW,KN,ST,SN,RS,SG,SO,SZ</specificcountry>
                 <active_for_mp_site_id>MLB,MLA,MLU,MLM,MCO,MLC,MPE</active_for_mp_site_id>
                 <sort_order>10</sort_order>
-            </mercadopago_paymentmagento_cc>
-            <mercadopago_paymentmagento_cc_vault>
+            </mercadopago_adbpayment_cc>
+            <mercadopago_adbpayment_twocc>
+                <active>1</active>
+                <model>MercadoPagoTwoCcFacade</model>
+                <order_status>processing</order_status>
+                <payment_action>authorize_capture</payment_action>
+                <title translate="true">Pay with two cards</title>
+                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
+                <paymentInfoKeys>mp_payment_id,card_0_installments,card_0_type,card_0_number,card_0_holder_name,card_0_exp_month,card_0_exp_year,payer_0_document_identification,payer_0_document_type,mp_0_status,mp_0_status_detail,card_1_installments,card_1_type,card_1_number,card_1_holder_name,card_1_exp_month,card_1_exp_year,payer_1_document_identification,payer_1_document_type,mp_1_status,mp_1_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,card_0_exp_month,card_0_exp_year,payer_0_document_type,mp_0_status,mp_0_status_detail,card_1_exp_month,card_1_exp_year,payer_1_document_type,mp_1_status,mp_1_status_detail</privateInfoKeys>
+                <is_gateway>1</is_gateway>
+                <can_initialize>0</can_initialize>
+                <can_use_internal>0</can_use_internal>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize_vault>1</can_authorize_vault>
+                <can_capture_vault>1</can_capture_vault>
+                <can_initialize_vault>1</can_initialize_vault>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_refund>1</can_refund>
+                <can_void>1</can_void>
+                <can_cancel>1</can_cancel>
+                <can_review_payment>1</can_review_payment>
+                <can_deny_payment>1</can_deny_payment>
+                <can_accept_payment>1</can_accept_payment>
+                <can_fetch_transaction_info>1</can_fetch_transaction_info>
+                <can_fetch_transaction_information>1</can_fetch_transaction_information>
+                <group>mercadopago_group</group>
+                <cctypes>visa,master,elo,amex,debmaster,hipercard,debvisa,debelo,cabal,debcabal,cmr,cencosud,diners,tarshop,argencard,naranja,maestro,tengo,sodexo,carnet,toka,mercadopagocard,edenred,redcompra,webpay,magna,presto,codensa,lider,creditel,oca</cctypes>
+                <cctypes_mco>visa,master,amex,diners,debmaster,debvisa,codensa</cctypes_mco>
+                <cctypes_mlb>visa,master,elo,amex,debmaster,hipercard,debvisa,debelo,cabal,debcabal</cctypes_mlb>
+                <cctypes_mlc>visa,master,amex,diners,debmaster,debvisa,redcompra,webpay,magna,presto</cctypes_mlc>
+                <cctypes_mla>visa,master,amex,debmaster,hipercard,debvisa,cabal,debcabal,cmr,cencosud,diners,tarshop,argencard</cctypes_mla>
+                <cctypes_mlm>visa,master,amex,debmaster,hipercard,debvisa,tengo,sodexo,carnet,toka,mercadopagocard,edenred</cctypes_mlm>
+                <cctypes_mlu>visa,master,amex,diners,debmaster,debvisa,lider,creditel,oca</cctypes_mlu>
+                <cctypes_mpe>visa,master,amex,diners,debmaster,debvisa,mediotest</cctypes_mpe>
+                <cctypes_mapper><![CDATA[{"Visa":"visa","Mastercard":"master","Elo":"ELO","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Elo Débito":"debelo","Cabal":"cabal","Cabal Débito":"debcabal","cmr":"cmr","Cencosud":"cencosud","Diners":"diners","Tarjeta Shopping":"tarshop","Argencard":"argencard","Naranja":"naranja","Maestro":"maestro","Tengo":"tengo","Sodexo":"sodexo","Carnet":"carnet","Toka":"toka","Mercado Pago Card":"mercadopagocard","Edenred":"edenred","Redcompra":"redcompra","WebPay":"webpay","Magna":"magna","Presto":"presto","Codensa":"codensa","Lider":"lider","Creditel":"creditel","Oca":"oca","MedioTest":"mediotest"}]]></cctypes_mapper>
+                <cctypes_mapper_mco><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners","Crédito Fácil Codensa": "CODENSA"}]]></cctypes_mapper_mco>
+                <cctypes_mapper_mlb><![CDATA[{"Visa":"visa","Mastercard":"master","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Elo":"ELO","Elo Débito":"debelo","Cabal":"cabal","Cabal Débito":"debcabal"}]]></cctypes_mapper_mlb>
+                <cctypes_mapper_mlc><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners","Rede Compra": "REDCOMPRA","WebPay":"WEBPAY","Magna":"MAGNA","Presto":"PRESTO"}]]></cctypes_mapper_mlc>
+                <cctypes_mapper_mla><![CDATA[{"Visa":"visa","Mastercard":"master","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Cabal":"cabal","Cabal Débito":"debcabal","cmr":"cmr","Cencosud":"cencosud","Diners":"diners","Tarjeta Shopping":"tarshop","Argencard":"argencard","Naranja":"naranja","Maestro":"maestro"}]]></cctypes_mapper_mla>
+                <cctypes_mapper_mlm><![CDATA[{"Visa":"visa","Mastercard":"master","Amex":"amex","Mastercard Débito":"debmaster","Hipercard":"hipercard","Visa Débito":"debvisa","Tengo":"TENGO","Sodexo":"SODEXO","Carnet":"CARNET","Toka":"TOKA","Tarjeta MercadoPago":"MERCADOPAGOCARD","Edenred":"EDENRED"}]]></cctypes_mapper_mlm>
+                <cctypes_mapper_mlu><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners","Lider":"LIDER","Creditel":"CREDITEL","Oca":"OCA"}]]></cctypes_mapper_mlu>
+                <cctypes_mapper_mpe><![CDATA[{"Visa": "visa","Mastercard": "master","Amex": "amex","Mastercard Débito": "debmaster","Visa Débito": "debvisa","Diners":"diners"}]]></cctypes_mapper_mpe>
+                <unsupported_pre_auth><![CDATA[{"MLB":["debelo"],"MLA":["debvisa","debmaster","debcabal","maestro"],"MLC":["redcompra","debvisa","debmaster","mastercard_prepaid","magna","presto"],"MCO":["debvisa","debmaster","amex","master","diners","codensa"],"MLM":["edenred","sodexo","debvisa","tengo","carnet","debmaster","toka"],"MLU":["diners","lider","debvisa","creditel","visa","oca","master","debmaster"],"MPE":[]}]]></unsupported_pre_auth>
+                <cvv_enabled>1</cvv_enabled>
+                <get_document_identification>0</get_document_identification>
+                <min_order_total>1</min_order_total>
+                <max_order_total>200000</max_order_total>
+                <allowspecific>1</allowspecific>
+                <specificcountry>AF,ZA,AL,DE,AD,AO,AI,AQ,AG,AN,SA,DZ,AR,AM,AW,AU,AT,AZ,BS,BD,BB,BH,BY,BE,BZ,BX,BJ,BM,BO,BA,BW,BR,BG,BN,BF,BI,BT,CV,CM,KH,CA,QA,KZ,TD,GW,GQ,HT,NL,HN,HK,HU,YE,BV,IM,CX,NF,KY,CC,CK,GG,FO,HM,FK,MP,MH,UM,SB,TC,VG,VI,WF,IN,ID,IR,IQ,IE,IS,IL,ID,IR,IQ,IE,IS,IL,IT,JM,JP,JE,PW,PA,PG,PK,PY,PE,PN,PF,PL,PR,PT,KE,KG,GB,CF,KR,MK,MD,CD,DO,KP,CZ,TZ,RE,RO,RW,EH,PM,AS,WS,SH,LC,SM,VC,SL,SC,SY,LK,SD,CL,CN,CY,CO,KM,CG,CI,CR,HR,CU,DK,DJ,DM,EG,SV,AE,EC,ER,EM,SK,SI,ES,US,EE,ET,RU,FJ,PH,FI,FR,GA,GM,GE,GH,GS,GI,GD,GR,GL,GP,GU,GT,GY,GN,JO,KI,KW,LA,LS,LV,LB,LR,LY,LI,LT,LU,MO,MG,MY,MW,MV,ML,MT,MA,MQ,MU,MR,MX,MM,FM,MZ,MC,MN,MS,ME,NA,NR,NP,NI,NE,NG,NO,NC,NZ,OM,OA,WO,AP,SE,CH,SR,SJ,TJ,TH,TW,TF,IO,PS,TL,TG,TK,TO,TT,TN,TM,TR,TV,UA,UG,UY,UZ,VU,VA,VE,VN,YU,ZR,ZM,ZW,KN,ST,SN,RS,SG,SO,SZ</specificcountry>
+                <active_for_mp_site_id>MLB,MLA,MLU,MLM,MCO,MLC,MPE</active_for_mp_site_id>
+                <sort_order>10</sort_order>
+            </mercadopago_adbpayment_twocc>
+            <mercadopago_adbpayment_cc_vault>
                 <active>1</active>
                 <model>MercadoPagoCcVaultFacade</model>
                 <paymentInfoKeys>mp_payment_id,card_installments,card_type,card_number,card_holder_name,card_exp_month,card_exp_year,payer_document_identification,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
@@ -103,8 +157,8 @@
                 <can_use_internal>0</can_use_internal>
                 <cvv_enabled>1</cvv_enabled>
                 <group>mercadopago_group</group>
-            </mercadopago_paymentmagento_cc_vault>
-            <mercadopago_paymentmagento_checkout_pro>
+            </mercadopago_adbpayment_cc_vault>
+            <mercadopago_adbpayment_checkout_pro>
                 <active>1</active>
                 <model>MercadoPagoCheckoutProFacade</model>
                 <order_status>pending</order_status>
@@ -141,18 +195,20 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
                 <theme_elements>#7d0fd0</theme_elements>
                 <min_order_total>1</min_order_total>
                 <max_order_total>200000</max_order_total>
-                <allowspecific>0</allowspecific>
+                <allowspecific>1</allowspecific>
+                <specificcountry>AF,ZA,AL,DE,AD,AO,AI,AQ,AG,AN,SA,DZ,AR,AM,AW,AU,AT,AZ,BS,BD,BB,BH,BY,BE,BZ,BX,BJ,BM,BO,BA,BW,BR,BG,BN,BF,BI,BT,CV,CM,KH,CA,QA,KZ,TD,GW,GQ,HT,NL,HN,HK,HU,YE,BV,IM,CX,NF,KY,CC,CK,GG,FO,HM,FK,MP,MH,UM,SB,TC,VG,VI,WF,IN,ID,IR,IQ,IE,IS,IL,ID,IR,IQ,IE,IS,IL,IT,JM,JP,JE,PW,PA,PG,PK,PY,PE,PN,PF,PL,PR,PT,KE,KG,GB,CF,KR,MK,MD,CD,DO,KP,CZ,TZ,RE,RO,RW,EH,PM,AS,WS,SH,LC,SM,VC,SL,SC,SY,LK,SD,CL,CN,CY,CO,KM,CG,CI,CR,HR,CU,DK,DJ,DM,EG,SV,AE,EC,ER,EM,SK,SI,ES,US,EE,ET,RU,FJ,PH,FI,FR,GA,GM,GE,GH,GS,GI,GD,GR,GL,GP,GU,GT,GY,GN,JO,KI,KW,LA,LS,LV,LB,LR,LY,LI,LT,LU,MO,MG,MY,MW,MV,ML,MT,MA,MQ,MU,MR,MX,MM,FM,MZ,MC,MN,MS,ME,NA,NR,NP,NI,NE,NG,NO,NC,NZ,OM,OA,WO,AP,SE,CH,SR,SJ,TJ,TH,TW,TF,IO,PS,TL,TG,TK,TO,TT,TN,TM,TR,TV,UA,UG,UY,UZ,VU,VA,VE,VN,YU,ZR,ZM,ZW,KN,ST,SN,RS,SG,SO,SZ</specificcountry>
                 <mp_site_id>MLB,MLA,MLU,MLM,MCO,MLC,MPE</mp_site_id>
                 <sort_order>12</sort_order>
-            </mercadopago_paymentmagento_checkout_pro>
-            <mercadopago_paymentmagento_boleto>
-                <model>MercadoPagoBoletoFacade</model>
+            </mercadopago_adbpayment_checkout_pro>
+            <mercadopago_adbpayment_payment_methods_off>
+                <model>MercadoPagoPaymentMethodsOffFacade</model>
                 <order_status>pending</order_status>
-                <title>Boleto Bancário</title>
+                <title translate="true">Payment Title</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,line_code,mp_status,mp_status_detail</paymentInfoKeys>
                 <privateInfoKeys>mp_payment_id,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
+                <payment_methods></payment_methods>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>
                 <can_use_internal>1</can_use_internal>
@@ -171,54 +227,13 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <group>mercadopago_group</group>
                 <expiration>1</expiration>
-                <instruction_checkout><![CDATA[Gere um boleto digital para ser pago em bancos (app ou ponto físico) e casas lotéricas.
-Não existe parcelamento nesta forma de pagamento.]]></instruction_checkout>
-                <get_name>0</get_name>
+                <get_name></get_name>
                 <get_document_identification>0</get_document_identification>
-                <min_order_total>1</min_order_total>
-                <max_order_total>200000</max_order_total>
                 <allowspecific>1</allowspecific>
-                <specificcountry>BR</specificcountry>
-                <mp_site_id>MLB</mp_site_id>
+                <specificcountry>AF,ZA,AL,DE,AD,AO,AI,AQ,AG,AN,SA,DZ,AR,AM,AW,AU,AT,AZ,BS,BD,BB,BH,BY,BE,BZ,BX,BJ,BM,BO,BA,BW,BR,BG,BN,BF,BI,BT,CV,CM,KH,CA,QA,KZ,TD,GW,GQ,HT,NL,HN,HK,HU,YE,BV,IM,CX,NF,KY,CC,CK,GG,FO,HM,FK,MP,MH,UM,SB,TC,VG,VI,WF,IN,ID,IR,IQ,IE,IS,IL,ID,IR,IQ,IE,IS,IL,IT,JM,JP,JE,PW,PA,PG,PK,PY,PE,PN,PF,PL,PR,PT,KE,KG,GB,CF,KR,MK,MD,CD,DO,KP,CZ,TZ,RE,RO,RW,EH,PM,AS,WS,SH,LC,SM,VC,SL,SC,SY,LK,SD,CL,CN,CY,CO,KM,CG,CI,CR,HR,CU,DK,DJ,DM,EG,SV,AE,EC,ER,EM,SK,SI,ES,US,EE,ET,RU,FJ,PH,FI,FR,GA,GM,GE,GH,GS,GI,GD,GR,GL,GP,GU,GT,GY,GN,JO,KI,KW,LA,LS,LV,LB,LR,LY,LI,LT,LU,MO,MG,MY,MW,MV,ML,MT,MA,MQ,MU,MR,MX,MM,FM,MZ,MC,MN,MS,ME,NA,NR,NP,NI,NE,NG,NO,NC,NZ,OM,OA,WO,AP,SE,CH,SR,SJ,TJ,TH,TW,TF,IO,PS,TL,TG,TK,TO,TT,TN,TM,TR,TV,UA,UG,UY,UZ,VU,VA,VE,VN,YU,ZR,ZM,ZW,KN,ST,SN,RS,SG,SO,SZ</specificcountry>
                 <sort_order>13</sort_order>
-            </mercadopago_paymentmagento_boleto>
-            <mercadopago_paymentmagento_pec>
-                <model>MercadoPagoPecFacade</model>
-                <order_status>pending</order_status>
-                <title>Casas Lotéricas</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_pec><![CDATA[Gere um código para ser pago <strong>somente em casas lotéricas</strong> com aprovação em até 1 hora após pagamento.
-]]></instruction_checkout_pec>
-                <get_document_identification>0</get_document_identification>
-                <min_order_total>1</min_order_total>
-                <max_order_total>200000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>BR</specificcountry>
-                <mp_site_id>MLB</mp_site_id>
-                <sort_order>14</sort_order>
-            </mercadopago_paymentmagento_pec>
-            <mercadopago_paymentmagento_pix>
+            </mercadopago_adbpayment_payment_methods_off>
+            <mercadopago_adbpayment_pix>
                 <model>MercadoPagoPixFacade</model>
                 <order_status>pending</order_status>
                 <title>Pix</title>
@@ -255,359 +270,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <specificcountry>BR</specificcountry>
                 <mp_site_id>MLB</mp_site_id>
                 <sort_order>11</sort_order>
-            </mercadopago_paymentmagento_pix>
-            <mercadopago_paymentmagento_pagofacil>
-                <model>MercadoPagoPagoFacilFacade</model>
-                <order_status>pending</order_status>
-                <title>Pago Fácil</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_pagofacil><![CDATA[lorem.]]></instruction_checkout_pagofacil>
-                <get_document_identification>1</get_document_identification>
-                <min_order_total>50</min_order_total>
-                <max_order_total>500000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>AR</specificcountry>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_pagofacil>
-            <mercadopago_paymentmagento_rapipago>
-                <model>MercadoPagoRapiPagoFacade</model>
-                <order_status>pending</order_status>
-                <title>Rapi Pago</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_rapipago><![CDATA[lorem.]]></instruction_checkout_rapipago>
-                <get_document_identification>1</get_document_identification>
-                <min_order_total>50</min_order_total>
-                <max_order_total>500000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>AR</specificcountry>
-                <mp_site_id>MLA</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_rapipago>
-            <mercadopago_paymentmagento_paycash>
-                <model>MercadoPagoPayCashFacade</model>
-                <order_status>pending</order_status>
-                <title>Pay Cash</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_paycash><![CDATA[lorem.]]></instruction_checkout_paycash>
-                <get_document_identification>0</get_document_identification>
-                <min_order_total>20</min_order_total>
-                <max_order_total>10000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>MX</specificcountry>
-                <mp_site_id>MLM</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_paycash>
-            <mercadopago_paymentmagento_oxxo>
-                <model>MercadoPagoOxxoFacade</model>
-                <order_status>pending</order_status>
-                <title>Oxxo</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_oxxo><![CDATA[lorem.]]></instruction_checkout_oxxo>
-                <get_document_identification>0</get_document_identification>
-                <min_order_total>20</min_order_total>
-                <max_order_total>10000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>MX</specificcountry>
-                <mp_site_id>MLM</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_oxxo>
-            <mercadopago_paymentmagento_banamex>
-                <model>MercadoPagoBanamexFacade</model>
-                <order_status>pending</order_status>
-                <title>Citibanamex</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_banamex><![CDATA[lorem.]]></instruction_checkout_banamex>
-                <get_document_identification>0</get_document_identification>
-                <min_order_total>5</min_order_total>
-                <max_order_total>40000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>MX</specificcountry>
-                <mp_site_id>MLM</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_banamex>
-            <mercadopago_paymentmagento_bancomer>
-                <model>MercadoPagoBancomerFacade</model>
-                <order_status>pending</order_status>
-                <title>BBVA Bancomer</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_bancomer><![CDATA[lorem.]]></instruction_checkout_bancomer>
-                <get_document_identification>0</get_document_identification>
-                <min_order_total>5</min_order_total>
-                <max_order_total>40000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>MX</specificcountry>
-                <mp_site_id>MLM</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_bancomer>
-            <mercadopago_paymentmagento_serfin>
-                <model>MercadoPagoSerfinFacade</model>
-                <order_status>pending</order_status>
-                <title>Serfin</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_serfin><![CDATA[lorem.]]></instruction_checkout_serfin>
-                <get_document_identification>0</get_document_identification>
-                <min_order_total>5</min_order_total>
-                <max_order_total>40000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>MX</specificcountry>
-                <mp_site_id>MLM</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_serfin>
-            <mercadopago_paymentmagento_efecty>
-                <model>MercadoPagoEfectyFacade</model>
-                <order_status>pending</order_status>
-                <title>Efecty</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_efecty><![CDATA[lorem.]]></instruction_checkout_efecty>
-                <get_document_identification>1</get_document_identification>
-                <min_order_total>5000</min_order_total>
-                <max_order_total>8000000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>CO</specificcountry>
-                <mp_site_id>MCO</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_efecty>
-            <mercadopago_paymentmagento_abitab>
-                <active>0</active>
-                <model>MercadoPagoAbitabFacade</model>
-                <order_status>pending</order_status>
-                <title>Abitab</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_abitab><![CDATA[lorem.]]></instruction_checkout_abitab>
-                <get_document_identification>1</get_document_identification>
-                <min_order_total>1</min_order_total>
-                <max_order_total>150000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>UY</specificcountry>
-                <mp_site_id>MLU</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_abitab>
-            <mercadopago_paymentmagento_redpagos>
-                <active>0</active>
-                <model>MercadoPagoRedpagosFacade</model>
-                <order_status>pending</order_status>
-                <title>Redpagos</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_redpagos><![CDATA[lorem.]]></instruction_checkout_redpagos>
-                <get_document_identification>1</get_document_identification>
-                <min_order_total>1</min_order_total>
-                <max_order_total>150000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>UY</specificcountry>
-                <mp_site_id>MLU</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_redpagos>
-            <mercadopago_paymentmagento_pse>
+            </mercadopago_adbpayment_pix>
+            <mercadopago_adbpayment_pse>
                 <model>MercadoPagoPseFacade</model>
                 <order_status>pending</order_status>
                 <title>Pse</title>
@@ -633,7 +297,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <group>mercadopago_group</group>
                 <expiration>1</expiration>
-                <instruction_checkout_pse><![CDATA[lorem.]]></instruction_checkout_pse>
+                <instruction_checkout_pse><![CDATA[Complete your order to proceed with payment.]]></instruction_checkout_pse>
                 <payer_entity_types><![CDATA[[{"id":"individual","name":"Individual"},{"id":"association","name":"Association"}]]]></payer_entity_types>
                 <get_document_identification>1</get_document_identification>
                 <min_order_total>1</min_order_total>
@@ -642,43 +306,8 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <specificcountry>CO</specificcountry>
                 <mp_site_id>MCO</mp_site_id>
                 <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_pse>
-            <mercadopago_paymentmagento_pagoefectivo>
-                <model>MercadoPagoPagoEfectivoFacade</model>
-                <order_status>pending</order_status>
-                <title>Pago Efectivo</title>
-                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,verification_code,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
-                <payment_action>order</payment_action>
-                <can_initialize>1</can_initialize>
-                <is_gateway>1</is_gateway>
-                <can_use_internal>1</can_use_internal>
-                <can_use_checkout>1</can_use_checkout>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_capture_partial>1</can_capture_partial>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_refund>1</can_refund>
-                <can_void>1</can_void>
-                <can_cancel>1</can_cancel>
-                <can_review_payment>1</can_review_payment>
-                <can_deny_payment>1</can_deny_payment>
-                <can_accept_payment>1</can_accept_payment>
-                <can_fetch_transaction_info>1</can_fetch_transaction_info>
-                <can_fetch_transaction_information>1</can_fetch_transaction_information>
-                <group>mercadopago_group</group>
-                <expiration>1</expiration>
-                <instruction_checkout_pagoefectivo><![CDATA[lorem.]]></instruction_checkout_pagoefectivo>
-                <get_document_identification>1</get_document_identification>
-                <min_order_total>5</min_order_total>
-                <max_order_total>10000</max_order_total>
-                <allowspecific>1</allowspecific>
-                <specificcountry>PE</specificcountry>
-                <mp_site_id>MPE</mp_site_id>
-                <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_pagoefectivo>
-            <mercadopago_paymentmagento_webpay>
+            </mercadopago_adbpayment_pse>
+            <mercadopago_adbpayment_webpay>
                 <model>MercadoPagoWebpayFacade</model>
                 <order_status>pending</order_status>
                 <title>Redcompra Webpay</title>
@@ -704,7 +333,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <group>mercadopago_group</group>
                 <expiration>1</expiration>
-                <instruction_checkout_webpay><![CDATA[lorem.]]></instruction_checkout_webpay>
+                <instruction_checkout_webpay><![CDATA[Complete your order to proceed with payment.]]></instruction_checkout_webpay>
                 <get_document_identification>1</get_document_identification>
                 <min_order_total>50</min_order_total>
                 <max_order_total>3000000</max_order_total>
@@ -712,7 +341,7 @@ Ao finalizar a compra, você receberá o código para fazer o pagamento no banco
                 <specificcountry>CL</specificcountry>
                 <mp_site_id>MLC</mp_site_id>
                 <sort_order>15</sort_order>
-            </mercadopago_paymentmagento_webpay>
+            </mercadopago_adbpayment_webpay>
         </payment>
         <dev>
             <js>

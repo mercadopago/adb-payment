@@ -2,7 +2,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
@@ -39,7 +39,9 @@
              */
             financeCost(
                 selectInstallment,
-                rulesForFinanceCost
+                rulesForFinanceCost,
+                cardIndex,
+                paymentMethod
             ) {
                 var serviceUrl,
                     payload,
@@ -50,7 +52,10 @@
                         installment_rate: 0,
                         discount_rate: 0,
                         reimbursement_rate: false,
-                        total_amount: 0
+                        total_amount: 0,
+                        card_amount: 0,
+                        card_index: 0,
+                        payment_method: paymentMethod
                     };
 
                 if (totals && totals.getSegment('finance_cost_amount')) {
@@ -68,7 +73,10 @@
                             installment_rate: keys.installment_rate,
                             discount_rate: keys.discount_rate,
                             reimbursement_rate: keys.reimbursement_rate,
-                            total_amount: keys.total_amount
+                            total_amount: keys.total_amount,
+                            card_amount: rulesForFinanceCost[0].total_amount,
+                            card_index: cardIndex,
+                            payment_method: paymentMethod
                         };
                     }
                 });

@@ -2,15 +2,15 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Block\Customer;
+namespace MercadoPago\AdbPayment\Block\Customer;
 
 use Magento\Vault\Api\Data\PaymentTokenInterface;
 use Magento\Vault\Block\AbstractCardRenderer;
-use MercadoPago\PaymentMagento\Model\Ui\ConfigProviderCc;
+use MercadoPago\AdbPayment\Model\Ui\ConfigProviderCc;
 
 /**
  * Block to render saved cards.

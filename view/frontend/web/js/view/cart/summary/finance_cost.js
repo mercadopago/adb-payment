@@ -1,7 +1,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
@@ -18,7 +18,7 @@
 
         return Component.extend({
             defaults: {
-                template: 'MercadoPago_PaymentMagento/cart/summary/finance_cost',
+                template: 'MercadoPago_AdbPayment/cart/summary/finance_cost',
                 active: false
             },
             totals: quote.getTotals(),

@@ -2,17 +2,17 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Cron;
+namespace MercadoPago\AdbPayment\Cron;
 
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigCheckoutPro;
-use MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigCheckoutPro;
+use MercadoPago\AdbPayment\Model\Console\Command\Notification\FetchStatus;
 
 /**
  * CronTab for cancel Checkout Pro.

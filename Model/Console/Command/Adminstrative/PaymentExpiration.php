@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative;
+namespace MercadoPago\AdbPayment\Model\Console\Command\Adminstrative;
 
 use Exception;
 use Magento\Config\Model\ResourceModel\Config;
@@ -17,8 +17,8 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Store\Model\StoreManagerInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\Config as MercadoPagoConfig;
-use MercadoPago\PaymentMagento\Model\Console\Command\AbstractModel;
+use MercadoPago\AdbPayment\Gateway\Config\Config as MercadoPagoConfig;
+use MercadoPago\AdbPayment\Model\Console\Command\AbstractModel;
 
 /**
  * Model Command Line for payment expiration in Mercado Pago.

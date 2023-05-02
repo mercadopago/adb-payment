@@ -2,17 +2,17 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Block\Sales\Form;
+namespace MercadoPago\AdbPayment\Block\Sales\Form;
 
 use Magento\Backend\Model\Session\Quote;
 use Magento\Framework\Phrase;
 use Magento\Framework\View\Element\Template\Context;
-use MercadoPago\PaymentMagento\Gateway\Config\Config;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigPse;
+use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigPse;
 
 /**
  * Payment form block by Pse.
@@ -26,7 +26,7 @@ class Pse extends \Magento\Payment\Block\Form
      *
      * @var string
      */
-    protected $_template = 'MercadoPago_PaymentMagento::form/pse.phtml';
+    protected $_template = 'MercadoPago_AdbPayment::form/pse.phtml';
 
     /**
      * @var Config

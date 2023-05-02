@@ -2,18 +2,18 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Gateway\Request;
+namespace MercadoPago\AdbPayment\Gateway\Request;
 
 use InvalidArgumentException;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\Config;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigCc;
+use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigCc;
 
 /**
  * Gateway requests for Payment refund.
@@ -93,8 +93,8 @@ class RefundRequest implements BuilderInterface
         $totalCreditmemo = $this->configPayment->formatPrice($creditmemo->getGrandTotal(), $storeId);
 
         $result = [
-            self::MERCADOPAGO_PAYMENT_ID => preg_replace('/[^0-9]/', '', $payment->getLastTransId()),
-            self::X_IDEMPOTENCY_KEY      => $payment->getLastTransId(),
+            self::MERCADOPAGO_PAYMENT_ID => preg_replace('/[^0-9]/', '', $payment->getTransactionId()),
+            self::X_IDEMPOTENCY_KEY      => $payment->getTransactionId() . '-' .  uniqid(),
         ];
 
         if ($grandTotal !== $totalCreditmemo) {

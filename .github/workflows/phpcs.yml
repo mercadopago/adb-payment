@@ -56,8 +56,8 @@ jobs:
 
       - name: Install MP Plugin
         id: install-plugin
-        run: mkdir magento2/app/code/MercadoPago/ && mkdir magento2/app/code/MercadoPago/PaymentMagento/ && mv $(ls --ignore='bin' --ignore='.github' --ignore='magento2') magento2/app/code/MercadoPago/PaymentMagento && ls
-        
+        run: mkdir magento2/app/code/MercadoPago/ && mkdir magento2/app/code/MercadoPago/AdbPayment/ && mv $(ls --ignore='bin' --ignore='.github' --ignore='magento2') magento2/app/code/MercadoPago/AdbPayment && ls
+
       - name: Download PHPStan composer dependencies
         id: phpstan-composer-dependencies
         env:

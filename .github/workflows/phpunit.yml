@@ -55,15 +55,15 @@ jobs:
 
       - name: Install MP Plugin
         id: install-plugin
-        run: mkdir magento2/app/code/MercadoPago/ && mkdir magento2/app/code/MercadoPago/PaymentMagento/ && mv $(ls --ignore='bin' --ignore='.github' --ignore='magento2') magento2/app/code/MercadoPago/PaymentMagento && ls
+        run: mkdir magento2/app/code/MercadoPago/ && mkdir magento2/app/code/MercadoPago/AdbPayment/ && mv $(ls --ignore='bin' --ignore='.github' --ignore='magento2') magento2/app/code/MercadoPago/AdbPayment && ls
 
       - name: Run Unit Test
         id: unit-test
-        run: magento2/vendor/phpunit/phpunit/phpunit --configuration magento2/app/code/MercadoPago/PaymentMagento/phpunit.xml --coverage-clover clover.xml --coverage-text magento2/app/code/MercadoPago/PaymentMagento/Tests
+        run: magento2/vendor/phpunit/phpunit/phpunit --configuration magento2/app/code/MercadoPago/AdbPayment/phpunit.xml --coverage-clover clover.xml --coverage-text magento2/app/code/MercadoPago/AdbPayment/Tests
 
       - name: Repository Minimum Test Coverage
         id: repository-coverage
-        run: php magento2/app/code/MercadoPago/PaymentMagento/Tests/coverage-checker.php clover.xml 80
+        run: php magento2/app/code/MercadoPago/AdbPayment/Tests/coverage-checker.php clover.xml 80
 
       - name: Pull Request Coverage
         id: pull-request-coverage

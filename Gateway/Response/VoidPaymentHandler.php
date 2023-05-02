@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Gateway\Response;
+namespace MercadoPago\AdbPayment\Gateway\Response;
 
 use InvalidArgumentException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
@@ -42,6 +42,32 @@ class VoidPaymentHandler implements HandlerInterface
      */
     public const RESPONSE_STATUS_DENIED = 'DENIED';
 
+     /**
+     * Payment Id block name.
+     */
+    public const PAYMENT_ID = 'id';
+
+    /**
+     * Payment Id block name.
+     */
+    public const MP_PAYMENT_ID = 'mp_payment_id';
+
+    /**
+     * Status response value.
+     */
+    public const STATUS_DETAIL = 'status_detail';
+
+    /**
+     * MP Status Detail block name.
+     */
+    public const MP_STATUS_DETAIL = 'mp_status_detail';
+
+    /**
+     * MP Status Detail block name.
+     */
+    public const MP_STATUS = 'mp_status';
+
+
     /**
      * Handles.
      *
@@ -65,6 +91,8 @@ class VoidPaymentHandler implements HandlerInterface
             $order = $payment->getOrder();
             $amount = $order->getBaseGrandTotal();
 
+            $this->setAddtionalInformation($payment, $response);
+
             $payment->setPreparedMessage(__('Order Canceled.'));
             $payment->setIsTransactionPending(false);
             $payment->setIsTransactionDenied(true);
@@ -72,5 +100,31 @@ class VoidPaymentHandler implements HandlerInterface
             $payment->setBaseAmountCanceled($amount);
             $payment->setShouldCloseParentTransaction(true);
         }
+    }
+
+     /**
+     * Set Additional Information.
+     *
+     * @param InfoInterface $payment
+     * @param array         $response
+     *
+     * @return void
+     */
+    public function setAddtionalInformation($payment, $response)
+    {
+        $payment->setAdditionalInformation(
+            self::MP_PAYMENT_ID,
+            $response[self::PAYMENT_ID]
+        );
+
+        $payment->setAdditionalInformation(
+            self::MP_STATUS,
+            $response[self::RESPONSE_STATUS]
+        );
+
+        $payment->setAdditionalInformation(
+            self::MP_STATUS_DETAIL,
+            $response[self::STATUS_DETAIL]
+        );
     }
 }

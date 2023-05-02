@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Ui;
+namespace MercadoPago\AdbPayment\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
@@ -14,7 +14,7 @@ use Magento\Framework\Phrase;
 use Magento\Framework\View\Asset\Source;
 use Magento\Payment\Model\CcConfig;
 use Magento\Quote\Api\Data\CartInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigPix;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigPix;
 
 /**
  * User interface model for settings Pix.
@@ -24,7 +24,7 @@ class ConfigProviderPix implements ConfigProviderInterface
     /**
      * Mercado Pago Payment Magento Pix Code.
      */
-    public const CODE = 'mercadopago_paymentmagento_pix';
+    public const CODE = 'mercadopago_adbpayment_pix';
 
     /**
      * @var ConfigPix
@@ -94,6 +94,7 @@ class ConfigProviderPix implements ConfigProviderInterface
                     'document_identification_capture' => $this->config->hasUseDocumentIdentificationCapture($storeId),
                     'instruction_checkout'            => nl2br($this->getDescriptions($storeId)),
                     'logo'                            => $this->getLogo(),
+                    'fingerprint'                     => $this->config->getFingerPrintLink($storeId)
                 ],
             ],
         ];
@@ -107,7 +108,7 @@ class ConfigProviderPix implements ConfigProviderInterface
     public function getLogo()
     {
         $logo = [];
-        $asset = $this->ccConfig->createAsset('MercadoPago_PaymentMagento::images/pix/logo.svg');
+        $asset = $this->ccConfig->createAsset('MercadoPago_AdbPayment::images/pix/logo.svg');
         $placeholder = $this->assetSource->findSource($asset);
         if ($placeholder) {
             list($width, $height) = getimagesizefromstring($asset->getSourceFile());

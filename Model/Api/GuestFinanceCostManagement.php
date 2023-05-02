@@ -2,17 +2,17 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Api;
+namespace MercadoPago\AdbPayment\Model\Api;
 
 use Magento\Quote\Model\QuoteIdMaskFactory;
-use MercadoPago\PaymentMagento\Api\Data\FinanceCostInterface;
-use MercadoPago\PaymentMagento\Api\Data\RulesForFinanceCostInterface;
-use MercadoPago\PaymentMagento\Api\FinanceCostManagementInterface;
-use MercadoPago\PaymentMagento\Api\GuestFinanceCostManagementInterface;
+use MercadoPago\AdbPayment\Api\Data\FinanceCostInterface;
+use MercadoPago\AdbPayment\Api\Data\RulesForFinanceCostInterface;
+use MercadoPago\AdbPayment\Api\FinanceCostManagementInterface;
+use MercadoPago\AdbPayment\Api\GuestFinanceCostManagementInterface;
 
 /**
  * Model for application of Financing Cost in Order totals when guest.

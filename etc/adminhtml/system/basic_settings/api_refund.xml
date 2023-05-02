@@ -6,7 +6,7 @@
             <label>Receive refund notification</label>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
             <comment>Enable the creation of a Credit Note when a refund occurs in Mercado Pago.</comment>
-            <config_path>payment/mercadopago_paymentmagento/receive_refund</config_path>
+            <config_path>payment/mercadopago_adbpayment/receive_refund</config_path>
             <validate>required-entry</validate>
         </field>
     </group>

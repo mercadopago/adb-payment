@@ -2,7 +2,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 -->
@@ -18,14 +18,14 @@
                visible="isRadioButtonVisible()"></input>
         <label attr="for: getCode()" class="label">
             <span class="payment-method-label">
-                <span class="payment-method-label-icon"> 
+                <span class="payment-method-label-icon">
                     <img data-bind="attr: {
                         'src': getLogo().url,
                         'width': getLogo().width,
                         'height': getLogo().height
                         }">
                 </span>
-                <span class="payment-method-label-title" data-bind="text: getTitle()"></span> 
+                <span class="payment-method-label-title" data-bind="text: getTitle()"></span>
             </span>
         </label>
     </div>
@@ -43,7 +43,13 @@
             <each args="$parent.getRegion('before-place-order')" render=""></each>
         </div>
         <div class="actions-toolbar">
-            <div class="primary">
+            <div class="primary mp-flex-baseline">
+                <p class="mp-mr-20">
+                    <!-- ko i18n: 'By continuing, you agree to our '--><!-- /ko -->
+                    <a data-bind="attr: {href: getFingerprint(), title: $t('link')}" target="_blank">
+                        <!-- ko i18n: 'Terms and Conditions.'--><!-- /ko -->
+                    </a>
+                </p>
                 <button class="action primary checkout"
                         type="submit"
                         click="beforePlaceOrder"

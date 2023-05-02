@@ -2,8 +2,6 @@ name: 🐞 Report a bug
 description: Technical issue with the module or integration
 title: "[Bug]: "
 labels: ["Bug","Needs Triage"]
-assignees:
-  - elisei
 body:
   - type: markdown
     attributes:

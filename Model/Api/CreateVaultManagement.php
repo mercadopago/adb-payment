@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Api;
+namespace MercadoPago\AdbPayment\Model\Api;
 
 use Exception;
 use InvalidArgumentException;
@@ -19,8 +19,8 @@ use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\Data\CartInterface as QuoteCartInterface;
-use MercadoPago\PaymentMagento\Api\CreateVaultManagementInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\Config as ConfigBase;
+use MercadoPago\AdbPayment\Api\CreateVaultManagementInterface;
+use MercadoPago\AdbPayment\Gateway\Config\Config as ConfigBase;
 
 /**
  * Model for creating the Vault on Mercado Pago.

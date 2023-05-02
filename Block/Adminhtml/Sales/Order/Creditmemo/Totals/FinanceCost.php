@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Block\Adminhtml\Sales\Order\Creditmemo\Totals;
+namespace MercadoPago\AdbPayment\Block\Adminhtml\Sales\Order\Creditmemo\Totals;
 
 use Magento\Framework\DataObject;
 use Magento\Framework\View\Element\Template;

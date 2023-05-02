@@ -1,7 +1,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
@@ -9,7 +9,7 @@ define([
     'underscore',
     'jquery',
     'Magento_Checkout/js/model/url-builder',
-    'MercadoPago_PaymentMagento/js/view/payment/mp-security-form',
+    'MercadoPago_AdbPayment/js/view/payment/default',
     'mage/storage',
     'observerCheckoutPro'
 ], function (
@@ -25,8 +25,8 @@ define([
         redirectAfterPlaceOrder: true,
         defaults: {
             active: false,
-            template: 'MercadoPago_PaymentMagento/payment/checkout-pro',
-            checkoutProForm: 'MercadoPago_PaymentMagento/payment/checkout-pro-form'
+            template: 'MercadoPago_AdbPayment/payment/checkout-pro',
+            checkoutProForm: 'MercadoPago_AdbPayment/payment/checkout-pro-form'
         },
 
         /**
@@ -44,7 +44,7 @@ define([
          * @returns {String}
          */
         getCode() {
-            return 'mercadopago_paymentmagento_checkout_pro';
+            return 'mercadopago_adbpayment_checkout_pro';
         },
 
         /**
@@ -167,6 +167,14 @@ define([
          */
         getInstructionCheckout() {
             return window.checkoutConfig.payment[this.getCode()].instruction_checkout;
-        }
+        },
+
+        /**
+         * Adds terms and conditions link to checkout
+         * @returns {string}
+         */
+        getFingerprint() {
+            return window.checkoutConfig.payment[this.getCode()].fingerprint;
+        },
     });
 });

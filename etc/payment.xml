@@ -3,7 +3,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 -->
@@ -15,55 +15,22 @@
         </group>
     </groups>
     <methods>
-        <method name="mercadopago_paymentmagento_cc">
+        <method name="mercadopago_adbpayment_cc">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="mercadopago_paymentmagento_boleto">
+        <method name="mercadopago_adbpayment_payment_methods_off">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="mercadopago_paymentmagento_pec">
+        <method name="mercadopago_adbpayment_pix">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="mercadopago_paymentmagento_pix">
+        <method name="mercadopago_adbpayment_pse">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="mercadopago_paymentmagento_pagofacil">
+        <method name="mercadopago_adbpayment_webpay">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
-        <method name="mercadopago_paymentmagento_rapipago">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_paycash">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_oxxo">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_efecty">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_abitab">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_redpagos">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_pse">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_banamex">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_bancomer">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_serfin">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_pagoefectivo">
-            <allow_multiple_address>1</allow_multiple_address>
-        </method>
-        <method name="mercadopago_paymentmagento_webpay">
+        <method name="mercadopago_adbpayment_twocc">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
     </methods>

@@ -2,16 +2,16 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Block\Sales\Info;
+namespace MercadoPago\AdbPayment\Block\Sales\Info;
 
 use Magento\Framework\Phrase;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Payment\Gateway\ConfigInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigCc;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigCc;
 
 /**
  * Payment details form block by card.

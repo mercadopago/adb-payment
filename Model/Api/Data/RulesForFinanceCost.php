@@ -2,14 +2,14 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Api\Data;
+namespace MercadoPago\AdbPayment\Model\Api\Data;
 
 use Magento\Framework\Api\AbstractSimpleObject;
-use MercadoPago\PaymentMagento\Api\Data\RulesForFinanceCostInterface;
+use MercadoPago\AdbPayment\Api\Data\RulesForFinanceCostInterface;
 
 /**
  * Date Model for the Financing Cost Rules.
@@ -95,5 +95,53 @@ class RulesForFinanceCost extends AbstractSimpleObject implements
     public function setTotalAmount($discountRate)
     {
         return $this->setData(RulesForFinanceCostInterface::TOTAL_AMOUNT, $discountRate);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCardAmount()
+    {
+        return $this->_get(RulesForFinanceCostInterface::CARD_AMOUNT);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCardAmount($cardAmount)
+    {
+        return $this->setData(RulesForFinanceCostInterface::CARD_AMOUNT, $cardAmount);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCardIndex()
+    {
+        return $this->_get(RulesForFinanceCostInterface::CARD_INDEX);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCardIndex($cardIndex)
+    {
+        return $this->setData(RulesForFinanceCostInterface::CARD_INDEX, $cardIndex);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPaymentMethod()
+    {
+        return $this->_get(RulesForFinanceCostInterface::PAYMENT_METHOD);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setPaymentMethod($paymentMethod)
+    {
+        return $this->setData(RulesForFinanceCostInterface::PAYMENT_METHOD, $paymentMethod);
     }
 }

@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Gateway\Validator;
+namespace MercadoPago\AdbPayment\Gateway\Validator;
 
 use InvalidArgumentException;
 use Magento\Payment\Gateway\Validator\AbstractValidator;

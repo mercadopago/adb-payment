@@ -1,28 +1,26 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
 define([
     'underscore',
     'jquery',
-    'MercadoPago_PaymentMagento/js/view/payment/mp-security-form',
-    'MercadoPago_PaymentMagento/js/model/mp-card-data'
+    'MercadoPago_AdbPayment/js/view/payment/default',
 ], function (
     _,
     $,
     Component,
-    mpData
 ) {
     'use strict';
 
     return Component.extend({
         defaults: {
             active: false,
-            template: 'MercadoPago_PaymentMagento/payment/webpay',
-            webpayForm: 'MercadoPago_PaymentMagento/payment/webpay-form',
+            template: 'MercadoPago_AdbPayment/payment/webpay',
+            webpayForm: 'MercadoPago_AdbPayment/payment/webpay-form',
             financialInstitution: ''
         },
 
@@ -44,7 +42,7 @@ define([
          * @returns {String}
          */
         getCode() {
-            return 'mercadopago_paymentmagento_webpay';
+            return 'mercadopago_adbpayment_webpay';
         },
 
         /**
@@ -56,10 +54,6 @@ define([
             this._super();
 
             self.getSelectDocumentTypes();
-
-            self.financialInstitution.subscribe((value) => {
-                mpData.financialInstitution = value;
-            });
         },
 
 
@@ -68,7 +62,6 @@ define([
          * @returns {Array}
          */
         getSelectFinancialInstitutions() {
-            console.log(window.checkoutConfig.payment[this.getCode()].finance_inst_options);
             return window.checkoutConfig.payment[this.getCode()].finance_inst_options;
         },
 
@@ -127,6 +120,14 @@ define([
          */
         getInstructionCheckoutWebpay() {
             return window.checkoutConfig.payment[this.getCode()].instruction_checkout_webpay;
-        }
+        },
+
+        /**
+         * Adds terms and conditions link to checkout
+         * @returns {string}
+         */
+        getFingerprint() {
+            return window.checkoutConfig.payment[this.getCode()].fingerprint;
+        },
     });
 });

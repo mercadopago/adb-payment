@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Api\Data;
+namespace MercadoPago\AdbPayment\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
@@ -43,6 +43,21 @@ interface RulesForFinanceCostInterface extends ExtensibleDataInterface
      * Total Amount.
      */
     public const TOTAL_AMOUNT = 'total_amount';
+
+    /**
+     * Card Amount.
+     */
+    public const CARD_AMOUNT = 'card_amount';
+
+    /**
+     * Card Index.
+     */
+    public const CARD_INDEX = 'card_index';
+
+    /**
+     * Payment Method.
+     */
+    public const PAYMENT_METHOD = 'payment_method';
 
     /**
      * Get installments for rule.
@@ -123,4 +138,53 @@ interface RulesForFinanceCostInterface extends ExtensibleDataInterface
      * @return $this
      */
     public function setTotalAmount($totalAmount);
+
+    /**
+     * Get Card Amount.
+     *
+     * @return float|null
+     */
+    public function getCardAmount();
+
+    /**
+     * Set Card Amount.
+     *
+     * @param float $cardAmount
+     *
+     * @return $this
+     */
+    public function setCardAmount($cardAmount);
+
+    /**
+     * Get Card Index.
+     *
+     * @return int|null
+     */
+    public function getCardIndex();
+
+    /**
+     * Set Card Index.
+     *
+     * @param int $cartIndex
+     *
+     * @return $this
+     */
+    public function setCardIndex($cartIndex);
+
+
+    /**
+     * Get Payment Method.
+     *
+     * @return string|null
+     */
+    public function getPaymentMethod();
+
+    /**
+     * Set Payment Method.
+     *
+     * @param string $paymentMethod
+     *
+     * @return $this
+     */
+    public function setPaymentMethod($paymentMethod);
 }

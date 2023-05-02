@@ -5,7 +5,7 @@
 "card_holder_name","Card Holder Name"
 "card_exp_year","Card Exp Year"
 "card_exp_month","Card Exp Month"
-"payer_document_identification","Payer Document Identification"
+"payer_document_identification","Document number"
 "payer_first_name","First Name"
 "payer_last_name","Last Name"
 "init_point","Url"

@@ -3,7 +3,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 -->
@@ -21,6 +21,8 @@
     <table name="quote" resource="default">
         <column xsi:type="decimal" name="finance_cost_amount" scale="4" precision="12" unsigned="false" nullable="true" comment="Finance Cost Amount"/>
         <column xsi:type="decimal" name="base_finance_cost_amount" scale="4" precision="12" unsigned="false" nullable="true" comment="Base Finance Cost Amount"/>
+        <column xsi:type="decimal" name="first_card_amount" scale="4" precision="12" unsigned="false" nullable="true" comment="First Card Amount"/>
+        <column xsi:type="decimal" name="second_card_amount" scale="4" precision="12" unsigned="false" nullable="true" comment="Second Card Amount"/>
     </table>
     <table name="quote_address" resource="default">
         <column xsi:type="decimal" name="discount_coupon_amount" scale="4" precision="12" unsigned="false" nullable="true" comment="Discount coupon Amount"/>

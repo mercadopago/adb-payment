@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Block\Sales\Info;
+namespace MercadoPago\AdbPayment\Block\Sales\Info;
 
 use Magento\Payment\Block\ConfigurableInfo;
 
@@ -22,5 +22,5 @@ class Webpay extends ConfigurableInfo
      *
      * @var string
      */
-    protected $_template = 'MercadoPago_PaymentMagento::info/webpay/instructions.phtml';
+    protected $_template = 'MercadoPago_AdbPayment::info/webpay/instructions.phtml';
 }

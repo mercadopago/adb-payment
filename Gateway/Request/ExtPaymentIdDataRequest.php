@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Gateway\Request;
+namespace MercadoPago\AdbPayment\Gateway\Request;
 
 use InvalidArgumentException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
@@ -39,8 +39,12 @@ class ExtPaymentIdDataRequest implements BuilderInterface
 
         $payment = $paymentDO->getPayment();
 
+        $addInfo = $payment->getAdditionalInformation();
+
+        $mpPaymentId = $addInfo['mp_payment_id'] ?? $payment->getLastTransId();
+
         return [
-            self::MP_REFERENCE_ID => preg_replace('/[^0-9]/', '', $payment->getLastTransId()),
+            self::MP_REFERENCE_ID => preg_replace('/[^0-9]/', '', $mpPaymentId),
         ];
     }
 }

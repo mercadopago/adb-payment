@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Ui;
+namespace MercadoPago\AdbPayment\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
@@ -14,7 +14,7 @@ use Magento\Framework\Phrase;
 use Magento\Framework\View\Asset\Source;
 use Magento\Payment\Model\CcConfig;
 use Magento\Quote\Api\Data\CartInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigWebpay;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigWebpay;
 
 /**
  * User interface model for settings Webpay.
@@ -24,7 +24,7 @@ class ConfigProviderWebpay implements ConfigProviderInterface
     /**
      * Mercado Pago Payment Magento Webpay Code.
      */
-    public const CODE = 'mercadopago_paymentmagento_webpay';
+    public const CODE = 'mercadopago_adbpayment_webpay';
 
     /**
      * @var ConfigWebpay
@@ -97,6 +97,7 @@ class ConfigProviderWebpay implements ConfigProviderInterface
                     'logo'                            => $this->getLogo(),
                     'payment_method_id'               => ConfigWebpay::PAYMENT_METHOD_ID,
                     'finance_inst_options'            => $this->config->getListFinancialInstitution($storeId),
+                    'fingerprint'                     => $this->config->getFingerPrintLink($storeId)
                 ],
             ],
         ];
@@ -110,7 +111,7 @@ class ConfigProviderWebpay implements ConfigProviderInterface
     public function getLogo()
     {
         $logo = [];
-        $asset = $this->ccConfig->createAsset('MercadoPago_PaymentMagento::images/webpay/logo.svg');
+        $asset = $this->ccConfig->createAsset('MercadoPago_AdbPayment::images/webpay/logo.svg');
         $placeholder = $this->assetSource->findSource($asset);
         if ($placeholder) {
             list($width, $height) = getimagesizefromstring($asset->getSourceFile());

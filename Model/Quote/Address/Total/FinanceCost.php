@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Quote\Address\Total;
+namespace MercadoPago\AdbPayment\Model\Quote\Address\Total;
 
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Phrase;

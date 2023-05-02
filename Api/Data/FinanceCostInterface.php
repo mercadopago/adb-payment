@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Api\Data;
+namespace MercadoPago\AdbPayment\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
@@ -32,6 +32,20 @@ interface FinanceCostInterface extends ExtensibleDataInterface
      * @var string
      */
     public const BASE_FINANCE_COST_AMOUNT = 'base_finance_cost_amount';
+
+    /**
+     * First card value.
+     *
+     * @var string
+     */
+    public const FIRST_CARD_AMOUNT = 'first_card_amount';
+
+    /**
+     * Second card value.
+     *
+     * @var string
+     */
+    public const SECOND_CARD_AMOUNT = 'second_card_amount';
 
     /**
      * Get selected installment.

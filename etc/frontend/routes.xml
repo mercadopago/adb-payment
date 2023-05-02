@@ -3,14 +3,14 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="standard">
         <route id="payment_mercadopago" frontName="mp">
-            <module name="MercadoPago_PaymentMagento" />
+            <module name="MercadoPago_AdbPayment" />
         </route>
     </router>
 </config>

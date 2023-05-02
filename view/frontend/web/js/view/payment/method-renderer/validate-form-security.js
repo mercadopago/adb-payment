@@ -6,10 +6,12 @@
 /* @api */
 define([
     'underscore',
-    'jquery'
+    'jquery',
+    'mage/translate'
 ], function (
     _,
-    $
+    $,
+    $t
 ) {
     'use strict';
 
@@ -51,7 +53,7 @@ define([
 
             if (errorMessages.length)
             {
-                target.append('<div class="field-error"><span>' + errorMessages + '</span></div>');
+                target.append('<div class="field-error"><span>' + $t(errorMessages) + '</span></div>');
                 return $('#' + element).closest('.control-mp-iframe').addClass('has-error').removeClass('is-valid');
             }
             return $('#' + element).closest('.control-mp-iframe').addClass('is-valid').removeClass('has-error');
@@ -78,10 +80,18 @@ define([
                     msg = error.message;
                 });
 
-                target.append('<div class="field-error"><span>' + msg + '</span></div>');
+                target.append('<div class="field-error"><span>' + $t(msg) + '</span></div>');
                 return $('#' + element).closest('.control-mp-iframe').addClass('has-error').removeClass('is-valid');
             }
             return $('#' + element).closest('.control-mp-iframe').addClass('is-valid').removeClass('has-error');
-        }
+        },
+
+        /**
+         * Clear Errors in Field
+         * @return {void}
+         */
+        clearSecureFieldsErrors(){
+            return $('#form-secure-fields div.field-error').remove()  
+        },
     };
 });

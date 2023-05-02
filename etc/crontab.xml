@@ -3,67 +3,28 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
-    <group id="mercadopago_paymentmagento">
-        <job name="mercadopago_fetch_disable_payments" instance="MercadoPago\PaymentMagento\Cron\DisablePaymentMethods" method="execute">
-            <schedule>0 0 * * 0</schedule>
-        </job>
-        <job name="mercadopago_fetch_merchant_info" instance="MercadoPago\PaymentMagento\Cron\FetchMerchantInfo" method="execute">
+    <group id="mercadopago_adbpayment">
+        <job name="mercadopago_fetch_merchant_info" instance="MercadoPago\AdbPayment\Cron\FetchMerchantInfo" method="execute">
             <schedule>0 0 1 * *</schedule>
         </job>
-        <job name="mercadopago_fetch_pix_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchPixOrderStatus" method="execute">
+        <job name="mercadopago_fetch_pix_order_status" instance="MercadoPago\AdbPayment\Cron\FetchPixOrderStatus" method="execute">
             <schedule>0 9 * * *</schedule>
         </job>
-        <job name="mercadopago_fetch_boleto_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchBoletoOrderStatus" method="execute">
+        <job name="mercadopago_fetch_payment_methods_off_order_status" instance="MercadoPago\AdbPayment\Cron\FetchPaymentMethodsOffOrderStatus" method="execute">
             <schedule>0 9 * * 1-5</schedule>
         </job>
-        <job name="mercadopago_fetch_pec_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchPecOrderStatus" method="execute">
+        <job name="mercadopago_cancel_checkout_pro" instance="MercadoPago\AdbPayment\Cron\CancelCheckoutPro" method="execute">
             <schedule>0 9 * * 1-5</schedule>
         </job>
-        <job name="mercadopago_cancel_checkout_pro" instance="MercadoPago\PaymentMagento\Cron\CancelCheckoutPro" method="execute">
-            <schedule>0 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_abitab_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchAbitabOrderStatus" method="execute">
-            <schedule>1 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_banamex_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchBanamexOrderStatus" method="execute">
-            <schedule>2 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_bancomer_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchBancomerOrderStatus" method="execute">
-            <schedule>3 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_efecty_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchEfectyOrderStatus" method="execute">
-            <schedule>4 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_oxxo_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchOxxoOrderStatus" method="execute">
-            <schedule>5 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_pagoefectivo_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchPagoEfectivoOrderStatus" method="execute">
-            <schedule>6 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_pagofacil_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchPagoFacilOrderStatus" method="execute">
-            <schedule>7 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_paycash_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchPayCashOrderStatus" method="execute">
-            <schedule>8 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_pse_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchPseOrderStatus" method="execute">
+        <job name="mercadopago_fetch_pse_order_status" instance="MercadoPago\AdbPayment\Cron\FetchPseOrderStatus" method="execute">
             <schedule>9 9 * * 1-5</schedule>
         </job>
-        <job name="mercadopago_fetch_rapipago_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchRapiPagoOrderStatus" method="execute">
-            <schedule>10 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_redpagos_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchRedpagosOrderStatus" method="execute">
-            <schedule>11 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_serfin_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchSerfinOrderStatus" method="execute">
-            <schedule>12 9 * * 1-5</schedule>
-        </job>
-        <job name="mercadopago_fetch_webpay_order_status" instance="MercadoPago\PaymentMagento\Cron\FetchWebpayOrderStatus" method="execute">
+        <job name="mercadopago_fetch_webpay_order_status" instance="MercadoPago\AdbPayment\Cron\FetchWebpayOrderStatus" method="execute">
             <schedule>13 9 * * 1-5</schedule>
         </job>
     </group>

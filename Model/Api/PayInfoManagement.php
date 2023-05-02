@@ -2,14 +2,14 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Api;
+namespace MercadoPago\AdbPayment\Model\Api;
 
 use Magento\Sales\Api\OrderRepositoryInterface;
-use MercadoPago\PaymentMagento\Api\PayInfoManagementInterface;
+use MercadoPago\AdbPayment\Api\PayInfoManagementInterface;
 
 /**
  * Model for payment details.
@@ -46,7 +46,7 @@ class PayInfoManagement implements PayInfoManagementInterface
         $order = $this->orderRepository->get($orderId);
         $payment = $order->getPayment();
 
-        if ($payment->getMethod() === 'mercadopago_paymentmagento_checkout_pro') {
+        if ($payment->getMethod() === 'mercadopago_adbpayment_checkout_pro') {
             $info['data'] = [
                 'id'            => $order->getPayment()->getAdditionalInformation('id'),
                 'init_point'    => $order->getPayment()->getAdditionalInformation('init_point'),

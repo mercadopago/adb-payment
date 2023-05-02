@@ -1,7 +1,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
@@ -10,7 +10,7 @@ define([
 ], function () {
     'use strict';
     // eslint-disable-next-line no-undef
-    window.mp = new MercadoPago(window.checkoutConfig.payment['mercadopago_paymentmagento'].public_key, {
-        locale: window.checkoutConfig.payment['mercadopago_paymentmagento'].locale
+    window.mp = new MercadoPago(window.checkoutConfig.payment['mercadopago_adbpayment'].public_key, {
+        locale: window.checkoutConfig.payment['mercadopago_adbpayment'].locale
     });
 });

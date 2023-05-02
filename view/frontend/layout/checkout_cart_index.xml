@@ -3,7 +3,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 -->
@@ -19,7 +19,7 @@
                                 <item name="before_grandtotal" xsi:type="array">
                                     <item name="children" xsi:type="array">
                                         <item name="finance_cost_amount" xsi:type="array">
-                                            <item name="component"  xsi:type="string">MercadoPago_PaymentMagento/js/view/cart/totals/finance_cost</item>
+                                            <item name="component"  xsi:type="string">MercadoPago_AdbPayment/js/view/cart/totals/finance_cost</item>
                                             <item name="config" xsi:type="array">
                                                 <item name="title" xsi:type="string" translate="true">Finance Cost</item>
                                             </item>

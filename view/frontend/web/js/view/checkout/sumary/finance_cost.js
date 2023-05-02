@@ -1,13 +1,13 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
 define(
     [
-        'MercadoPago_PaymentMagento/checkout/summary/finance_cost'
+        'MercadoPago_AdbPayment/checkout/summary/finance_cost'
     ],
     function (Component) {
         'use strict';

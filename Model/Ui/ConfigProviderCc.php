@@ -2,17 +2,17 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Ui;
+namespace MercadoPago\AdbPayment\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\View\Asset\Source;
 use Magento\Payment\Model\CcConfig;
 use Magento\Quote\Api\Data\CartInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigCc;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigCc;
 
 /**
  * User interface model for settings Card.
@@ -22,12 +22,12 @@ class ConfigProviderCc implements ConfigProviderInterface
     /**
      * Mercadopago Payment Magento Cc Code.
      */
-    public const CODE = 'mercadopago_paymentmagento_cc';
+    public const CODE = 'mercadopago_adbpayment_cc';
 
     /**
      * Mercadopago Payment Magento Cc Vault Code.
      */
-    public const VAULT_CODE = 'mercadopago_paymentmagento_cc_vault';
+    public const VAULT_CODE = 'mercadopago_adbpayment_cc_vault';
 
     /**
      * @var configCc
@@ -98,6 +98,7 @@ class ConfigProviderCc implements ConfigProviderInterface
                     'document_identification_capture' => $this->configCc->hasUseDocumentIdentificationCapture($storeId),
                     'unsupported_pre_auth'            => $this->configCc->getUnsupportedPreAuth($storeId),
                     'ccVaultCode'                     => self::VAULT_CODE,
+                    'fingerprint'                     => $this->configCc->getFingerPrintLink($storeId)
                 ],
             ],
         ];
@@ -119,7 +120,7 @@ class ConfigProviderCc implements ConfigProviderInterface
         foreach ($types as $code => $label) {
             if (!array_key_exists($code, $this->icons)) {
                 $asset = $this->ccConfig->createAsset(
-                    'MercadoPago_PaymentMagento::images/cc/'.$label.'.svg'
+                    'MercadoPago_AdbPayment::images/cc/'.$label.'.svg'
                 );
                 $placeholder = $this->assetSource->findSource($asset);
                 if ($placeholder) {
@@ -145,7 +146,7 @@ class ConfigProviderCc implements ConfigProviderInterface
     public function getLogo()
     {
         $logo = [];
-        $asset = $this->ccConfig->createAsset('MercadoPago_PaymentMagento::images/cc/logo.svg');
+        $asset = $this->ccConfig->createAsset('MercadoPago_AdbPayment::images/cc/logo.svg');
         $placeholder = $this->assetSource->findSource($asset);
         if ($placeholder) {
             list($width, $height) = getimagesizefromstring($asset->getSourceFile());

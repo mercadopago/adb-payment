@@ -1,0 +1,82 @@
+
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var MercadoPago\AdbPayment\Block\Order\Success\Additional $block
+ * @see MercadoPago\AdbPayment\Block\Order\Success
+ */
+?>
+<div class="mercadopago-payment-success-details">
+    <?php
+        $messageLineCode = $block->getInfo('message_line_code');
+        $messageInfo = $block->getInfo('message_info');
+        $messageWillApproved = $block->getInfo('message_will_approved');
+        $messageDocument = $block->getInfo('message_document');
+        $document = $block->getInfo('payer_document_identification');
+        $lineCode = $block->getInfo('line_code');
+
+    ?>
+
+    <?php if ($messageInfo) { ?>
+        <p><?= $block->escapeHtml(__($messageInfo)) ?></p>
+    <?php } ?>
+
+    <?php if ($lineCode) { ?>
+        <p><b><?= $block->escapeHtml(__($messageLineCode)) ?>:</b></p>
+
+        <div class="field mercadopago-input-group">
+            <div class="control _with-tooltip">
+                <input type="text"
+                    id="line-code-value"
+                    value="<?= $block->escapeHtml($lineCode); ?>"
+                    class="input-text mercadopago-input-small"/>
+                <div class="field-tooltip toggle">
+                    <button class="btn" id="copy-code"
+                        data-clipboard-action="copy"
+                        data-clipboard-target="#line-code-value">
+                        <?= $block->escapeHtml(__('Copy')); ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
+    <?php if ($messageDocument) { ?>
+        <p><?= $block->escapeHtml(__($messageDocument)) ?>: <b><?= $document; ?></b> </p>
+    <?php } ?>
+
+    <?php if ($messageWillApproved) { ?>
+        <p><?= $block->escapeHtml(__($messageWillApproved)) ?></p>
+    <?php } ?>
+
+    <div>
+        <?php if ($block->getInfo('external_resource_url')) { ?>
+            <a href="<?= $block->escapeHtml($block->getInfo('external_resource_url')); ?>"
+                target="_blank"
+                class="action primary continue">
+                <?= $block->escapeHtml(__('Details for payment')) ?>
+            </a>
+        <?php } else {
+            echo __('Error getting the link to the ticket. Please contact the seller.');
+        } ?>
+    </div>
+
+    <div class="mercadopago-payment-logo"></div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#copy-code": {
+            "widgetClipboard": {
+                "enabled": true,
+                "copiedtext": "<?= /* @noEscape */ __('Copied'); ?>",
+                "textBtn": "<?= /* @noEscape */ __('Copy'); ?>"
+            }
+        }
+    }
+</script>

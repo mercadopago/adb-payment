@@ -2,14 +2,14 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Cron;
+namespace MercadoPago\AdbPayment\Cron;
 
 use Magento\Payment\Model\Method\Logger;
-use MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\FetchMerchant;
+use MercadoPago\AdbPayment\Model\Console\Command\Adminstrative\FetchMerchant;
 
 /**
  * CronTab for fetch merchant data.

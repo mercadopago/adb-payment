@@ -2,14 +2,14 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Console\Command\Notification;
+namespace MercadoPago\AdbPayment\Console\Command\Notification;
 
 use Magento\Framework\App\State;
-use MercadoPago\PaymentMagento\Model\Console\Command\Notification\CheckoutProAddChildPayment;
+use MercadoPago\AdbPayment\Model\Console\Command\Notification\CheckoutProAddChildPayment;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

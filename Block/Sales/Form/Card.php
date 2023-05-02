@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Block\Sales\Form;
+namespace MercadoPago\AdbPayment\Block\Sales\Form;
 
 use Magento\Payment\Block\Form\Cc as NativeCc;
 
@@ -22,5 +22,5 @@ class Card extends NativeCc
      *
      * @var string
      */
-    protected $_template = 'MercadoPago_PaymentMagento::form/cc.phtml';
+    protected $_template = 'MercadoPago_AdbPayment::form/cc.phtml';
 }

@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Gateway\Config;
+namespace MercadoPago\AdbPayment\Gateway\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
@@ -23,9 +23,9 @@ class ConfigCcVault extends PaymentConfig
     public const CVV_ENABLED = 'cvv_enabled';
 
     /**
-     * Mercadopago Paymentmagento Cc Vault.
+     * Mercadopago AdbPayment Cc Vault.
      */
-    public const METHOD = 'mercadopago_paymentmagento_cc_vault';
+    public const METHOD = 'mercadopago_adbpayment_cc_vault';
 
     /**
      * @var ScopeConfigInterface

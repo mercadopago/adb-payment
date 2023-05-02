@@ -2,18 +2,18 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Ui;
+namespace MercadoPago\AdbPayment\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
 use Magento\Framework\View\Asset\Source;
 use Magento\Payment\Model\CcConfig;
 use Magento\Quote\Api\Data\CartInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigCheckoutPro;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigCheckoutPro;
 
 /**
  * User interface model for settings Checkout Pro.
@@ -23,7 +23,7 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
     /**
      * Mercado Pago Payment Magento Checkout Pro Code.
      */
-    public const CODE = 'mercadopago_paymentmagento_checkout_pro';
+    public const CODE = 'mercadopago_adbpayment_checkout_pro';
 
     /**
      * @var ConfigCheckoutPro
@@ -98,6 +98,7 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
                         'headerColor'   => $this->config->getStylesHeaderColor($storeId),
                         'elementsColor' => $this->config->getStylesElementsColor($storeId),
                     ],
+                    'fingerprint'           => $this->config->getFingerPrintLink($storeId),
                 ],
             ],
         ];
@@ -111,7 +112,7 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
     public function getLogo()
     {
         $logo = [];
-        $asset = $this->ccConfig->createAsset('MercadoPago_PaymentMagento::images/checkout-pro/logo.svg');
+        $asset = $this->ccConfig->createAsset('MercadoPago_AdbPayment::images/checkout-pro/logo.svg');
         $placeholder = $this->assetSource->findSource($asset);
         if ($placeholder) {
             list($width, $height) = getimagesizefromstring($asset->getSourceFile());

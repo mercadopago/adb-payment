@@ -2,13 +2,13 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
 /**
- * @var \MercadoPago\PaymentMagento\Block\Sales\Info\Pse $block
- * @see \MercadoPago\PaymentMagento\Block\Sales\Info\Pse
+ * @var \MercadoPago\AdbPayment\Block\Sales\Info\Pse $block
+ * @see \MercadoPago\AdbPayment\Block\Sales\Info\Pse
  */
 $title = $block->escapeHtml($block->getMethod()->getTitle());
 $specificInfo = $block->getSpecificInformation();
@@ -59,7 +59,7 @@ $statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_sta
                             </th>
                             <td>
                                 <a target="_blank"
-                                    href="<?=  $block->escapeHtml($externalLink) ?>" 
+                                    href="<?=  $block->escapeHtml($externalLink) ?>"
                                     alt="<?= /* @noEscape */ $title ?>">
                                     <?= $block->escapeHtml(__('Details for payment')); ?>
                                 </a>
@@ -79,7 +79,7 @@ $statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_sta
                     <?php if ($payerDocumentIdentification): ?>
                         <tr>
                             <th scope="row">
-                                <?= $block->escapeHtml(__('Payer Document Identification')); ?>
+                                <?= $block->escapeHtml(__('Document number')); ?>
                             </th>
                             <td>
                                 <?= $block->escapeHtml($payerDocumentIdentification) ?>

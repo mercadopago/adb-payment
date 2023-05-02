@@ -3,7 +3,7 @@
     <group id="privacy_information" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
         <label>Sales requirements</label>
         <field id="information" type="text" translate="label comment" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
-            <frontend_model>MercadoPago\PaymentMagento\Model\Adminhtml\Source\PrivacyInformation</frontend_model>
+            <frontend_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\PrivacyInformation</frontend_model>
         </field>
     </group>
 </include>

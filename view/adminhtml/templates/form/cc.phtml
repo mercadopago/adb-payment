@@ -2,7 +2,7 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
@@ -12,8 +12,8 @@
  */
 $code = $block->escapeHtml($block->getMethodCode());
 ?>
-<fieldset class="admin__fieldset payment-method" 
-    id="payment_form_<?= /* @noEscape */ $code ?>" 
+<fieldset class="admin__fieldset payment-method"
+    id="payment_form_<?= /* @noEscape */ $code ?>"
     data-url-to-tokenize="<?= $block->escapeHtml($block->getUrlForTokenize()); ?>">
     <?= $block->escapeHtml(
         __('In order to comply with PCI regulations, the administrator cannot capture this payment method.')

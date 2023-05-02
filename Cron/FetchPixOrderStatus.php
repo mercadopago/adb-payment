@@ -2,17 +2,17 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Cron;
+namespace MercadoPago\AdbPayment\Cron;
 
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigPix;
-use MercadoPago\PaymentMagento\Model\Console\Command\Notification\FetchStatus;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigPix;
+use MercadoPago\AdbPayment\Model\Console\Command\Notification\FetchStatus;
 
 /**
  * CronTab for fetch Pix Order Status.

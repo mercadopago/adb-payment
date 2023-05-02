@@ -2,16 +2,16 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Block\Sales\Form;
+namespace MercadoPago\AdbPayment\Block\Sales\Form;
 
 use Magento\Backend\Model\Session\Quote;
 use Magento\Framework\Phrase;
 use Magento\Framework\View\Element\Template\Context;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigCheckoutPro;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigCheckoutPro;
 
 /**
  * Payment form block by checkout pro.
@@ -25,7 +25,7 @@ class CheckoutPro extends \Magento\Payment\Block\Form
      *
      * @var string
      */
-    protected $_template = 'MercadoPago_PaymentMagento::form/checkout-pro.phtml';
+    protected $_template = 'MercadoPago_AdbPayment::form/checkout-pro.phtml';
 
     /**
      * @var ConfigCheckoutPro

@@ -2,14 +2,14 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Gateway\Data\Order;
+namespace MercadoPago\AdbPayment\Gateway\Data\Order;
 
 /**
- * Factory class for @see \MercadoPago\PaymentMagento\Gateway\Data\Order\AddressAdapter.
+ * Factory class for @see \MercadoPago\AdbPayment\Gateway\Data\Order\AddressAdapter.
  */
 class AddressAdapterFactory
 {
@@ -46,7 +46,7 @@ class AddressAdapterFactory
      *
      * @param array $data
      *
-     * @return \MercadoPago\PaymentMagento\Gateway\Data\Order\AddressAdapter
+     * @return \MercadoPago\AdbPayment\Gateway\Data\Order\AddressAdapter
      */
     public function create(array $data = [])
     {

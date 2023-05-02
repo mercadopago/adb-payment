@@ -2,15 +2,15 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Observer;
+namespace MercadoPago\AdbPayment\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use MercadoPago\PaymentMagento\Model\Console\Command\Adminstrative\FetchMerchant;
+use MercadoPago\AdbPayment\Model\Console\Command\Adminstrative\FetchMerchant;
 
 /**
  * Excecute Fetch Merchant Data after save config.

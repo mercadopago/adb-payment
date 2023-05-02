@@ -2,11 +2,11 @@
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
-namespace MercadoPago\PaymentMagento\Model\Ui;
+namespace MercadoPago\AdbPayment\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
@@ -14,7 +14,7 @@ use Magento\Framework\Phrase;
 use Magento\Framework\View\Asset\Source;
 use Magento\Payment\Model\CcConfig;
 use Magento\Quote\Api\Data\CartInterface;
-use MercadoPago\PaymentMagento\Gateway\Config\ConfigPse;
+use MercadoPago\AdbPayment\Gateway\Config\ConfigPse;
 
 /**
  * User interface model for settings Pse.
@@ -24,7 +24,7 @@ class ConfigProviderPse implements ConfigProviderInterface
     /**
      * Mercado Pago Payment Magento Pse Code.
      */
-    public const CODE = 'mercadopago_paymentmagento_pse';
+    public const CODE = 'mercadopago_adbpayment_pse';
 
     /**
      * @var ConfigPse
@@ -98,6 +98,7 @@ class ConfigProviderPse implements ConfigProviderInterface
                     'payment_method_id'               => ConfigPse::PAYMENT_METHOD_ID,
                     'finance_inst_options'            => $this->config->getListFinancialInstitution($storeId),
                     'payer_entity_types'              => $this->config->getListPayerEntityTypes($storeId),
+                    'fingerprint'                     => $this->config->getFingerPrintLink($storeId)
                 ],
             ],
         ];
@@ -111,7 +112,7 @@ class ConfigProviderPse implements ConfigProviderInterface
     public function getLogo()
     {
         $logo = [];
-        $asset = $this->ccConfig->createAsset('MercadoPago_PaymentMagento::images/pse/logo.svg');
+        $asset = $this->ccConfig->createAsset('MercadoPago_AdbPayment::images/pse/logo.svg');
         $placeholder = $this->assetSource->findSource($asset);
         if ($placeholder) {
             list($width, $height) = getimagesizefromstring($asset->getSourceFile());

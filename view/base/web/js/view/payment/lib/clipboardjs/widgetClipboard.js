@@ -1,6 +1,6 @@
 /**
  * Copyright © O2TI. All rights reserved.
- * @author      Bruno Elisei <brunoelisei@o2ti.com>
+ * @author      Mercado Pago
  * @license     See LICENSE for license details.
  */
 
