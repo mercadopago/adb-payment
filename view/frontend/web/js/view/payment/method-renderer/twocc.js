@@ -14,6 +14,7 @@ define([
     'Magento_Catalog/js/price-utils',
     'Magento_Checkout/js/model/payment/additional-validators',
     'MercadoPago_PaymentMagento/js/view/payment/method-renderer/validate-form-security',
+    'Magento_Checkout/js/action/redirect-on-success'
 ], function (
     _,
     $,
@@ -22,7 +23,8 @@ define([
     Component,
     priceUtils,
     additionalValidators,
-    validateFormSecurity
+    validateFormSecurity,
+    redirectOnSuccessAction,
  ) {
     'use strict';
     return Component.extend({
@@ -112,7 +114,6 @@ define([
 
             const am = Math.floor(self.amount() / 2);
             self.inputValueProgress(am);
-           
         },
 
         currencySymbol() {
@@ -176,19 +177,50 @@ define([
                 return;
             }
 
-            if (this.cardIndex() > 0) {
-
-                this.getPlaceOrderDeferredObject()
-                    .fail(function() {
-                        self.resetFirstCard();
-                    });
-
-                this.placeOrder();
-
+            if (this.cardIndex() === 0) {
+                this.cardIndex(1);
                 return;
             }
 
-            this.cardIndex(this.cardIndex() + 1);
+            this.placeOrder();
+        },
+
+        placeOrder: function (data, event) {
+            var self = this;
+
+            if (event) {
+                event.preventDefault();
+            }
+
+            if (this.validate() &&
+                additionalValidators.validate() &&
+                this.isPlaceOrderActionAllowed() === true
+            ) {
+                this.isPlaceOrderActionAllowed(false);
+
+                this.getPlaceOrderDeferredObject()
+                    .done(
+                        function () {
+                            self.afterPlaceOrder();
+
+                            if (self.redirectAfterPlaceOrder) {
+                                redirectOnSuccessAction.execute();
+                            }
+                        }
+                    ).always(
+                        function () {
+                            self.isPlaceOrderActionAllowed(true);
+                        }
+                    ).fail(
+                        function () {
+                            self.resetFirstCard();
+                        }
+                )
+
+                return true;
+            }
+
+            return false;
         },
 
         /**
