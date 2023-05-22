@@ -7,11 +7,11 @@
  */
 -->
 <!-- ko if: DocumentIdentificationCapture() === true -->
-<fieldset data-bind="attr: {class: 'fieldset payment items cc-persona ' + getCode(), id: 'payment_form_cc_persona' + getCode()}">
+<fieldset
+    data-bind="attr: {class: 'fieldset payment items cc-persona ' + getCode(), id: 'payment_form_cc_persona' + getCode()}">
     <div class="field mercadopago-input-group payer-document-type document-type">
         <div class="control">
-            <select class="select select-payer-document-type" name="payment[payer_document_type]"
-                    data-bind="
+            <select class="select select-payer-document-type" name="payment[payer_document_type]" data-bind="
                         attr: {
                             autocomplete: 'off',
                             id: getCode() + '_payer_document_type',
@@ -32,8 +32,7 @@
     </div>
     <div class="field mercadopago-input-group holder document-identification document-number">
         <div class="control">
-            <input type="text" name="payment[payer_document_identification]" class="input-text"
-                    data-bind="attr: {
+            <input type="text" name="payment[payer_document_identification]" class="input-text" data-bind="attr: {
                                     autocomplete: 'taxvat',
                                     id: getCode() + '_document_identification',
                                     title: $t('Document number'),
@@ -51,24 +50,25 @@
     </div>
 </fieldset>
 <!-- /ko -->
-<fieldset data-bind="attr: {class: 'fieldset payment items ccard payment-mercadopago field-to-pay' + getCode(), id: 'payment_form_cc_' + getCode()}">
+<fieldset
+    data-bind="attr: {class: 'fieldset payment items ccard payment-mercadopago field-to-pay' + getCode(), id: 'payment_form_cc_' + getCode()}">
     <!-- ko if: (isShowLegend())-->
     <legend class="legend">
         <span class="legend-title"><!-- ko i18n: 'Card details'--><!-- /ko --></span>
         <span class="legend-icon">
             <ul class="credit-card-types">
                 <!-- ko foreach: {data: getCcAvailableTypesValues(), as: 'item'} -->
-                    <!--ko if: $parent.getIcons(item.value) -->
-                    <li class="item">
-                        <img data-bind="attr: {
+                <!--ko if: $parent.getIcons(item.value) -->
+                <li class="item">
+                    <img data-bind="attr: {
                             'src': $parent.getIcons(item.value).url,
                             'alt': item.value,
                             'width': $parent.getIcons(item.value).width,
                             'height': $parent.getIcons(item.value).height,
                             'class': 'card_' + $parent.getIcons(item.value).code
                         }" />
-                    </li>
-                    <!--/ko-->
+                </li>
+                <!--/ko-->
                 <!--/ko-->
             </ul>
         </span>
@@ -79,8 +79,7 @@
             <div class="mp-loading" data-bind="blockLoader: isLoading" id="form-secure-fields">
                 <div class="field mercadopago-input-group type">
                     <div class="control">
-                        <input type="hidden" name="payment[card_type]" class="input-text" value=""
-                            data-bind="
+                        <input type="hidden" name="payment[card_type]" class="input-text" value="" data-bind="
                                 attr: {
                                     id: getCode() + '_type',
                                     'data-container': getCode() + '-cc-type'
@@ -89,7 +88,7 @@
                         </input>
                     </div>
                 </div>
-                <div class="field mercadopago-input-group number required">
+                <div class="field mercadopago-input-group number required mp-iframe-card">
                     <div class="control-mp-iframe">
                         <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
                             <span><!-- ko i18n: 'Card number'--><!-- /ko --></span>
@@ -98,8 +97,8 @@
                         </div>
                         <span class="field-tooltip toggle">
                             <ul class="credit-card-types">
-                                 <!-- ko foreach: {data: getCcAvailableTypesValues(), as: 'item'} -->
-                                 <li class="item _hidden" data-bind="css: {
+                                <!-- ko foreach: {data: getCcAvailableTypesValues(), as: 'item'} -->
+                                <li class="item _hidden" data-bind="css: {
                                                        _active: $parent.mpSelectedCardType() == item.value,
                                                        _hidden: $parent.mpSelectedCardType() != item.value || !$parent.mpSelectedCardType()
                                                        } ">
@@ -117,7 +116,8 @@
                         </span>
                     </div>
                 </div>
-                <div class="field mercadopago-input-group cvv required" data-bind="attr: {id: getCode() + '_type_cvv_div'}">
+                <div class="field mercadopago-input-group cvv required"
+                    data-bind="attr: {id: getCode() + '_type_cvv_div'}">
                     <div class="control-mp-iframe">
                         <label data-bind="attr: {for: getCode() + '_cid'}" class="label">
                             <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
@@ -125,20 +125,18 @@
                         <div type="number" class="input-mp-iframe cvv" id="mercadopago_adbpayment_cc_cid">
                         </div>
                         <div class="field-tooltip toggle">
-                            <span class="field-tooltip-action action-cvv"
-                                  tabindex="0"
-                                  data-toggle="dropdown"
-                                  data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
+                            <span class="field-tooltip-action action-cvv" tabindex="0" data-toggle="dropdown"
+                                data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
                                 <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
                             </span>
-                            <div class="field-tooltip-content"
-                                 data-target="dropdown">
-                                   <span translate="'A 3-digit number in italics on the back of your card.'"></span>
-                                 </div>
+                            <div class="field-tooltip-content" data-target="dropdown">
+                                <span translate="'A 3-digit number in italics on the back of your card.'"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="field mercadopago-input-group date required" data-bind="attr: {id: getCode() + '_type_exp_div'}">
+                <div class="field mercadopago-input-group date required"
+                    data-bind="attr: {id: getCode() + '_type_exp_div'}">
                     <div class="control-group">
                         <div class="fields group group-2">
                             <div class="field mercadopago-input-group month">
@@ -146,7 +144,8 @@
                                     <label data-bind="attr: {for: getCode() + '_expiration_month'}" class="label">
                                         <span><!-- ko i18n: 'Expiration month'--><!-- /ko --></span>
                                     </label>
-                                    <div class="input-mp-iframe date" id="mercadopago_adbpayment_cc_expiration_month"></div>
+                                    <div class="input-mp-iframe date" id="mercadopago_adbpayment_cc_expiration_month">
+                                    </div>
                                 </div>
                             </div>
                             <div class="field mercadopago-input-group year">
@@ -154,7 +153,8 @@
                                     <label data-bind="attr: {for: getCode() + '_expiration_yr'}" class="label">
                                         <span><!-- ko i18n: 'Expiration year'--><!-- /ko --></span>
                                     </label>
-                                    <div class="input-mp-iframe date" id="mercadopago_adbpayment_cc_expiration_yr"></div>
+                                    <div class="input-mp-iframe date" id="mercadopago_adbpayment_cc_expiration_yr">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -162,8 +162,7 @@
                 </div>
                 <div class="field mercadopago-input-group holder fullname required">
                     <div class="control">
-                        <input type="text" class="input-text" name="payment[card_holder_name]"
-                            data-bind="
+                        <input type="text" class="input-text" name="payment[card_holder_name]" data-bind="
                                     attr: {
                                         autocomplete: 'cc-name',
                                         id: getCode() + '_cardholder_name',
@@ -184,8 +183,7 @@
                 <!-- ko if: installmentWasCalculated() === true -->
                 <div class="field mercadopago-input-group installments">
                     <div class="control">
-                        <select class="select select-installments" name="payment[card_installments]"
-                                data-bind="
+                        <select class="select select-installments" name="payment[card_installments]" data-bind="
                                     attr: {
                                         autocomplete: 'off',
                                         id: getCode() + '_installments',
@@ -204,17 +202,15 @@
                         </label>
                     </div>
                     <!-- ko if: installmentTextInfo() === true -->
-                        <p data-bind="text: installmentTextTEA, css: 'text-tea'"></p>
-                        <p data-bind="text: installmentTextCFT, css: 'text-cft'"></p>
+                    <p data-bind="text: installmentTextTEA, css: 'text-tea'"></p>
+                    <p data-bind="text: installmentTextCFT, css: 'text-cft'"></p>
                     <!-- /ko -->
                 </div>
                 <!-- /ko -->
             </div>
             <!-- ko if: (isVaultEnabled())-->
             <div class="field choice">
-                <input type="checkbox"
-                    name="vault[is_enabled]"
-                    class="checkbox"
+                <input type="checkbox" name="vault[is_enabled]" class="checkbox"
                     data-bind="attr: {'id': getCode() + '_enable_vault'}, checked: vaultEnabler.isActivePaymentTokenEnabler"></input>
                 <label class="label" data-bind="attr: {'for': getCode() + '_enable_vault'}">
                     <span><!-- ko i18n: 'Save for later use.'--><!-- /ko --></span>

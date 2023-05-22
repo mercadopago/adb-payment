@@ -85,13 +85,13 @@ $mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment
                 <?php if (isset($specificInfo['mp_' . $i . '_status'])) : ?>
                     <tr>
                         <th scope="row"><?= $block->escapeHtml(__('mp_status')); ?>:</th>
-                        <td><?= $block->escapeHtml($specificInfo['mp_' . $i . '_status']) ?></td>
+                        <td><?= $block->escapeHtml(__($specificInfo['mp_' . $i . '_status'])) ?></td>
                     </tr>
                 <?php endif; ?>
                 <?php if (isset($specificInfo['mp_' . $i . '_status_detail'])) : ?>
                     <tr>
                         <th scope="row"><?= $block->escapeHtml(__('mp_status_detail')); ?>:</th>
-                        <td><?= $block->escapeHtml($specificInfo['mp_' . $i . '_status_detail']) ?></td>
+                        <td><?= $block->escapeHtml(__($specificInfo['mp_' . $i . '_status_detail'])) ?></td>
                     </tr>
                 <?php endif; ?>
             <?php endfor; ?>

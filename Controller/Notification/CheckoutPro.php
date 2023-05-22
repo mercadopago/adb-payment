@@ -14,6 +14,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Framework\HTTP\ZendClient;
 use MercadoPago\AdbPayment\Controller\MpIndex;
 
 /**
@@ -68,24 +69,21 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
             );
         }
 
-        $response = $this->getRequest()->getContent();
-
-        $this->logger->debug([
-            'action'    => 'checkout_pro',
-            'payload'   => $response,
-        ]);
-
-        $mercadopagoData = $this->json->unserialize($response);
-
         $mpAmountRefund = null;
+        $response = $this->getRequest()->getContent();
+        $mercadopagoData = $this->json->unserialize($response);
+        $mpTransactionId = $mercadopagoData['preference_id'];
+        $mpStatus = $mercadopagoData['status'];
+        $notificationId = $mercadopagoData['notification_id'];
+        $childTransactionId = $mercadopagoData['payments_details'][0]['id'];
+        $paymentsDetails = $mercadopagoData['payments_details'];
+        $respData = null;
 
-        $status = $mercadopagoData['status'];
-
-        if ($status !== 'approved'
-            && $status !== 'refunded'
-            && $status !== 'pending'
-            && $status !== 'cancelled'
-            && $status !== 'complete'
+        if ($mpStatus !== 'approved'
+            && $mpStatus !== 'refunded'
+            && $mpStatus !== 'pending'
+            && $mpStatus !== 'cancelled'
+            && $mpStatus !== 'complete'
         ) {
             /** @var ResultInterface $result */
             $result = $this->createResult(200, ['empty' => null]);
@@ -93,14 +91,36 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
             return $result;
         }
 
-        if ($status === 'refunded') {
-            $mpAmountRefund = $mercadopagoData['total_refunded'];
+        if ($mpStatus === 'refunded') {
+            try {
+                /** @var ZendClient $client */
+                $client = $this->httpClientFactory->create();
+                $storeId = $mercadopagoData["payments_metadata"]["store_id"];
+                $url = $this->config->getApiUrl();
+                $clientConfigs = $this->config->getClientConfigs();
+                $clientHeaders = $this->config->getClientHeaders($storeId);
+
+                $client->setUri($url.'/v1/asgard/notification/'.$notificationId);
+                $client->setConfig($clientConfigs);
+                $client->setHeaders($clientHeaders);
+                $client->setMethod(ZendClient::GET);
+                $responseBody = $client->request()->getBody();
+                $respData = $this->json->unserialize($responseBody);
+                if (
+                    !empty($respData["multiple_payment_transaction_id"])
+                ) {
+                    $mpTransactionId = $respData["multiple_payment_transaction_id"];
+                }
+
+            } catch (Exception $e) {
+                    $this->logger->debug(['exception' => $e->getMessage()]);
+            }
         }
 
-        $mpStatus = $mercadopagoData['status'];
-        $mpTransactionId = $mercadopagoData['preference_id'];
-        $childTransactionId = $mercadopagoData['payments_details'][0]['id'];
-        $paymentsDetails = $mercadopagoData['payments_details'];
+        $this->logger->debug([
+            'action'    => 'checkout_pro',
+            'payload'   => $response,
+        ]);
 
         $searchCriteria = $this->searchCriteria
             ->addFilter('txn_id', $mpTransactionId)
@@ -120,37 +140,90 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
             );
         }
 
+        $origin = '';
+        $results = [];
+        $process = [];
+        $resultData = [];
+        $refundId = null;
+
         foreach ($transactions as $transaction) {
-            $origin = '';
             $order = $this->getOrderData($transaction->getOrderId());
             $payment = $order->getPayment();
             $transactionId = $payment->getLastTransId();
-            if (
-                isset($paymentsDetails['0']['refunds'][$transactionId]['metadata']['origem'])
-            ){
-                $origin = $paymentsDetails['0']['refunds'][$transactionId]['metadata']['origem'];
+
+            if ($mpStatus === 'refunded') {
+                foreach ($paymentsDetails as $paymentsDetail) {
+                    $refunds = $paymentsDetail['refunds'];
+
+                    foreach ($respData['refunds_notifying'] as $refundNotifying) {
+                        if (
+                            isset($refunds[$refundNotifying['id']])
+                            && $refundNotifying['notifying']
+                        ) {
+                            if (isset($refunds[$refundNotifying['id']]['metadata']['origem'])) {
+                                $origin = $refunds[$refundNotifying['id']]['metadata']['origem'];
+                            }
+                            $mpAmountRefund = $refundNotifying['amount'];
+                            $refundId = $refundNotifying['id'];
+
+                            $process = $this->processNotification(
+                                $mpTransactionId,
+                                $mpStatus,
+                                $childTransactionId,
+                                $order,
+                                $refundId,
+                                $mpAmountRefund,
+                                $mercadopagoData,
+                                $origin
+                            );
+
+                            array_push($resultData, $process['msg']);
+
+                            if ($process['code'] !== 200) {
+                                /** @var ResultInterface $result */
+                                return $this->createResult(
+                                    $process['code'],
+                                    $resultData
+                                );
+                            }
+                        }
+                    }
+                }
+            } else {
+                $process = $this->processNotification(
+                    $mpTransactionId,
+                    $mpStatus,
+                    $childTransactionId,
+                    $order,
+                    $refundId,
+                    $mpAmountRefund,
+                    $mercadopagoData,
+                    $origin
+                );
+
+                array_push($resultData, $process['msg']);
+
+                if ($process['code'] !== 200) {
+                    /** @var ResultInterface $result */
+                    return $this->createResult(
+                        $process['code'],
+                        $resultData
+                    );
+                }
             }
-            $process = $this->processNotification(
-                $mpTransactionId,
-                $status,
-                $childTransactionId,
-                $order,
-                $mpAmountRefund,
-                $mercadopagoData,
-                $origin
-            );
 
             if ($mpStatus === 'pending') {
                 $this->updateDetails($mercadopagoData, $order);
             }
 
-            /** @var ResultInterface $result */
-            $result = $this->createResult(
-                $process['code'],
-                $process['msg'],
-            );
-
-            return $result;
+            if (sizeof($resultData) === 0) {
+                /** @var ResultInterface $result */
+                $result = $this->createResult(
+                    422,
+                    'Nothing to proccess'
+                );
+                return $result;
+            }
         }
 
         /** @var ResultInterface $result */
@@ -218,13 +291,14 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $mpStatus,
         $childTransactionId,
         $order,
+        $refundId,
         $mpAmountRefund = null,
         $mercadopagoData = null,
         $origin = null
     ) {
         $result = [];
 
-        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $mpAmountRefund, $origin);
+        $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $refundId, $mpAmountRefund, $origin);
 
         if ($isNotApplicable['isInvalid']) {
             if (strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.')) {

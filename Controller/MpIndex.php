@@ -29,6 +29,7 @@ use Magento\Sales\Model\Service\CreditmemoService;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\CheckoutProAddChildPayment;
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\FetchStatus;
+use Magento\Sales\Model\Order\Payment\Transaction;
 
 /**
  * Class Mercado Pago Index.
@@ -148,7 +149,7 @@ abstract class MpIndex extends Action
         CreditmemoService $creditMemoService,
         Invoice $invoice,
         CheckoutProAddChildPayment $addChildPayment,
-        ZendClientFactory $httpClientFactory,
+        ZendClientFactory $httpClientFactory
     ) {
         parent::__construct($context);
         $this->config = $config;
@@ -223,6 +224,7 @@ abstract class MpIndex extends Action
     public function filterInvalidNotification(
         $mpStatus,
         $order,
+        $refundId,
         $mpAmountRefound = null,
         $origin = null
     ) {
@@ -252,7 +254,7 @@ abstract class MpIndex extends Action
                 $applyRefund = $this->config->isApplyRefund($storeId);
 
                 if ($applyRefund) {
-                    $result = $this->refund($order, $mpAmountRefound);
+                    $result = $this->refund($order, $refundId, $mpAmountRefound);
 
                     $header = __('Mercado Pago, refund notification');
 
@@ -344,10 +346,11 @@ abstract class MpIndex extends Action
      *
      * @throws \Magento\Framework\Exception\LocalizedException
      *
-     * @return array
+     * @return array|null
      */
     public function refund(
         OrderInterface $order,
+        $refundId,
         $mpAmountRefound = null
     ) {
         $invoices = $order->getInvoiceCollection();
@@ -360,9 +363,17 @@ abstract class MpIndex extends Action
             $invoice = $this->invoice->loadByIncrementId($invoice->getIncrementId());
             $creditMemo = $this->creditMemoFactory->createByOrder($order);
 
+            $payment = $order->getPayment();
+            $payment->setTransactionId($refundId);
+            $payment->setIsTransactionClosed(true);
+
             if ($mpAmountRefound < $creditMemo->getBaseGrandTotal()) {
                 $creditMemo->setItems([]);
             }
+
+            $payment->addTransaction(Transaction::TYPE_REFUND);
+            $order->save();
+
             $creditMemo->setState(1);
             $creditMemo->setBaseGrandTotal($mpAmountRefound);
             $creditMemo->setGrandTotal($mpAmountRefound);

@@ -48,7 +48,7 @@
                             </input>
                         </div>
                     </div>
-                    <div class="field mercadopago-input-group number required">
+                    <div class="field mercadopago-input-group number required mp-iframe-card" id="mp">
                         <div class="control-mp-iframe">
                             <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
                                 <span><!-- ko i18n: 'Card number'--><!-- /ko --></span>
@@ -113,7 +113,8 @@
                                         <label data-bind="attr: {for: getCode() + '_expiration_yr'}" class="label">
                                             <span><!-- ko i18n: 'Expiration year'--><!-- /ko --></span>
                                         </label>
-                                        <div class="input-mp-iframe date" id="mercadopago_adbpayment_twocc_expiration_yr">
+                                        <div class="input-mp-iframe date"
+                                            id="mercadopago_adbpayment_twocc_expiration_yr">
                                         </div>
                                     </div>
                                 </div>
@@ -141,7 +142,8 @@
                         </div>
                     </div>
                     <!-- ko if: DocumentIdentificationCapture() === true -->
-                    <div data-bind="attr: {class: 'fieldset payment items cc-persona ' + getCode(), id: 'payment_form_cc_persona' + getCode()}">
+                    <div
+                        data-bind="attr: {class: 'fieldset payment items cc-persona ' + getCode(), id: 'payment_form_cc_persona' + getCode()}">
                         <div class="field mercadopago-input-group payer-document-type document-type">
                             <div class="control">
                                 <select class="select select-payer-document-type" name="payment[payer_document_type]"

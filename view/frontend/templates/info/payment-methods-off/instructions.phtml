@@ -83,7 +83,7 @@ $statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_sta
                     <?php if ($payerDocumentIdentification): ?>
                         <tr>
                             <th scope="row">
-                                <?= $block->escapeHtml(__('Payer Document Identification')); ?>
+                                <?= $block->escapeHtml(__('Document number')); ?>
                             </th>
                             <td>
                                 <?= $block->escapeHtml($payerDocumentIdentification) ?>
@@ -96,7 +96,7 @@ $statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_sta
                                 <?= $block->escapeHtml(__('Status (Mercado Pago)')); ?>
                             </th>
                             <td>
-                                <?= $block->escapeHtml($status) ?>
+                                <?= $block->escapeHtml(__($status)) ?>
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -106,7 +106,7 @@ $statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_sta
                                 <?= $block->escapeHtml(__('Status Detail (Mercado Pago)')); ?>
                             </th>
                             <td>
-                                <?= $block->escapeHtml($status) ?>
+                                <?= $block->escapeHtml(__($status)) ?>
                             </td>
                         </tr>
                     <?php endif; ?>

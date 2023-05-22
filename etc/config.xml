@@ -203,7 +203,7 @@ Use seu saldo do Mercado Pago ou cartões salvos para comprar sem preencher mais
             <mercadopago_adbpayment_payment_methods_off>
                 <model>MercadoPagoPaymentMethodsOffFacade</model>
                 <order_status>pending</order_status>
-                <title translate="true">Payment Title</title>
+                <title translate="true">Ticket - MercadoPago</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>mp_payment_id,payer_first_name,payer_last_name,payer_document_identification,barcode,external_resource_url,date_of_expiration,verification_code,financial_institution,payer_document_type,line_code,mp_status,mp_status_detail</paymentInfoKeys>
                 <privateInfoKeys>mp_payment_id,verification_code,financial_institution,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>

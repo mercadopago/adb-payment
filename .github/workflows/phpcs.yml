@@ -70,7 +70,11 @@ jobs:
 
       - name: Detect Coding Standard Violations
         id: phpcs
-        run: magento2/vendor/bin/phpcs -qn --report=full --standard=Magento2 magento2/app/code/MercadoPago/
+        run: magento2/vendor/bin/phpcs -qn --standard=Magento2 magento2/app/code/MercadoPago/
+
+      - name: Detect PHP Compatibility
+        id: phpcs_compatibility
+        run: magento2/vendor/bin/phpcs -qn --standard=PHPCompatibility --runtime-set testVersion 7.4-8.1 magento2/app/code/MercadoPago/
 
       - name: PHPStan version
         id: phpstan-version
@@ -78,7 +82,4 @@ jobs:
 
       - name: PHPStan
         id: phpstan
-        run: magento2/vendor/bin/phpstan analyse --error-format=table --level 0 magento2/app/code/MercadoPago/
-
-      - name: Run PHPMD
-        run: magento2/vendor/bin/phpmd magento2/app/code/MercadoPago/ --ignore-violations-on-exit ansi codesize,cleancode,controversial,design && magento2/vendor/bin/phpmd magento2/app/code/MercadoPago/ ansi unusedcode,naming
+        run: magento2/vendor/bin/phpstan analyse --error-format=table --level 1 magento2/app/code/MercadoPago/

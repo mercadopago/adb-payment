@@ -18,6 +18,7 @@ define([
     'MercadoPago_AdbPayment/js/action/checkout/set-finance-cost',
     'Magento_Ui/js/model/messageList',
     'mage/translate',
+    'Magento_Catalog/js/price-utils',
 ], function (
     _,
     $,
@@ -30,6 +31,7 @@ define([
     setFinanceCost,
     messageList,
     $t,
+    priceUtils,
 ) {
     'use strict';
 
@@ -53,6 +55,7 @@ define([
             installmentsAmount: 0,
             amount: 0,
             installmentsResponse: {},
+            minAllowedAmount: 0,
         },
 
         /** @inheritdoc */
@@ -85,9 +88,9 @@ define([
 
             this._super();
 
-            self.amount(quote.totals().base_grand_total);
+            self.amount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
 
-            self.installmentsAmount(quote.totals().base_grand_total);
+            self.installmentsAmount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
 
             self.mpCardInstallment.subscribe((value) => {
                 self.addFinanceCost();
@@ -153,14 +156,17 @@ define([
                     .on('binChange', (event) => {
                         this.mpSelectedCardType('');
                         this.installmentWasCalculated(false);
+                        this.clearMinValueError();
                         if (event.bin) {
                             if (event.bin.length === 8) {
                                 self.mpCardBin(event.bin);
                                 self.getInstallments();
                                 window.mp.getPaymentMethods({bin: event.bin}).then((binDetails) => {
                                     codeCardtype = self.getCodeCardType(binDetails.results[0].id);
+                                    self.minAllowedAmount = binDetails.results[0].payer_costs[0].min_allowed_amount;
                                     self.mpSelectedCardType(codeCardtype);
                                     self.mpCardType(codeCardtype);
+                                    self.validateMinValue(self.installmentsAmount());
                                 });
                             }
                         }
@@ -419,12 +425,11 @@ define([
 
             self.installmentWasCalculated(false);
 
-            if (self.installmentsAmount() > self.amount()) {
+            if (self.installmentsAmount() == '' || self.installmentsAmount() > self.FormattedCurrencyToInstallments(self.amount())) {
                 self.installmentSelected = null;
                 self.mpCardInstallment(null);
                 return;
             }
-
 
             if (bin.length === 8) {
                 const result = await window.mp.getInstallments({
@@ -432,15 +437,17 @@ define([
                     bin: bin
                 });
 
-                self.installmentWasCalculated(true);
-                self.installmentsResponse(result[0]);
-                var listInstallments = result[0].payer_costs;
+                if (result[0] && result[0].payer_costs) {
+                    self.installmentWasCalculated(true);
+                    self.installmentsResponse(result[0]);
+                    var listInstallments = result[0].payer_costs;
 
-                if (self.getMpSiteId() === 'MCO' || self.getMpSiteId() === 'MPE' || self.getMpSiteId() === 'MLC') {
-                    self.addTextInterestForInstallment(listInstallments);
+                    if (self.getMpSiteId() === 'MCO' || self.getMpSiteId() === 'MPE' || self.getMpSiteId() === 'MLC') {
+                        self.addTextInterestForInstallment(listInstallments);
+                    }
+
+                    self.mpCardListInstallments(listInstallments);
                 }
-
-                self.mpCardListInstallments(listInstallments);
             }
 
             return installments;
@@ -468,6 +475,14 @@ define([
                     }
                 });
             });
+        },
+
+        formatedAmountWithSymbol(amount) {
+            return this.currencySymbol() + ' ' + amount;
+        },
+
+        currencySymbol() {
+            return priceUtils.formatPrice().replaceAll(/[0-9\s\.\,]/g, '');
         },
 
         /**
@@ -633,11 +648,11 @@ define([
         /**
          * Formatted Currency to Installments
          * @param {Float} amount
-         * @return {Boolean}
+         * @return {Float}
          */
         FormattedCurrencyToInstallments(amount) {
-            if (this.getMpSiteId() === 'MCO') {
-                return parseFloat(amount).toFixed(0);
+            if (this.getMpSiteId() === 'MCO' || this.getMpSiteId() === 'MLC') {
+                return parseFloat(amount ? amount : 0).toFixed(0);
             }
             return amount;
         },
@@ -669,5 +684,29 @@ define([
             this.mpCardInstallment(null);
             this.addFinanceCost();
         },
+
+        /**
+         * Minimum value validate
+         * @param {String} amount
+         * @returns {Jquery}
+         */
+        validateMinValue(amount) {
+            var message = $t('Minimum transaction amount not allowed for the chosen brand. Please choose another flag or make a purchase over %1.').replace('%1', this.formatedAmountWithSymbol(this.minAllowedAmount));
+
+            $('.mp-message-error').remove();
+
+            if (amount < this.minAllowedAmount) {
+
+                return $('.mp-iframe-card').append('<div class="mp-message-error" id="mp-minvalue-error">' + message + '</div>');
+            }
+        },
+
+         /**
+         * Clear Error Min Value
+         * @return {Jquery}
+         */
+         clearMinValueError(){
+            return $('.mp-message-error').remove();
+        }
     });
 });

@@ -165,7 +165,7 @@ class Additional extends Template
         $status = $this->getInfo(self::MP_STATUS);
 
         if ($this->getMethodCode() === 'mercadopago_adbpayment_twocc'
-            && strcasecmp(isset($status) ? $status : '', self::STATUS_APPROVED) <> 0
+            && strcasecmp($status, self::STATUS_APPROVED) <> 0
         ) {
             return self::TITLE_PROCESSING_ORDER;
         }
