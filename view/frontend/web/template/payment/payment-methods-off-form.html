@@ -76,8 +76,8 @@
                                 data-bind="attr: {
                                                 autocomplete: 'taxvat',
                                                 id: getCode() + '_document_identification',
-                                                title: $t('Payer Document Identification'),
-                                                placeholder: $t('Payer Document Identification'),
+                                                title: $t('Document number'),
+                                                placeholder: $t('Document number'),
                                                 'data-container': getCode() + '-document-identification',
                                                 'data-validate': JSON.stringify(getValidationForDocument())
                                             },
@@ -85,7 +85,7 @@
                                             value: mpPayerDocument,
                                             valueUpdate: 'keyup' "></input>
                         <label data-bind="attr: {for: getCode() + '_document_identification'}" class="label">
-                            <span><!-- ko i18n: 'Payer Document Identification'--><!-- /ko --></span>
+                            <span><!-- ko i18n: 'Document number'--><!-- /ko --></span>
                         </label>
                     </div>
                 </div>
@@ -103,12 +103,12 @@
                 <ul id="payment-methods-off">
                     <!-- ko foreach: {data: getPaymentMethodsOff(), as: 'paymentMethod'} -->
                         <li class="payment-methods-off-option">
-                            <input type="radio" class="payment-methods-off-input" name="payment[payment_methods_off]" data-bind="'attr':{ 
-                                id: paymentMethod['value'], 
-                                value: paymentMethod['value'], 
-                                payment_method_id: paymentMethod['payment_method_id'], 
-                                payment_type_id: paymentMethod['payment_type_id'], 
-                                payment_option_id: paymentMethod['payment_option_id'], 
+                            <input type="radio" class="payment-methods-off-input" name="payment[payment_methods_off]" data-bind="'attr':{
+                                id: paymentMethod['value'],
+                                value: paymentMethod['value'],
+                                payment_method_id: paymentMethod['payment_method_id'],
+                                payment_type_id: paymentMethod['payment_type_id'],
+                                payment_option_id: paymentMethod['payment_option_id'],
                                 'data-validate': JSON.stringify({ 'validate-one-required-by-name':true })
                             }" />
                             <label class="payment-methods-off-label" data-bind="'attr':{ for: paymentMethod['value'] }">

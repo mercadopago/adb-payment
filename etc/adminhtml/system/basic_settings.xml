@@ -5,7 +5,6 @@
         <include path="MercadoPago_AdbPayment::system/basic_settings/credentials.xml"/>
         <include path="MercadoPago_AdbPayment::system/basic_settings/more_data.xml"/>
         <include path="MercadoPago_AdbPayment::system/basic_settings/api_refund.xml"/>
-        <!-- <include path="MercadoPago_AdbPayment::system/basic_settings/privacy_information.xml"/> -->
         <include path="MercadoPago_AdbPayment::system/basic_settings/developers.xml"/>
     </group>
 </include>

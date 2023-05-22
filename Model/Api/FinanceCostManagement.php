@@ -13,9 +13,11 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\CartTotalRepositoryInterface;
+use Magento\Quote\Api\Data\CartInterface;
 use MercadoPago\AdbPayment\Api\Data\FinanceCostInterface;
 use MercadoPago\AdbPayment\Api\Data\RulesForFinanceCostInterface;
 use MercadoPago\AdbPayment\Api\FinanceCostManagementInterface;
+use MercadoPago\AdbPayment\Gateway\Config\Config as MpConfig;
 
 /**
  * Model for application of Financing Cost in Order totals.
@@ -33,17 +35,26 @@ class FinanceCostManagement implements FinanceCostManagementInterface
     protected $quoteTotalRepository;
 
     /**
+     * @var MpConfig
+     */
+    protected $mpConfig;
+
+
+    /**
      * FinanceCostManagement constructor.
      *
      * @param CartRepositoryInterface      $quoteCartRepository
      * @param CartTotalRepositoryInterface $quoteTotalRepository
+     * @param MpConfig                     $mpConfig
      */
     public function __construct(
         CartRepositoryInterface $quoteCartRepository,
-        CartTotalRepositoryInterface $quoteTotalRepository
+        CartTotalRepositoryInterface $quoteTotalRepository,
+        MpConfig $mpConfig
     ) {
         $this->quoteCartRepository = $quoteCartRepository;
         $this->quoteTotalRepository = $quoteTotalRepository;
+        $this->mpConfig = $mpConfig;
     }
 
     /**
@@ -76,11 +87,12 @@ class FinanceCostManagement implements FinanceCostManagementInterface
         }
 
         $quoteTotal = $this->quoteTotalRepository->get($cartId);
+        $storeId = $quoteCart->getData(CartInterface::KEY_STORE_ID);
 
-        $grandTotal = $quoteTotal->getBaseGrandTotal();
+        $grandTotal = $this->mpConfig->formatPrice($quoteTotal->getBaseGrandTotal(), $storeId);
         $grandTotal -= $quoteCart->getData(FinanceCostInterface::FINANCE_COST_AMOUNT);
         $installment = $userSelect->getSelectedInstallment();
-        $totalAmount = round($rules->getTotalAmount(), 2);
+        $totalAmount = $this->mpConfig->formatPrice($rules->getTotalAmount(), $storeId);
         $financeCost = $totalAmount - $grandTotal;
 
         if ($installment <= 1) {
@@ -124,11 +136,12 @@ class FinanceCostManagement implements FinanceCostManagementInterface
         }
 
         $quoteTotal = $this->quoteTotalRepository->get($cartId);
+        $storeId = $quoteCart->getData(CartInterface::KEY_STORE_ID);
 
-        $grandTotal = $quoteTotal->getBaseGrandTotal();
-        $cardAmount = $rules->getCardAmount();
+        $grandTotal = $this->mpConfig->formatPrice($quoteTotal->getBaseGrandTotal(), $storeId);
+        $cardAmount = $this->mpConfig->formatPrice($rules->getCardAmount(), $storeId);
         $installment = $userSelect->getSelectedInstallment();
-        $totalAmount = round($rules->getTotalAmount(), 2);
+        $totalAmount = $this->mpConfig->formatPrice($rules->getTotalAmount(), $storeId);
         $financeCost = $totalAmount - $cardAmount;
 
         if($rules->getCardIndex() !== 0){

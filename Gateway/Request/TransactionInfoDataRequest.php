@@ -99,7 +99,7 @@ class TransactionInfoDataRequest implements BuilderInterface
         $order = $paymentDO->getOrder();
         $result = [];
 
-        $result = $this->getDataPaymetTwoCc($payment);
+        $result = $this->getDataPaymetTwoCc($payment, $order);
 
         return $result;
 
@@ -112,7 +112,7 @@ class TransactionInfoDataRequest implements BuilderInterface
      *
      * @return array
      */
-    public function getDataPaymetTwoCc($payment)
+    public function getDataPaymetTwoCc($payment, $order)
     {
         $instruction = [];
 
@@ -120,7 +120,7 @@ class TransactionInfoDataRequest implements BuilderInterface
 
         for ($i = 0; $i < self::NUM_CARDS; $i++):
             $cardInfo = [
-                self::TRANSACTION_AMOUNT => (double) $payment->getAdditionalInformation('card_'.$i.'_amount'),
+                self::TRANSACTION_AMOUNT => $this->config->formatPrice((double) $payment->getAdditionalInformation('card_'.$i.'_amount'), $order->getStoreId()),
                 self::INSTALLMENTS       => (int) $payment->getAdditionalInformation('card_'.$i.'_installments') ?: 1,
                 self::TOKEN              => $payment->getAdditionalInformation('card_'.$i.'_number_token'),
                 self::PAYMENT_METHOD_ID  => strtolower((string) $payment->getAdditionalInformation('card_'.$i.'_type')),

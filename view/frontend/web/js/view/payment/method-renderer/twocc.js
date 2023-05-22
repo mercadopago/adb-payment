@@ -101,11 +101,17 @@ define([
                     financeCostAmount = totals.getSegment('finance_cost_amount').value;
                 }
 
-                self.amount(value.base_grand_total - financeCostAmount);
+                self.amount(this.FormattedCurrencyToInstallments(value.base_grand_total - financeCostAmount));
             });
 
             self.inputValueProgress.subscribe((value) => {
                 self.installmentsAmount(value);
+                self.validateMinValue(value);
+                if (self.isSiteIdMCOorMLC() && value){
+                    var amount = parseFloat(value.toString().replace(/\D/g, ''));
+                    self.installmentsAmount(amount);
+                    self.inputValueProgress(amount);
+                }
             });
 
             self.installmentsAmount.subscribe((value) => {
@@ -114,10 +120,6 @@ define([
 
             const am = Math.floor(self.amount() / 2);
             self.inputValueProgress(am);
-        },
-
-        currencySymbol() {
-            return priceUtils.formatPrice().replaceAll(/[0-9\s\.\,]/g, '');
         },
 
         initForm() {
@@ -342,6 +344,14 @@ define([
             return v > this.amount() - 1 || v < 1;
         },
 
+        isSiteIdMCOorMLC() {
+            if (this.getMpSiteId() === 'MCO' || this.getMpSiteId() === 'MLC') {
+                return true;
+            }
+
+            return false;
+        },
+
         /**
          * Remaining value label update
          */
@@ -353,11 +363,11 @@ define([
                 amount = amount - inputValueProgress;
             }
 
-            return priceUtils.formatPrice(amount);
+            return this.formatedAmountWithSymbol(this.FormattedCurrencyToInstallments(amount));
         },
 
         formatedInstallmentAmount() {
-            return priceUtils.formatPrice(this.installmentsAmount());
+            return this.formatedAmountWithSymbol(this.FormattedCurrencyToInstallments(this.installmentsAmount()));
         },
 
         showFirstCardBlock() {

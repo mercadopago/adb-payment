@@ -129,6 +129,7 @@ class FetchPaymentHandler implements HandlerInterface
             $payment = $paymentDO->getPayment();
 
             $order = $payment->getOrder();
+
             $amount = $order->getGrandTotal();
             $baseAmount = $order->getBaseGrandTotal();
 
@@ -159,21 +160,22 @@ class FetchPaymentHandler implements HandlerInterface
 
             if(!empty($response["multiple_payment_transaction_id"])){
 
-                $i = 0;
                 foreach ($response["payments_details"] as $mpPayment) {
-
-                    $mpStatus = 'mp_'.$i.'_status';
-                    $payment->setAdditionalInformation(
-                        $mpStatus,$mpPayment["status"]
-                    );
-
-                    $mpStatusDetail = 'mp_'.$i.'_status_detail';
-                    $payment->setAdditionalInformation(
-                        $mpStatusDetail,
-                        $mpPayment["status_detail"]
-                    );
-
-                    $i++;
+                    $paymentAddInfo = $payment->getData()['additional_information'];
+                    if (
+                        substr($paymentAddInfo['card_0_number'], -4, 4) === $mpPayment['payment_method_info']['last_four_digits']
+                        && floatval($paymentAddInfo['card_0_amount']) === $mpPayment['total_amount']
+                    ) {
+                        $payment->setAdditionalInformation('mp_0_status', $mpPayment['status']);
+                        $payment->setAdditionalInformation('mp_0_status_detail', $mpPayment['status_detail']);
+                    }
+                    if (
+                        substr($paymentAddInfo['card_1_number'], -4, 4) === $mpPayment['payment_method_info']['last_four_digits']
+                        && floatval($paymentAddInfo['card_1_amount']) === $mpPayment['total_amount']
+                    ) {
+                        $payment->setAdditionalInformation('mp_1_status', $mpPayment['status']);
+                        $payment->setAdditionalInformation('mp_1_status_detail', $mpPayment['status_detail']);
+                    }
                 }
 
             } else {

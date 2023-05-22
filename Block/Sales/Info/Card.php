@@ -96,7 +96,7 @@ class Card extends \Magento\Payment\Block\Info
             $value = $this->getFullTypeName($value);
         }
 
-        return $value;
+        return __($value);
     }
 
     /**

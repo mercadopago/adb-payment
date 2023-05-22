@@ -47,7 +47,6 @@ class PaymentGroup extends Fieldset
         array $data = []
     ) {
         $this->backendConfig = $backendConfig;
-        $secureRenderer = $secureRenderer ?? ObjectManager::getInstance()->get(SecureHtmlRenderer::class);
         parent::__construct($context, $authSession, $jsHelper, $data, $secureRenderer);
         $this->secureRenderer = $secureRenderer;
     }
