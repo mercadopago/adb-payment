@@ -10,10 +10,13 @@ window.addEventListener('message', (event) => {
     var dataExit;
 
     if (typeof event.data === 'string') {
-        dataExit = JSON.parse(event.data);
+        try {
+            dataExit = JSON.parse(event.data);
 
-        if (dataExit.action === 'finalize') {
-            document.location.reload(true);
+            if (dataExit.action === 'finalize') {
+                document.location.reload(true);
+            }
         }
+        catch (e) { }
     }
 });

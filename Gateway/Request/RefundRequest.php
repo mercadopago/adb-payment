@@ -36,6 +36,16 @@ class RefundRequest implements BuilderInterface
     public const AMOUNT = 'amount';
 
     /**
+     * Amount block name.
+     */
+    public const PAYMENT = 'payment';
+
+    /**
+     * Amount block name.
+     */
+    public const ORDER = 'order';
+
+    /**
      * @var ConfigInterface
      */
     protected $config;
@@ -95,6 +105,7 @@ class RefundRequest implements BuilderInterface
         $result = [
             self::MERCADOPAGO_PAYMENT_ID => preg_replace('/[^0-9]/', '', $payment->getTransactionId()),
             self::X_IDEMPOTENCY_KEY      => $payment->getTransactionId() . '-' .  uniqid(),
+            self::ORDER                => $order
         ];
 
         if ($grandTotal !== $totalCreditmemo) {

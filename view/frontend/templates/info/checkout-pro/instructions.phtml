@@ -10,7 +10,7 @@
  * @var \MercadoPago\AdbPayment\Block\Sales\Info\CheckoutPro $block
  * @see \MercadoPago\AdbPayment\Block\Sales\Info\CheckoutPro
  */
-$title = $block->escapeHtml($block->getMethod()->getTitle());
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
 $specificInfo = $block->getSpecificInformation();
 $expirationDate = isset($specificInfo['date_of_expiration']) ? $specificInfo['date_of_expiration'] : null;
 $externalLink = isset($specificInfo['init_point']) ? $specificInfo['init_point'] : null;

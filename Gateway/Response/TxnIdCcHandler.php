@@ -78,6 +78,16 @@ class TxnIdCcHandler implements HandlerInterface
     public const NUMBER_TOKEN = 'card_number_token';
 
     /**
+     * Payer Document Type - Payment Addtional Information.
+     */
+    public const PAYER_DOCUMENT_TYPE = 'payer_document_type';
+
+    /**
+     * Payer Document Identification- Payment Addtional Information.
+     */
+    public const PAYER_DOCUMENT_IDENTIFICATION = 'payer_document_identification';
+
+    /**
      * Response Pay Credit - Block name.
      */
     public const CREDIT = 'credit';
@@ -145,5 +155,11 @@ class TxnIdCcHandler implements HandlerInterface
 
         $cardNumberEnc = $payment->getAdditionalInformation(self::NUMBER_TOKEN);
         $payment->setCcNumberEnc($cardNumberEnc);
+
+        $documentType = $payment->getAdditionalInformation(self::PAYER_DOCUMENT_TYPE);
+        $payment->setPayerDocumentType($documentType);
+
+        $documentIdentification = $payment->getAdditionalInformation(self::PAYER_DOCUMENT_IDENTIFICATION);
+        $payment->setPayerDocumentIdentification($documentIdentification);
     }
 }

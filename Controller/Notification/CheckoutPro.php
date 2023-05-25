@@ -14,7 +14,6 @@ use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
-use Magento\Framework\HTTP\ZendClient;
 use MercadoPago\AdbPayment\Controller\MpIndex;
 
 /**
@@ -70,14 +69,23 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         }
 
         $mpAmountRefund = null;
-        $response = $this->getRequest()->getContent();
-        $mercadopagoData = $this->json->unserialize($response);
+
+        try {
+            $mercadopagoData = $this->loadNotificationData();
+        } catch(\Exception $e) {
+            return $this->createResult(
+                500,
+                [
+                    'error'   => 500,
+                    'message' => $e->getMessage(),
+                ]
+            );
+        }
+
         $mpTransactionId = $mercadopagoData['preference_id'];
         $mpStatus = $mercadopagoData['status'];
-        $notificationId = $mercadopagoData['notification_id'];
         $childTransactionId = $mercadopagoData['payments_details'][0]['id'];
         $paymentsDetails = $mercadopagoData['payments_details'];
-        $respData = null;
 
         if ($mpStatus !== 'approved'
             && $mpStatus !== 'refunded'
@@ -87,40 +95,12 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         ) {
             /** @var ResultInterface $result */
             $result = $this->createResult(200, ['empty' => null]);
-
             return $result;
         }
 
-        if ($mpStatus === 'refunded') {
-            try {
-                /** @var ZendClient $client */
-                $client = $this->httpClientFactory->create();
-                $storeId = $mercadopagoData["payments_metadata"]["store_id"];
-                $url = $this->config->getApiUrl();
-                $clientConfigs = $this->config->getClientConfigs();
-                $clientHeaders = $this->config->getClientHeaders($storeId);
-
-                $client->setUri($url.'/v1/asgard/notification/'.$notificationId);
-                $client->setConfig($clientConfigs);
-                $client->setHeaders($clientHeaders);
-                $client->setMethod(ZendClient::GET);
-                $responseBody = $client->request()->getBody();
-                $respData = $this->json->unserialize($responseBody);
-                if (
-                    !empty($respData["multiple_payment_transaction_id"])
-                ) {
-                    $mpTransactionId = $respData["multiple_payment_transaction_id"];
-                }
-
-            } catch (Exception $e) {
-                    $this->logger->debug(['exception' => $e->getMessage()]);
-            }
+        if ($mpStatus === 'refunded' && !empty($mercadopagoData["multiple_payment_transaction_id"])) {
+            $mpTransactionId = $mercadopagoData["multiple_payment_transaction_id"];
         }
-
-        $this->logger->debug([
-            'action'    => 'checkout_pro',
-            'payload'   => $response,
-        ]);
 
         $searchCriteria = $this->searchCriteria
             ->addFilter('txn_id', $mpTransactionId)
@@ -141,8 +121,6 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         }
 
         $origin = '';
-        $results = [];
-        $process = [];
         $resultData = [];
         $refundId = null;
 
@@ -155,7 +133,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                 foreach ($paymentsDetails as $paymentsDetail) {
                     $refunds = $paymentsDetail['refunds'];
 
-                    foreach ($respData['refunds_notifying'] as $refundNotifying) {
+                    foreach ($mercadopagoData['refunds_notifying'] as $refundNotifying) {
                         if (
                             isset($refunds[$refundNotifying['id']])
                             && $refundNotifying['notifying']

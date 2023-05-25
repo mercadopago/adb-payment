@@ -18,7 +18,7 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
 class TxnIdTwoCcHandler implements HandlerInterface
 {
     /**
-     * Payment Id response value.
+     * Id response value.
      */
     public const PAYMENT_ID = 'id';
 
@@ -41,6 +41,11 @@ class TxnIdTwoCcHandler implements HandlerInterface
      * Status response value.
      */
     public const STATUS_DETAIL = 'status_detail';
+
+    /**
+     * Payment Id - Payment Addtional Information.
+     */
+    public const CARD_PAYMENT_ID = 'payment_%_id';
 
     /**
      * Card Type - Payment Addtional Information.
@@ -133,6 +138,11 @@ class TxnIdTwoCcHandler implements HandlerInterface
             ];
 
             array_push($transactionInfo, $cardInfo);
+
+            $payment->setAdditionalInformation(
+                str_replace('%', $i,self::CARD_PAYMENT_ID),
+                $response[self::TRANSACTION_INFO][$i][self::PAYMENT_ID]
+            );
 
             $payment->setAdditionalInformation(
                 str_replace('%', $i,'mp_%_status'),

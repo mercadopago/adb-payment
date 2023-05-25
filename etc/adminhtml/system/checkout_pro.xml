@@ -98,13 +98,13 @@
             </depends>
             <field id="theme_header" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                 <label>Header Color</label>
-                <validate>required-entry</validate>
+                <validate>required-entry validate-no-html-tags</validate>
                 <config_path>payment/mercadopago_adbpayment_checkout_pro/theme_header</config_path>
                 <frontend_model>MercadoPago\AdbPayment\Block\Adminhtml\System\Config\Form\ColorPicker</frontend_model>
             </field>
             <field id="theme_elements" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                 <label>Elements Color</label>
-                <validate>required-entry</validate>
+                <validate>required-entry validate-no-html-tags</validate>
                 <config_path>payment/mercadopago_adbpayment_checkout_pro/theme_elements</config_path>
                 <frontend_model>MercadoPago\AdbPayment\Block\Adminhtml\System\Config\Form\ColorPicker</frontend_model>
             </field>

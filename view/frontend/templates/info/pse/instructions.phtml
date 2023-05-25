@@ -10,7 +10,7 @@
  * @var \MercadoPago\AdbPayment\Block\Sales\Info\Pse $block
  * @see \MercadoPago\AdbPayment\Block\Sales\Info\Pse
  */
-$title = $block->escapeHtml($block->getMethod()->getTitle());
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
 $specificInfo = $block->getSpecificInformation();
 $mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment_id']: null;
 $expirationDate = isset($specificInfo['date_of_expiration']) ? $specificInfo['date_of_expiration'] : null;

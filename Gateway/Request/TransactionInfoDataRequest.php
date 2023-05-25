@@ -27,17 +27,17 @@ class TransactionInfoDataRequest implements BuilderInterface
     public const TRANSACTION_INFO = 'transaction_info';
 
     /**
-     * Binary Mode block name.
+     * Transaction Amount block name.
      */
     public const TRANSACTION_AMOUNT = 'transaction_amount';
 
     /**
-     * Credit card name block name.
+     * Payment Method Id name block name.
      */
     public const PAYMENT_METHOD_ID = 'payment_method_id';
 
     /**
-     * Payment Method Id block name.
+     * Installments block name.
      */
     public const INSTALLMENTS = 'installments';
 

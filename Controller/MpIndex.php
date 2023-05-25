@@ -14,7 +14,6 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Notification\NotifierInterface as NotifierPool;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Result\PageFactory;
@@ -30,6 +29,7 @@ use MercadoPago\AdbPayment\Gateway\Config\Config;
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\CheckoutProAddChildPayment;
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\FetchStatus;
 use Magento\Sales\Model\Order\Payment\Transaction;
+use MercadoPago\AdbPayment\Model\MPApi\Notification;
 
 /**
  * Class Mercado Pago Index.
@@ -109,9 +109,9 @@ abstract class MpIndex extends Action
     protected $addChildPayment;
 
     /**
-     * @var ZendClientFactory
+     * @var Notification
      */
-    protected $httpClientFactory;
+    protected $mpApiNotification;
 
     /**
      * @param Config                         $config
@@ -129,7 +129,7 @@ abstract class MpIndex extends Action
      * @param CreditmemoService              $creditMemoService
      * @param Invoice                        $invoice
      * @param CheckoutProAddChildPayment     $addChildPayment
-     * @param ZendClientFactory              $httpClientFactory
+     * @param Notification                   $mpApiNotification
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -149,7 +149,7 @@ abstract class MpIndex extends Action
         CreditmemoService $creditMemoService,
         Invoice $invoice,
         CheckoutProAddChildPayment $addChildPayment,
-        ZendClientFactory $httpClientFactory
+        Notification $mpApiNotification
     ) {
         parent::__construct($context);
         $this->config = $config;
@@ -166,7 +166,7 @@ abstract class MpIndex extends Action
         $this->creditMemoService = $creditMemoService;
         $this->invoice = $invoice;
         $this->addChildPayment = $addChildPayment;
-        $this->httpClientFactory = $httpClientFactory;
+        $this->mpApiNotification = $mpApiNotification;
     }
 
     /**
@@ -401,5 +401,21 @@ abstract class MpIndex extends Action
 
             return $result;
         }
+    }
+
+    protected function loadNotificationData(): array
+    {
+        $response = $this->getRequest()->getContent();
+        $mercadopagoData = $this->json->unserialize($response);
+
+        $this->logger->debug([
+            'action'    => 'checkout_custom',
+            'payload'   => $response
+        ]);
+
+        $storeId = isset($mercadopagoData["payments_metadata"]["store_id"]) ? $mercadopagoData["payments_metadata"]["store_id"] : 1;
+        $notificationId = $mercadopagoData['notification_id'];
+
+        return $this->mpApiNotification->get($notificationId, $storeId);
     }
 }

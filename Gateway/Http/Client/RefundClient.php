@@ -59,6 +59,31 @@ class RefundClient implements ClientInterface
     public const NOTIFICATION_ORIGIN = 'magento';
 
     /**
+     * Response Payment Details - Value.
+     */
+    public const PAYMENT_DETAILS = 'payments_details';
+
+    /**
+     * Response Total Amount - Value.
+     */
+    public const TOTAL_AMOUNT = 'total_amount';
+
+    /**
+     * Payment Id - Payment Addtional Information.
+     */
+    public const PAYMENT_ID = 'payment_%_id';
+
+    /**
+     * Card Total Amount - Payment Addtional Information.
+     */
+    public const PAYMENT_TOTAL_AMOUNT = 'payment_%_total_amount';
+
+    /**
+     * Card Total Amount - Payment Addtional Information.
+     */
+    public const PAYMENT_REFUNDED_AMOUNT = 'payment_%_refunded_amount';
+
+    /**
      * @var Logger
      */
     protected $logger;
@@ -117,10 +142,17 @@ class RefundClient implements ClientInterface
         ]);
 
         $paymentId = $request['payment_id'];
+        $order = $request['order'];
         unset($request['payment_id']);
+        unset($request['order']);
         unset($request[self::STORE_ID]);
         unset($request[self::X_IDEMPOTENCY_KEY]);
         $metadata = ['origem' => self::NOTIFICATION_ORIGIN];
+
+        $paymentIndexList = $order['payment']['additional_information']['payment_index_list'] ?? null;
+        if (isset($paymentIndexList) && sizeof($paymentIndexList) > 1) {
+            return $this->placeMultipleRefunds($order, $client, $url, $request, $clientConfigs, $clientHeaders);
+        }
 
         try {
             $client->setUri($url.'/v1/payments/'.$paymentId.'/refunds');
@@ -172,6 +204,100 @@ class RefundClient implements ClientInterface
             throw new Exception('Invalid JSON was returned by the gateway');
         }
 
+        return $response;
+    }
+
+    /**
+     * Refund for multiple payments.
+     *
+     * @return array
+     */
+    public function placeMultipleRefunds (
+        object $order,
+        ZendClient $client,
+        string $url,
+        array $request,
+        array $clientConfigs,
+        array $clientHeaders
+    ) {
+        $paymentIndexList = $order['payment']['additional_information']['payment_index_list'];
+        $payment = $order->getPayment();
+        $remainingAmount = $payment->getAmountPaid() - $payment->getAmountRefunded();
+        $amountToRefund = isset($request['amount']) ? $request['amount'] : $remainingAmount;
+        $metadata = ['origem' => self::NOTIFICATION_ORIGIN];
+        $response = [];
+
+        foreach($paymentIndexList as $paymentIndex) {
+            $cardRefundedAmount = str_replace('%', $paymentIndex, self::PAYMENT_REFUNDED_AMOUNT);
+            $paymentAddInfo = $payment['additional_information'];
+            $paymentId = $paymentAddInfo[str_replace('%', $paymentIndex, self::PAYMENT_ID)];
+
+            $paymentAmount = $paymentAddInfo[str_replace('%', $paymentIndex, self::PAYMENT_TOTAL_AMOUNT)];
+            $paymentRefundedAmount = $paymentAddInfo[$cardRefundedAmount];
+            if ($amountToRefund > $paymentAmount - $paymentRefundedAmount) {
+                $request['amount'] = $paymentAmount - $paymentRefundedAmount;
+            } else {
+                $request['amount'] = $amountToRefund;
+            }
+            $amountToRefund -= $request['amount'];
+
+            if($request['amount'] > 0)  {
+                try {
+                    $client->setUri($url.'/v1/payments/'.$paymentId.'/refunds');
+                    $client->setConfig($clientConfigs);
+                    $client->setHeaders($clientHeaders);
+
+                    $requestData = (object) array_merge( (array)$request, array( 'metadata' => $metadata ) );
+                    $client->setRawData($this->json->serialize($requestData), 'application/json');
+
+                    $client->setMethod(ZendClient::POST);
+
+                    $responseBody = $client->request()->getBody();
+                    $data = $this->json->unserialize($responseBody);
+
+                    $refundResponse = array_merge(
+                        [
+                            self::RESULT_CODE  => 0,
+                        ],
+                        $data
+                    );
+
+                    if (isset($data[self::RESPONSE_REFUND_ID])) {
+                        $status = $data[self::RESPONSE_STATUS];
+                        $refundResponse = array_merge(
+                            [
+                                self::RESULT_CODE         => ($status !== self::RESPONSE_STATUS_DENIED) ? 1 : 0,
+                                self::RESPONSE_REFUND_ID  => $data[self::RESPONSE_REFUND_ID],
+                            ],
+                            $data
+                        );
+                        $payment->setAdditionalInformation($cardRefundedAmount, $paymentRefundedAmount + $request['amount']);
+                        $payment->save();
+                    }
+
+                    $this->logger->debug(
+                        [
+                            'url'      => $url.'/v1/payments/'.$paymentId.'/refunds',
+                            'request'  => $this->json->serialize($request),
+                            'response' => $this->json->serialize($refundResponse),
+                        ]
+                    );
+
+                    $response = array_merge($response, $refundResponse);
+                } catch (InvalidArgumentException $exc) {
+                    $this->logger->debug(
+                        [
+                            'url'       => $url.'/v1/payments/'.$paymentId.'/refunds',
+                            'request'   => $this->json->serialize($request),
+                            'error'     => $exc->getMessage(),
+                        ]
+                    );
+                    // phpcs:ignore Magento2.Exceptions.DirectThrow
+                    throw new Exception('Invalid JSON was returned by the gateway');
+                }
+            }
+        }
+        $order->save();
         return $response;
     }
 }

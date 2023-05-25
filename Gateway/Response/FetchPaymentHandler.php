@@ -17,20 +17,11 @@ use Magento\Payment\Gateway\Response\HandlerInterface;
  */
 class FetchPaymentHandler implements HandlerInterface
 {
-    /**
-     * Payment Id response value.
-     */
-    public const PAYMENT_ID = 'transaction_id';
 
     /**
      * Payment Id response value.
      */
     public const ID = 'id';
-
-    /**
-     * Payment Id block name.
-     */
-    public const MP_PAYMENT_ID = 'mp_payment_id';
 
     /**
      * Status response value.
@@ -73,6 +64,11 @@ class FetchPaymentHandler implements HandlerInterface
     public const PAYMENT_METHOD_INFO = 'payment_method_info';
 
     /**
+     * Response Payment Method Id block name.
+     */
+    public const PAYMENT_METHOD_ID = 'payment_method_id';
+
+    /**
      * MP Installments block name.
      */
     public const MP_INSTALLMENTS = 'mp_installments';
@@ -86,6 +82,11 @@ class FetchPaymentHandler implements HandlerInterface
      * Response Pay Status Approved - Value.
      */
     public const RESPONSE_STATUS_APPROVED = 'approved';
+
+    /**
+     * Response Pay Status Refunded - Value.
+     */
+    public const RESPONSE_STATUS_REFUNDED = 'refunded';
 
     /**
      * Response Pay Status Cancelled - Value.
@@ -103,9 +104,69 @@ class FetchPaymentHandler implements HandlerInterface
     public const RESPONSE_STATUS_PENDING = 'pending';
 
     /**
-     * Response multiple_payment_transaction_id - Block Name.
+     * Response Payment Details - Value.
      */
-    public const MULTIPAYMENT_TRANSACTION_ID = 'multiple_payment_transaction_id';
+    public const PAYMENT_DETAILS = 'payments_details';
+
+    /**
+     * Response Total Amount - Value.
+     */
+    public const TOTAL_AMOUNT = 'total_amount';
+
+    /**
+     * Response Paid Amount - Value.
+     */
+    public const PAID_AMOUNT = 'paid_amount';
+
+    /**
+     * Response Last Four Digits - Value.
+     */
+    public const LAST_FOUR_DIGITS = 'last_four_digits';
+
+    /**
+     * Payment Id - Payment Addtional Information.
+     */
+    public const PAYMENT_ID = 'payment_%_id';
+
+    /**
+     * Payment Type - Payment Addtional Information.
+     */
+    public const PAYMENT_TYPE = 'payment_%_type';
+
+    /**
+     * Payment Card Number - Payment Addtional Information.
+     */
+    public const PAYMENT_CARD_NUMBER = 'payment_%_card_number';
+
+    /**
+     * Payment Installments - Payment Addtional Information.
+     */
+    public const PAYMENT_INSTALLMENTS = 'payment_%_installments';
+
+    /**
+     * Payment Total Amount - Payment Addtional Information.
+     */
+    public const PAYMENT_TOTAL_AMOUNT = 'payment_%_total_amount';
+
+    /**
+     * Payment Paid Amount - Payment Addtional Information.
+     */
+    public const PAYMENT_PAID_AMOUNT = 'payment_%_paid_amount';
+
+    /**
+     * Payment Refund Amount - Payment Addtional Information.
+     */
+    public const PAYMENT_REFUNDED_AMOUNT = 'payment_%_refunded_amount';
+
+    /**
+     * Payment Status - Payment Addtional Information.
+     */
+    public const PAYMENT_STATUS = 'mp_%_status';
+
+    /**
+     * Payment Status Detail- Payment Addtional Information.
+     */
+    public const PAYMENT_STATUS_DETAIL = 'mp_%_status_detail';
 
     /**
      * Handles.
@@ -158,54 +219,128 @@ class FetchPaymentHandler implements HandlerInterface
                 $payment->setBaseAmountCanceled($baseAmount);
             }
 
-            if(!empty($response["multiple_payment_transaction_id"])){
-
-                foreach ($response["payments_details"] as $mpPayment) {
-                    $paymentAddInfo = $payment->getData()['additional_information'];
-                    if (
-                        substr($paymentAddInfo['card_0_number'], -4, 4) === $mpPayment['payment_method_info']['last_four_digits']
-                        && floatval($paymentAddInfo['card_0_amount']) === $mpPayment['total_amount']
-                    ) {
-                        $payment->setAdditionalInformation('mp_0_status', $mpPayment['status']);
-                        $payment->setAdditionalInformation('mp_0_status_detail', $mpPayment['status_detail']);
-                    }
-                    if (
-                        substr($paymentAddInfo['card_1_number'], -4, 4) === $mpPayment['payment_method_info']['last_four_digits']
-                        && floatval($paymentAddInfo['card_1_amount']) === $mpPayment['total_amount']
-                    ) {
-                        $payment->setAdditionalInformation('mp_1_status', $mpPayment['status']);
-                        $payment->setAdditionalInformation('mp_1_status_detail', $mpPayment['status_detail']);
-                    }
+            if ($response[self::RESPONSE_STATUS] === self::RESPONSE_STATUS_REFUNDED) {
+                $responseRefund = $response[self::PAYMENT_DETAILS][0];
+                $index = $this->getIndexPayment($payment, $responseRefund[self::ID]);
+                if (isset($index)){
+                    $this->updatePaymentByIndex($payment, $index, $responseRefund);
                 }
-
             } else {
-
+                $i = 0;
+                $paymentIndexList = [];
+                foreach ($response[self::PAYMENT_DETAILS] as $mpPayment) {
+                    $this->updatePaymentByIndex($payment, $i, $mpPayment);
+                    array_push($paymentIndexList, $i);
+                    $i++;
+                }
                 $payment->setAdditionalInformation(
-                    self::MP_PAYMENT_ID,
-                    $response["payments_details"][0][self::ID]
-                );
-
-                $payment->setAdditionalInformation(
-                    self::MP_PAYMENT_TYPE_ID,
-                    $response["payments_details"][0][self::PAYMENT_TYPE_ID]
-                );
-
-                $payment->setAdditionalInformation(
-                    self::MP_INSTALLMENTS,
-                    $response["payments_details"][0]["payment_method_info"][self::INSTALLMENTS]
-                );
-
-                $payment->setAdditionalInformation(
-                    self::MP_STATUS,
-                    $response[self::STATUS]
-                );
-
-                $payment->setAdditionalInformation(
-                    self::MP_STATUS_DETAIL,
-                    $response["payments_details"][0][self::STATUS_DETAIL]
+                    'payment_index_list',
+                    $paymentIndexList
                 );
             }
 
+            $payment->setAdditionalInformation(
+                self::MP_STATUS,
+                $response[self::STATUS]
+            );
+
+            $payment->setAdditionalInformation(
+                self::MP_STATUS_DETAIL,
+                $response[self::PAYMENT_DETAILS][0][self::STATUS_DETAIL]
+            );
+
         }
+    }
+
+    /**
+     * Get index of payment by payment id.
+     * @param $payment
+     * @param $paymentId
+     *
+     * @return int|null
+     */
+    public function getIndexPayment(
+        $payment,
+        $paymentId
+    ) {
+        $i = 0;
+        while ($i < 2) {
+            if($payment->getAdditionalInformation(str_replace('%', $i, self::PAYMENT_ID)) == $paymentId){
+                return $i;
+            }
+            $i++;
+        }
+        return null;
+    }
+
+    /**
+     * Update payment by index.
+     * @param $payment
+     * @param $index
+     * @param $mpPayment
+     *
+     * Return void.
+     */
+    public function updatePaymentByIndex(
+        $payment,
+        $index,
+        $mpPayment
+    ) {
+        $cardPaymentId = str_replace('%', $index, self::PAYMENT_ID);
+        $cardType = str_replace('%', $index, self::PAYMENT_TYPE);
+        $cardNumber = str_replace('%', $index, self::PAYMENT_CARD_NUMBER);
+        $cardInstallments = str_replace('%', $index, self::PAYMENT_INSTALLMENTS);
+        $cardTotalAmount = str_replace('%', $index, self::PAYMENT_TOTAL_AMOUNT);
+        $cardPaidAmount = str_replace('%', $index, self::PAYMENT_PAID_AMOUNT);
+        $cardRefundedAmount = str_replace('%', $index, self::PAYMENT_REFUNDED_AMOUNT);
+        $mpStatus = str_replace('%', $index, self::PAYMENT_STATUS);
+        $mpStatusDetail = str_replace('%', $index, self::PAYMENT_STATUS_DETAIL);
+
+        $payment->setAdditionalInformation(
+            $cardPaymentId,
+            $mpPayment[self::ID]
+        );
+
+        $payment->setAdditionalInformation(
+            $cardType,
+            $mpPayment[self::PAYMENT_METHOD_ID]
+        );
+
+        $payment->setAdditionalInformation(
+            $cardTotalAmount,
+            $mpPayment[self::TOTAL_AMOUNT]
+        );
+
+        $payment->setAdditionalInformation(
+            $cardPaidAmount,
+            $mpPayment[self::PAID_AMOUNT]
+        );
+
+        $value = $payment->getAdditionalInformation($cardRefundedAmount) ?? 0;
+
+        $payment->setAdditionalInformation(
+            $cardRefundedAmount,
+            $value
+        );
+
+        $payment->setAdditionalInformation(
+            $cardNumber,
+            $mpPayment[self::PAYMENT_METHOD_INFO][self::LAST_FOUR_DIGITS]
+        );
+
+        $payment->setAdditionalInformation(
+            $cardInstallments,
+            $mpPayment[self::PAYMENT_METHOD_INFO][self::INSTALLMENTS]
+        );
+
+        $payment->setAdditionalInformation(
+            $mpStatus,
+            $mpPayment[self::STATUS]
+        );
+
+        $payment->setAdditionalInformation(
+            $mpStatusDetail,
+            $mpPayment[self::STATUS_DETAIL],
+        );
     }
 }

@@ -81,6 +81,8 @@
     <virtualType name="MercadoPagoBaseFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
             <argument name="code" xsi:type="const">MercadoPago\AdbPayment\Model\Ui\ConfigProviderBase::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">MercadoPago\AdbPayment\Block\Sales\Form\Card</argument>
+            <argument name="infoBlockType" xsi:type="string">MercadoPago\AdbPayment\Block\Sales\Info\Card</argument>
             <argument name="valueHandlerPool" xsi:type="object">MercadoPagoValueHandlerPool</argument>
             <argument name="commandPool" xsi:type="object">MercadoPagoCcCommandPool</argument>
         </arguments>
@@ -102,6 +104,7 @@
     <virtualType name="MercadoPagoTwoCcFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
             <argument name="code" xsi:type="const">MercadoPago\AdbPayment\Model\Ui\ConfigProviderTwoCc::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">MercadoPago\AdbPayment\Block\Sales\Form\Card</argument>
             <argument name="infoBlockType" xsi:type="string">MercadoPago\AdbPayment\Block\Sales\Info\TwoCc</argument>
             <argument name="valueHandlerPool" xsi:type="object">MercadoPagoTwoCcValueHandlerPool</argument>
             <argument name="validatorPool" xsi:type="object">MercadoPagoTwoCcValidatorPool</argument>

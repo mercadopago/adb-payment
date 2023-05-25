@@ -10,7 +10,7 @@
  * @var \MercadoPago\AdbPayment\Block\Sales\Info\TwoCc $block
  * @see \MercadoPago\AdbPayment\Block\Sales\Info\TwoCc
  */
-$title = $block->escapeHtml($block->getMethod()->getTitle());
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
 $specificInfo = $block->getSpecificInformation();
 $mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment_id'] : null;
 ?>
@@ -34,6 +34,12 @@ $mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment
                         <?php endif; ?>
                     </th>
                 </tr>
+                <?php if (isset($specificInfo['payment_' . $i . '_id'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('mp_payment_id')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['payment_' . $i . '_id']) ?></td>
+                    </tr>
+                <?php endif; ?>
                 <?php if (isset($specificInfo['card_' . $i . '_installments'])) : ?>
                     <tr>
                         <th scope="row"><?= $block->escapeHtml(__('card_installments')); ?>:</th>
