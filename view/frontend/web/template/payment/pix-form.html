@@ -1,0 +1,70 @@
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<!-- ko if: DocumentIdentificationCapture() -->
+<fieldset data-bind="attr: {class: 'fieldset payment items', id: 'payment_form_payer_persona' + getCode()}">
+    <div class="field mercadopago-input-group payer-document-type document-type">
+        <div class="control">
+            <select class="select select-payer-document-type" name="payment[payer_document_type]"
+                    data-bind="
+                        attr: {
+                            autocomplete: 'off',
+                            id: getCode() + '_payer_document_type',
+                            'data-container': getCode() + '-payer-document-type',
+                            'data-validate': JSON.stringify({required:true})
+                        },
+                        enable: isActive($parents),
+                        options: mpPayerOptionsTypes(),
+                        optionsValue: 'id',
+                        optionsText: 'name',
+                        optionsCaption: $t('Document Type'),
+                        value: mpPayerType">
+            </select>
+            <label data-bind="attr: {for: getCode() + '_payer_document_type'}" class="label">
+                <span><!-- ko i18n: 'Document Type' --><!-- /ko --></span>
+            </label>
+        </div>
+    </div>
+    <div class="field mercadopago-input-group holder document-identification document-number">
+        <div class="control">
+            <input type="text" name="payment[payer_document_identification]" class="input-text"
+                    data-bind="attr: {
+                                    autocomplete: 'taxvat',
+                                    id: getCode() + '_document_identification',
+                                    title: $t('Document number'),
+                                    placeholder: $t('Document number'),
+                                    'data-container': getCode() + '-document-identification',
+                                    'data-validate': JSON.stringify(getValidationForDocument())
+                                },
+                                enable: isActive($parents),
+                                value: mpPayerDocument,
+                                valueUpdate: 'keyup' "></input>
+            <label data-bind="attr: {for: getCode() + '_document_identification'}" class="label">
+                <span><!-- ko i18n: 'Document number'--><!-- /ko --></span>
+            </label>
+        </div>
+    </div>
+</fieldset>
+<!-- /ko -->
+<fieldset data-bind="attr: {class: 'fieldset payment items', id: 'payment_form_payer_' + getCode()}">
+    <div class="field-to-pay"  data-bind="css: { _hidden:isPlaceOrderActionAllowed() }">
+      <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
+    </div>
+    <div class="field-to-pay"  data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
+       <!-- ko if: getInstructionCheckout() -->
+        <dl class="items check payable">
+            <!-- ko if: getInstructionCheckout() -->
+            <dt class="title"><!-- ko i18n: 'Instruction' --><!-- /ko --></dt>
+            <dd class="content">
+                <address class="mercadopagopix instruction address" data-bind="html: getInstructionCheckout()"></address>
+            </dd>
+            <!-- /ko -->
+        </dl>
+        <!-- /ko -->
+    </div>
+</fieldset>

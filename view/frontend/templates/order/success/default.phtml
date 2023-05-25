@@ -1,0 +1,35 @@
+
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var MercadoPago\AdbPayment\Block\Order\Success\Additional $block
+ * @see MercadoPago\AdbPayment\Block\Order\Success
+ */
+?>
+<h1><?= $block->escapeHtml(__($block->getTitleByPaymentStatus($block->getInfo('mp_status')))) ?></h1>
+<?php if ($block->getOrderId()) :?>
+    <?php if ($block->getCanViewOrder()) :?>
+        <p><?= $block->escapeHtml(__('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeUrl($block->getViewOrderUrl()), $block->getOrderId())), ['a', 'strong']) ?></p>
+    <?php  else :?>
+        <p><?= $block->escapeHtml(__('Your order # is: <span>%1</span>.', $block->getOrderId()), ['span']) ?></p>
+    <?php endif;?>
+    <p><?= $block->escapeHtml(__('We\'ll email you an order confirmation with details and tracking info.')) ?></p>
+<?php endif;?>
+<?php if ($block->getInfo('external_resource_url')): ?>
+    <div class="mercadopago-payment-success-details">
+        <div>
+            <a href="<?= $block->escapeHtml($block->getInfo('external_resource_url')); ?>"
+                target="_blank"
+                class="action primary continue">
+                <?= $block->escapeHtml(__('Details for payment')) ?>
+            </a>
+        </div>
+    </div>
+<?php endif; ?>
+<div class="mercadopago-payment-logo"></div>

@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="mercadopago_adbpayment_pix" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <label>Pix</label>
+        <depends>
+            <field id="*/*/merchant_profile/site_id">MLB</field>
+        </depends>
+        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Enabled</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/mercadopago_adbpayment_pix/active</config_path>
+        </field>
+        <field id="title" translate="label comment" type="text" sortOrder="20" showInDefault="10" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Title</label>
+            <comment>Payment method title at the store's checkout.</comment>
+            <config_path>payment/mercadopago_adbpayment_pix/title</config_path>
+        </field>
+        <field id="expiration" translate="label select" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Deadline for payment</label>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\PixExpiration</source_model>
+            <config_path>payment/mercadopago_adbpayment_pix/expiration</config_path>
+            <validate>required-entry validate-select</validate>
+        </field>
+        <group id="document" translate="label comment" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Capture of customer details in the payment form</label>
+            <comment>Activate this option if you want to obtain buyer`s documents details, using an additional field on the payment form. Disable it if your store already gets these details.</comment>
+            <field id="get_document_identification" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Capture document identification</label>
+                <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                <config_path>payment/mercadopago_adbpayment_pix/get_document_identification</config_path>
+            </field>
+        </group>
+        <group id="mercadopago_adbpayment_native_fields" translate="label comment" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Common Payment Method Definitions</label>
+            <field id="min_order_total" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Minimum order total</label>
+                <comment>Minimum amount to pay with Pec.</comment>
+                <validate>validate-number validate-zero-or-greater</validate>
+                <config_path>payment/mercadopago_adbpayment_pix/min_order_total</config_path>
+            </field>
+            <field id="max_order_total" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Maximum order amount</label>
+                <comment>Maximum amount to pay with Pec.</comment>
+                <validate>validate-number validate-zero-or-greater</validate>
+                <config_path>payment/mercadopago_adbpayment_pix/max_order_total</config_path>
+            </field>
+            <field id="specificcountry" translate="label comment" type="multiselect" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Payment From Specific Countries</label>
+                <comment>Countries eligible to use this payment method.</comment>
+                <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                <config_path>payment/mercadopago_adbpayment_pix/specificcountry</config_path>
+            </field>
+            <field id="sort_order" translate="label comment" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Sort Order</label>
+                <comment>Sets up in which order the payment methods will be shown at the Checkout.</comment>
+                <frontend_class>validate-number</frontend_class>
+                <config_path>payment/mercadopago_adbpayment_pix/sort_order</config_path>
+            </field>
+        </group>
+    </group>
+</include>

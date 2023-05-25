@@ -1,0 +1,60 @@
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<div class="payment-method form-mercadopago" css="_active: isActive()" data-bind="attr: {id: 'payment_form_' + getCode() + '_cc_id_' + getId()}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="
+                    attr: {'id': getId()},
+                    value: getId(),
+                    click: selectPaymentMethod,
+                    checked: isChecked,
+                    visible: isRadioButtonVisible()"></input>
+        <label class="label" data-bind="attr: {'for': getId()}">
+            <img data-bind="attr: {
+            'src': getIcons(getCardType()).url,
+            'alt': getIcons(getCardType()).title
+            }" class="payment-icon">
+            <span text="getMaskedCard()"></span>
+        </label>
+    </div>
+
+    <div class="payment-method-content">
+
+        <each args="getRegion('messages')" render=""></each>
+        <form class="form" id="co-payment-form-mp-vault" method="post" afterRender="initFormElement">
+            <render args="vaultForm"></render>
+        </form>
+        <div class="payment-method-billing-address">
+            <each args="data: $parent.getRegion(getBillingAddressFormName()), as: '$item'">
+                <render args="$item.getTemplate()"></render>
+            </each>
+        </div>
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                            click: beforePlaceOrder,
+                            attr: {title: $t('Place Order')},
+                            enable: isButtonActive()
+                        "
+                    disabled>
+                    <span translate="'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

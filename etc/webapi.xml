@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/carts/mine/mp-create-vault" method="POST">
+        <service class="MercadoPago\AdbPayment\Api\CreateVaultManagementInterface" method="createVault"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/orders/:orderId/mp-payment-information" method="GET">
+        <service class="MercadoPago\AdbPayment\Api\PayInfoManagementInterface" method="paymentInformation"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/guest-carts/:cartId/mp-set-finance-cost" method="POST">
+        <service class="MercadoPago\AdbPayment\Api\GuestFinanceCostManagementInterface" method="saveFinanceCost"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/carts/mine/mp-set-finance-cost" method="POST">
+        <service class="MercadoPago\AdbPayment\Api\FinanceCostManagementInterface" method="saveFinanceCost"/>
+        <resources>
+            <resource ref="self" />
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+</routes>

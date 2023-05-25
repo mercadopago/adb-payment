@@ -1,0 +1,44 @@
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+.complex.mercadopago-payment-section .heading strong {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: normal;
+}
+
+.complex.mercadopago-payment-section .mercadopago-payment-logo {
+  flex-basis: 15%;
+  height: 70px;
+  background: url('../images/core/logo.svg') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+}
+
+.complex.mercadopago-payment-section .mercadopago-payment-byline {
+  flex-basis: 85%;
+  padding-left: 2%;
+}
+
+.complex.mercadopago-payment-section .button-container { float: right; }
+
+fieldset#payment_other_mercadopago_base,
+fieldset#payment_us_mercadopago_base {
+  margin-left: 2%;
+}
+
+.mercadopago-featured-session {
+  background-color:#f8f8f8;
+  border:1px solid #e3e3e3;
+  padding:10px;
+}
+
+.mercadopago-sub-title {
+  padding-top: 15px;
+}

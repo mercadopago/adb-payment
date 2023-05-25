@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="developers" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <label>Developers support</label>
+        <field id="debug" translate="label comment" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Debug</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/mercadopago_adbpayment/debug</config_path>
+            <comment>We record your store's communications with Mercado Pago in orer to offer a better support. Please note it is not recommended to use the debug mode when your store is in production mode.</comment>
+        </field>
+        <field id="rewrite_notification_url" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Rewrite notification URL</label>
+            <config_path>payment/mercadopago_adbpayment/sandbox_rewrite_notification_url</config_path>
+            <comment>You can override notification URLs which are automatically generated. In order to use the module's default, please do not fill in this details.</comment>
+            <depends>
+                <field id="*/*/*/credentials/environment">sandbox</field>
+            </depends>
+        </field>
+    </group>
+</include>

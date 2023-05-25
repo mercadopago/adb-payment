@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/error_mapping.xsd">
+    <message_list>
+        <!-- API Error -->
+        <message message="Your payment was declined due to an error in the store setup. Please get in touch with the store support and try again later." translate="true">Your payment was declined due to an error in the store setup. Please get in touch with the store support and try again later.</message>
+        <message message="It was not possible to complete the payment due to a communication error. Please try again later." translate="true">It was not possible to complete the payment due to a communication error. Please try again later.</message>
+        <message message="Your payment was declined because some of your card details are incorrect. Please check the information to complete the purchase." translate="true">Your payment was declined because some of your card details are incorrect. Please check the information to complete the purchase.</message>
+        <message message="Your payment was declined. We recommend that you use the device and payment method you usually use for online shopping." translate="true">Your payment was declined. We recommend that you use the device and payment method you usually use for online shopping.</message>
+        <message message="It was not possible to complete the payment. Please use another method to complete the purchase." translate="true">It was not possible to complete the payment. Please use another method to complete the purchase.</message>
+        <message message="It was not possible to complete the payment due to a communication error. Please try again later or use another payment method." translate="true">It was not possible to complete the payment due to a communication error. Please try again later or use another payment method.</message>
+        <!-- Payment Error-->
+        <message code="cc_rejected_bad_filled_card_number" translate="true">The card details are incorrect.</message>
+        <message code="cc_rejected_bad_filled_date" translate="true">The card details are incorrect.</message>
+        <message code="cc_rejected_bad_filled_other" translate="true">The card details are incorrect.</message>
+        <message code="cc_rejected_bad_filled_security_code" translate="true">The card details are incorrect.</message>
+        <message code="cc_rejected_blacklist" translate="true">The payment was rejected due to suspicion of fraud.</message>
+        <message code="cc_rejected_call_for_authorize" translate="true">The payment method used requires prior authorization of the purchase amount.</message>
+        <message code="cc_rejected_card_disabled" translate="true">This card is blocked.</message>
+        <message code="cc_rejected_card_error" translate="true">It was not possible to complete the payment. Please use another method to complete the purchase.</message>
+        <message code="cc_rejected_duplicated_payment" translate="true">You made a similar payment a short time ago. Please use another payment method.</message>
+        <message code="cc_rejected_high_risk" translate="true">Something went wrong with the payment. Please use another card or choose a different payment method.</message>
+        <message code="cc_rejected_insufficient_amount" translate="true">Something went wrong with the payment. Please use another card or choose a different payment method.</message>
+        <message code="cc_rejected_invalid_installments" translate="true">The number of installments chosen is invalid.</message>
+        <message code="cc_rejected_max_attempts" translate="true">The maximum number of attempts was reached.</message>
+        <message code="cc_rejected_other_reason" translate="true">Something went wrong. Please try again.</message>
+        <message code="cc_rejected_card_type_not_allowed" translate="true">Your payment was declined because some of your card details are incorrect. Please check the information to complete the purchase or try another payment method.</message>
+    </message_list>
+</mapping>

@@ -1,0 +1,65 @@
+
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var MercadoPago\AdbPayment\Block\Order\Success\Additional $block
+ * @see MercadoPago\AdbPayment\Block\Order\Success
+ */
+
+$qrCodeImage = $block->getInfo('qr_code_base64');
+?>
+<h1><?= $block->escapeHtml(__($block->getTitleByPaymentStatus($block->getInfo('mp_status')))) ?></h1>
+<?php if ($block->getOrderId()) :?>
+    <?php if ($block->getCanViewOrder()) :?>
+        <p><?= $block->escapeHtml(__('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeUrl($block->getViewOrderUrl()), $block->getOrderId())), ['a', 'strong']) ?></p>
+    <?php  else :?>
+        <p><?= $block->escapeHtml(__('Your order # is: <span>%1</span>.', $block->getOrderId()), ['span']) ?></p>
+    <?php endif;?>
+    <p><?= $block->escapeHtml(__('We\'ll email you an order confirmation with details and tracking info.')) ?></p>
+<?php endif;?>
+<div class="mercadopago-payment-success-details">
+    <p>
+    <?= $block->escapeHtml(__('To pay, please scan the QR code')) ?>
+        <div class="qrcode-image">
+            <img src="data:image/png;base64,<?=  $block->escapeHtml($qrCodeImage) ?>"
+                alt="<?= $block->escapeHtml(__('Pix')) ?>"
+                width="300" />
+        </div>
+    </p>
+    <p>
+        <?= $block->escapeHtml(__('or, if you prefer, copy-paste the code')) ?>
+        <div class="field mercadopago-input-group">
+            <div class="control _with-tooltip">
+                <input type="text"
+                    id="qr-code-value"
+                    value="<?= $block->escapeHtml($block->getInfo('qr_code')); ?>"
+                    class="input-text"/>
+                <div class="field-tooltip toggle">
+                    <button class="btn" id="copy-code"
+                        data-clipboard-action="copy"
+                        data-clipboard-target="#qr-code-value">
+                        <?= $block->escapeHtml(__('Copy')); ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </p>
+</div>
+<div class="mercadopago-payment-logo"></div>
+<script type="text/x-magento-init">
+    {
+        "#copy-code": {
+            "widgetClipboard": {
+                "enabled": true,
+                "copiedtext": "<?= /* @noEscape */ __('Copied'); ?>",
+                "textBtn": "<?= /* @noEscape */ __('Copy'); ?>"
+            }
+        }
+    }
+</script>

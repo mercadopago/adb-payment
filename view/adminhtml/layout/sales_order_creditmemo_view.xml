@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="creditmemo_totals">
+            <block class="MercadoPago\AdbPayment\Block\Adminhtml\Sales\Order\Creditmemo\Totals\FinanceCost" name="finance_cost_amount" as="finance_cost_amount"/>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,74 @@
+<!--
+/**
+* Copyright © MercadoPago. All rights reserved.
+*
+* @author      Mercado Pago
+* @license     See LICENSE for license details.
+*/
+-->
+<fieldset data-bind="attr: {class: 'fieldset payment items ccard field-to-pay' + getId(), id: 'payment_form_cc_' + getId()}">
+    <!-- ko if: (isShowLegend())-->
+    <legend class="legend">
+        <span class="legend-title"><span text="getMaskedCard()"></span></span>
+        <span class="legend-icon">
+            <ul class="credit-card-types">
+                <li class="item">
+                    <img data-bind="attr: {
+                    'src': getIcons(getCardType()).url,
+                    'alt': getIcons(getCardType()).title
+                    }" class="payment-icon">
+                </li>
+            </ul>
+        </span>
+    </legend>
+    <!-- /ko -->
+    <div class="field-to-pay"  data-bind="css: { _hidden:isPlaceOrderActionAllowed() }">
+        <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
+    </div>
+    <div class="field-to-pay"  data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
+        <div class="mp-loading" data-bind="blockLoader: isLoading">
+            <div class="field mercadopago-input-group required" data-bind="attr: {id: getId() + '_type_cvv_div'}">
+                <div class="control-mp-iframe">
+                    <label data-bind="attr: {for: getId() + '_cc_id'}" class="label">
+                        <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
+                    </label>
+                    <div type="number" class="input-mp-iframe cvv" data-bind="attr: {id: getId() + '_cc_id'}">
+                    </div>
+                    <div class="field-tooltip toggle">
+                        <span class="field-tooltip-action action-cvv"
+                                tabindex="0"
+                                data-toggle="dropdown"
+                                data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
+                            <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
+                        </span>
+                        <div class="field-tooltip-content"
+                                data-target="dropdown">
+                                <span translate="'A 3-digit number in italics on the back of your card.'"></span>
+                                </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field mercadopago-input-group installments">
+                <div class="control">
+                    <select name="payment[card_installments]"
+                            class="select select-year"
+                            data-bind="attr: {autocomplete: 'off', id: getId() + '_installments', 'data-container': getId() + '-installments', 'data-validate': JSON.stringify({required:true})},
+                                    enable: isActive($parents),
+                                    options: creditCardListInstallments(),
+                                    optionsValue: 'installments',
+                                    optionsText: 'recommended_message',
+                                    optionsCaption: $t('Number of installments'),
+                                    value: creditCardInstallment">
+                    </select>
+                    <label data-bind="attr: {for: getId() + '_installments'}" class="label">
+                        <span><!-- ko i18n: 'Number of installments' --><!-- /ko --></span>
+                    </label>
+                </div>
+                <!-- ko if: installmentTextInfo() === true -->
+                    <p data-bind="text: installmentTextTEA, css: 'text_tea'"></p>
+                    <p data-bind="text: installmentTextCFT, css: 'text_cft'"></p>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+</fieldset>

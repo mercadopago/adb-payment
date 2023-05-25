@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="basic_settings" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <label>Basic Settings</label>
+        <include path="MercadoPago_AdbPayment::system/basic_settings/credentials.xml"/>
+        <include path="MercadoPago_AdbPayment::system/basic_settings/more_data.xml"/>
+        <include path="MercadoPago_AdbPayment::system/basic_settings/api_refund.xml"/>
+        <include path="MercadoPago_AdbPayment::system/basic_settings/developers.xml"/>
+    </group>
+</include>

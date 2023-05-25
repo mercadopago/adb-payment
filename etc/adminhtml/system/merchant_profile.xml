@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="merchant_profile" translate="label comment" type="text" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <label>Store information hosted in Mercado Pago</label>
+        <field id="environment" translate="label comment" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Checkout operation mode</label>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\Environment</source_model>
+            <config_path>payment/mercadopago_adbpayment/environment</config_path>
+        </field>
+        <field id="id_sandbox" translate="label comment" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>User Id</label>
+            <config_path>payment/mercadopago_adbpayment/id_sandbox</config_path>
+            <depends>
+                <field id="*/*/basic_settings/credentials/environment">sandbox</field>
+            </depends>
+        </field>
+        <field id="email_sandbox" translate="label comment" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>User Email</label>
+            <config_path>payment/mercadopago_adbpayment/email_sandbox</config_path>
+            <depends>
+                <field id="*/*/basic_settings/credentials/environment">sandbox</field>
+            </depends>
+        </field>
+        <field id="name_sandbox" translate="label comment" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>User Name</label>
+            <config_path>payment/mercadopago_adbpayment/name_sandbox</config_path>
+            <depends>
+                <field id="*/*/basic_settings/credentials/environment">sandbox</field>
+            </depends>
+        </field>
+        <field id="id_production" translate="label comment" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>User Id</label>
+            <config_path>payment/mercadopago_adbpayment/id_production</config_path>
+            <depends>
+                <field id="*/*/basic_settings/credentials/environment">production</field>
+            </depends>
+        </field>
+        <field id="email_production" translate="label comment" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>User Email</label>
+            <config_path>payment/mercadopago_adbpayment/email_production</config_path>
+            <depends>
+                <field id="*/*/basic_settings/credentials/environment">production</field>
+            </depends>
+        </field>
+        <field id="name_production" translate="label comment" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>User Name</label>
+            <config_path>payment/mercadopago_adbpayment/name_production</config_path>
+            <depends>
+                <field id="*/*/basic_settings/credentials/environment">production</field>
+            </depends>
+        </field>
+        <field id="site_id" translate="label comment" type="hidden" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <config_path>payment/mercadopago_adbpayment/site_id</config_path>
+        </field>
+    </group>
+</include>

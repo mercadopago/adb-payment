@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.cart.totals">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-totals" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="before_grandtotal" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="finance_cost_amount" xsi:type="array">
+                                            <item name="component"  xsi:type="string">MercadoPago_AdbPayment/js/view/cart/totals/finance_cost</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="title" xsi:type="string" translate="true">Finance Cost</item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

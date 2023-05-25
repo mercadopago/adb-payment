@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="mercadopago_adbpayment">
+        <job name="mercadopago_fetch_merchant_info" instance="MercadoPago\AdbPayment\Cron\FetchMerchantInfo" method="execute">
+            <schedule>0 0 1 * *</schedule>
+        </job>
+        <job name="mercadopago_fetch_pix_order_status" instance="MercadoPago\AdbPayment\Cron\FetchPixOrderStatus" method="execute">
+            <schedule>0 9 * * *</schedule>
+        </job>
+        <job name="mercadopago_fetch_payment_methods_off_order_status" instance="MercadoPago\AdbPayment\Cron\FetchPaymentMethodsOffOrderStatus" method="execute">
+            <schedule>0 9 * * 1-5</schedule>
+        </job>
+        <job name="mercadopago_cancel_checkout_pro" instance="MercadoPago\AdbPayment\Cron\CancelCheckoutPro" method="execute">
+            <schedule>0 9 * * 1-5</schedule>
+        </job>
+        <job name="mercadopago_fetch_pse_order_status" instance="MercadoPago\AdbPayment\Cron\FetchPseOrderStatus" method="execute">
+            <schedule>9 9 * * 1-5</schedule>
+        </job>
+        <job name="mercadopago_fetch_webpay_order_status" instance="MercadoPago\AdbPayment\Cron\FetchWebpayOrderStatus" method="execute">
+            <schedule>13 9 * * 1-5</schedule>
+        </job>
+    </group>
+</config>

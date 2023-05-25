@@ -1,0 +1,113 @@
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\AdbPayment\Block\Sales\Info\Webpay $block
+ * @see \MercadoPago\AdbPayment\Block\Sales\Info\Webpay
+ */
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
+$specificInfo = $block->getSpecificInformation();
+$mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment_id']: null;
+$expirationDate = isset($specificInfo['date_of_expiration']) ? $specificInfo['date_of_expiration'] : null;
+$lineCode = isset($specificInfo['line_code']) ? $specificInfo['line_code']: null;
+$barcode = isset($specificInfo['barcode']) ? $specificInfo['barcode'] : null;
+$externalLink = isset($specificInfo['external_resource_url']) ? $specificInfo['external_resource_url'] : null;
+$payerDocumentIdentification =
+    isset($specificInfo['payer_document_identification']) ?
+        $specificInfo['payer_document_identification'] : null;
+$payerDocumentType =
+    isset($specificInfo['payer_document_type']) ?
+        $specificInfo['payer_document_type'] : null;
+$ticketUrl = isset($specificInfo['ticket_url']) ? $specificInfo['ticket_url'] : null;
+$status = isset($specificInfo['mp_status']) ? $specificInfo['mp_status'] : null;
+$statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_status_detail'] : null;
+?>
+<?php if ($specificInfo): ?>
+    <dl class="payment-method">
+        <dt class="title"><?= /* @noEscape */ $title ?></dt>
+        <dd class="content">
+            <table class="data table">
+                <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
+                <tbody>
+                    <?php if ($mpPaymentId): ?>
+                        <tr>
+                            <th scope="row"><?= $block->escapeHtml(__('mp_payment_id')); ?></th>
+                            <td><?= $block->escapeHtml($mpPaymentId); ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($expirationDate): ?>
+                        <tr>
+                            <th scope="row"><?= $block->escapeHtml(__('Expiration')); ?></th>
+                            <td>
+                                <?= /* @noEscape */ $block->formatDate(
+                                    $expirationDate,
+                                    \IntlDateFormatter::MEDIUM,
+                                    false
+                                ) ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($externalLink): ?>
+                        <tr>
+                            <th scope="row">
+                                <?= $block->escapeHtml(__('Link')); ?>
+                            </th>
+                            <td>
+                                <a target="_blank"
+                                    href="<?=  $block->escapeHtml($externalLink) ?>"
+                                    alt="<?= /* @noEscape */ $title ?>">
+                                    <?= $block->escapeHtml(__('Details for payment')); ?>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($payerDocumentType): ?>
+                        <tr>
+                            <th scope="row">
+                                <?= $block->escapeHtml(__('Payer Document Type')); ?>
+                            </th>
+                            <td>
+                                <?= $block->escapeHtml($payerDocumentType) ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($payerDocumentIdentification): ?>
+                        <tr>
+                            <th scope="row">
+                                <?= $block->escapeHtml(__('Document number')); ?>
+                            </th>
+                            <td>
+                                <?= $block->escapeHtml($payerDocumentIdentification) ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($status): ?>
+                        <tr>
+                            <th scope="row">
+                                <?= $block->escapeHtml(__('Status (Mercado Pago)')); ?>
+                            </th>
+                            <td>
+                                <?= $block->escapeHtml(__($status)) ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($statusDetail): ?>
+                        <tr>
+                            <th scope="row">
+                                <?= $block->escapeHtml(__('Status Detail (Mercado Pago)')); ?>
+                            </th>
+                            <td>
+                                <?= $block->escapeHtml(__($status)) ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+<?php endif;?>

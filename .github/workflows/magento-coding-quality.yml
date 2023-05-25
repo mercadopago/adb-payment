@@ -1,0 +1,10 @@
+name: Magento Coding Quality
+on: [pull_request]
+
+jobs:
+  phpcs:
+    name: PHP Coding Quality
+    runs-on: ubuntu-latest
+    steps:
+    - name: PHP Coding Standard Magento2
+      run: docker run --rm -v $PWD:/code:ro domw/phpcs phpcs --colors --standard=Magento2 --error-severity=1 -n ./
