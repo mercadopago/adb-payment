@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\AdbPayment\Block\Sales\Info\Card $block
+ * @see \MercadoPago\AdbPayment\Block\Sales\Info\Card
+ */
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
+$specificInfo = $block->getSpecificInformation();
+?>
+<?php if ($specificInfo) : ?>
+    <dl class="payment-method">
+        <dt class="title"><?= /* @noEscape */ $title ?></dt>
+        <dd class="content">
+            <table class="data table">
+                <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
+                <tbody>
+                    <?php if (isset($specificInfo['card_installments'])) : ?>
+                        <tr>
+                            <th scope="row"><?= $block->escapeHtml(__('card_installments')); ?>:</th>
+                            <td><?= $block->escapeHtml($specificInfo['card_installments']) ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if (isset($specificInfo['card_finance_cost'])) : ?>
+                        <tr>
+                            <th scope="row"><?= $block->escapeHtml(__('card_finance_cost')); ?>:</th>
+                            <td><?= $block->getFormatedPrice($specificInfo['card_finance_cost']) ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if (isset($specificInfo['card_type'])) : ?>
+                        <tr>
+                            <th scope="row"><?= $block->escapeHtml(__('card_type')); ?>:</th>
+                            <td><?= $block->escapeHtml($specificInfo['card_type']) ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if (isset($specificInfo['card_number'])) : ?>
+                        <tr>
+                            <th scope="row"><?= $block->escapeHtml(__('card_number')); ?>:</th>
+                            <td><?= $block->escapeHtml($specificInfo['card_number']) ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if (isset($specificInfo['card_holder_name'])) : ?>
+                        <tr>
+                            <th scope="row"><?= $block->escapeHtml(__('card_holder_name')); ?>:</th>
+                            <td><?= $block->escapeHtml($specificInfo['card_holder_name']) ?></td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if (isset($specificInfo['payer_document_identification'])) : ?>
+                        <tr>
+                            <th scope="row"><?= $block->escapeHtml(__('payer_document_identification')); ?>:</th>
+                            <td><?= $block->escapeHtml($specificInfo['payer_document_identification']) ?></td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+<?php endif; ?>

@@ -1,0 +1,112 @@
+<?php
+
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\AdbPayment\Block\Sales\Info\TwoCc $block
+ * @see \MercadoPago\AdbPayment\Block\Sales\Info\TwoCc
+ */
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
+$specificInfo = $block->getSpecificInformation();
+$mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment_id'] : null;
+?>
+<?php if ($specificInfo) : ?>
+    <table class="admin__table-secondary order-information-table">
+        <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
+        <tbody>
+            <?php if ($mpPaymentId) : ?>
+                <tr>
+                    <th scope="row"><?= $block->escapeHtml(__('mp_payment_id')); ?></th>
+                    <td><?= $block->escapeHtml($mpPaymentId); ?></td>
+                </tr>
+            <?php endif; ?>
+            <?php for ($i = 0; $i < 2; $i++) : ?>
+                <tr>
+                    <th scope="row">
+                        <?php if ($i === 0) : ?>
+                            <p><b><?= $block->escapeHtml(__('FIRST PAYMENT METHOD')) ?></b></p>
+                        <?php else : ?>
+                            <p><b><?= $block->escapeHtml(__('SECOND PAYMENT METHOD')) ?></b></p>
+                        <?php endif; ?>
+                    </th>
+                </tr>
+                <?php if (isset($specificInfo['payment_' . $i . '_id'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('mp_payment_id')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['payment_' . $i . '_id']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['card_' . $i . '_installments'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('card_installments')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['card_' . $i . '_installments']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['card_' . $i . '_finance_cost'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('card_finance_cost')); ?>:</th>
+                        <td><?= $block->getFormatedPrice($specificInfo['card_' . $i . '_finance_cost']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['card_' . $i . '_type'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('card_type')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['card_' . $i . '_type']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['card_' . $i . '_number'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('card_number')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['card_' . $i . '_number']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['card_' . $i . '_holder_name'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('card_holder_name')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['card_' . $i . '_holder_name']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['card_' . $i . '_exp_month'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('card_exp_month')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['card_' . $i . '_exp_month']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['card_' . $i . '_exp_year'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('card_exp_year')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['card_' . $i . '_exp_year']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['payer_' . $i . '_document_type'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('payer_document_type')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['payer_' . $i . '_document_type']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['payer_' . $i . '_document_identification'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('payer_document_identification')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['payer_' . $i . '_document_identification']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['mp_' . $i . '_status'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('mp_status')); ?>:</th>
+                        <td><?= $block->escapeHtml(__($specificInfo['mp_' . $i . '_status'])) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['mp_' . $i . '_status_detail'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('mp_status_detail')); ?>:</th>
+                        <td><?= $block->escapeHtml(__($specificInfo['mp_' . $i . '_status_detail'])) ?></td>
+                    </tr>
+                <?php endif; ?>
+            <?php endfor; ?>
+        </tbody>
+    </table>
+<?php endif; ?>

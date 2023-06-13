@@ -1,0 +1,32 @@
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \Magento\Payment\Block\Adminhtml\Transparent\Form $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+$code = $block->escapeHtml($block->getMethodCode());
+?>
+<fieldset class="admin__fieldset payment-method"
+    id="payment_form_<?= /* @noEscape */ $code ?>"
+    data-url-to-tokenize="<?= $block->escapeHtml($block->getUrlForTokenize()); ?>">
+    <?= $block->escapeHtml(
+        __('In order to comply with PCI regulations, the administrator cannot capture this payment method.')
+    ); ?>
+</fieldset>
+<?= /* @noEscape */ $secureRenderer->renderStyleAsTag(
+    "display:none",
+    'fieldset#payment_form_' . /* @noEscape */ $code
+) ?>
+<?php $scriptString = <<<script
+    require(["Magento_Sales/order/create/form"], function () {
+        order.addExcludedPaymentMethod('{$code}');
+    });
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>

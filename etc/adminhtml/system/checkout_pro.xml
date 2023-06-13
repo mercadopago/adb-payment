@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="mercadopago_adbpayment_checkout_pro" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <label>Checkout Pro</label>
+        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Enabled</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/mercadopago_adbpayment_checkout_pro/active</config_path>
+        </field>
+        <field id="title" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Title</label>
+            <comment>Payment method title at the store's checkout.</comment>
+            <config_path>payment/mercadopago_adbpayment_checkout_pro/title</config_path>
+        </field>
+        <field id="expiration" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Deadline for payment</label>
+            <comment>Calendar days.</comment>
+            <validate>required-entry validate-number validate-zero-or-greater</validate>
+            <config_path>payment/mercadopago_adbpayment_checkout_pro/expiration</config_path>
+        </field>
+        <field id="binary_mode" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Use Binary Mode</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/mercadopago_adbpayment_checkout_pro/binary_mode</config_path>
+        </field>
+        <field id="type_redirect" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Payment completion view</label>
+            <comment>Modal: Buyer will close via modal on the checkout screen. Redirection: Buyer will be redirected to the Mercado Pago website.</comment>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\TypeRedirect</source_model>
+            <validate>required-entry validate-select</validate>
+            <config_path>payment/mercadopago_adbpayment_checkout_pro/type_redirect</config_path>
+        </field>
+        <field id="excluded" translate="label comment" type="multiselect" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="1" canRestore="0">
+            <label>Removed payment method</label>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\MerchantPaymentMethods</source_model>
+            <config_path>payment/mercadopago_adbpayment_checkout_pro/excluded</config_path>
+            <comment>Select the payment methods you do NOT want to accept.</comment>
+        </field>
+        <field id="max_installments" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Installment options limit</label>
+            <comment>It is possible to configure the number of installments in Checkout Pro, but the limit of installments per purchase will also depend on the minimum and maximum amount defined by each flag in the country of your store.</comment>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\MaxInstallments</source_model>
+            <validate>required-entry validate-select</validate>
+            <config_path>payment/mercadopago_adbpayment_checkout_pro/max_installments</config_path>
+        </field>
+        <group id="mercadopago_adbpayment_trackings" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Conversion tags</label>
+            <comment>You can link your Checkout Pro sales with external services.</comment>
+                <group id="mercadopago_adbpayment_tracking_facebook" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Facebook</label>
+                    <field id="include_facebook" translate="label comment" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>Enable Facebook pixel</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/mercadopago_adbpayment_checkout_pro/include_facebook</config_path>
+                    </field>
+                    <field id="facebook_ad" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>Facebook</label>
+                        <comment>Link your sales with Facebook by entering the ID No. and your tracking code.</comment>
+                        <config_path>payment/mercadopago_adbpayment_checkout_pro/facebook_ad</config_path>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="*/*/*/*/*/include_facebook">1</field>
+                        </depends>
+                    </field>
+                </group>
+                <group id="mercadopago_adbpayment_tracking_google" translate="label comment" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                    <label>Google</label>
+                    <field id="include_google" translate="label comment" type="select" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>Enable Google pixel</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/mercadopago_adbpayment_checkout_pro/include_google</config_path>
+                    </field>
+                    <field id="conversion_id" translate="label comment" type="text" sortOrder="220" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>Google Ads - Id</label>
+                        <comment>Link your sales with Google Ads by entering the ID No. and your tracking code.</comment>
+                        <config_path>payment/mercadopago_adbpayment_checkout_pro/conversion_id</config_path>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="*/*/*/*/*/include_google">1</field>
+                        </depends>
+                    </field>
+                    <field id="conversion_label" translate="label comment" type="text" sortOrder="230" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+                        <label>Google Ads - Label</label>
+                        <comment>Link your sales with Google Ads by entering the Label and your tracking code.</comment>
+                        <config_path>payment/mercadopago_adbpayment_checkout_pro/conversion_label</config_path>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="*/*/*/*/*/include_google">1</field>
+                        </depends>
+                    </field>
+                </group>
+        </group>
+        <group id="mercadopago_adbpayment_style_modal" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Customization and Styles</label>
+            <comment>Set up how the items will appear in the modal window in which the buyer will complete the purchase.</comment>
+            <depends>
+                <field id="*/*/*/type_redirect">modal</field>
+            </depends>
+            <field id="theme_header" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Header Color</label>
+                <validate>required-entry validate-no-html-tags</validate>
+                <backend_model>MercadoPago\AdbPayment\Model\Config\Backend\Color</backend_model>
+                <config_path>payment/mercadopago_adbpayment_checkout_pro/theme_header</config_path>
+                <frontend_model>MercadoPago\AdbPayment\Block\Adminhtml\System\Config\Form\ColorPicker</frontend_model>
+            </field>
+            <field id="theme_elements" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Elements Color</label>
+                <validate>required-entry validate-no-html-tags</validate>
+                <backend_model>MercadoPago\AdbPayment\Model\Config\Backend\Color</backend_model>
+                <config_path>payment/mercadopago_adbpayment_checkout_pro/theme_elements</config_path>
+                <frontend_model>MercadoPago\AdbPayment\Block\Adminhtml\System\Config\Form\ColorPicker</frontend_model>
+            </field>
+        </group>
+        <group id="mercadopago_adbpayment_native_fields" translate="label comment" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Common Payment Method Definitions</label>
+            <field id="min_order_total" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Minimum order total</label>
+                <comment>Minimum amount to pay with Checkout Pro.</comment>
+                <validate>validate-number validate-zero-or-greater</validate>
+                <config_path>payment/mercadopago_adbpayment_checkout_pro/min_order_total</config_path>
+            </field>
+            <field id="max_order_total" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Maximum order amount</label>
+                <comment>Maximum amount to pay with Checkout Pro</comment>
+                <validate>validate-number validate-zero-or-greater</validate>
+                <config_path>payment/mercadopago_adbpayment_checkout_pro/max_order_total</config_path>
+            </field>
+            <field id="specificcountry" translate="label comment" type="multiselect" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Payment From Specific Countries</label>
+                <comment>Countries eligible to use this payment method.</comment>
+                <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                <config_path>payment/mercadopago_adbpayment_checkout_pro/specificcountry</config_path>
+            </field>
+            <field id="sort_order" translate="label comment" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Sort Order</label>
+                <comment>Sets up in which order the payment methods will be shown at the Checkout.</comment>
+                <frontend_class>validate-number</frontend_class>
+                <config_path>payment/mercadopago_adbpayment_checkout_pro/sort_order</config_path>
+            </field>
+        </group>
+    </group>
+</include>

@@ -1,0 +1,85 @@
+
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var MercadoPago\AdbPayment\Block\Order\Success\Additional $block
+ * @see MercadoPago\AdbPayment\Block\Order\Success
+ */
+?>
+    <h2><?= $block->escapeHtml(__($block->getTitleByPaymentStatus())) ?></h2>
+
+    <div class="mercadopago-payment-success-details-two-cc">
+        <p><?= $block->escapeHtml(__('Your order is <b>%1</b>!', $block->getOrderId()), ['b']) ?></p>
+    </div>
+
+    <div class="mercadopago-payment-success-details-two-cc">
+        <p><b><?= $block->escapeHtml(__('PAYMENT INFORMATION')) ?></b> </p>
+        <p><?= $block->escapeHtml(__('Payment Number (Mercado Pago): %1', $block->getInfo('mp_payment_id'))) ?></p>
+    </div>
+
+    <?php for ($i = 0; $i < 2; $i++) : ?>
+        <div class = "mercadopago-payment-success-details-two-cc">
+            <?php if ($i === 0) : ?>
+                <p><b><?= $block->escapeHtml(__('FIRST PAYMENT METHOD')) ?></b></p>
+            <?php else : ?>
+                <p><b><?= $block->escapeHtml(__('SECOND PAYMENT METHOD')) ?></b></p>
+            <?php endif; ?>
+
+            <p>
+                <span>&#8226;</span>
+                <b><?= $block->escapeHtml(__('Card number:')) ?></b>
+                <?= $block->escapeHtml(__($block->getInfo('card_'.$i.'_number'))) ?>
+            </p>
+            <p>
+                <span>&#8226;</span>
+                <b><?= $block->escapeHtml(__('Expiration date:')) ?></b>
+                <?= $block->escapeHtml(__('%1/%2', $block->getInfo('card_'.$i.'_exp_month'), $block->getInfo('card_'.$i.'_exp_year'))) ?>
+            </p>
+            <p>
+                <span>&#8226;</span>
+                <b><?= $block->escapeHtml(__('Card holder:')) ?></b>
+                <?= $block->escapeHtml(__($block->getInfo('card_'.$i.'_holder_name'))) ?>
+            </p>
+            <p>
+                <span>&#8226;</span>
+                <b><?= $block->escapeHtml(__('Payment method:')) ?></b>
+                <?= $block->escapeHtml(__($block->getInfo('card_'.$i.'_type'))) ?>
+            </p>
+            <p>
+                <span>&#8226;</span>
+                <b><?= $block->escapeHtml(__('Installments:')) ?></b>
+                <?= $block->escapeHtml(__($block->getInfo('card_'.$i.'_installments'))) ?>
+            </p>
+            <?php if ($block->getInfo('card_'.$i.'_finance_cost')): ?>
+            <p>
+                <span>&#8226;</span>
+                <b><?= $block->escapeHtml(__('Finance Cost')) ?>:</b>
+                <?= __($block->getFormatedPrice($block->getInfo('card_'.$i.'_finance_cost'))) ?>
+            </p>
+            <?php endif; ?>
+            <p>
+                <span>&#8226;</span>
+                <b><?= $block->escapeHtml(__('Identification in the invoice:')) ?></b>
+                <?= $block->escapeHtml(__($block->getStatementDescriptor())) ?>
+            </p>
+            <p>
+                <span>&#8226;</span>
+                <b><?= $block->escapeHtml(__('Payment status:')) ?></b>
+                <?= $block->escapeHtml(__($block->getInfo('mp_'.$i.'_status'))) ?>
+            </p>
+            <p>
+                <span>&#8226;</span>
+                <b><?= $block->escapeHtml(__('Detailed payment status:')) ?></b>
+                <?= $block->escapeHtml(__($block->getInfo('mp_'.$i.'_status_detail'))) ?>
+            </p>
+        </div>
+    <?php endfor; ?>
+
+    <div class="mercadopago-payment-success-details-two-cc mercadopago-payment-logo">
+
+    </div>

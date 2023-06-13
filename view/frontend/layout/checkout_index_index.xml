@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="billing-step" xsi:type="array">
+                                            <item name="component" xsi:type="string">uiComponent</item>
+                                            <item name="children" xsi:type="array">
+                                                <item name="payment" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="renders" xsi:type="array">
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="mercadopago_adbpayment" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">MercadoPago_AdbPayment/js/view/payment/mercadopago</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="mercadopago_adbpayment" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                        <item name="mercadopago_adbpayment_cc" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                        <item name="mercadopago_adbpayment_cc_vault" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                        <item name="mercadopago_adbpayment_checkout_pro" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                        <item name="mercadopago_adbpayment_pix" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                        <item name="mercadopago_adbpayment_payment_methods_off" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                        <item name="mercadopago_adbpayment_pse" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                        <item name="mercadopago_adbpayment_webpay" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                        <item name="mercadopago_adbpayment_twocc" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="sidebar" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="summary" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="totals" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="finance_cost_amount" xsi:type="array">
+                                                            <item name="component"  xsi:type="string">MercadoPago_AdbPayment/js/view/checkout/cart/totals/finance_cost</item>
+                                                            <item name="sortOrder" xsi:type="string">20</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="template" xsi:type="string">MercadoPago_AdbPayment/checkout/cart/totals/finance_cost</item>
+                                                                <item name="title" xsi:type="string" translate="true">Finance Cost</item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

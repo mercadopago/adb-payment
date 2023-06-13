@@ -1,0 +1,647 @@
+@label_floating-padding-x: 15px;
+@label_floating-padding-y: 13px;
+@mercadopago-fields-input__padding-top: @label_floating-padding-y;
+@mercadopago-fields-input__padding-bottom: @label_floating-padding-y;
+@mercadopago-fields-input__padding-right: @indent__xs;
+@mercadopago-fields-input__padding-left: @indent__s;
+@mercadopago-checkout__box-shadow: 0 3px 5px rgba(57, 22, 58, .05);
+@mercadopago-checkout__border-radius: 3px;
+@mercadopago-checkout__margin-adjust: 21px;
+@import 'twocc.less';
+
+& when (@media-common =true) {
+
+    //css Two Cards
+    .payment-method {
+        .payment-method-title {
+            .payment-method-label {
+                .payment-method-label-icon {
+                    .mp-logo-title {
+                        height: 28px;
+                    }
+                }
+
+            }
+        }
+
+        .payment-method-content {
+            .mp-header-two-cards {
+                font-family: 'Open Sans';
+                font-style: normal;
+
+                .mp-header-title-one {
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 23px;
+                    color: rgba(0, 0, 0, 0.8);
+                    margin: 5px 0px 16px 0px;
+                }
+
+                .mp-header-subtitle {
+                    font-weight: 400;
+                    font-size: 11px;
+                    line-height: 18px;
+                    color: rgba(0, 0, 0, 0.9);
+                }
+
+                .mp-subtitle {
+                    font-weight: 400;
+                    font-size: 13px;
+                    line-height: 18px;
+                    color: rgba(0, 0, 0, 0.55);
+                    margin: 4px 0px 16px 0px;
+                }
+
+                .mp-message {
+                    color: red;
+                    font-weight: 400;
+                    font-size: 13px;
+                    line-height: 18px;
+                    margin: 4px 0px 16px 0px;
+                    display: none;
+                }
+
+                input {
+                    box-sizing: border-box;
+                    width: 328px;
+                    height: 52px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: flex-start;
+                    padding: 0px 12px;
+                    background: #FFFFFF;
+                    border: 1px solid rgba(0, 0, 0, 0.25);
+                    border-radius: 6px;
+                    margin-bottom: 10px;
+                }
+
+                input::placeholder {
+                    color: rgba(0, 0, 0, 0.25);
+                }
+
+                input::-webkit-input-placeholder {
+                    color: rgba(0, 0, 0, 0.25);
+                }
+
+                input::-ms-input-placeholder {
+                    color: rgba(0, 0, 0, 0.25);
+                }
+
+                input::-moz-placeholder {
+                    color: rgba(0, 0, 0, 0.25);
+                }
+
+                .mp-progress-bar {
+                    width: 324px;
+                    height: 4px;
+                    border-radius: 5px;
+                    background-color: rgba(0, 0, 0, 0.1);
+                }
+
+                .mp-progress-bar div {
+                    height: 100%;
+                    background-color: #3483FA;
+                    border-radius: 5px;
+                    width: 0px;
+                }
+            }
+
+            .mp-header-title-two {
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 23px;
+                color: rgba(0, 0, 0, 0.8);
+                margin: 16px 0px;
+            }
+
+            .mp-footer {
+                display: flex;
+                margin-top: 22px;
+                align-items: center;
+
+                .mp-footer-subtitle {
+                    font-weight: 400;
+                    font-size: 11px;
+                    line-height: 17px;
+                    color: #BFBFBF;
+                    margin-left: 8px;
+                }
+
+                .mp-footer-logo {
+                    width: 39px;
+                    height: 28px;
+                }
+            }
+
+            .mp-divider {
+                width: 100;
+                height: 1px;
+                background: #CCCCCC;
+                margin: 38px 0px 16px 0px;
+            }
+        }
+
+        //end css TWo Cards
+
+        .text-tea {
+            font-size: 12px;
+            line-height: 1.1;
+        }
+
+        .text-cft {
+            font-size: 27px;
+            line-height: 1.1;
+        }
+
+        .payment-method-title {
+            &.field {
+                display: inline-flex;
+                width: 100%;
+            }
+        }
+
+        .control-mp-iframe {
+            background-color: @input-text__background;
+            border: @input-text__border;
+            border-radius: @input-text__border-radius;
+            height: 48px;
+            position: relative;
+
+            &.has-error {
+                border-color: @error__color;
+            }
+
+            .field-tooltip {
+                height: 0;
+                right: @indent__xs;
+                text-align: right;
+                top: @indent__s;
+                width: 28px;
+            }
+
+            .input-mp-iframe {
+                height: 100%;
+                position: absolute;
+                width: 90%;
+            }
+
+            .label {
+                display: block;
+                font-weight: normal;
+                margin-bottom: 0;
+                overflow: hidden;
+                padding: @label_floating-padding-y @label_floating-padding-x;
+                pointer-events: none;
+                position: absolute;
+                text-overflow: ellipsis;
+                top: 0;
+                transition: all .1s ease-in-out;
+                white-space: nowrap;
+                width: 70%;
+            }
+
+            &.in-focus,
+            &.is-valid {
+                .label {
+                    font-size: 10px;
+                    padding-bottom: calc(@label_floating-padding-y/3) !important;
+                    padding-top: calc(@label_floating-padding-y/3) !important;
+                }
+            }
+        }
+
+        .mp-message-error {
+            display: block;
+            color: #e02b27;
+            font-size: 1.2rem;
+        }
+
+        .payment-method-label {
+            display: table;
+            vertical-align: middle;
+
+            .payment-method-label-icon {
+                display: table-cell;
+                line-height: 0;
+                vertical-align: middle;
+
+                img {
+                    width: 46px;
+                }
+            }
+
+            .payment-method-label-title {
+                display: table-cell;
+                padding-left: 10px;
+                vertical-align: middle;
+            }
+        }
+
+        .checkout-payment-method {
+            .form {
+                margin-bottom: @indent__base;
+            }
+
+            .payments {
+                .legend {
+                    &:extend(.abs-add-clearfix all);
+                    &:extend(.abs-visually-hidden-reset all);
+                }
+            }
+        }
+
+        .payment-methods-off-input {
+            float: left;
+            margin-right: 10px;
+        }
+
+        .payment-methods-off-option {
+            width: 40%;
+            display: inline-flex;
+            align-items: center;
+            margin: 0 0 1rem;
+        }
+
+        .payment-methods-off-label {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 8px;
+        }
+
+        .payment-methods-off-logo-container {
+            width: 60px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border: 1px solid #e5e5e5;
+            box-sizing: border-box;
+            border-radius: 4px;
+            padding: 4px;
+        }
+
+        .payment-methods-off-logo-image {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100% !important;
+            position: inherit !important;
+            float: none !important;
+            margin: 0 !important;
+            font-size: 10px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .legend {
+            .credit-card-types {
+                .item {
+                    display: inline-flex;
+                    list-style: none;
+                    margin: 0;
+                    text-align: right;
+                    vertical-align: top;
+
+                    img {
+                        -webkit-filter: grayscale(0%);
+                        filter: grayscale(0%);
+                        width: 20px;
+                    }
+                }
+            }
+        }
+
+        .field-to-pay {
+            margin: 0 @indent__s;
+
+            &._hidden {
+                &:extend(.abs-visually-hidden all);
+            }
+        }
+
+        .fieldset {
+            &.fieldset-ajust-margin-bottom {
+                margin-bottom: @indent__base;
+            }
+
+            &.payment-mercadopago {
+                border: 1px solid;
+                border-color: @color-gray-light2;
+
+                /* stylelint-disable-next-line CssSyntaxError */
+                .lib-css(background-color, @color-white);
+                .lib-css(border-radius, @mercadopago-checkout__border-radius);
+                .lib-css(padding-bottom, @indent__s);
+
+                .legend {
+                    align-items: center;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    &:extend(.abs-visually-hidden-reset all);
+
+                    border-top-left-radius: 4px;
+                    border-top-right-radius: 4px;
+                    border-bottom: 1px solid;
+                    border-color: @color-gray-light2;
+                    padding: 10px 20px;
+                    background-color: @color-gray-light01;
+                    width: 100%;
+
+                    &-icon {
+                        margin-right: 0;
+                        text-align: right;
+                    }
+                }
+
+                .not-editable-title {
+                    padding: @indent__base;
+                    text-align: center;
+                    .lib-heading(h3);
+                }
+
+            }
+
+            .field {
+                &.choice {
+                    margin-bottom: @indent__base;
+                }
+
+                &.mercadopago-input-group {
+                    box-sizing: border-box;
+                    display: inline-block;
+                    margin-bottom: @indent__base;
+                    position: relative;
+                    vertical-align: top;
+                    width: 100%;
+
+                    .control {
+
+                        input[type='text'],
+                        input[type='password'],
+                        input[type='url'],
+                        input[type='tel'],
+                        input[type='search'],
+                        input[type='number'],
+                        input[type='datetime'],
+                        input[type='email'],
+                        select {
+                            height: unset;
+                            padding: @label_floating-padding-y @label_floating-padding-x;
+                            width: 100%;
+                        }
+
+                        input::placeholder {
+                            color: transparent;
+                        }
+
+                        input::-webkit-input-placeholder {
+                            color: transparent;
+                        }
+
+                        input::-ms-input-placeholder {
+                            color: transparent;
+                        }
+
+                        input::-moz-placeholder {
+                            color: transparent;
+                        }
+
+                        .label {
+                            display: block;
+                            font-weight: normal;
+                            margin-bottom: 0;
+                            overflow: hidden;
+                            padding: @label_floating-padding-y @label_floating-padding-x;
+                            pointer-events: none;
+                            position: absolute;
+                            text-overflow: ellipsis;
+                            top: 0;
+                            transition: all .1s ease-in-out;
+                            white-space: nowrap;
+                            width: 80%;
+                        }
+
+                        select:not(:checked),
+                        input:not(:placeholder-shown) {
+                            padding-bottom: calc(@label_floating-padding-y / 3) !important;
+                            padding-top: calc(@label_floating-padding-y + @label_floating-padding-y * (2 / 3)) !important;
+                        }
+
+                        select:not(:checked)~.label,
+                        input:not(:placeholder-shown)~.label {
+                            font-size: 10px;
+                            padding-bottom: calc(@label_floating-padding-y/3) !important;
+                            padding-top: calc(@label_floating-padding-y/3) !important;
+                        }
+                    }
+                }
+
+                &.document-number {
+                    float: right;
+                    padding-left: 10px;
+                    width: 70%;
+                }
+
+                &.document-type {
+                    float: left;
+                    width: 30%;
+                }
+
+                &.number {
+                    float: left;
+                    width: 70%;
+
+                    .credit-card-types {
+
+                        .item {
+                            &._hidden {
+                                &:extend(.abs-visually-hidden all);
+                            }
+
+                            &._active {
+                                line-height: 2;
+                            }
+
+                            img {
+                                -webkit-filter: unset; // For Webkit browsers
+                                -webkit-transition: all .6s ease; // Fade to color for Chrome and Safari
+                                filter: unset;
+                                margin-right: 10px;
+                                transition: all .6s ease;
+                                width: 32px;
+                            }
+                        }
+                    }
+                }
+
+                &.cvv {
+                    float: right;
+                    padding-left: 10px;
+                    width: 30%;
+
+                    input {
+                        padding-right: 20px;
+                    }
+                }
+
+                &.date {
+                    margin-bottom: 0;
+
+                    .group-2 {
+                        display: inline-flex;
+                        width: 100%;
+
+                        .month {
+                            padding-left: 0;
+                        }
+
+                        .year {
+                            padding-left: 10px;
+                            padding-right: 0;
+                        }
+                    }
+                }
+
+                &.first-payment-amount {
+                    .ui-slider-horizontal {
+                        border-radius: 0;
+                    }
+                }
+            }
+        }
+
+        .details-payment-amount {
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding-left: @indent__s;
+            padding-right: @indent__s;
+
+            h4 {
+                margin-top: 0;
+            }
+        }
+
+        .first-payment-amount {
+            margin-top: @indent__base;
+        }
+    }
+
+    .checkout-onepage-success {
+        .mercadopago-payment-success-details {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .mercadopago-input-group {
+            position: relative;
+        }
+
+        .field .control._with-tooltip {
+            input {
+                margin-right: 0;
+                padding-right: @indent__xl;
+                width: 100%;
+            }
+
+            button {
+                margin-top: -1px;
+            }
+        }
+
+        a {
+            margin-top: 5px;
+        }
+
+        .field {
+            &.mercadopago-input-group {
+                max-width: 500px;
+            }
+        }
+
+        .mercadopago-payment-success-details-two-cc {
+            padding-top: 15px;
+
+            span {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
+            .title {
+                width: 330px;
+                height: 66px;
+
+                font-family: 'Open Sans';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 24px;
+                line-height: 33px;
+
+                color: #333333;
+            }
+        }
+
+        .mercadopago-payment-logo {
+            flex-basis: 15%;
+            background: url('../images/core/logo.svg') no-repeat center center;
+            -webkit-background-size: contain;
+            -moz-background-size: contain;
+            -o-background-size: contain;
+            background-size: contain;
+            width: 96.89px;
+            height: 24.46px;
+            padding-bottom: 15px;
+        }
+    }
+
+    .mercadopago-instruction {
+        .instruction-information {
+            margin-bottom: @indent__s;
+        }
+    }
+
+    .full-checkout {
+        .checkout-payment-method {
+            .payment-method-content {
+
+                /**
+				 * @codingStandardsIgnoreStart
+				 */
+                .fieldset:not(:last-child) {
+                    &.fieldset-ajust-margin-bottom {
+                        margin-bottom: @indent__base;
+                    }
+                }
+
+                //  @codingStandardsIgnoreEnd
+            }
+        }
+    }
+
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum ='min') and (@break =@screen__m) {
+
+    .form-mercadopago {
+        .legend {
+            .credit-card-types {
+                .item {
+                    img {
+                        width: 32px;
+                    }
+                }
+            }
+        }
+    }
+}

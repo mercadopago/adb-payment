@@ -1,0 +1,18 @@
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<!-- ko if: isDisplayed() -->
+<tr class="totals finance_cost excl">
+    <th class="mark" scope="row">
+        <span class="label" data-bind="text: customTitle()"></span>
+    </th>
+    <td class="amount">
+        <span class="price" data-bind="text: getValue(), attr: {'data-th': title}"></span>
+    </td>
+</tr>
+<!-- /ko -->

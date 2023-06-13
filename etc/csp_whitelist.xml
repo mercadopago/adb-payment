@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp/etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="script-src">
+            <values>
+                <value id="mercado-pago-sdk" type="host">*.mercadopago.com</value>
+                <value id="mercado-livre" type="host">*.mercadolivre.com</value>
+                <value id="mercado-libre" type="host">*.mercadolibre.com</value>
+                <value id="mercado-libre-br" type="host">*.mercadolibre.com.br</value>
+                <value id="mercado-pago-br-nowww" type="host">https://mercadopago.com.br</value>
+                <value id="mercado-pago-br-www" type="host">*.mercadopago.com.br</value>
+                <value id="mercado-libre-static" type="host">*.mlstatic.com</value>
+            </values>
+        </policy>
+        <policy id="prefetch-src">
+            <values>
+                <value id="mercado-pago-sdk" type="host">*.mercadopago.com</value>
+                <value id="mercado-livre" type="host">*.mercadolivre.com</value>
+                <value id="mercado-libre" type="host">*.mercadolibre.com</value>
+                <value id="mercado-libre-br" type="host">*.mercadolibre.com.br</value>
+                <value id="mercado-pago-br-nowww" type="host">https://mercadopago.com.br</value>
+                <value id="mercado-pago-br-www" type="host">*.mercadopago.com.br</value>
+                <value id="mercado-libre-static" type="host">*.mlstatic.com</value>
+            </values>
+        </policy>
+        <policy id="style-src">
+            <values>
+                <value id="mercado-pago-sdk" type="host">*.mercadopago.com</value>
+                <value id="mercado-livre" type="host">*.mercadolivre.com</value>
+                <value id="mercado-libre" type="host">*.mercadolibre.com</value>
+                <value id="mercado-libre-br" type="host">*.mercadolibre.com.br</value>
+                <value id="mercado-pago-br-nowww" type="host">https://mercadopago.com.br</value>
+                <value id="mercado-pago-br-www" type="host">*.mercadopago.com.br</value>
+                <value id="mercado-libre-static" type="host">*.mlstatic.com</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="mercado-pago-sdk" type="host">*.mercadopago.com</value>
+                <value id="mercado-livre" type="host">*.mercadolivre.com</value>
+                <value id="mercado-libre" type="host">*.mercadolibre.com</value>
+                <value id="mercado-libre-br" type="host">*.mercadolibre.com.br</value>
+                <value id="mercado-pago-br-nowww" type="host">https://mercadopago.com.br</value>
+                <value id="mercado-pago-br-www" type="host">*.mercadopago.com.br</value>
+                <value id="mercado-libre-static" type="host">*.mlstatic.com</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="mercado-pago-sdk" type="host">*.mercadopago.com</value>
+                <value id="mercado-livre" type="host">*.mercadolivre.com</value>
+                <value id="mercado-libre" type="host">*.mercadolibre.com</value>
+                <value id="mercado-libre-br" type="host">*.mercadolibre.com.br</value>
+                <value id="mercado-pago-br-nowww" type="host">https://mercadopago.com.br</value>
+                <value id="mercado-pago-br-www" type="host">*.mercadopago.com.br</value>
+                <value id="mercado-libre-static" type="host">*.mlstatic.com</value>
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="mercado-pago-sdk" type="host">*.mercadopago.com</value>
+                <value id="mercado-livre" type="host">*.mercadolivre.com</value>
+                <value id="mercado-libre" type="host">*.mercadolibre.com</value>
+                <value id="mercado-libre-br" type="host">*.mercadolibre.com.br</value>
+                <value id="mercado-pago-br-nowww" type="host">https://mercadopago.com.br</value>
+                <value id="mercado-pago-br-www" type="host">*.mercadopago.com.br</value>
+                <value id="mercado-libre-static" type="host">*.mlstatic.com</value>
+            </values>
+        </policy>
+        <policy id="frame-ancestors">
+            <values>
+                <value id="mercado-pago-sdk" type="host">*.mercadopago.com</value>
+                <value id="mercado-livre" type="host">*.mercadolivre.com</value>
+                <value id="mercado-libre" type="host">*.mercadolibre.com</value>
+                <value id="mercado-libre-br" type="host">*.mercadolibre.com.br</value>
+                <value id="mercado-pago-br-nowww" type="host">https://mercadopago.com.br</value>
+                <value id="mercado-pago-br-www" type="host">*.mercadopago.com.br</value>
+                <value id="mercado-libre-static" type="host">*.mlstatic.com</value>
+            </values>
+        </policy>
+        <policy id="form-action">
+            <values>
+                <value id="mercado-pago-sdk" type="host">*.mercadopago.com</value>
+                <value id="mercado-livre" type="host">*.mercadolivre.com</value>
+                <value id="mercado-libre" type="host">*.mercadolibre.com</value>
+                <value id="mercado-libre-br" type="host">*.mercadolibre.com.br</value>
+                <value id="mercado-pago-br-nowww" type="host">https://mercadopago.com.br</value>
+                <value id="mercado-pago-br-www" type="host">*.mercadopago.com.br</value>
+                <value id="mercado-libre-static" type="host">*.mlstatic.com</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

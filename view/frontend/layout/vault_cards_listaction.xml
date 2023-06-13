@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <referenceBlock name="vault.cards.list">
+                <block class="MercadoPago\AdbPayment\Block\Customer\CardRenderer" name="mercadopago.card.renderer" template="Magento_Vault::customer_account/credit_card.phtml"/>
+            </referenceBlock>
+        </referenceContainer>
+    </body>
+</page>

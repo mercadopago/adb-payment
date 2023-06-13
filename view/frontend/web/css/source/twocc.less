@@ -1,0 +1,256 @@
+.payment-method-content .payment-method-title.mercadopago-header-twocc {
+    box-sizing: border-box;
+    padding-left: 16px;
+    border-radius: 4px;
+    background: #F5F5F5;
+}
+
+.mp-display-form {
+    visibility: hidden;
+    height: 0;
+}
+
+.mp-twocc-card-header {
+    display: inline-flex;
+    width: 100%;
+    padding: 20px 16px;
+    box-sizing: border-box;
+    border-top: 1px solid #BFBFBF;
+    border-left: 1px solid #BFBFBF;
+    border-right: 1px solid #BFBFBF;
+    border-bottom: 1px solid #BFBFBF;
+    border-radius: 4px;
+    background: #F5F5F5;
+}
+
+.open {
+    border-bottom: 0;
+    border-radius: 4px 4px 0 0;
+}
+
+.mp-twocc-legend {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: #FFFFFF;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    width: 100%;
+
+    .credit-card-types {
+        .item {
+            display: inline-flex;
+            list-style: none;
+            margin: 0;
+            text-align: right;
+            vertical-align: top;
+
+            img {
+                -webkit-filter: grayscale(0%);
+                filter: grayscale(0%);
+                width: 32px;
+            }
+        }
+    }
+}
+
+.mp-twocc-form {
+    border-left: 1px solid #BFBFBF;
+    border-right: 1px solid #BFBFBF;
+    border-bottom: 1px solid #BFBFBF;
+    border-radius: 0px 0px 4px 4px;
+}
+
+.mp-twocc-badge-info {
+    width: 100%;
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: start;
+    padding: 0px;
+    height: 70px;
+    padding: 15px 16px;
+    border-radius: 4px;
+    border: 1px solid #BFBFBF;
+    margin-bottom: 16px;
+}
+
+.payment-method-content {
+    .mp-twocc-badge-info {
+        .mp-twocc-badge-circle {
+            width: 40px;
+            height: 40px;
+            box-sizing: border-box;
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.07);
+            border-radius: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+
+            img {
+                width: 23px;
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+.mp-twocc-badge-info {
+    .mp-twocc-badge-card-installments {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        padding-left: 16px;
+    }
+
+}
+
+.mp-twocc-badge-info {
+    .mp-twocc-badge-card-installments {
+        .mp-twocc-badge-card {
+            font-size: 16px;
+            line-height: 20px;
+            color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+
+        }
+
+        .mp-twocc-badge-installments {
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 20px;
+            display: flex;
+            align-items: center;
+            color: rgba(0, 0, 0, 0.55);
+
+        }
+
+    }
+}
+
+.mp-twocc-badge-info {
+    .mp-twocc-badge-adjustment {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.mp-twocc-badge-info {
+    .mp-twocc-badge-adjustment {
+        .mp-twocc-badge-edit {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            cursor: pointer;
+        }
+
+        .mp-twocc-edit-img {
+            margin: 4px;
+        }
+
+    }
+}
+
+.mp-twocc-form {
+    .fieldset:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.form-mercadopago {
+    .mp-twocc-form {
+        .fieldset.mp-twocc {
+            padding-bottom: 0;
+            border: 1px solid;
+            border-color: #bbb;
+            background-color: #fff;
+            border-radius: 3px;
+            padding-bottom: 10px;
+        }
+    }
+}
+
+.payment-method-label-subtitle-amount {
+    display: block;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.mp-twocc-amount-selector {
+    display: flex;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding: 0;
+    width: 324px;
+    box-sizing: border-box;
+
+    >div {
+        padding: 15px 0 15px 15px;
+    }
+
+    input {
+        border: none !important;
+        padding: 15px !important;
+        margin: 0 !important;
+        height: auto !important;
+        background: transparent;
+
+        &:focus {
+            outline: none;
+            border-color: inherit;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+        }
+    }
+}
+
+.payment-method {
+    .payment-method-label {
+        .payment-method-label-icon.mp-icon-background {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FFFFFF;
+            height: 40px;
+            width: 40px;
+            border-radius: 100px;
+            box-sizing: border-box;
+            margin-left: 11px;
+            margin-right: 6px;
+
+            .mp-icon-twocc {
+                display: flex;
+                margin: 4px;
+            }
+        }
+    }
+}
+
+.payment-method {
+    .payment-method-content {
+        .actions-toolbar {
+            .mp-flex-baseline {
+                display: flex;
+                align-items: baseline;
+
+                .mp-mr-20 {
+                    margin-right: 20px;
+                }
+            }
+        }
+    }
+}

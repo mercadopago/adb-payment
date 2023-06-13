@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Magento\Framework\UrlInterface" type="Magento\Backend\Model\UrlInterface" />
+
+    <type name="Magento\Framework\View\Element\Message\MessageConfigurationsPool">
+        <arguments>
+            <argument name="configurationsMap" xsi:type="array">
+                <item name="addRedirectAccountMessage" xsi:type="array">
+                    <item name="renderer" xsi:type="const">\Magento\Framework\View\Element\Message\Renderer\BlockRenderer::CODE</item>
+                    <item name="data" xsi:type="array">
+                        <item name="template" xsi:type="string">MercadoPago_AdbPayment::messages/homolog_message.phtml</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="MercadoPago\AdbPayment\Block\Sales\Info\Card">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">0</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\AdbPayment\Block\Sales\Info\CheckoutPro">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">0</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\AdbPayment\Block\Sales\Info\PaymentMethodsOff">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">0</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\AdbPayment\Block\Sales\Info\Pix">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">0</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\AdbPayment\Block\Sales\Info\Pse">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">0</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\AdbPayment\Block\Sales\Info\Webpay">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">0</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\AdbPayment\Block\Sales\Info\TwoCc">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">0</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

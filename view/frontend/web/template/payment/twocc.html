@@ -1,0 +1,210 @@
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @license     See LICENSE for license details.
+ */
+-->
+<div class="payment-method form-mercadopago" css="_active: isActive()"
+    data-bind="attr: {id: 'payment_form_' + getCode()}">
+    <div class="payment-method-title field choice">
+        <input type="radio" name="payment[method]" class="radio" attr="id: getCode()"
+            ko-value="getCode()"
+            ko-checked="isChecked" click="selectPaymentMethod" visible="isRadioButtonVisible()"></input>
+        <label attr="for: getCode()" class="label">
+            <span class="payment-method-label">
+                <span class="payment-method-label-icon">
+                    <img class="mp-logo-title" data-bind="attr: {
+                        'src': getLogo().url,
+                        'width': getLogo().width,
+                        'height': getLogo().height
+                        }">
+                </span>
+                <span class="payment-method-label-title" data-bind="text: getTitle()"></span>
+            </span>
+        </label>
+    </div>
+    <div class="payment-method-content">
+        <each args="getRegion('messages')" render=""></each>
+
+        <div class="mp-header-two-cards">
+            <p class="mp-header-title-one"><!-- ko i18n: 'First card details:' --><!-- /ko --></p>
+        </div>
+
+        <!-- ko if: showFirstCardBlock() === 'first-card-opened-form' -->
+        <div class="mp-header-two-cards">
+            <p class="mp-header-subtitle"><!-- ko i18n: 'Enter the amount to be paid with the first method *' --><!-- /ko --></p>
+            <div class="mp-twocc-amount-selector">
+                <div data-bind="text: currencySymbol()"></div>
+                <!-- ko if: isSiteIdMCOorMLC() -->
+                <input type="number" id="input-progress" step="1" pattern="\d+" placeholder="0"
+                    onkeydown="return event.keyCode !== 190 && event.keyCode !== 188"
+                    data-bind="value: inputValueProgress, valueUpdate: 'keyup'">
+                </input>
+                <!-- /ko -->
+                <!-- ko ifnot: isSiteIdMCOorMLC() -->
+                <input type="number" id="input-progress" step=".01" pattern="^\d+(?:\.\d{1,2})?$" placeholder="0,00"
+                    data-bind="value: inputValueProgress, valueUpdate: 'keyup'">
+                </input>
+                <!-- /ko -->
+            </div>
+            <div class="mp-progress-bar">
+                <div data-bind="style: { width: getProgressBarWidth(), backgroundColor: progressHasError() ? 'red' : '#3483FA' }"></div>
+            </div>
+            <!-- ko if: progressHasError() -->
+            <div class="mp-message" id="mp-message-error" style="display:block;"><!-- ko i18n: 'Value not allowed!' --><!-- /ko --></div>
+            <!-- /ko -->
+            <div class="mp-subtitle"><!-- ko i18n: 'Remaining value ' --><!-- /ko -->
+                <span data-bind="text: updateRemainingAmount()"></span>
+            </div>
+        </div>
+        <div class="mp-twocc-card-header open" id="mp-twocc-first-radio">
+            <input type="radio" checked="checked" class="radio" id="mp-first-card-radio" />
+            <label for="mp-first-card-radio" class="label">
+                <span class="payment-method-label">
+                    <span class="payment-method-label-icon mp-icon-background">
+                        <span class="mp-icon-twocc">
+                            <img data-bind="attr: {
+                                'src': getImages('card').url,
+                                'alt': 'card',
+                                'width': getImages('card').width,
+                                'height': getImages('card').height,
+                                'class': 'card_' + getImages('card').code
+                            }" />
+                        </span>
+                    </span>
+                    <span class="payment-method-label-title">
+                        <!-- ko i18n: 'Credit card' --><!-- /ko -->
+                        <span class="payment-method-label-subtitle-amount" data-bind="text: formatedInstallmentAmount()"></span>
+                    </span>
+                </span>
+            </label>
+        </div>
+
+        <div id="mp-first-card">
+            <form class="open" id="co-payment-form-mp-card-one" method="post" afterRender="initFormElement">
+                <render args="twoCcForm"></render>
+            </form>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: showFirstCardBlock() === 'first-card-edit-button' -->
+        <div class="mp-twocc-badge-info">
+            <div class="mp-twocc-badge-circle">
+                <img data-bind="attr: {
+                    'src': generatedCards[0].sdkInformation.issuerLogo,
+                    }" />
+            </div>
+            <div class="mp-twocc-badge-adjustment">
+                <div class="mp-twocc-badge-card-installments">
+                    <div class="mp-twocc-badge-card"><span data-bind="text: generatedCards[0].cardNumber"></span></div>
+                    <div class="mp-twocc-badge-installments"><span data-bind="text: generatedCards[0].sdkInformation.installmentLabel"></span></div>
+                </div>
+                <div class="mp-twocc-badge-edit" click="editFirstCard">
+                    <div class="mp-twocc-edit-img" alt="edit">
+                        <img data-bind="attr: {
+                            'src': getImages('edit').url,
+                            'alt': 'edit',
+                            'width': getImages('edit').width,
+                            'height': getImages('edit').height,
+                            'class': 'card_' + getImages('edit').code
+                        }" />
+                    </div>
+
+                    <div>
+                        <span>Editar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /ko -->
+
+        <p class="mp-header-title-two"><!-- ko i18n: 'Second card details:' --><!-- /ko --></p>
+
+        <!-- ko if: showSecondCardBlock() == 'second-card-radio-selector' -->
+        <div class="mp-twocc-card-header" id="mp-twocc-second-radio">
+            <input type="radio" class="radio" click="finishFirstCard" id="mp-second-card-radio" />
+            <label for="mp-second-card-radio" class="label">
+                <span class="payment-method-label">
+                    <span class="payment-method-label-icon mp-icon-background">
+                        <span class="mp-icon-twocc">
+                            <img data-bind="attr: {
+                                'src': getImages('card').url,
+                                'alt': 'card',
+                                'width': getImages('card').width,
+                                'height': getImages('card').height,
+                                'class': 'card_' + getImages('card').code
+                            }" />
+                        </span>
+                    </span>
+                    <span class="payment-method-label-title"><!-- ko i18n: 'Credit card' --><!-- /ko --></span>
+                </span>
+            </label>
+        </div>
+        <!-- /ko -->
+
+        <!-- ko if: showSecondCardBlock() == 'second-card-opened-form' -->
+        <div class="mp-twocc-card-header open" id="mp-twocc-first-radio">
+            <input type="radio" class="radio" click="finishFirstCard" checked="checked" id="mp-second-card-radio"/>
+            <label for="mp-second-card-radio" class="label">
+                <span class="payment-method-label">
+                    <span class="payment-method-label-icon">
+                        <img data-bind="attr: {
+                            'src': getLogo().url,
+                            'width': getLogo().width,
+                            'height': getLogo().height
+                            }">
+                    </span>
+                    <span class="payment-method-label-title">
+                        <!-- ko i18n: 'Credit card' --><!-- /ko -->
+                        <span class="payment-method-label-subtitle-amount" data-bind="text: formatedInstallmentAmount()"></span>
+                    </span>
+                </span>
+            </label>
+        </div>
+
+        <div id="mp-second-card">
+            <form class="open" id="co-payment-form-mp-card-two" method="post" afterRender="initFormElement">
+                <render args="twoCcForm"></render>
+            </form>
+        </div>
+        <!-- /ko -->
+
+        <div class="mp-footer">
+            <span class="mp-footer-logo">
+                <img data-bind="attr: {
+                    'src': getImages('footer-logo').url,
+                    'alt': 'footer-logo',
+                    'width': getImages('footer-logo').width,
+                    'height': getImages('footer-logo').height,
+                    'class': 'card_' + getImages('footer-logo').code
+                }" />
+            </span>
+            <span class="mp-footer-subtitle"><!-- ko i18n: 'Payment processed by Mercado Pago' --><!-- /ko --></span>
+        </div>
+        <div class="mp-divider"></div>
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+
+        <div class="checkout-agreements-block">
+            <each args="$parent.getRegion('before-place-order')" render=""></each>
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary mp-flex-baseline">
+                <p class="mp-mr-20">
+                    <!-- ko i18n: 'By continuing, you agree to our '--><!-- /ko -->
+                    <a data-bind="attr: {href: getFingerprint(), title: $t('link')}" target="_blank">
+                        <!-- ko i18n: 'Terms and Conditions.'--><!-- /ko -->
+                    </a>
+                </p>
+                <button class="action primary checkout" type="submit" click="beforePlaceOrder"
+                    css="disabled: !isPlaceOrderActionAllowed()" attr="title: $t('Place Order')">
+                    <span translate="'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

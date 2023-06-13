@@ -1,0 +1,117 @@
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\AdbPayment\Block\Sales\Info\Pix $block
+ * @see \MercadoPago\AdbPayment\Block\Sales\Info\Pix
+ */
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
+$specificInfo = $block->getSpecificInformation();
+$mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment_id']: null;
+$expirationDate = isset($specificInfo['date_of_expiration']) ? $specificInfo['date_of_expiration'] : null;
+$qrCode = isset($specificInfo['qr_code']) ? $specificInfo['qr_code']: null;
+$qrCodeImage = isset($specificInfo['qr_code_base64']) ? $specificInfo['qr_code_base64'] : null;
+$payerDocumentIdentification =
+    isset($specificInfo['payer_document_identification']) ?
+        $specificInfo['payer_document_identification'] : null;
+$payerDocumentType =
+    isset($specificInfo['payer_document_type']) ?
+        $specificInfo['payer_document_type'] : null;
+$ticketUrl = isset($specificInfo['ticket_url']) ? $specificInfo['ticket_url'] : null;
+$status = isset($specificInfo['mp_status']) ? $specificInfo['mp_status'] : null;
+$statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_status_detail'] : null;
+?>
+
+
+<?php if ($specificInfo): ?>
+    <table class="admin__table-secondary order-information-table">
+        <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
+        <tbody>
+            <?php if ($mpPaymentId): ?>
+                <tr>
+                    <th scope="row"><?= $block->escapeHtml(__('mp_payment_id')); ?></th>
+                    <td><?= $block->escapeHtml($mpPaymentId); ?></td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($expirationDate): ?>
+                <tr>
+                    <th scope="row"><?= $block->escapeHtml(__('Expiration')); ?></th>
+                    <td>
+                        <?= /* @noEscape */ $block->formatDate(
+                            $expirationDate,
+                            \IntlDateFormatter::MEDIUM,
+                            true
+                        ) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($qrCodeImage): ?>
+                <tr>
+                    <th scope="row">
+                        <?= $block->escapeHtml(__('Pix QR Code')); ?>
+                    </th>
+                    <td>
+                        <img src="data:image/png;base64,<?=  $block->escapeHtml($qrCodeImage) ?>"
+                            alt="<?= /* @noEscape */ $title ?>" width="200" />
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($qrCode): ?>
+                <tr>
+                    <th scope="row">
+                        <?= $block->escapeHtml(__('Pix Code')); ?>
+                    </th>
+                    <td>
+                        <textarea id="qr-code-value"
+                            rows="10" cols="30" readonly><?= $block->escapeHtml($qrCode) ?></textarea>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($payerDocumentType): ?>
+                <tr>
+                    <th scope="row">
+                        <?= $block->escapeHtml(__('Payer Document Type')); ?>
+                    </th>
+                    <td>
+                        <?= $block->escapeHtml($payerDocumentType) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($payerDocumentIdentification): ?>
+                <tr>
+                    <th scope="row">
+                        <?= $block->escapeHtml(__('Document number')); ?>
+                    </th>
+                    <td>
+                        <?= $block->escapeHtml($payerDocumentIdentification) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($status): ?>
+                <tr>
+                    <th scope="row">
+                        <?= $block->escapeHtml(__('Status (Mercado Pago)')); ?>
+                    </th>
+                    <td>
+                        <?= $block->escapeHtml(__($status)) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($statusDetail): ?>
+                <tr>
+                    <th scope="row">
+                        <?= $block->escapeHtml(__('Status Detail (Mercado Pago)')); ?>
+                    </th>
+                    <td>
+                        <?= $block->escapeHtml(__($statusDetail)) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+<?php endif;?>

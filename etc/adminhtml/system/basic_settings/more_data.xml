@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="more_data" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <label>Store Name, Category and Integrator ID</label>
+        <field id="statement_descriptor" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Store Name</label>
+            <comment>This is the store's name as it will appear on the customer's invoice. In case the sale was made through Checkout Pro, the invoice will also show Mercado Pago in the name.</comment>
+            <config_path>payment/mercadopago_adbpayment/statement_descriptor</config_path>
+            <validate>required-entry</validate>
+        </field>
+        <field id="category" translate="label comment" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Category of your store</label>
+            <comment>The product category of your store on Mercado Pago.</comment>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\Category</source_model>
+            <config_path>payment/mercadopago_adbpayment/category</config_path>
+            <validate>required-entry validate-select</validate>
+        </field>
+        <field id="integrator_id" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Integrator ID</label>
+            <config_path>payment/mercadopago_adbpayment/integrator_id</config_path>
+            <comment><![CDATA[With this number, we are able to identify all your transactions and know how many sales were processed using your account. Become a certified Mercado Pago partner and request your integrator_id <a href='https://docs.google.com/forms/d/1EeO__nZuqHf4cb81NpwtDSybPT7COluSZVrXR4A8F7Q/viewform?edit_requested=true' target='_blank'>here</a>.]]></comment>
+        </field>
+    </group>
+</include>

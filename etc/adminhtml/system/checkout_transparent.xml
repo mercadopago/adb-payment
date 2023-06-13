@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="checkout_transparent" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <label>Checkout Transparent</label>
+        <include path="MercadoPago_AdbPayment::system/checkout_transparent/credit_card.xml"/>
+        <include path="MercadoPago_AdbPayment::system/checkout_transparent/pix.xml"/>
+        <include path="MercadoPago_AdbPayment::system/checkout_transparent/payment_methods_off.xml"/>
+        <include path="MercadoPago_AdbPayment::system/checkout_transparent/pse.xml"/>
+        <include path="MercadoPago_AdbPayment::system/checkout_transparent/webpay.xml"/>
+        <include path="MercadoPago_AdbPayment::system/checkout_transparent/two_credit_card.xml"/>
+    </group>
+</include>

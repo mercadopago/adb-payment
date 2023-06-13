@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\AdbPayment\Block\Sales\Info\CheckoutPro $block
+ * @see \MercadoPago\AdbPayment\Block\Sales\Info\CheckoutPro
+ */
+$title = $block->escapeHtml($block->getMethod()->getTitle());
+$specificInfo = $block->getSpecificInformation();
+?>
+<?php if ($specificInfo): ?>
+    <table class="admin__table-secondary order-information-table">
+        <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
+        <tbody>
+
+            <?php if (isset($specificInfo['init_point'])): ?>
+                <tr>
+                    <th scope="row">
+                        <?= $block->escapeHtml(__('Link')); ?>
+                    </th>
+                    <td>
+                        <a target="_blank"
+                            href="<?=  $block->escapeHtml($specificInfo['init_point']) ?>"
+                            alt="<?= /* @noEscape */ $title ?>">
+                            <?= $block->escapeHtml(__('Details for payment')); ?>
+                        </a>
+                    </td>
+                </tr>
+            <?php endif; ?>
+
+            <?php for ($i = 0; $i < 2; $i++) : ?>
+                <?php if (isset($specificInfo['payment_1_id'])) : ?>
+                    <tr>
+                        <th scope="row">
+                            <?php if ($i === 0) : ?>
+                                <p><b><?= $block->escapeHtml(__('FIRST PAYMENT METHOD')) ?></b></p>
+                            <?php else : ?>
+                                <p><b><?= $block->escapeHtml(__('SECOND PAYMENT METHOD')) ?></b></p>
+                            <?php endif; ?>
+                        </th>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['payment_' . $i . '_id'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('mp_payment_id')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['payment_' . $i . '_id']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['payment_' . $i . '_installments'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('Installments (Mercado Pago)')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['payment_' . $i . '_installments']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['payment_' . $i . '_expiration'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('Expiration')); ?>:</th>
+                        <td>
+                            <?= /* @noEscape */ $block->formatDate(
+                                $specificInfo['payment_' . $i . '_expiration'],
+                                \IntlDateFormatter::MEDIUM,
+                                false
+                            ) ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['payment_' . $i . '_type'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('Payment Type (Mercado Pago)')); ?>:</th>
+                        <td><?= $block->escapeHtml($specificInfo['payment_' . $i . '_type']) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['mp_' . $i . '_status'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('Status (Mercado Pago)')); ?>:</th>
+                        <td><?= $block->escapeHtml(__($specificInfo['mp_' . $i . '_status'])) ?></td>
+                    </tr>
+                <?php endif; ?>
+                <?php if (isset($specificInfo['mp_' . $i . '_status_detail'])) : ?>
+                    <tr>
+                        <th scope="row"><?= $block->escapeHtml(__('Status Detail (Mercado Pago)')); ?>:</th>
+                        <td><?= $block->escapeHtml(__($specificInfo['mp_' . $i . '_status_detail'])) ?></td>
+                    </tr>
+                <?php endif; ?>
+            <?php endfor; ?>
+        </tbody>
+    </table>
+<?php endif;?>

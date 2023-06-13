@@ -1,0 +1,72 @@
+name: PHPUnit
+
+on: [pull_request]
+
+jobs:
+  validate-tests:
+    runs-on: ubuntu-22.04
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_DATABASE: magento_test
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: magento
+          MYSQL_PASSWORD: p@ssw0rd1
+          MYSQL_ROOT_PASSWORD: p@ssw0rd1
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install extensions gd and zip
+        run: sudo apt-get update && sudo apt-get install -y php8.1-gd && sudo apt-get install -y php8.1-zip
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          extensions: curl, dom, intl, json, openssl
+          coverage: xdebug
+
+      - name: Verify PHP Installation
+        run: php -v
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup cache
+        uses: pat-s/always-upload-cache@v1.1.4
+        env:
+          COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install & Build Magento
+        id: build-magento
+        run: bash bin/install-mg2.sh
+
+      - name: Install MP Plugin
+        id: install-plugin
+        run: mkdir magento2/app/code/MercadoPago/ && mkdir magento2/app/code/MercadoPago/AdbPayment/ && mv $(ls --ignore='bin' --ignore='.github' --ignore='magento2') magento2/app/code/MercadoPago/AdbPayment && ls
+
+      - name: Run Unit Test
+        id: unit-test
+        run: magento2/vendor/phpunit/phpunit/phpunit --configuration magento2/app/code/MercadoPago/AdbPayment/phpunit.xml --coverage-clover clover.xml --coverage-text magento2/app/code/MercadoPago/AdbPayment/Tests
+
+      - name: Repository Minimum Test Coverage
+        id: repository-coverage
+        run: php magento2/app/code/MercadoPago/AdbPayment/Tests/coverage-checker.php clover.xml 80
+
+      - name: Pull Request Coverage
+        id: pull-request-coverage
+        run: bash bin/pull-request-coverage.sh
+        env:
+          PR_NUMBER: ${{ github.event.number }}

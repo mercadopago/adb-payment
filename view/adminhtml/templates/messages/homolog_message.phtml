@@ -1,0 +1,21 @@
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \Magento\Framework\View\Element\Message\Renderer\BlockRenderer $block
+ */
+?>
+<?= $block->escapeHtml(
+    __(
+        // phpcs:ignore Generic.Files.LineLength
+        'Your access credential for store %1 is valid but you don\'t have production use permission. Request approval before use by <a href="%2">click here</a>.',
+        $block->getData('store'),
+        $block->getData('url')
+    ),
+    ['a']
+); ?>

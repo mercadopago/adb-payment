@@ -1,0 +1,29 @@
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<fieldset data-bind="attr: {class: 'fieldset payment items', id: 'payment_form_payer_' + getCode()}">
+    <div class="field-to-pay"  data-bind="css: { _hidden:isPlaceOrderActionAllowed() }">
+        <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
+    </div>
+    <div class="field-to-pay"  data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
+        <!-- ko if: getExpiration() -->
+        <dl class="items check payable">
+            <!-- ko if: getExpiration() -->
+            <dt class="title"><!-- ko i18n: 'Due date' --><!-- /ko --></dt>
+            <dd class="content">
+                <address class="mercadopagocheckoutpro due address" data-bind="html: getExpiration()"></address>
+            </dd>
+            <!-- /ko -->
+            <dt class="title"><!-- ko i18n: 'Instruction' --><!-- /ko --></dt>
+            <dd class="content">
+                <address class="mercadopagopec instruction address" data-bind="html: getInstructionCheckout()"></address>
+            </dd>
+        </dl>
+        <!-- /ko -->
+    </div>
+</fieldset>

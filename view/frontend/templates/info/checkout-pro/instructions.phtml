@@ -1,0 +1,55 @@
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\AdbPayment\Block\Sales\Info\CheckoutPro $block
+ * @see \MercadoPago\AdbPayment\Block\Sales\Info\CheckoutPro
+ */
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
+$specificInfo = $block->getSpecificInformation();
+$expirationDate = isset($specificInfo['date_of_expiration']) ? $specificInfo['date_of_expiration'] : null;
+$externalLink = isset($specificInfo['init_point']) ? $specificInfo['init_point'] : null;
+?>
+<?php if ($specificInfo): ?>
+    <dl class="payment-method">
+        <dt class="title"><?= /* @noEscape */ $title ?></dt>
+        <dd class="content">
+            <table class="data table">
+                <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
+                <tbody>
+                    <?php if ($expirationDate): ?>
+                        <tr>
+                            <th scope="row"><?= $block->escapeHtml(__('Expiration')); ?></th>
+                            <td>
+                                <?= /* @noEscape */ $block->formatDate(
+                                    $expirationDate,
+                                    \IntlDateFormatter::MEDIUM,
+                                    false
+                                ) ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($externalLink): ?>
+                        <tr>
+                            <th scope="row">
+                                <?= $block->escapeHtml(__('Link')); ?>
+                            </th>
+                            <td>
+                                <a target="_blank"
+                                    href="<?=  $block->escapeHtml($externalLink) ?>"
+                                    alt="<?= /* @noEscape */ $title ?>">
+                                    <?= $block->escapeHtml(__('Details for payment')); ?>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+<?php endif;?>

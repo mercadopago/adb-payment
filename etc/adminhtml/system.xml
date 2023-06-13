@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="mercadopago_base" translate="label comment" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label><![CDATA[<div class='mercadopago-payment-logo'></div><div class='mercadopago-payment-byline'><p><b>Mercado Pago</b></p><p>It offers payments with credit and debit cards, as well as offline means - in addition to exclusive advantages for those who pay logged into their Mercado Pago account, such as credits, discounts and other special conditions.</p></div>]]></label>
+                <fieldset_css>complex mercadopago-payment-section</fieldset_css>
+                <frontend_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\PaymentGroup</frontend_model>
+                <comment><![CDATA[Technical support available <a href='https://github.com/mercadopago/adb-payment/issues/new/choose'>here</a>.]]></comment>
+                <include path="MercadoPago_AdbPayment::system/basic_settings.xml"/>
+                <include path="MercadoPago_AdbPayment::system/checkout_pro.xml"/>
+                <include path="MercadoPago_AdbPayment::system/checkout_transparent.xml"/>
+                <include path="MercadoPago_AdbPayment::system/merchant_profile.xml"/>
+            </group>
+        </section>
+    </system>
+</config>

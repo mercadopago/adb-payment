@@ -1,0 +1,55 @@
+<div class="payment-method form-mercadopago" css="_active: isActive()" data-bind="attr: {id: 'payment_form_' + getCode()}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               attr="id: getCode()"
+               ko-value="getCode()"
+               ko-checked="isChecked"
+               click="selectPaymentMethod"
+               visible="isRadioButtonVisible()"></input>
+        <label attr="for: getCode()" class="label">
+            <span class="payment-method-label">
+                <span class="payment-method-label-icon"> 
+                    <img data-bind="attr: {
+                        'src': getLogo().url,
+                        'width': getLogo().width,
+                        'height': getLogo().height
+                        }" />
+                </span>
+                <span class="payment-method-label-title" data-bind="text: getTitle()"></span> 
+            </span>
+        </label>
+    </div>
+    <div class="payment-method-content">
+        <each args="getRegion('messages')" render=""></each>
+        <form class="form" id="co-payment-form-mp-payment-methods-off" method="post" afterRender="initFormElement">
+            <render args="paymentMethodsOffForm"></render>
+        </form>
+        <div class="payment-method-billing-address">
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <div class="checkout-agreements-block">
+            <each args="$parent.getRegion('before-place-order')" render=""></each>
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary mp-flex-baseline">
+                <p class="mp-mr-20">
+                    <!-- ko i18n: 'By continuing, you agree to our '--><!-- /ko -->
+                    <a data-bind="attr: {href: getFingerprint(), title: $t('link')}" target="_blank">
+                        <!-- ko i18n: 'Terms and Conditions.'--><!-- /ko -->
+                    </a>
+                </p>
+                <button class="action primary checkout"
+                        type="submit"
+                        click="beforePlaceOrder"
+                        css="disabled: !isPlaceOrderActionAllowed()"
+                        attr="title: $t('Place Order')" >
+                    <span translate="'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

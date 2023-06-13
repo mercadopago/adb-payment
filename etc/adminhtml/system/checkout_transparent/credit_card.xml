@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="mercadopago_adbpayment_cc" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <label>Credit and debit cards</label>
+        <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Enabled</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/mercadopago_adbpayment_cc/active</config_path>
+        </field>
+        <field id="title" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Title</label>
+            <comment>Payment method title at the store's checkout.</comment>
+            <config_path>payment/mercadopago_adbpayment_cc/title</config_path>
+        </field>
+        <field id="vault_active" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Enable vault</label>
+            <comment>Allows buyer to save the card for future use.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/mercadopago_adbpayment_cc_vault/active</config_path>
+        </field>
+        <field id="payment_action" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Payment Action</label>
+            <comment>Consult the store's business sector to be able to select capturing the payment at the time of the purchase or at a later moment.</comment>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\PaymentAction</source_model>
+            <config_path>payment/mercadopago_adbpayment_cc/payment_action</config_path>
+        </field>
+        <field id="can_initialize" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Use Binary Mode</label>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\IsBinaryMode</source_model>
+            <config_path>payment/mercadopago_adbpayment_cc/can_initialize</config_path>
+        </field>
+        <group id="document" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Capture of customer details in the payment form</label>
+            <comment>Activate this option if you want to obtain buyer`s documents details, using an additional field on the payment form. Disable it if your store already gets these details.</comment>
+            <field id="get_document_identification" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Capture document identification</label>
+                <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                <config_path>payment/mercadopago_adbpayment_cc/get_document_identification</config_path>
+            </field>
+        </group>
+        <group id="installment" translate="label" type="text" sortOrder="3000" showInDefault="1" showInWebsite="0" showInStore="1">
+            <label>Installment and interest</label>
+            <field id="installment" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="1">
+                <label>Set within your account</label>
+                <frontend_model>MercadoPago\AdbPayment\Block\Adminhtml\System\Config\Form\Button</frontend_model>
+            </field>
+        </group>
+        <group id="mercadopago_adbpayment_native_fields" translate="label comment" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Common Payment Method Definitions</label>
+            <field id="min_order_total" translate="label comment" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Minimum order total</label>
+                <comment>Minimum amount for payment with this payment method.</comment>
+                <validate>validate-number validate-zero-or-greater</validate>
+                <config_path>payment/mercadopago_adbpayment_cc/min_order_total</config_path>
+            </field>
+            <field id="max_order_total" translate="label comment" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Maximum order amount</label>
+                <comment>Maximum amount for payment with this payment method.</comment>
+                <validate>validate-number validate-zero-or-greater</validate>
+                <config_path>payment/mercadopago_adbpayment_cc/max_order_total</config_path>
+            </field>
+            <field id="specificcountry" translate="label comment" type="multiselect" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Payment From Specific Countries</label>
+                <comment>Countries eligible to use this payment method.</comment>
+                <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                <config_path>payment/mercadopago_adbpayment_cc/specificcountry</config_path>
+            </field>
+            <field id="sort_order" translate="label comment" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Sort Order</label>
+                <comment>Sets up in which order the payment methods will be shown at the Checkout.</comment>
+                <frontend_class>validate-number</frontend_class>
+                <config_path>payment/mercadopago_adbpayment_cc/sort_order</config_path>
+            </field>
+        </group>
+    </group>
+</include>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:DataObject/etc/fieldset.xsd">
+	<scope id="global">
+		<fieldset id="sales_convert_quote">
+			<field name="finance_cost_amount">
+				<aspect name="to_order" />
+			</field>
+			<field name="base_finance_cost_amount">
+				<aspect name="to_order" />
+			</field>
+		</fieldset>
+		<fieldset id="sales_convert_order">
+            <field name="finance_cost_amount">
+                <aspect name="to_quote" />
+                <aspect name="to_invoice" />
+                <aspect name="to_shipment" />
+            </field>
+			<field name="base_finance_cost_amount">
+                <aspect name="to_quote" />
+                <aspect name="to_invoice" />
+                <aspect name="to_shipment" />
+            </field>
+        </fieldset>
+	</scope>
+</config>

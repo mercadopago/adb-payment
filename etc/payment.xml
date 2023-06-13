@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/payment.xsd">
+    <groups>
+        <group id="mercadopago_group">
+            <label>MercadoPago</label>
+        </group>
+    </groups>
+    <methods>
+        <method name="mercadopago_adbpayment_cc">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="mercadopago_adbpayment_payment_methods_off">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="mercadopago_adbpayment_pix">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="mercadopago_adbpayment_pse">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="mercadopago_adbpayment_webpay">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+        <method name="mercadopago_adbpayment_twocc">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+    </methods>
+    <credit_cards>
+        <type id="visa" order="1000">
+            <label>Visa</label>
+        </type>
+        <type id="master" order="1010">
+            <label>Master</label>
+        </type>
+        <type id="elo" order="1020">
+            <label>Elo</label>
+        </type>
+        <type id="amex" order="1030">
+            <label>AmericanExpress</label>
+        </type>
+        <type id="debmaster" order="1040">
+            <label>Deb. Master</label>
+        </type>
+        <type id="hipercard" order="1050">
+            <label>Hipercard</label>
+        </type>
+        <type id="debvisa" order="1060">
+            <label>Deb. Visa</label>
+        </type>
+        <type id="debelo" order="1070">
+            <label>Deb. Elo</label>
+        </type>
+        <type id="cabal" order="1080">
+            <label>Cabal</label>
+        </type>
+        <type id="debcabal" order="1090">
+            <label>Deb. Cabal</label>
+        </type>
+        <type id="cmr" order="1100">
+            <label>Cmr</label>
+        </type>
+        <type id="cencosud" order="1110">
+            <label>Cencosud</label>
+        </type>
+        <type id="dinners" order="1120">
+            <label>Dinners</label>
+        </type>
+        <type id="tarshop" order="1130">
+            <label>Tarshop</label>
+        </type>
+        <type id="argencard" order="1140">
+            <label>Argencard</label>
+        </type>
+        <type id="naranja" order="1150">
+            <label>Naranja</label>
+        </type>
+        <type id="maestro" order="1160">
+            <label>Maestro</label>
+        </type>
+        <type id="tengo" order="1170">
+            <label>Tengo</label>
+        </type>
+        <type id="sodexo" order="1180">
+            <label>Sodexo</label>
+        </type>
+        <type id="carnet" order="1190">
+            <label>Carnet</label>
+        </type>
+        <type id="toka" order="1200">
+            <label>Toka</label>
+        </type>
+        <type id="mercadopagocard" order="1210">
+            <label>Mercado Pago Card</label>
+        </type>
+        <type id="edenred" order="1220">
+            <label>Edenred</label>
+        </type>
+        <type id="redcompra" order="1230">
+            <label>Redcompra</label>
+        </type>
+        <type id="webpay" order="1240">
+            <label>WebPay</label>
+        </type>
+        <type id="magna" order="1250">
+            <label>Magna</label>
+        </type>
+        <type id="presto" order="1260">
+            <label>Presto</label>
+        </type>
+        <type id="codensa" order="1270">
+            <label>Codensa</label>
+        </type>
+        <type id="lider" order="1280">
+            <label>Lider</label>
+        </type>
+        <type id="creditel" order="1290">
+            <label>Creditel</label>
+        </type>
+        <type id="oca" order="1300">
+            <label>Oca</label>
+        </type>
+        <type id="mediotest" order="1310">
+            <label>MedioTest</label>
+        </type>
+    </credit_cards>
+</payment>
