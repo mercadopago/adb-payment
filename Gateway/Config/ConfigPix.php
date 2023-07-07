@@ -74,8 +74,8 @@ class ConfigPix extends PaymentConfig
      * @param ScopeConfigInterface $scopeConfig
      * @param Config               $config
      * @param DateTime             $date
-     * @param string               $methodCode
      * @param Fingerprint          $fingerprint
+     * @param string               $methodCode
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,

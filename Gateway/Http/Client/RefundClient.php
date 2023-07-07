@@ -10,13 +10,13 @@ namespace MercadoPago\AdbPayment\Gateway\Http\Client;
 
 use Exception;
 use InvalidArgumentException;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Http\ClientInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\PP\Sdk\HttpClient\HttpClient;
+use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
  * Communication with Gateway to refund payment.
@@ -89,11 +89,6 @@ class RefundClient implements ClientInterface
     protected $logger;
 
     /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
-
-    /**
      * @var Config
      */
     protected $config;
@@ -105,18 +100,15 @@ class RefundClient implements ClientInterface
 
     /**
      * @param Logger            $logger
-     * @param ZendClientFactory $httpClientFactory
      * @param Config            $config
      * @param Json              $json
      */
     public function __construct(
         Logger $logger,
-        ZendClientFactory $httpClientFactory,
         Config $config,
         Json $json
     ) {
         $this->config = $config;
-        $this->httpClientFactory = $httpClientFactory;
         $this->logger = $logger;
         $this->json = $json;
     }
@@ -130,42 +122,36 @@ class RefundClient implements ClientInterface
      */
     public function placeRequest(TransferInterface $transferObject)
     {
-        /** @var ZendClient $client */
-        $client = $this->httpClientFactory->create();
+        $requester = new CurlRequester();
+        $baseUrl = $this->config->getApiUrl();
+        $client  = new HttpClient($baseUrl, $requester);
         $request = $transferObject->getBody();
         $storeId = $request[self::STORE_ID];
-        $url = $this->config->getApiUrl();
-        $clientConfigs = $this->config->getClientConfigs();
-        $clientHeaders = $this->config->getClientHeaders($storeId);
-        $clientConfigs = array_merge_recursive($clientConfigs, [
-            self::X_IDEMPOTENCY_KEY => $request[self::X_IDEMPOTENCY_KEY],
-        ]);
+        $clientHeaders = $this->config->getClientHeadersMpPluginsPhpSdk($storeId);
 
         $paymentId = $request['payment_id'];
         $order = $request['order'];
+        $idempotencyKey = $request[self::X_IDEMPOTENCY_KEY];
         unset($request['payment_id']);
         unset($request['order']);
         unset($request[self::STORE_ID]);
         unset($request[self::X_IDEMPOTENCY_KEY]);
         $metadata = ['origem' => self::NOTIFICATION_ORIGIN];
+        $uri = '/v1/payments/'.$paymentId.'/refunds';
 
         $paymentIndexList = $order['payment']['additional_information']['payment_index_list'] ?? null;
         if (isset($paymentIndexList) && sizeof($paymentIndexList) > 1) {
-            return $this->placeMultipleRefunds($order, $client, $url, $request, $clientConfigs, $clientHeaders);
+            return $this->placeMultipleRefunds($order, $client, $baseUrl, $request, $clientHeaders);
         }
 
+        $clientHeaders = array_merge_recursive($clientHeaders, [
+            self::X_IDEMPOTENCY_KEY . ': ' . $idempotencyKey,
+        ]);
+
         try {
-            $client->setUri($url.'/v1/payments/'.$paymentId.'/refunds');
-            $client->setConfig($clientConfigs);
-            $client->setHeaders($clientHeaders);
-
             $request = (object) array_merge( (array)$request, array( 'metadata' => $metadata ) );
-            $client->setRawData($this->json->serialize($request), 'application/json');
-
-            $client->setMethod(ZendClient::POST);
-
-            $responseBody = $client->request()->getBody();
-            $data = $this->json->unserialize($responseBody);
+            $result = $client->post($uri, $clientHeaders, $this->json->serialize($request));
+            $data = $result->getData();
 
             $response = array_merge(
                 [
@@ -187,7 +173,7 @@ class RefundClient implements ClientInterface
 
             $this->logger->debug(
                 [
-                    'url'      => $url.'/v1/payments/'.$paymentId.'/refunds',
+                    'url'      => $baseUrl . $uri,
                     'request'  => $this->json->serialize($request),
                     'response' => $this->json->serialize($response),
                 ]
@@ -195,13 +181,23 @@ class RefundClient implements ClientInterface
         } catch (InvalidArgumentException $exc) {
             $this->logger->debug(
                 [
-                    'url'       => $url.'/v1/payments/'.$paymentId.'/refunds',
+                    'url'       => $baseUrl . $uri,
                     'request'   => $this->json->serialize($request),
                     'error'     => $exc->getMessage(),
                 ]
             );
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception('Invalid JSON was returned by the gateway');
+        } catch (\Throwable $e) {
+            $this->logger->debug(
+                [
+                    'url'       => $baseUrl . $uri,
+                    'request'   => $this->json->serialize($request),
+                    'error'     => $e->getMessage(),
+                ]
+            );
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new Exception($e->getMessage());
         }
 
         return $response;
@@ -214,10 +210,9 @@ class RefundClient implements ClientInterface
      */
     public function placeMultipleRefunds (
         object $order,
-        ZendClient $client,
-        string $url,
+        HttpClient $client,
+        string $baseUrl,
         array $request,
-        array $clientConfigs,
         array $clientHeaders
     ) {
         $paymentIndexList = $order['payment']['additional_information']['payment_index_list'];
@@ -241,19 +236,18 @@ class RefundClient implements ClientInterface
             }
             $amountToRefund -= $request['amount'];
 
+            $uri = '/v1/payments/'.$paymentId.'/refunds';
+
             if($request['amount'] > 0)  {
                 try {
-                    $client->setUri($url.'/v1/payments/'.$paymentId.'/refunds');
-                    $client->setConfig($clientConfigs);
-                    $client->setHeaders($clientHeaders);
+                    $newIdempotencyKey = $payment->getTransactionId() . '-' .  uniqid();
+                    $clientHeadersWithNewIdempotencyKey = array_merge_recursive($clientHeaders, [
+                        self::X_IDEMPOTENCY_KEY . ': ' . $newIdempotencyKey,
+                    ]);
 
                     $requestData = (object) array_merge( (array)$request, array( 'metadata' => $metadata ) );
-                    $client->setRawData($this->json->serialize($requestData), 'application/json');
-
-                    $client->setMethod(ZendClient::POST);
-
-                    $responseBody = $client->request()->getBody();
-                    $data = $this->json->unserialize($responseBody);
+                    $result = $client->post($uri, $clientHeadersWithNewIdempotencyKey, $this->json->serialize($requestData));
+                    $data = $result->getData();
 
                     $refundResponse = array_merge(
                         [
@@ -277,7 +271,7 @@ class RefundClient implements ClientInterface
 
                     $this->logger->debug(
                         [
-                            'url'      => $url.'/v1/payments/'.$paymentId.'/refunds',
+                            'url'      => $baseUrl . $uri,
                             'request'  => $this->json->serialize($request),
                             'response' => $this->json->serialize($refundResponse),
                         ]
@@ -287,13 +281,23 @@ class RefundClient implements ClientInterface
                 } catch (InvalidArgumentException $exc) {
                     $this->logger->debug(
                         [
-                            'url'       => $url.'/v1/payments/'.$paymentId.'/refunds',
+                            'url'       => $baseUrl . $uri,
                             'request'   => $this->json->serialize($request),
                             'error'     => $exc->getMessage(),
                         ]
                     );
                     // phpcs:ignore Magento2.Exceptions.DirectThrow
                     throw new Exception('Invalid JSON was returned by the gateway');
+                } catch (\Throwable $e) {
+                    $this->logger->debug(
+                        [
+                            'url'       => $baseUrl . $uri,
+                            'request'   => $this->json->serialize($request),
+                            'error'     => $e->getMessage(),
+                        ]
+                    );
+                    // phpcs:ignore Magento2.Exceptions.DirectThrow
+                    throw new Exception($e->getMessage());
                 }
             }
         }

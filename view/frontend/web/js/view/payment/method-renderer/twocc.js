@@ -173,6 +173,11 @@ define([
                 return;
             }
 
+            if(this.progressHasError()){
+                $('#input-progress').trigger('focus');
+                return;
+            }
+
             const tokenResponse = await this.generateToken(this.cardIndex());
 
             if (tokenResponse === false) {
@@ -180,7 +185,7 @@ define([
             }
 
             if (this.cardIndex() === 0) {
-                this.cardIndex(1);
+                await this.finishFirstCard();
                 return;
             }
 
@@ -307,7 +312,12 @@ define([
         },
 
         async finishFirstCard() {
-            if (!$(this.formElement).valid() || this.progressHasError()) {
+            if (!$(this.formElement).valid()) {
+                return;
+            }
+
+            if(this.progressHasError()){
+                $('#input-progress').trigger('focus');
                 return;
             }
 

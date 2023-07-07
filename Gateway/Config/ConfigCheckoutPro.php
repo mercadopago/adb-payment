@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -120,11 +121,16 @@ class ConfigCheckoutPro extends PaymentConfig
     protected $fingerprint;
 
     /**
+     * @var string|null
+     */
+    protected $methodCode;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param DateTime             $date
      * @param Config               $config
-     * @param string               $methodCode
      * @param Fingerprint          $fingerprint
+     * @param string               $methodCode
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -134,11 +140,12 @@ class ConfigCheckoutPro extends PaymentConfig
         $methodCode = self::METHOD
     ) {
         parent::__construct($scopeConfig, $methodCode);
-        $this->setMethodCode(self::METHOD);
+        $this->setMethodCode($methodCode);
         $this->scopeConfig = $scopeConfig;
         $this->date = $date;
         $this->config = $config;
         $this->fingerprint = $fingerprint;
+        $this->methodCode = $methodCode;
     }
 
     /**
@@ -153,7 +160,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return (bool) $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::ACTIVE),
+            sprintf($pathPattern, $this->methodCode, self::ACTIVE),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -170,10 +177,12 @@ class ConfigCheckoutPro extends PaymentConfig
     {
         $pathPattern = 'payment/%s/%s';
 
-        return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::TITLE),
-            ScopeInterface::SCOPE_STORE,
-            $storeId
+        return __(
+            $this->scopeConfig->getValue(
+                sprintf($pathPattern, $this->methodCode, self::TITLE),
+                ScopeInterface::SCOPE_STORE,
+                $storeId
+            )
         );
     }
 
@@ -189,7 +198,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::INSTRUCTION_CHECKOUT),
+            sprintf($pathPattern, $this->methodCode, self::INSTRUCTION_CHECKOUT),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -207,7 +216,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         $excluded = $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::EXCLUDED),
+            sprintf($pathPattern, $this->methodCode, self::EXCLUDED),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -230,7 +239,7 @@ class ConfigCheckoutPro extends PaymentConfig
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::EXPIRATION),
+            sprintf($pathPattern, $this->methodCode, self::EXPIRATION),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -250,7 +259,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         $due = $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::EXPIRATION),
+            sprintf($pathPattern, $this->methodCode, self::EXPIRATION),
             ScopeInterface::SCOPE_STORE,
             $storeId
         ) + 2;
@@ -269,7 +278,7 @@ class ConfigCheckoutPro extends PaymentConfig
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::EXPIRATION),
+            sprintf($pathPattern, $this->methodCode, self::EXPIRATION),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -288,7 +297,7 @@ class ConfigCheckoutPro extends PaymentConfig
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::EXPIRATION),
+            sprintf($pathPattern, $this->methodCode, self::EXPIRATION),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -308,7 +317,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::BINARY_MODE),
+            sprintf($pathPattern, $this->methodCode, self::BINARY_MODE),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -326,7 +335,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::TYPE_REDIRECT),
+            sprintf($pathPattern, $this->methodCode, self::TYPE_REDIRECT),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -344,7 +353,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::MAX_INSTALLMENTS),
+            sprintf($pathPattern, $this->methodCode, self::MAX_INSTALLMENTS),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -362,7 +371,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return (bool) $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::INCLUDE_FACEBOOK),
+            sprintf($pathPattern, $this->methodCode, self::INCLUDE_FACEBOOK),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -380,7 +389,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::FACEBOOK_AD),
+            sprintf($pathPattern, $this->methodCode, self::FACEBOOK_AD),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -398,7 +407,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return (bool) $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::INCLUDE_GOOGLE),
+            sprintf($pathPattern, $this->methodCode, self::INCLUDE_GOOGLE),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -416,7 +425,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::CONVERSION_ID),
+            sprintf($pathPattern, $this->methodCode, self::CONVERSION_ID),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -434,7 +443,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::CONVERSION_LABEL),
+            sprintf($pathPattern, $this->methodCode, self::CONVERSION_LABEL),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -452,7 +461,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::THEME_HEADER),
+            sprintf($pathPattern, $this->methodCode, self::THEME_HEADER),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
@@ -470,7 +479,7 @@ class ConfigCheckoutPro extends PaymentConfig
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::THEME_ELEMENTS),
+            sprintf($pathPattern, $this->methodCode, self::THEME_ELEMENTS),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );

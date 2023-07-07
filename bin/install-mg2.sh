@@ -10,6 +10,7 @@ mv magento2-2.4.5-p1 magento2
 cd magento2
 
 echo "Installing..."
+composer require mp-plugins/php-sdk
 composer update
 composer install
 

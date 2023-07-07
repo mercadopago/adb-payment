@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -46,7 +47,7 @@ class PayInfoManagement implements PayInfoManagementInterface
         $order = $this->orderRepository->get($orderId);
         $payment = $order->getPayment();
 
-        if ($payment->getMethod() === 'mercadopago_adbpayment_checkout_pro') {
+        if ($payment->getMethod() === 'mercadopago_adbpayment_checkout_pro' || $payment->getMethod() === 'mercadopago_adbpayment_checkout_credits') {
             $info['data'] = [
                 'id'            => $order->getPayment()->getAdditionalInformation('id'),
                 'init_point'    => $order->getPayment()->getAdditionalInformation('init_point'),

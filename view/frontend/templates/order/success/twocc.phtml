@@ -11,12 +11,6 @@
  * @see MercadoPago\AdbPayment\Block\Order\Success
  */
 ?>
-    <h2><?= $block->escapeHtml(__($block->getTitleByPaymentStatus())) ?></h2>
-
-    <div class="mercadopago-payment-success-details-two-cc">
-        <p><?= $block->escapeHtml(__('Your order is <b>%1</b>!', $block->getOrderId()), ['b']) ?></p>
-    </div>
-
     <div class="mercadopago-payment-success-details-two-cc">
         <p><b><?= $block->escapeHtml(__('PAYMENT INFORMATION')) ?></b> </p>
         <p><?= $block->escapeHtml(__('Payment Number (Mercado Pago): %1', $block->getInfo('mp_payment_id'))) ?></p>
@@ -81,5 +75,5 @@
     <?php endfor; ?>
 
     <div class="mercadopago-payment-success-details-two-cc mercadopago-payment-logo">
-
+        <img src="<?php echo $this->getViewFileUrl('MercadoPago_AdbPayment::images/core/logo.svg'); ?>"/>
     </div>

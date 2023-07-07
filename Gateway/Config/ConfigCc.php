@@ -93,8 +93,8 @@ class ConfigCc extends PaymentConfig
      * @param ScopeConfigInterface $scopeConfig
      * @param Json                 $json
      * @param Config               $config
-     * @param string               $methodCode
      * @param Fingerprint          $fingerprint
+     * @param string               $methodCode
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,

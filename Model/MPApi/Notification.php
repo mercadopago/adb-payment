@@ -9,56 +9,64 @@
 
 namespace MercadoPago\AdbPayment\Model\MPApi;
 
-use Magento\Framework\HTTP\ZendClientFactory;
-use Magento\Framework\HTTP\ZendClient;
+use Exception;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\PP\Sdk\Common\Constants;
 
 class Notification {
 
-    protected Config $config;
+    /**
+     * @var Config
+     */
+    protected $config;
 
-    protected ZendClientFactory $httpClientFactory;
+    /**
+     * @var Json
+     */
+    protected $json;
 
-    protected Json $json;
+    /**
+     * @var Logger
+     */
+    protected $logger;
 
-    protected Logger $logger;
-
-    public function __construct(Config $config, ZendClientFactory $httpClientFactory, Json $json, Logger $logger)
+    public function __construct(Config $config, Json $json, Logger $logger)
     {
         $this->config = $config;
-        $this->httpClientFactory = $httpClientFactory;
         $this->json = $json;
         $this->logger = $logger;
     }
 
     public function get(string $notificationId, string $storeId)
     {
-        $client = $this->httpClientFactory->create();
+        try {
+            $sdk = $this->config->getSdkInstance($storeId);
+            $notificationInstance = $sdk->getNotificationInstance();
+        } catch (\Throwable $e) {
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new Exception($e->getMessage());
+        }
 
-        $url = $this->config->getApiUrl();
+        $data = null;
+        try {
+            $responseBody = $notificationInstance->read(array('id' => $notificationId));
+            $data = $this->json->serialize($responseBody);
+        } catch (\Throwable $e) {
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new \Exception("Invalid request to asgard notification: " . $data);
+        }
 
-        $client->setUri($url.'/v1/asgard/notification/'.$notificationId);
-        $client->setConfig($this->config->getClientConfigs());
-        $client->setHeaders($this->config->getClientHeaders($storeId));
-        $client->setMethod(ZendClient::GET);
-
-        $responseBody = $client->request()->getBody();
-        $data = $this->json->unserialize($responseBody);
-
+        $baseUrl = Constants::BASEURL_MP;
         $this->logger->debug(
             [
-                'url'      => $url.'/v1/asgard/notification/'.$notificationId,
-                'method'   => ZendClient::GET,
+                'url'      => $baseUrl . $notificationInstance->getUris()['get'],
+                'method'   => 'GET',
                 'response' => $data,
             ]
         );
 
-        if ($client->request()->getStatus() > 299) {
-            throw new \Exception("Invalid request to asgard notification: " . $responseBody);
-        }
-
-        return $data;
+        return $this->json->unserialize($data);
     }
 }

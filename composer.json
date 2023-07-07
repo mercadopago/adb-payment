@@ -15,10 +15,10 @@
         "magento/module-ui": "101.2.*",
         "magento/module-payment": "^100.3",
         "magento/module-vault": "101.*",
-        "magento/zendframework1": ">=1.15.1",
         "ext-json": "*",
         "ext-gd": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "mp-plugins/php-sdk": "1.3.0"
     },
     "type": "magento2-module",
     "authors": [

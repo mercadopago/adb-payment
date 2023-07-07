@@ -46,6 +46,11 @@ class MetadataPaymentBankTransfDataRequest implements BuilderInterface
             self::CHECKOUT_TYPE => 'bank_transfer',
         ];
 
+        $result[MetadataPaymentDataRequest::METADATA][MetadataPaymentDataRequest::CPP_EXTRA] = [
+            self::CHECKOUT      => 'custom',
+            self::CHECKOUT_TYPE => 'bank_transfer',
+        ];
+
         return $result;
     }
 }

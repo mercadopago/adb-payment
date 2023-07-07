@@ -21,6 +21,9 @@
         <job name="mercadopago_cancel_checkout_pro" instance="MercadoPago\AdbPayment\Cron\CancelCheckoutPro" method="execute">
             <schedule>0 9 * * 1-5</schedule>
         </job>
+        <job name="mercadopago_cancel_checkout_credits" instance="MercadoPago\AdbPayment\Cron\CancelCheckoutCredits" method="execute">
+            <schedule>0 9 * * 1-5</schedule>
+        </job>
         <job name="mercadopago_fetch_pse_order_status" instance="MercadoPago\AdbPayment\Cron\FetchPseOrderStatus" method="execute">
             <schedule>9 9 * * 1-5</schedule>
         </job>

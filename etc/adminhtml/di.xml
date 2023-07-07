@@ -72,4 +72,11 @@
             </argument>
         </arguments>
     </type>
+      <type name="MercadoPago\AdbPayment\Block\Sales\Info\CheckoutCredits">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">0</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

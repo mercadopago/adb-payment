@@ -151,7 +151,7 @@ class TxnIdTwoCcHandler implements HandlerInterface
 
             $payment->setAdditionalInformation(
                 str_replace('%', $i,'mp_%_status_detail'),
-                $response[self::TRANSACTION_INFO][$i][self::STATUS_DETAIL],
+                $response[self::TRANSACTION_INFO][$i][self::STATUS_DETAIL]
             );
 
         endfor;

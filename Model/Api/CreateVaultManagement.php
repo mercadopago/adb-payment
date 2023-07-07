@@ -12,8 +12,6 @@ use Exception;
 use InvalidArgumentException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Model\Method\Logger;
@@ -21,6 +19,8 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\Data\CartInterface as QuoteCartInterface;
 use MercadoPago\AdbPayment\Api\CreateVaultManagementInterface;
 use MercadoPago\AdbPayment\Gateway\Config\Config as ConfigBase;
+use MercadoPago\PP\Sdk\HttpClient\HttpClient;
+use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
  * Model for creating the Vault on Mercado Pago.
@@ -63,11 +63,6 @@ class CreateVaultManagement implements CreateVaultManagementInterface
     protected $configBase;
 
     /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
-
-    /**
      * @var Json
      */
     protected $json;
@@ -79,7 +74,6 @@ class CreateVaultManagement implements CreateVaultManagementInterface
      * @param CartRepositoryInterface $quoteRepository
      * @param ConfigInterface         $config
      * @param ConfigBase              $configBase
-     * @param ZendClientFactory       $httpClientFactory
      * @param Json                    $json
      */
     public function __construct(
@@ -87,14 +81,12 @@ class CreateVaultManagement implements CreateVaultManagementInterface
         CartRepositoryInterface $quoteRepository,
         ConfigInterface $config,
         ConfigBase $configBase,
-        ZendClientFactory $httpClientFactory,
         Json $json
     ) {
         $this->logger = $logger;
         $this->quoteRepository = $quoteRepository;
         $this->config = $config;
         $this->configBase = $configBase;
-        $this->httpClientFactory = $httpClientFactory;
         $this->json = $json;
     }
 
@@ -171,23 +163,15 @@ class CreateVaultManagement implements CreateVaultManagementInterface
             ],
         ];
 
-        /** @var ZendClient $client */
-        $client = $this->httpClientFactory->create();
-
+        $requester = new CurlRequester();
+        $baseUrl = $this->configBase->getApiUrl();
+        $client = new HttpClient($baseUrl, $requester);
         $serializeResquest = $this->json->serialize($data);
-
-        $url = $this->configBase->getApiUrl();
-        $clientConfigs = $this->configBase->getClientConfigs();
-        $clientHeaders = $this->configBase->getClientHeaders($storeId);
-
+        $clientHeaders = $this->configBase->getClientHeadersMpPluginsPhpSdk($storeId);
+        $uri = '/v1/customers';
         try {
-            $client->setUri($url.'/v1/customers');
-            $client->setConfig($clientConfigs);
-            $client->setHeaders($clientHeaders);
-            $client->setRawData($serializeResquest, 'application/json');
-            $client->setMethod(ZendClient::POST);
-            $responseBody = $client->request()->getBody();
-            $data = $this->json->unserialize($responseBody);
+            $responseBody = $client->post($uri, $clientHeaders, $serializeResquest);
+            $data = $responseBody->getData();
             $response = array_merge(
                 [
                     self::RESULT_CODE  => 0,
@@ -206,7 +190,7 @@ class CreateVaultManagement implements CreateVaultManagementInterface
             $this->logger->debug(
                 [
                     'storeId'  => $storeId,
-                    'url'      => $url.'/v1/customers',
+                    'url'      => $baseUrl.$uri,
                     'request'  => $serializeResquest,
                     'response' => $responseBody,
                 ]
@@ -215,13 +199,24 @@ class CreateVaultManagement implements CreateVaultManagementInterface
             $this->logger->debug(
                 [
                     'storeId'   => $storeId,
-                    'url'       => $url.'/v1/customers/1225574550-7EBfhWjd9vyLqH/cards',
+                    'url'       => $$baseUrl.'/v1/customers/1225574550-7EBfhWjd9vyLqH/cards',
                     'request'   => $vaultData,
                     'error'     => $exc->getMessage(),
                 ]
             );
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception('Invalid JSON was returned by the gateway');
+        } catch (\Throwable $exc) {
+            $this->logger->debug(
+                [
+                    'storeId'   => $storeId,
+                    'url'       => $$baseUrl.'/v1/customers/1225574550-7EBfhWjd9vyLqH/cards',
+                    'request'   => $vaultData,
+                    'error'     => $exc->getMessage(),
+                ]
+            );
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new Exception($exc->getMessage());
         }
 
         return $response;
@@ -239,28 +234,23 @@ class CreateVaultManagement implements CreateVaultManagementInterface
     {
         $response[self::RESULT_CODE] = false;
 
-        /** @var ZendClient $client */
-        $client = $this->httpClientFactory->create();
+        $requester = new CurlRequester();
+        $baseUrl = $this->configBase->getApiUrl();
+        $client = new HttpClient($baseUrl, $requester);
         $search = ['email' => $quote->getCustomerEmail()];
-        $url = $this->configBase->getApiUrl();
-        $clientConfigs = $this->configBase->getClientConfigs();
-        $clientHeaders = $this->configBase->getClientHeaders($storeId);
-
+        $clientHeaders = $this->configBase->getClientHeadersMpPluginsPhpSdk($storeId);
+        $uri = '/v1/customers/search?email='.$quote->getCustomerEmail();
         try {
-            $client->setUri($url.'/v1/customers/search?email='.$quote->getCustomerEmail());
-            $client->setConfig($clientConfigs);
-            $client->setHeaders($clientHeaders);
-            $client->setMethod(ZendClient::GET);
-            $responseBody = $client->request()->getBody();
+            $responseBody = $client->get($uri, $clientHeaders);
             $this->logger->debug(
                 [
                     'storeId'  => $storeId,
-                    'url'      => $url.'/v1/customers/search',
+                    'url'      => $baseUrl.'/v1/customers/search',
                     'request'  => $search,
                     'response' => $responseBody,
                 ]
             );
-            $data = $this->json->unserialize($responseBody);
+            $data = $responseBody->getData();
 
             $response = array_merge(
                 [
@@ -283,7 +273,7 @@ class CreateVaultManagement implements CreateVaultManagementInterface
             $this->logger->debug(
                 [
                     'storeId'  => $storeId,
-                    'url'      => $url.'/v1/customers/search',
+                    'url'      => $baseUrl.'/v1/customers/search',
                     'request'  => $search,
                     'response' => $responseBody,
                 ]
@@ -292,13 +282,24 @@ class CreateVaultManagement implements CreateVaultManagementInterface
             $this->logger->debug(
                 [
                     'storeId'   => $storeId,
-                    'url'       => $url.'/v1/customers/search',
+                    'url'       => $baseUrl.'/v1/customers/search',
                     'request'   => $search,
                     'error'     => $exc->getMessage(),
                 ]
             );
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception('Invalid JSON was returned by the gateway');
+        } catch (\Throwable $exc) {
+            $this->logger->debug(
+                [
+                    'storeId'   => $storeId,
+                    'url'       => $baseUrl.'/v1/customers/search',
+                    'request'   => $search,
+                    'error'     => $exc->getMessage(),
+                ]
+            );
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new Exception($exc->getMessage());
         }
 
         return $response;
@@ -315,24 +316,16 @@ class CreateVaultManagement implements CreateVaultManagementInterface
      */
     public function saveCcNumber($storeId, $mpCustomerId, $vaultData): array
     {
-        /** @var ZendClient $client */
-        $client = $this->httpClientFactory->create();
-
+        $requester = new CurlRequester();
+        $baseUrl = $this->configBase->getApiUrl();
+        $client = new HttpClient($baseUrl, $requester);
         $serializeResquest = $this->json->serialize($vaultData);
-
-        $url = $this->configBase->getApiUrl();
-        $clientConfigs = $this->configBase->getClientConfigs();
-        $clientHeaders = $this->configBase->getClientHeaders($storeId);
-
+        $clientHeaders = $this->configBase->getClientHeadersMpPluginsPhpSdk($storeId);
+        $uri = '/v1/customers/'.$mpCustomerId.'/cards';
         try {
-            $client->setUri($url.'/v1/customers/'.$mpCustomerId.'/cards');
-            $client->setConfig($clientConfigs);
-            $client->setHeaders($clientHeaders);
-            $client->setRawData($serializeResquest, 'application/json');
-            $client->setMethod(ZendClient::POST);
+            $responseBody = $client->post($uri, $clientHeaders, $serializeResquest);
+            $data = $responseBody->getData();
 
-            $responseBody = $client->request()->getBody();
-            $data = $this->json->unserialize($responseBody);
             $response = array_merge(
                 [
                     self::RESULT_CODE  => 0,
@@ -351,7 +344,7 @@ class CreateVaultManagement implements CreateVaultManagementInterface
             $this->logger->debug(
                 [
                     'storeId'  => $storeId,
-                    'url'      => $url.'/v1/customers/'.$mpCustomerId.'/cards',
+                    'url'      => $baseUrl.$uri,
                     'request'  => $serializeResquest,
                     'response' => $responseBody,
                 ]
@@ -360,13 +353,24 @@ class CreateVaultManagement implements CreateVaultManagementInterface
             $this->logger->debug(
                 [
                     'storeId'   => $storeId,
-                    'url'       => $url.'/v1/customers/'.$mpCustomerId.'/cards',
+                    'url'       => $baseUrl.$uri,
                     'request'   => $vaultData,
                     'error'     => $exc->getMessage(),
                 ]
             );
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception('Invalid JSON was returned by the gateway');
+        } catch (\Throwable $exc) {
+            $this->logger->debug(
+                [
+                    'storeId'   => $storeId,
+                    'url'       => $baseUrl.$uri,
+                    'request'   => $vaultData,
+                    'error'     => $exc->getMessage(),
+                ]
+            );
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new Exception($exc->getMessage());
         }
 
         return $response;

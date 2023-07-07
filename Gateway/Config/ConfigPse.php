@@ -91,8 +91,8 @@ class ConfigPse extends PaymentConfig
      * @param DateTime             $date
      * @param BaseConfig           $configBase
      * @param Json                 $json
-     * @param string               $methodCode
      * @param Fingerprint          $fingerprint
+     * @param string               $methodCode
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,

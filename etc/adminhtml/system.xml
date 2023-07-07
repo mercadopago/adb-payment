@@ -19,6 +19,7 @@
                 <include path="MercadoPago_AdbPayment::system/checkout_pro.xml"/>
                 <include path="MercadoPago_AdbPayment::system/checkout_transparent.xml"/>
                 <include path="MercadoPago_AdbPayment::system/merchant_profile.xml"/>
+                <include path="MercadoPago_AdbPayment::system/checkout_credits.xml"/>
             </group>
         </section>
     </system>

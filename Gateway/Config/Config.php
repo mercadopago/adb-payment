@@ -8,15 +8,17 @@
 
 namespace MercadoPago\AdbPayment\Gateway\Config;
 
+use Exception;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\ProductMetadataInterface;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
 use Magento\Store\Model\ScopeInterface;
 use MercadoPago\AdbPayment\Gateway\Data\Order\OrderAdapterFactory;
+use MercadoPago\PP\Sdk\Sdk;
+use MercadoPago\PP\Sdk\HttpClient\HttpClient;
+use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
  * Gateway setting for the payment method.
@@ -79,16 +81,10 @@ class Config extends PaymentConfig
     protected $json;
 
     /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
-
-    /**
      * @param ProductMetadataInterface $productMetadata
      * @param ResourceInterface        $resourceModule
      * @param ScopeConfigInterface     $scopeConfig
      * @param Json                     $json
-     * @param ZendClientFactory        $httpClientFactory
      * @param string                   $methodCode
      */
     public function __construct(
@@ -96,7 +92,6 @@ class Config extends PaymentConfig
         ResourceInterface $resourceModule,
         ScopeConfigInterface $scopeConfig,
         Json $json,
-        ZendClientFactory $httpClientFactory,
         $methodCode = self::METHOD
     ) {
         parent::__construct($scopeConfig, $methodCode);
@@ -104,7 +99,27 @@ class Config extends PaymentConfig
         $this->resourceModule = $resourceModule;
         $this->scopeConfig = $scopeConfig;
         $this->json = $json;
-        $this->httpClientFactory = $httpClientFactory;
+    }
+
+    /**
+     * Get SDK instance
+     *
+     * @param int|null $storeId
+     *
+     * @return Sdk
+     */
+    public function getSdkInstance($storeId = null): Sdk {
+        $oauth = $this->getMerchantGatewayClientSecret($storeId);
+        $integratorId = $this->getMerchantGatewayIntegratorId($storeId);
+        if(is_null($integratorId)) $integratorId = '';
+
+        try {
+            $sdk = new Sdk($oauth, self::PLATAFORM_ID, self::PRODUCT_ID, $integratorId);
+        } catch (\Throwable $e) {
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new Exception($e->getMessage());
+        }
+        return $sdk;
     }
 
     /**
@@ -229,22 +244,38 @@ class Config extends PaymentConfig
     }
 
     /**
-     * Get Client Headers.
+     * Get Client Headers According to Mp Plugins PHP SDK format.
      *
      * @param int|null $storeId
      *
      * @return array
      */
-    public function getClientHeaders($storeId = null): array
+    public function getClientHeadersMpPluginsPhpSdk($storeId = null): array
     {
         $oauth = $this->getMerchantGatewayClientSecret($storeId);
+
+        $headers = $this->getClientHeadersNoAuthMpPluginsPhpSdk($storeId);
+
+        $headers[] = 'Authorization: Bearer ' . $oauth;
+
+        return $headers;
+    }
+
+    /**
+     * Get Client Headers According to Mp Plugins PHP SDK format.
+     *
+     * @param int|null $storeId
+     *
+     * @return array
+     */
+    public function getClientHeadersNoAuthMpPluginsPhpSdk($storeId = null): array
+    {
         $integratorId = $this->getMerchantGatewayIntegratorId($storeId);
 
         return [
-            'Authorization'     => 'Bearer '.$oauth,
-            'x-product-id'      => self::PRODUCT_ID,
-            'x-platform-id'     => self::PLATAFORM_ID,
-            'x-integrator-id'   => $integratorId,
+            'x-product-id: '.self::PRODUCT_ID,
+            'x-platform-id: '.self::PLATAFORM_ID,
+            'x-integrator-id: '.$integratorId,
         ];
     }
 
@@ -490,19 +521,16 @@ class Config extends PaymentConfig
      */
     public function getMpPaymentMethods(int $storeId = null): array
     {
-        $uri = $this->getApiUrl();
-        $clientConfigs = $this->getClientConfigs();
-        $clientHeaders = $this->getClientHeaders($storeId);
+        $requester = new CurlRequester();
+        $baseUrl = $this->getApiUrl();
+        $client  = new HttpClient($baseUrl, $requester);
 
-        $client = $this->httpClientFactory->create();
-        $client->setUri($uri.'/v1/bifrost/payment-methods');
-        $client->setConfig($clientConfigs);
-        $client->setHeaders($clientHeaders);
-        $client->setMethod(ZendClient::GET);
+        $uri = '/v1/bifrost/payment-methods';
+        $clientHeaders = $this->getClientHeadersMpPluginsPhpSdk($storeId);
 
         try {
-            $result = $client->request()->getBody();
-            $response = $this->json->unserialize($result);
+            $result = $client->get($uri, $clientHeaders);
+            $response = $result->getData();
 
             return [
                 'success'    => isset($response['message']) ? false : true,

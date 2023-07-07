@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -274,24 +275,25 @@ abstract class MpIndex extends Action
                 return $result;
             }
 
-            if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {{
-                $header = __('Mercado Pago, refund notification');
+            if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) { {
+                    $header = __('Mercado Pago, refund notification');
 
-                $description = __(
-                    'Invalid notification. The order %1 has already been closed.',
-                    $order->getIncrementId()
-                );
+                    $description = __(
+                        'Invalid notification. The order %1 has already been closed.',
+                        $order->getIncrementId()
+                    );
 
-                $this->notifierPool->addCritical($header, $description);
+                    $this->notifierPool->addCritical($header, $description);
 
-                $result = [
-                'isInvalid' => true,
-                'code'      => 200,
-                'msg'       => 'Refund notification for order already closed.',
-                ];
+                    $result = [
+                        'isInvalid' => true,
+                        'code'      => 200,
+                        'msg'       => 'Refund notification for order already closed.',
+                    ];
 
-                return $result;
-            }}
+                    return $result;
+                }
+            }
 
             $result = [
                 'isInvalid' => true,
@@ -385,16 +387,20 @@ abstract class MpIndex extends Action
                     'isInvalid'     => true,
                     'code'          => 200,
                     'msg'           => 'Refund notification for order refunded directly in Mercado Pago.',
-                    'description'   => __('The order %1, was refunded directly on Mercado Pago, you need to check stock of sold items.',
-                    $order->getIncrementId()),
+                    'description'   => __(
+                        'The order %1, was refunded directly on Mercado Pago, you need to check stock of sold items.',
+                        $order->getIncrementId()
+                    ),
                 ];
             } catch (Exception $exc) {
                 $result = [
                     'isInvalid'     => true,
                     'code'          => 200,
                     'msg'           => 'Failed to process refund notification.',
-                    'description'   => __('The order %1, was refunded directly on Mercado Pago, but an error occured when refunding offline, you need to check order refunds and stock of sold items.',
-                    $order->getIncrementId()),
+                    'description'   => __(
+                        'The order %1, was refunded directly on Mercado Pago, but an error occured when refunding offline, you need to check order refunds and stock of sold items.',
+                        $order->getIncrementId()
+                    ),
                 ];
             }
             $order->addCommentToStatusHistory(__('Order refunded.'));
@@ -409,7 +415,7 @@ abstract class MpIndex extends Action
         $mercadopagoData = $this->json->unserialize($response);
 
         $this->logger->debug([
-            'action'    => 'checkout_custom',
+            'action'    => 'notification',
             'payload'   => $response
         ]);
 

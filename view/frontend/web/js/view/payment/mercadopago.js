@@ -24,7 +24,8 @@ define(
             methodPse = 'mercadopago_adbpayment_pse',
             methodWebpay = 'mercadopago_adbpayment_webpay',
             methodsOff = 'mercadopago_adbpayment_payment_methods_off',
-            methodTwoCc = 'mercadopago_adbpayment_twocc';
+            methodTwoCc = 'mercadopago_adbpayment_twocc',
+            methodCheckoutCredits = 'mercadopago_adbpayment_checkout_credits';
 
 
         if (methodsOff in config) {
@@ -95,6 +96,15 @@ define(
                 {
                     type: methodTwoCc,
                     component: 'MercadoPago_AdbPayment/js/view/payment/method-renderer/twocc'
+                }
+            );
+        }
+
+        if (methodCheckoutCredits in config) {
+            rendererList.push(
+                {
+                    type: methodCheckoutCredits,
+                    component: 'MercadoPago_AdbPayment/js/view/payment/method-renderer/checkout_credits'
                 }
             );
         }

@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\AdbPayment\Block\Sales\Form\CheckoutCredits $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+<fieldset class="admin__fieldset payment-method" id="payment_form_<?= $block->escapeHtml($block->getMethodCode()) ?>">
+    <div class="admin__field">
+        <label class="admin__field-label"><span><?= $block->escapeHtml(__('Due date')) ?></span></label>
+        <div class="admin__field-control checkmo-mailing-address">
+            <?= /* @noEscape */ nl2br($block->escapeHtml($block->getExpiration())) ?>
+        </div>
+    </div>
+</fieldset>
+
+<?= /* @noEscape */ $secureRenderer->renderStyleAsTag(
+    "display:none",
+    'fieldset#payment_form_' . $block->escapeJs($block->getMethodCode())
+) ?>

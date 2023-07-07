@@ -23,6 +23,26 @@ class AdditionalInfoDataRequest implements BuilderInterface
     public const ADDITIONAL_INFO = 'additional_info';
 
     /**
+     * Referral URL block name.
+     */
+    public const REFERRAL_URL = 'referral_url';
+
+     /**
+     * Drop Sipping block name.
+     */
+    public const DROP_SHIPPING = 'drop_shipping';
+
+     /**
+     * Delivery Promise block name.
+     */
+    public const DELIVERY_PROMISE = 'delivery_promise';
+
+     /**
+     * Contrated Plan block name.
+     */
+    public const CONTRATED_PLAN = 'contrated_plan';
+
+    /**
      * Build.
      *
      * @param array $buildSubject
@@ -36,7 +56,12 @@ class AdditionalInfoDataRequest implements BuilderInterface
         }
 
         $result = [];
-        $result[self::ADDITIONAL_INFO] = [];
+        $result[self::ADDITIONAL_INFO] = [
+            self::REFERRAL_URL        => null,
+            self::DROP_SHIPPING       => null,
+            self::DELIVERY_PROMISE    => null,
+            self::CONTRATED_PLAN      => null
+        ];
 
         return $result;
     }

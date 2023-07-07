@@ -72,6 +72,11 @@ class MetadataPaymentMethodsOffDataRequest implements BuilderInterface
             self::CHECKOUT_TYPE_OPTION  => $paymentOptionId
         ];
 
+        $result[MetadataPaymentDataRequest::METADATA][MetadataPaymentDataRequest::CPP_EXTRA] = [
+            self::CHECKOUT      => 'custom',
+            self::CHECKOUT_TYPE => $paymentTypeId,
+        ];
+
         return $result;
     }
 }

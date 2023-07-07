@@ -95,7 +95,7 @@ class CheckoutProAddChildPayment extends AbstractModel
                 'Order %1 - Increment Id %2 - state %3',
                 $orderId,
                 $order->getIncrementId(),
-                $order->getState(),
+                $order->getState()
             )
             .'</info>'
         );

@@ -24,6 +24,16 @@ class CheckoutProPaymentDataRequest implements BuilderInterface
     public const DATE_OF_EXPIRATION = 'date_of_expiration';
 
     /**
+     * Expiration Date To block name.
+     */
+    public const EXPIRATION_DATE_TO = 'expiration_date_to';
+
+    /**
+     * Expires block name.
+     */
+    public const EXPIRES = 'expires';
+
+    /**
      * Auto Return block name.
      */
     public const AUTO_RETURN = 'auto_return';
@@ -64,6 +74,8 @@ class CheckoutProPaymentDataRequest implements BuilderInterface
 
         $result = [
             self::DATE_OF_EXPIRATION => $this->configCheckoutPro->getExpirationFormatted(),
+            self::EXPIRATION_DATE_TO => $this->configCheckoutPro->getExpirationFormatted(),
+            self::EXPIRES => true,
             self::AUTO_RETURN        => 'all',
         ];
 

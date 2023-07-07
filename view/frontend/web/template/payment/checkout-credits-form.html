@@ -1,0 +1,86 @@
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+<fieldset data-bind="attr: {class: 'fieldset payment items', id: 'payment_form_payer_' + getCode()}">
+    <div class="field-to-pay" data-bind="css: { _hidden:isPlaceOrderActionAllowed() }">
+        <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
+    </div>
+    <div class="field-to-pay" data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
+        <!-- ko if: getExpiration() -->
+        <dl class="items check payable">
+            <div class="payment-mercado-credits-banner">
+                <div class="row-fluid row-fluid-title-mercado-credits">
+                    <p class="text-mercado-credits">
+                        <span data-bind="html: getBannerTexts('credits-use')"></span>
+                    </p>
+                </div>
+                <ul class="thumbnails">
+                    <div class="row-fluid row-fluid-box-mercado-credits">
+                        <li class="payment-mercado-credits-icon">
+                            <img data-bind="attr: {
+                                src: getImages('credits-1').url,
+                                alt: 'icon-1',
+                                width: getImages('credits-1').width,
+                                height: getImages('credits-1').height,
+                                class: 'credits_' + getImages('credits-1').code
+                            }" />
+                        </li>
+                        <p class="text-mercado-credits">
+                            <span data-bind="html: getBannerTexts('credits-1')"></span>
+                        </p>
+                    </div>
+                    <div class="row-fluid row-fluid-box-mercado-credits">
+                        <li class="payment-mercado-credits-icon">
+                            <img data-bind="attr: {
+                                src: getImages('credits-2').url,
+                                alt: 'icon-2',
+                                width: getImages('credits-2').width,
+                                height: getImages('credits-2').height,
+                                class: 'credits_' + getImages('credits-2').code
+                            }" />
+                        </li>
+                        <p class="text-mercado-credits">
+                            <span data-bind="html: getBannerTexts('credits-2')"></span>
+                        </p>
+                    </div>
+                    <div class="row-fluid row-fluid-box-mercado-credits">
+                        <li class="payment-mercado-credits-icon">
+                            <img data-bind="attr: {
+                                src: getImages('credits-3').url,
+                                alt: 'icon-3',
+                                width: getImages('credits-3').width,
+                                height: getImages('credits-3').height,
+                                class: 'credits_' + getImages('credits-3').code
+                            }" />
+                        </li>
+                        <p class="text-mercado-credits">
+                            <span data-bind="html: getBannerTexts('credits-3')"></span>
+                        </p>
+                    </div>
+                </ul>
+                <div class="mp-credits-message-box">
+                    <img data-bind="attr: {
+                        src: getImages('credits-lock').url,
+                        alt: 'icon-3',
+                        width: getImages('credits-lock').width,
+                        height: getImages('credits-lock').height,
+                        class: 'credits_' + getImages('credits-lock').code
+                    }" />
+                    <span data-bind="html: getBannerTexts('credits-lock')"></span>
+                </div>
+            </div>
+            <!-- ko if: getExpiration() -->
+            <dt class="title"><!-- ko i18n: 'Due date' --><!-- /ko --></dt>
+            <dd class="content">
+                <address class="mercadopagocheckoutpro due address" data-bind="html: getExpiration()"></address>
+            </dd>
+            <!-- /ko -->
+        </dl>
+        <!-- /ko -->
+    </div>
+</fieldset>

@@ -25,6 +25,11 @@ class MetadataPaymentDataRequest implements BuilderInterface
     public const METADATA = 'metadata';
 
     /**
+     * Cpp extra block name.
+     */
+    public const CPP_EXTRA = 'cpp_extra';
+
+    /**
      * Plataform block name.
      */
     public const PLATAFORM = 'platform';
@@ -122,6 +127,16 @@ class MetadataPaymentDataRequest implements BuilderInterface
             self::SPONSOR_ID        => $this->config->getMpSponsorId($mpSiteId),
             self::SITE_ID           => $mpSiteId,
             self::STORE_ID          => $storeId,
+        ];
+
+        $request[self::METADATA][self::CPP_EXTRA] = [
+            self::PLATAFORM         => Config::PLATAFORM_ID,
+            self::PLATAFORM_VERSION => $this->config->getMagentoVersion(),
+            self::MODULE_VERSION    => $this->config->getModuleVersion(),
+            self::TEST_MODE         => $this->config->isTestMode(),
+            self::SPONSOR_ID        => $this->config->getMpSponsorId($mpSiteId),
+            self::SITE_ID           => $mpSiteId,
+            self::STORE_ID          => $storeId
         ];
 
         return $request;

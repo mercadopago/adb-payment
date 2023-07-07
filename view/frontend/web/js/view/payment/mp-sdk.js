@@ -662,7 +662,7 @@ define([
             if (this.getMpSiteId() === 'MCO' || this.getMpSiteId() === 'MLC') {
                 return parseFloat(amount ? amount : 0).toFixed(0);
             }
-            return amount;
+            return parseFloat(amount ? amount : 0).toFixed(2);
         },
 
         /**

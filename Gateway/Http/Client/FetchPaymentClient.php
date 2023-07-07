@@ -71,7 +71,7 @@ class FetchPaymentClient implements ClientInterface
      */
     protected $json;
 
-    protected Notification $mpApiNotification;
+    protected $mpApiNotification;
 
     /**
      * @param Logger            $logger

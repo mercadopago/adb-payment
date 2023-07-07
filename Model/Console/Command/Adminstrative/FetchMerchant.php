@@ -13,8 +13,6 @@ use Magento\Config\Model\ResourceModel\Config;
 use Magento\Framework\App\Cache\Frontend\Pool;
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\State;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Model\Method\Logger;
@@ -22,6 +20,8 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use MercadoPago\AdbPayment\Gateway\Config\Config as MercadoPagoConfig;
 use MercadoPago\AdbPayment\Model\Console\Command\AbstractModel;
+use MercadoPago\PP\Sdk\HttpClient\HttpClient;
+use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
  * Model for Command lines to capture Merchant details on Mercado Pago.
@@ -91,11 +91,6 @@ class FetchMerchant extends AbstractModel
     protected $json;
 
     /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
-
-    /**
      * @var ManagerInterface
      */
     protected $messageManager;
@@ -109,7 +104,6 @@ class FetchMerchant extends AbstractModel
      * @param Config                $config
      * @param StoreManagerInterface $storeManager
      * @param Json                  $json
-     * @param ZendClientFactory     $httpClientFactory
      * @param ManagerInterface      $messageManager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -123,7 +117,6 @@ class FetchMerchant extends AbstractModel
         Config $config,
         StoreManagerInterface $storeManager,
         Json $json,
-        ZendClientFactory $httpClientFactory,
         ManagerInterface $messageManager
     ) {
         parent::__construct(
@@ -136,7 +129,6 @@ class FetchMerchant extends AbstractModel
         $this->config = $config;
         $this->storeManager = $storeManager;
         $this->json = $json;
-        $this->httpClientFactory = $httpClientFactory;
         $this->messageManager = $messageManager;
     }
 
@@ -291,17 +283,14 @@ class FetchMerchant extends AbstractModel
     public function getPublicKey($storeId): array
     {
         $publicKey = $this->mercadopagoConfig->getMerchantGatewayClientId($storeId);
-        $uri = $this->mercadopagoConfig->getApiUrl();
-        $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
-
-        $client = $this->httpClientFactory->create();
-        $client->setMethod(ZendClient::GET);
-        $client->setConfig($clientConfigs);
-        $client->setUri($uri.'/plugins-credentials-wrapper/credentials?public_key='.$publicKey);
+        $baseUrl = $this->mercadopagoConfig->getApiUrl();
+        $requester = new CurlRequester();
+        $client  = new HttpClient($baseUrl, $requester);
+        $uri = '/plugins-credentials-wrapper/credentials?public_key='.$publicKey;
 
         try {
-            $result = $client->request()->getBody();
-            $response = $this->json->unserialize($result);
+            $result = $client->get($uri);
+            $response = $result->getData();
 
             $this->logger->debug([
                 'plugins-credentials-wrapper/credential?public_key=' => $result,
@@ -320,19 +309,16 @@ class FetchMerchant extends AbstractModel
 
     public function getAccessToken($storeId): array
     {
-        $uri = $this->mercadopagoConfig->getApiUrl();
-        $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
-        $clientHeaders = $this->mercadopagoConfig->getClientHeaders($storeId);
-
-        $client = $this->httpClientFactory->create();
-        $client->setMethod(ZendClient::GET);
-        $client->setConfig($clientConfigs);
-        $client->setHeaders($clientHeaders);
-        $client->setUri($uri.'/plugins-credentials-wrapper/credentials');
+        $baseUrl = $this->mercadopagoConfig->getApiUrl();
+        $requester = new CurlRequester();
+        $client  = new HttpClient($baseUrl, $requester);
+        $clientHeaders = $this->mercadopagoConfig->getClientHeadersMpPluginsPhpSdk($storeId);
+        $uri = '/plugins-credentials-wrapper/credentials';
 
         try {
-            $result = $client->request()->getBody();
-            $response = $this->json->unserialize($result);
+            $result = $client->get($uri, $clientHeaders);
+            $response = $result->getData();
+
 
             $this->logger->debug(['plugins-credentials-wrapper/credential' => $result]);
 
@@ -387,19 +373,15 @@ class FetchMerchant extends AbstractModel
      */
     public function getUsersMe($storeId): array
     {
-        $uri = $this->mercadopagoConfig->getApiUrl();
-        $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
-        $clientHeaders = $this->mercadopagoConfig->getClientHeaders($storeId);
-
-        $client = $this->httpClientFactory->create();
-        $client->setUri($uri.'/users/me');
-        $client->setConfig($clientConfigs);
-        $client->setHeaders($clientHeaders);
-        $client->setMethod(ZendClient::GET);
+        $baseUrl = $this->mercadopagoConfig->getApiUrl();
+        $requester = new CurlRequester();
+        $client  = new HttpClient($baseUrl, $requester);
+        $clientHeaders = $this->mercadopagoConfig->getClientHeadersMpPluginsPhpSdk($storeId);
+        $uri = '/users/me';
 
         try {
-            $result = $client->request()->getBody();
-            $response = $this->json->unserialize($result);
+            $result = $client->get($uri, $clientHeaders);
+            $response = $result->getData();
 
             $this->logger->debug(['fetch_result' => $result]);
 

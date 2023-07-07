@@ -20,6 +20,7 @@
                 <item name="mercadopago_adbpayment_pse_config_provider" xsi:type="object">MercadoPago\AdbPayment\Model\Ui\ConfigProviderPse</item>
                 <item name="mercadopago_adbpayment_webpay_config_provider" xsi:type="object">MercadoPago\AdbPayment\Model\Ui\ConfigProviderWebpay</item>
                 <item name="mercadopago_adbpayment_twocc_config_provider" xsi:type="object">MercadoPago\AdbPayment\Model\Ui\ConfigProviderTwoCc</item>
+                <item name="mercadopago_adbpayment_checkout_credits_config_provider" xsi:type="object">MercadoPago\AdbPayment\Model\Ui\ConfigProviderCheckoutCredits</item>
             </argument>
         </arguments>
     </type>
@@ -31,6 +32,13 @@
         </arguments>
     </type>
     <type name="MercadoPago\AdbPayment\Block\Sales\Info\CheckoutPro">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="MercadoPago\AdbPayment\Block\Sales\Info\CheckoutCredits">
         <arguments>
             <argument name="data" xsi:type="array">
                 <item xsi:type="string" name="is_secure_mode">1</item>

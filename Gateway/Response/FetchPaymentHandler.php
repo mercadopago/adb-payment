@@ -376,7 +376,7 @@ class FetchPaymentHandler implements HandlerInterface
 
         $payment->setAdditionalInformation(
             $mpStatusDetail,
-            $mpPayment[self::STATUS_DETAIL],
+            $mpPayment[self::STATUS_DETAIL]
         );
 
         if (isset($mpPayment[self::PAYMENT_METHOD_INFO][self::DATE_OF_EXPIRATION])){

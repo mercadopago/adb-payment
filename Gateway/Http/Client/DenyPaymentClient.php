@@ -10,17 +10,17 @@ namespace MercadoPago\AdbPayment\Gateway\Http\Client;
 
 use Exception;
 use InvalidArgumentException;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Http\ClientInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
 use MercadoPago\AdbPayment\Gateway\Request\ExtPaymentIdDataRequest;
+use MercadoPago\PP\Sdk\HttpClient\HttpClient;
+use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
- * Communication with the Gateway to Deny Payment.
+ * Communication with the Gateway to Deny Payment.x
  *
  * @SuppressWarnings(PHPCPD)
  */
@@ -52,11 +52,6 @@ class DenyPaymentClient implements ClientInterface
     protected $logger;
 
     /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
-
-    /**
      * @var Config
      */
     protected $config;
@@ -68,18 +63,15 @@ class DenyPaymentClient implements ClientInterface
 
     /**
      * @param Logger            $logger
-     * @param ZendClientFactory $httpClientFactory
      * @param Config            $config
      * @param Json              $json
      */
     public function __construct(
         Logger $logger,
-        ZendClientFactory $httpClientFactory,
         Config $config,
         Json $json
     ) {
         $this->config = $config;
-        $this->httpClientFactory = $httpClientFactory;
         $this->logger = $logger;
         $this->json = $json;
     }
@@ -94,26 +86,20 @@ class DenyPaymentClient implements ClientInterface
     public function placeRequest(TransferInterface $transferObject)
     {
         $sendData = [];
-
-        /** @var ZendClient $client */
-        $client = $this->httpClientFactory->create();
+        $requester = new CurlRequester();
+        $baseUrl = $this->config->getApiUrl();
+        $client = new HttpClient($baseUrl, $requester);
         $request = $transferObject->getBody();
         $storeId = $request[self::STORE_ID];
-        $url = $this->config->getApiUrl();
-        $clientConfigs = $this->config->getClientConfigs();
-        $clientHeaders = $this->config->getClientHeaders($storeId);
+        $clientHeaders = $this->config->getClientHeadersMpPluginsPhpSdk($storeId);
         $paymentId = $request[ExtPaymentIdDataRequest::MP_REFERENCE_ID];
         $sendData['status'] = 'cancelled';
+        $uri = '/v1/payments/'.$paymentId;
+        $serializeResquest = $this->json->serialize($sendData);
 
         try {
-            $client->setUri($url.'/v1/payments/'.$paymentId);
-            $client->setConfig($clientConfigs);
-            $client->setHeaders($clientHeaders);
-            $client->setRawData($this->json->serialize($sendData), 'application/json');
-            $client->setMethod(ZendClient::PUT);
-
-            $responseBody = $client->request()->getBody();
-            $data = $this->json->unserialize($responseBody);
+            $responseBody = $client->put($uri, $clientHeaders, $serializeResquest);
+            $data = $responseBody->getData();
             $response = array_merge(
                 [
                     self::RESULT_CODE  => 0,
@@ -132,7 +118,7 @@ class DenyPaymentClient implements ClientInterface
             }
             $this->logger->debug(
                 [
-                    'url'      => $url.'/v1/payments/'.$paymentId,
+                    'url'      => $baseUrl.'/v1/payments/'.$paymentId,
                     'request'  => $this->json->serialize($sendData),
                     'response' => $this->json->serialize($response),
                 ]
@@ -140,13 +126,23 @@ class DenyPaymentClient implements ClientInterface
         } catch (InvalidArgumentException $exc) {
             $this->logger->debug(
                 [
-                    'url'       => $url.'/v1/payments/'.$paymentId,
+                    'url'       => $baseUrl.'/v1/payments/'.$paymentId,
                     'request'   => $this->json->serialize($sendData),
                     'error'     => $exc->getMessage(),
                 ]
             );
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception('Invalid JSON was returned by the gateway');
+        } catch (\Throwable $exc) {
+            $this->logger->debug(
+                [
+                    'url'       => $baseUrl.$uri,
+                    'request'   => $this->json->serialize($sendData),
+                    'error'     => $exc->getMessage(),
+                ]
+            );
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new Exception($exc->getMessage());
         }
 
         return $response;

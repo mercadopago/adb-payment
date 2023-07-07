@@ -72,8 +72,8 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      * @param ScopeConfigInterface $scopeConfig
      * @param DateTime             $date
      * @param Config               $config
-     * @param string               $methodCode
      * @param Fingerprint          $fingerprint
+     * @param string               $methodCode
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,

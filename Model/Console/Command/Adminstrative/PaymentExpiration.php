@@ -11,14 +11,14 @@ namespace MercadoPago\AdbPayment\Model\Console\Command\Adminstrative;
 use Exception;
 use Magento\Config\Model\ResourceModel\Config;
 use Magento\Framework\App\State;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Store\Model\StoreManagerInterface;
 use MercadoPago\AdbPayment\Gateway\Config\Config as MercadoPagoConfig;
 use MercadoPago\AdbPayment\Model\Console\Command\AbstractModel;
+use MercadoPago\PP\Sdk\HttpClient\HttpClient;
+use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
  * Model Command Line for payment expiration in Mercado Pago.
@@ -53,11 +53,6 @@ class PaymentExpiration extends AbstractModel
     protected $json;
 
     /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
-
-    /**
      * @var DateTime
      */
     protected $date;
@@ -67,7 +62,6 @@ class PaymentExpiration extends AbstractModel
      * @param State             $state
      * @param MercadoPagoConfig $mercadopagoConfig
      * @param Json              $json
-     * @param ZendClientFactory $httpClientFactory
      * @param DateTime          $date
      */
     public function __construct(
@@ -75,7 +69,6 @@ class PaymentExpiration extends AbstractModel
         State $state,
         MercadoPagoConfig $mercadopagoConfig,
         Json $json,
-        ZendClientFactory $httpClientFactory,
         DateTime $date
     ) {
         parent::__construct(
@@ -84,7 +77,6 @@ class PaymentExpiration extends AbstractModel
         $this->state = $state;
         $this->mercadopagoConfig = $mercadopagoConfig;
         $this->json = $json;
-        $this->httpClientFactory = $httpClientFactory;
         $this->date = $date;
     }
 
@@ -122,30 +114,25 @@ class PaymentExpiration extends AbstractModel
      */
     public function setExpiration($paymentId, $storeId): bool
     {
-        $uri = $this->mercadopagoConfig->getApiUrl();
-        $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
-        $clientHeaders = $this->mercadopagoConfig->getClientHeaders($storeId);
-        $uri = $uri.'/checkout/preferences/'.$paymentId;
+        $requester = new CurlRequester();
+        $baseUrl = $this->mercadopagoConfig->getApiUrl();
+        $client  = new HttpClient($baseUrl, $requester);
+
+        $clientHeaders = $this->mercadopagoConfig->getClientHeadersMpPluginsPhpSdk($storeId);
+        $uri = '/checkout/preferences/'.$paymentId;
 
         $sendData = [
             'expires'               => true,
             'expiration_date_to'    => $this->date->gmtDate('Y-m-d'),
         ];
 
-        $client = $this->httpClientFactory->create();
-        $client->setUri($uri);
-        $client->setConfig($clientConfigs);
-        $client->setHeaders($clientHeaders);
-        $client->setRawData($this->json->serialize($sendData), 'application/json');
-        $client->setMethod(ZendClient::PUT);
-
         try {
-            $result = $client->request()->getBody();
-            $response = $this->json->unserialize($result);
+            $result = $client->put($uri, $clientHeaders, $this->json->serialize($sendData));
+            $response = $result->getData();
 
             $this->logger->debug(
                 [
-                    'url'    => $uri,
+                    'url'    => $baseUrl . $uri,
                     'result' => $this->json->serialize($response),
                 ]
             );

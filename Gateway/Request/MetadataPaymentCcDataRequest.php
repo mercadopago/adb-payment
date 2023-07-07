@@ -46,6 +46,11 @@ class MetadataPaymentCcDataRequest implements BuilderInterface
             self::CHECKOUT_TYPE => 'credit_card',
         ];
 
+        $result[MetadataPaymentDataRequest::METADATA][MetadataPaymentDataRequest::CPP_EXTRA] = [
+            self::CHECKOUT      => 'custom',
+            self::CHECKOUT_TYPE => 'credit_card',
+        ];
+
         return $result;
     }
 }

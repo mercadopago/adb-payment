@@ -10,12 +10,12 @@ namespace MercadoPago\AdbPayment\Model\Adminhtml\Source;
 
 use Exception;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Option\ArrayInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config as MercadoPagoConfig;
+use MercadoPago\PP\Sdk\HttpClient\HttpClient;
+use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
  * Payment method options available to the merchant on Mercado Pago.
@@ -38,11 +38,6 @@ class MerchantPaymentMethods implements ArrayInterface
     protected $json;
 
     /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
-
-    /**
      * @var RequestInterface
      */
     protected $request;
@@ -51,20 +46,17 @@ class MerchantPaymentMethods implements ArrayInterface
      * @param Logger            $logger
      * @param MercadoPagoConfig $mercadopagoConfig
      * @param Json              $json
-     * @param ZendClientFactory $httpClientFactory
      * @param RequestInterface  $request
      */
     public function __construct(
         Logger $logger,
         MercadoPagoConfig $mercadopagoConfig,
         Json $json,
-        ZendClientFactory $httpClientFactory,
         RequestInterface $request
     ) {
         $this->logger = $logger;
         $this->mercadopagoConfig = $mercadopagoConfig;
         $this->json = $json;
-        $this->httpClientFactory = $httpClientFactory;
         $this->request = $request;
     }
 
@@ -108,20 +100,17 @@ class MerchantPaymentMethods implements ArrayInterface
         $response = ['success' => false];
         $storeId = $this->request->getParam('store', 0);
 
-        $uri = $this->mercadopagoConfig->getApiUrl();
-        $clientConfigs = $this->mercadopagoConfig->getClientConfigs($storeId);
-        $clientHeaders = $this->mercadopagoConfig->getClientHeaders($storeId);
+        $requester = new CurlRequester();
+        $baseUrl = $this->mercadopagoConfig->getApiUrl();
+        $client  = new HttpClient($baseUrl, $requester);
 
-        $client = $this->httpClientFactory->create();
-        $client->setUri($uri.'/v1/payment_methods');
-        $client->setConfig($clientConfigs);
-        $client->setHeaders($clientHeaders);
-        $client->setMethod(ZendClient::GET);
+        $uri = '/v1/payment_methods';
+        $clientHeaders = $this->mercadopagoConfig->getClientHeadersMpPluginsPhpSdk($storeId);
 
         try {
-            $result = $client->request()->getBody();
-            $data = $this->json->unserialize($result);
-            $this->logger->debug($data);
+            $result = $client->get($uri, $clientHeaders);
+            $data = $result->getData();
+            $this->logger->debug((array)$data);
 
             if (!isset($data['error'])) {
                 $response = array_merge(

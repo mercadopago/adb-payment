@@ -60,6 +60,11 @@ class MetadataPaymentCheckoutProDataRequest implements BuilderInterface
             self::CHECKOUT_TYPE => $this->config->getTypeRedirect(),
         ];
 
+        $result[MetadataPaymentDataRequest::METADATA][MetadataPaymentDataRequest::CPP_EXTRA] = [
+            self::CHECKOUT      => 'pro',
+            self::CHECKOUT_TYPE => $this->config->getTypeRedirect(),
+        ];
+
         return $result;
     }
 }

@@ -9,12 +9,9 @@
 namespace MercadoPago\AdbPayment\Block\Order\Success;
 
 use Magento\Checkout\Model\Session;
-use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use MercadoPago\AdbPayment\Gateway\Config\Config as PaymentConfig;
-use Magento\Sales\Model\Order\Config as OrderConfig;
-use Magento\Sales\Model\Order;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
@@ -24,44 +21,14 @@ class Additional extends Template
 {
 
     /**
-     * Status Approved.
-     */
-    public const MP_STATUS = 'mp_status';
-
-    /**
-     * Status Approved.
-     */
-    public const STATUS_APPROVED = 'approved';
-
-    /**
-     * Title default.
-     */
-    public const TITLE_DEFAULT = 'Thank you for your purchase!';
-
-    /**
-     * Title for unapproved orders.
-     */
-    public const TITLE_PROCESSING_ORDER = 'We are processing your payment';
-
-    /**
      * @var Session
      */
     protected $checkoutSession;
 
     /**
-     * @var OrderConfig
-     */
-    protected $orderConfig;
-
-    /**
      * @var PaymentConfig
      */
     protected $paymentConfig;
-
-    /**
-     * @var HttpContext
-     */
-    protected $httpContext;
 
     /**
      * @var PriceCurrencyInterface
@@ -71,7 +38,6 @@ class Additional extends Template
     /**
      * @param Context       $context
      * @param Session       $checkoutSession
-     * @param OrderConfig   $orderConfig
      * @param PaymentConfig $paymentConfig
      * @param HttpContext   $httpContext
      * @param PriceCurrencyInterface $priceCurrency
@@ -80,17 +46,13 @@ class Additional extends Template
     public function __construct(
         Context $context,
         Session $checkoutSession,
-        OrderConfig $orderConfig,
         PaymentConfig $paymentConfig,
-        HttpContext $httpContext,
         PriceCurrencyInterface $priceCurrency,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->checkoutSession = $checkoutSession;
-        $this->orderConfig = $orderConfig;
         $this->paymentConfig = $paymentConfig;
-        $this->httpContext = $httpContext;
         $this->priceCurrency = $priceCurrency;
 
         $methodCode = $this->getMethodCode();
@@ -162,24 +124,6 @@ class Additional extends Template
         $storeId = (int) $this->checkoutSession->getLastRealOrder()->getStoreId();
 
         return $this->paymentConfig->getStatementDescriptor($storeId);
-    }
-
-    /**
-     * Title.
-     *
-     * @return string
-     */
-    public function getTitleByPaymentStatus()
-    {
-        $status = $this->getInfo(self::MP_STATUS);
-
-        if ($this->getMethodCode() === 'mercadopago_adbpayment_twocc'
-            && strcasecmp($status, self::STATUS_APPROVED) <> 0
-        ) {
-            return self::TITLE_PROCESSING_ORDER;
-        }
-
-        return self::TITLE_DEFAULT;
     }
 
     /**

@@ -10,8 +10,6 @@ namespace MercadoPago\AdbPayment\Gateway\Http\Client;
 
 use Exception;
 use InvalidArgumentException;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Http\ClientInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
@@ -46,11 +44,6 @@ class CapturePaymentClient implements ClientInterface
     protected $logger;
 
     /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
-
-    /**
      * @var Config
      */
     protected $config;
@@ -77,7 +70,6 @@ class CapturePaymentClient implements ClientInterface
 
     /**
      * @param Logger            $logger
-     * @param ZendClientFactory $httpClientFactory
      * @param Config            $config
      * @param Json              $json
      * @param PaymentGet        $paymentGet
@@ -86,7 +78,6 @@ class CapturePaymentClient implements ClientInterface
      */
     public function __construct(
         Logger $logger,
-        ZendClientFactory $httpClientFactory,
         Config $config,
         Json $json,
         PaymentGet $paymentGet,
@@ -94,7 +85,6 @@ class CapturePaymentClient implements ClientInterface
         CreateOrderPaymentCustomClient $createOrderPaymentCustomClient
     ) {
         $this->config = $config;
-        $this->httpClientFactory = $httpClientFactory;
         $this->logger = $logger;
         $this->json = $json;
         $this->paymentGet = $paymentGet;

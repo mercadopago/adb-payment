@@ -9,12 +9,12 @@
 namespace MercadoPago\AdbPayment\Model\Adminhtml\Source;
 
 use Exception;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
 use Magento\Framework\Option\ArrayInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config as MercadoPagoConfig;
+use MercadoPago\PP\Sdk\HttpClient\HttpClient;
+use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
  * Categories Options in Mercado Pago.
@@ -37,26 +37,18 @@ class Category implements ArrayInterface
     protected $json;
 
     /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
-
-    /**
      * @param Logger            $logger
      * @param MercadoPagoConfig $mercadopagoConfig
      * @param Json              $json
-     * @param ZendClientFactory $httpClientFactory
      */
     public function __construct(
         Logger $logger,
         MercadoPagoConfig $mercadopagoConfig,
-        Json $json,
-        ZendClientFactory $httpClientFactory
+        Json $json
     ) {
         $this->logger = $logger;
         $this->mercadopagoConfig = $mercadopagoConfig;
         $this->json = $json;
-        $this->httpClientFactory = $httpClientFactory;
     }
 
     /**
@@ -91,21 +83,18 @@ class Category implements ArrayInterface
      */
     protected function getAllCategories(int $storeId = 0): array
     {
-        $uri = $this->mercadopagoConfig->getApiUrl();
-        $clientConfigs = $this->mercadopagoConfig->getClientConfigs();
-        $clientHeaders = $this->mercadopagoConfig->getClientHeaders($storeId);
+        $requester = new CurlRequester();
+        $baseUrl = $this->mercadopagoConfig->getApiUrl();
+        $client  = new HttpClient($baseUrl, $requester);
 
-        $client = $this->httpClientFactory->create();
-        $client->setUri($uri.'/item_categories');
-        $client->setConfig($clientConfigs);
-        $client->setHeaders($clientHeaders);
-        $client->setMethod(ZendClient::GET);
+        $uri = '/item_categories';
+        $clientHeaders = $this->mercadopagoConfig->getClientHeadersNoAuthMpPluginsPhpSdk($storeId);
 
         try {
-            $result = $client->request()->getBody();
-            $response = $this->json->unserialize($result);
+            $result = $client->get($uri, $clientHeaders);
+            $response = (array)$result->getData();
             $this->logger->debug([$client]);
-            $this->logger->debug($response);
+            $this->logger->debug((array)$response);
 
             return $response;
         } catch (Exception $e) {

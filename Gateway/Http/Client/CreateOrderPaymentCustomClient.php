@@ -10,8 +10,7 @@ namespace MercadoPago\AdbPayment\Gateway\Http\Client;
 
 use Exception;
 use InvalidArgumentException;
-use Magento\Framework\HTTP\ZendClient;
-use Magento\Framework\HTTP\ZendClientFactory;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Http\ClientInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
@@ -19,6 +18,7 @@ use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
 use MercadoPago\AdbPayment\Gateway\Request\CaptureAmountRequest;
 use MercadoPago\AdbPayment\Gateway\Request\CcPaymentDataRequest;
+use MercadoPago\PP\Sdk\Common\Constants;
 
 /**
  * Communication with the Gateway to create a payment by custom (Card, Pix, Ticket, Pec).
@@ -51,14 +51,19 @@ class CreateOrderPaymentCustomClient implements ClientInterface
     public const STATUS_REJECTED = 'rejected';
 
     /**
+     * Payment Method Id - Block name.
+     */
+    public const PAYMENT_METHOD_ID = 'payment_method_id';
+
+    /**
+     * PP Multiple Payments - Block name.
+     */
+    public const PP_MULTIPLE_PAYMENTS = 'pp_multiple_payments';
+
+    /**
      * @var Logger
      */
     protected $logger;
-
-    /**
-     * @var ZendClientFactory
-     */
-    protected $httpClientFactory;
 
     /**
      * @var Config
@@ -72,18 +77,15 @@ class CreateOrderPaymentCustomClient implements ClientInterface
 
     /**
      * @param Logger            $logger
-     * @param ZendClientFactory $httpClientFactory
      * @param Config            $config
      * @param Json              $json
      */
     public function __construct(
         Logger $logger,
-        ZendClientFactory $httpClientFactory,
         Config $config,
         Json $json
     ) {
         $this->config = $config;
-        $this->httpClientFactory = $httpClientFactory;
         $this->logger = $logger;
         $this->json = $json;
     }
@@ -97,32 +99,31 @@ class CreateOrderPaymentCustomClient implements ClientInterface
      */
     public function placeRequest(TransferInterface $transferObject)
     {
-        /** @var ZendClient $client */
-        $client = $this->httpClientFactory->create();
         $request = $transferObject->getBody();
         $storeId = $request[self::STORE_ID];
 
-        unset($request[self::STORE_ID]);
-        unset($request[CcPaymentDataRequest::MP_PAYMENT_ID]);
-        unset($request[CaptureAmountRequest::AMOUNT_PAID]);
-        unset($request[CaptureAmountRequest::AMOUNT_TO_CAPTURE]);
-
-        $serializeResquest = $this->json->serialize($request);
-        $url = $this->config->getApiUrl();
-        $clientConfigs = $this->config->getClientConfigs();
-        $clientHeaders = $this->config->getClientHeaders($storeId);
-
-        $responseBody = [];
-
         try {
-            $client->setUri($url.'/v2/asgard/payments');
-            $client->setConfig($clientConfigs);
-            $client->setHeaders($clientHeaders);
-            $client->setRawData($serializeResquest, 'application/json');
-            $client->setMethod(ZendClient::POST);
+            $sdk = $this->config->getSdkInstance($storeId);
 
-            $responseBody = $client->request()->getBody();
-            $data = $this->json->unserialize($responseBody);
+            if($request[self::PAYMENT_METHOD_ID] == self::PP_MULTIPLE_PAYMENTS) {
+                $paymentInstance = $sdk->getMultipaymentV2Instance();
+            } else {
+                $paymentInstance = $sdk->getPaymentV2Instance();
+            }
+
+            unset($request[self::STORE_ID]);
+            unset($request[CcPaymentDataRequest::MP_PAYMENT_ID]);
+            unset($request[CaptureAmountRequest::AMOUNT_PAID]);
+            unset($request[CaptureAmountRequest::AMOUNT_TO_CAPTURE]);
+
+            $paymentInstance->setEntity($request);
+
+            $data = $paymentInstance->save();
+
+            $clientHeaders = $paymentInstance->getLastHeaders();
+            $serializeRequest = $this->json->serialize($request);
+            $uri = $paymentInstance->getUris()['post'];
+            $baseUrl = Constants::BASEURL_MP;
 
             if ($data[self::STATUS] === self::STATUS_REJECTED) {
                 $data['id'] = null;
@@ -135,23 +136,22 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                 ],
                 $data
             );
+
+            $this->logger->debug(
+                [
+                    'url'      => $baseUrl.$uri,
+                    'header'   => $this->json->serialize($clientHeaders),
+                    'request'  => $serializeRequest,
+                    'response' => $this->json->serialize($data),
+                ]
+            );
         } catch (InvalidArgumentException $exc) {
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception('Invalid JSON was returned by the gateway');
-        } finally {
-            $this->logger->debug(
-                [
-                    'url'      => $url.'/v2/asgard/payments',
-                    'header'   => $this->json->serialize($clientHeaders),
-                    'request'  => $serializeResquest,
-                    'response' => $responseBody,
-                ]
-            );
+        } catch (\Throwable $e) {
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new LocalizedException(__($e->getMessage()));
         }
-
-        unset($clientHeaders['Authorization']);
-
-
         return $response;
     }
 }

@@ -61,7 +61,7 @@ class CaptureAmountRequest implements BuilderInterface
         $result = [];
 
         if (isset($buildSubject['amount'])) {
-            $result[self::AMOUNT_TO_CAPTURE] = $buildSubject['amount'];
+            $result[self::AMOUNT_TO_CAPTURE] = floatval($buildSubject['amount']);
         }
 
         $result[self::AMOUNT_PAID] = $paymentDO->getPayment()->getAmountPaid();

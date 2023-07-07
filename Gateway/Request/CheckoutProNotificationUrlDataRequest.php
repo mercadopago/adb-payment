@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -30,6 +31,11 @@ class CheckoutProNotificationUrlDataRequest implements BuilderInterface
     public const PATH_TO_NOTIFICATION = 'mp/notification/checkoutpro';
 
     /**
+     * @var String|null
+     */
+    protected $pathNotication;
+
+    /**
      * @var UrlInterface
      */
     protected $frontendUrlBuilder;
@@ -45,10 +51,12 @@ class CheckoutProNotificationUrlDataRequest implements BuilderInterface
      */
     public function __construct(
         UrlInterface $frontendUrlBuilder,
-        Config $config
+        Config $config,
+        $pathNotication = self::PATH_TO_NOTIFICATION
     ) {
         $this->frontendUrlBuilder = $frontendUrlBuilder;
         $this->config = $config;
+        $this->pathNotication = $pathNotication;
     }
 
     /**
@@ -58,15 +66,16 @@ class CheckoutProNotificationUrlDataRequest implements BuilderInterface
      */
     public function build(array $buildSubject)
     {
-        if (!isset($buildSubject['payment'])
-        || !$buildSubject['payment'] instanceof PaymentDataObjectInterface
+        if (
+            !isset($buildSubject['payment'])
+            || !$buildSubject['payment'] instanceof PaymentDataObjectInterface
         ) {
             throw new InvalidArgumentException('Payment data object should be provided');
         }
 
         $result = [];
 
-        $notificationUrl = $this->frontendUrlBuilder->getUrl(self::PATH_TO_NOTIFICATION);
+        $notificationUrl = $this->frontendUrlBuilder->getUrl($this->pathNotication);
 
         $result[self::NOTIFICATION_URL] = $notificationUrl;
 

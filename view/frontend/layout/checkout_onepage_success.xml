@@ -8,17 +8,6 @@
  */
 -->
 <body>
-
-    <referenceBlock name="page.main.title">
-        <block class="Magento\Checkout\Block\Onepage\Success" name="checkout.success.print.button" template="Magento_Checkout::button.phtml"/>
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string"></argument>
-        </action>
-    </referenceBlock>
-
-    <referenceBlock name="checkout.success" template="MercadoPago_AdbPayment::success.phtml">
-    </referenceBlock>
-
     <referenceContainer name="order.success.additional.info">
         <block class="MercadoPago\AdbPayment\Block\Order\Success\Additional" name="order.success.additional.info.mercadopago" after="-" />
     </referenceContainer>

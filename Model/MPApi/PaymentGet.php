@@ -9,55 +9,60 @@
 
 namespace MercadoPago\AdbPayment\Model\MPApi;
 
-use Magento\Framework\HTTP\ZendClientFactory;
-use Magento\Framework\HTTP\ZendClient;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\PP\Sdk\HttpClient\HttpClient;
+use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 class PaymentGet {
 
-    protected Config $config;
+    /**
+     * @var Config
+     */
+    protected $config;
 
-    protected ZendClientFactory $httpClientFactory;
+    /**
+     * @var Json
+     */
+    protected $json;
 
-    protected Json $json;
+    /**
+     * @var Logger
+     */
+    protected $logger;
 
-    protected Logger $logger;
-
-    public function __construct(Config $config, ZendClientFactory $httpClientFactory, Json $json, Logger $logger)
+    public function __construct(Config $config, Json $json, Logger $logger)
     {
         $this->config = $config;
-        $this->httpClientFactory = $httpClientFactory;
         $this->json = $json;
         $this->logger = $logger;
     }
 
     public function get(string $paymentId, string $storeId)
     {
-        $client = $this->httpClientFactory->create();
+        $requester = new CurlRequester();
+        $baseUrl = $this->config->getApiUrl();
+        $client  = new HttpClient($baseUrl, $requester);
 
-        $url = $this->config->getApiUrl();
+        $uri = '/v1/payments/'.$paymentId;
+        $clientHeaders = $this->config->getClientHeadersMpPluginsPhpSdk($storeId);
 
-        $client->setUri($url.'/v1/payments/'.$paymentId);
-        $client->setConfig($this->config->getClientConfigs());
-        $client->setHeaders($this->config->getClientHeaders($storeId));
-        $client->setMethod(ZendClient::GET);
-
-        $responseBody = $client->request()->getBody();
-
-        $this->logger->debug([
-            'url'      => $url.'/v1/payments/'.$paymentId,
-            'method'   => ZendClient::GET,
-            'response' => $responseBody
-        ]);
-
-        if ($client->request()->getStatus() > 299) {
+        $responseBody = null;
+        try {
+            $result = $client->get($uri, $clientHeaders);
+            $responseBody = $result->getData();
+        } catch (\Throwable $e) {
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new \Exception("Invalid request to mp payments: " . $responseBody);
         }
 
-        $data = $this->json->unserialize($responseBody);
+        $this->logger->debug([
+            'url'      => $baseUrl.$uri,
+            'method'   => 'GET',
+            'response' => $this->json->serialize($responseBody)
+        ]);
 
-        return $data;
+        return $responseBody;
     }
 }
