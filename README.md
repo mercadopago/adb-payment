@@ -80,10 +80,8 @@ Destaque
 
 ## Instalação e Configuração
 
-Visite nossa [Wiki][wiki] e veja como configurar e instalar nosso módulo.
+Visite nossa [Wiki](https://www.mercadopago.com/developers/en/docs/adobe-commerce/landing) e veja como configurar e instalar nosso módulo.
 
 ## License
 
 [Open Source License](LICENSE)
-
-   [wiki]: <https://github.com/mercadopago/adb-payment/wiki>
