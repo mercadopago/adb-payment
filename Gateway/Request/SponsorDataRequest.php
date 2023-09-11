@@ -56,7 +56,7 @@ class SponsorDataRequest implements BuilderInterface
         if (substr(strtolower($billingAddress->getEmail()), -strlen(self::TESTE_EMAIL_DOMAIN)) === self::TESTE_EMAIL_DOMAIN) {
             $sponsorId = null;
         }
-
+        
         return [
             'sponsor_id' => $sponsorId,
         ];

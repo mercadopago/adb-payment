@@ -36,7 +36,7 @@ class CheckoutCreditsAddChildTest extends TestCase
   protected $stateMock;
 
   public function setUp(): void
-  {
+  {  
     $this->checkoutCreditsAddChildPaymentMock = $this->getMockBuilder(CheckoutCreditsAddChildPayment::class)->disableOriginalConstructor()->getMock();
     $this->stateMock = $this->getMockBuilder(State::class)->disableOriginalConstructor()->getMock();
     $this->checkoutCreditsAddChild = new CheckoutCreditsAddChild
@@ -53,21 +53,21 @@ class CheckoutCreditsAddChildTest extends TestCase
 
     $orderId = 1;
     $transactionId = 2;
-
+    
     $inputMock->expects($this->any())
       ->method('getArgument')
       ->withConsecutive([CheckoutCreditsAddChild::ORDER_ID], [CheckoutCreditsAddChild::CHILD])
       ->willReturnOnConsecutiveCalls($orderId, $transactionId);
-
+  
     $reflection = new ReflectionClass($this->checkoutCreditsAddChild);
     $method = $reflection->getMethod('execute');
     $method->setAccessible(true);
     $method->invoke($this->checkoutCreditsAddChild, $inputMock, $outputMock);
-
+    
     $reflectionProperty = new ReflectionProperty($this->checkoutCreditsAddChild, 'state');
     $reflectionProperty->setAccessible(true);
     $stateValue = $reflectionProperty->getValue($this->checkoutCreditsAddChild);
-
+    
     $this->assertEquals($stateValue, $this->stateMock);
   }
 

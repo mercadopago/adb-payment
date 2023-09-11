@@ -60,7 +60,7 @@ class AdditionalInfoDataRequest implements BuilderInterface
             self::REFERRAL_URL        => null,
             self::DROP_SHIPPING       => null,
             self::DELIVERY_PROMISE    => null,
-            self::CONTRATED_PLAN      => null
+            self::CONTRATED_PLAN      => null  
         ];
 
         return $result;

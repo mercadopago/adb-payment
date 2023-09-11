@@ -39,7 +39,7 @@ class RefundRequest implements BuilderInterface
      * Amount block name.
      */
     public const PAYMENT = 'payment';
-
+    
     /**
      * Amount block name.
      */

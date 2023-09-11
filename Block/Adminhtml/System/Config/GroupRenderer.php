@@ -48,7 +48,7 @@ class GroupRenderer extends \Magento\Config\Block\System\Config\Form\Fieldset
     public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         if (!$this->configProviderCheckoutCredits->isActive()) {
-            return '';
+            return ''; 
         }
         return parent::render($element);
     }

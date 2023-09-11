@@ -210,14 +210,14 @@ class AdditionalInfoShippingsDataRequest implements BuilderInterface
         if ($shippingAddress) {
 
             $result[AdditionalInfoDataRequest::ADDITIONAL_INFO][self::SHIPMENTS] = [
-                self::DELIVERY_PROMISE => null,
+                self::DELIVERY_PROMISE => null, 
                 self::DROP_SHIPPING => null,
                 self::LOCAL_PICKUP => null,
                 self::EXPRESS_SHIPMENT => null,
                 self::SAFETY => null,
                 self::WITHDRAWN => null,
             ];
-
+            
             $result[AdditionalInfoDataRequest::ADDITIONAL_INFO][self::SHIPMENTS][self::RECEIVER_ADDRESS] = [
                 self::ZIP_CODE              => preg_replace('/[^0-9]/', '', $shippingAddress->getPostcode()),
                 self::STREET_NAME           => $this->config->getValueForAddress(
@@ -244,7 +244,7 @@ class AdditionalInfoShippingsDataRequest implements BuilderInterface
 
             $result[AdditionalInfoDataRequest::ADDITIONAL_INFO][self::SHIPMENTS][self::TRACKING] = [
                 self::CODE_TRACKING => $trackNumber,
-                self::STATUS_TRACKING => null,
+                self::STATUS_TRACKING => null, 
             ];
         }
 

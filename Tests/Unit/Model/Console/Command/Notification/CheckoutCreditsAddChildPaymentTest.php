@@ -42,7 +42,7 @@ class CheckoutCreditsAddChildPaymentTest extends TestCase
             'order' => $this->orderMock,
         ]);
     }
-
+    
     public function testAddMethodWithException()
     {
         $orderId = 1;

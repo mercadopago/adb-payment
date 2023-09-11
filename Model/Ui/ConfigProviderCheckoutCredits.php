@@ -179,7 +179,7 @@ class ConfigProviderCheckoutCredits extends ConfigProviderCheckoutPro implements
 
     /**
      * Get images for payment method banner.
-     *
+     * 
      * @return array
      */
     public function getImages()
@@ -197,7 +197,7 @@ class ConfigProviderCheckoutCredits extends ConfigProviderCheckoutPro implements
 
     /**
      * Get images for payment method banner.
-     *
+     * 
      * @return array
      */
     public function getImagesByName($name)

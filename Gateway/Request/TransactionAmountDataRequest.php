@@ -82,7 +82,7 @@ class TransactionAmountDataRequest implements BuilderInterface
         $grandTotal = $orderAdapter->getGrandTotalAmount();
 
         $order = $paymentDO->getOrder();
-
+       
         $storeId = $order->getStoreId();
 
         $result[self::TRANSACTION_AMOUNT] = $this->config->formatPrice($grandTotal, $storeId);

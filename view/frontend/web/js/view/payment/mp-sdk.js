@@ -91,7 +91,7 @@ define([
             let self = this;
 
             this._super();
-
+            
             self.amount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
 
             self.installmentsAmount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
@@ -102,7 +102,9 @@ define([
 
             self.iniTranslateErrorsFromSDK();
 
-            quote.paymentMethod.subscribe(function(method){self.resetCardAmount()}, null, 'change');
+            quote.paymentMethod.subscribe((method) => {
+                self.resetCardAmount();
+            }, null, 'change');
         },
 
         /**
@@ -430,19 +432,16 @@ define([
                 bin = ccNumber;
 
             self.installmentWasCalculated(false);
-
-            if (self.installmentsAmount() == '' || self.installmentsAmount() > self.FormattedCurrencyToInstallments(self.amount())) {
-                self.installmentSelected = null;
-                self.mpCardInstallment(null);
-                return;
-            }
+            self.installmentSelected = null;
+            self.mpCardInstallment(null);
+            self.addFinanceCost();
 
             if (bin.length === 8) {
                 const result = await window.mp.getInstallments({
                     amount: String(self.FormattedCurrencyToInstallments(self.installmentsAmount())),
                     bin: bin
                 });
-
+                
                 if (result[0] && result[0].payer_costs) {
                     self.installmentWasCalculated(true);
                     self.installmentsResponse(result[0]);
@@ -482,7 +481,7 @@ define([
                 });
             });
         },
-
+        
         formatedAmountWithSymbol(amount) {
             return this.currencySymbol() + ' ' + amount;
         },
@@ -714,7 +713,7 @@ define([
          * @return {Jquery}
          */
          clearMinValueError(){
-            return $('.mp-message-error').remove();
+            return $('.mp-message-error').remove(); 
         }
     });
 });

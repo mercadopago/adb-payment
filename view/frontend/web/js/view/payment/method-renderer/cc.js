@@ -87,8 +87,6 @@ define([
                 self.mpPayerDocument(quote.billingAddress().vatId);
             }
 
-            self.amount(quote.totals().base_grand_total);
-
             self.active.subscribe((value) => {
                 if (value === true) {
                     self.getSelectDocumentTypes();
@@ -110,18 +108,17 @@ define([
                 }
             });
 
-            quote.totals.subscribe((value) => {
-                var financeCostAmount = 0;
-
-                if (this.totals() && totals.getSegment('finance_cost_amount')) {
-                    financeCostAmount = totals.getSegment('finance_cost_amount').value;
-                }
-
-                self.amount(self.formatPrice(value.base_grand_total - financeCostAmount));
+            self.installmentsAmount.subscribe((value) => {
+                self.getInstallments();
             });
 
-            self.amount.subscribe((value) => {
-                self.getInstallments();
+            quote.totals.subscribe((value) => {
+                const fcObject = value.total_segments.filter(segment => segment.code === 'finance_cost_amount')[0] ?? null
+                const financeCostAmount = fcObject && fcObject.value ? fcObject.value : 0;
+                const amount = self.FormattedCurrencyToInstallments(value.base_grand_total - financeCostAmount);
+
+                self.amount(amount);
+                self.installmentsAmount(amount);
             });
         },
 

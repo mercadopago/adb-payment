@@ -226,7 +226,7 @@ class ConfigCheckoutCreditsTest extends TestCase
     );
 
     $result = $configCheckoutCredits->getBannerText($textId, $storeId);
-
+    
     $this->assertEquals('How to use it?', $result);
   }
 }

@@ -138,7 +138,7 @@ class TxnIdTwoCcHandler implements HandlerInterface
             ];
 
             array_push($transactionInfo, $cardInfo);
-
+            
             $payment->setAdditionalInformation(
                 str_replace('%', $i,self::CARD_PAYMENT_ID),
                 $response[self::TRANSACTION_INFO][$i][self::PAYMENT_ID]

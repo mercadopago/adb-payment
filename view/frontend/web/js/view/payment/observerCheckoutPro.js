@@ -12,7 +12,7 @@ window.addEventListener('message', (event) => {
     if (typeof event.data === 'string') {
         try {
             dataExit = JSON.parse(event.data);
-
+            
             if (dataExit.action === 'finalize') {
                 document.location.reload(true);
             }

@@ -77,7 +77,9 @@ define([
          */
         initialize() {
             let self = this;
-            quote.paymentMethod.subscribe(function(method){self.resetFirstCard()}, null, 'change');
+            quote.paymentMethod.subscribe(function(method){
+                self.resetFirstCard();
+            }, null, 'change');
             this._super();
 
             if (quote.billingAddress()) {
@@ -94,16 +96,6 @@ define([
                 }
             });
 
-            quote.totals.subscribe((value) => {
-                var financeCostAmount = 0;
-
-                if (this.totals() && totals.getSegment('finance_cost_amount')) {
-                    financeCostAmount = totals.getSegment('finance_cost_amount').value;
-                }
-
-                self.amount(this.FormattedCurrencyToInstallments(value.base_grand_total - financeCostAmount));
-            });
-
             self.inputValueProgress.subscribe((value) => {
                 self.installmentsAmount(value);
                 self.validateMinValue(value);
@@ -114,12 +106,38 @@ define([
                 }
             });
 
+            const am = Math.floor(self.amount() / 2);
+            self.inputValueProgress(am);
+
             self.installmentsAmount.subscribe((value) => {
                 self.getInstallments();
             });
 
-            const am = Math.floor(self.amount() / 2);
-            self.inputValueProgress(am);
+            quote.totals.subscribe((value) => {
+                const self = this;
+
+                const fcObject = value.total_segments.filter(segment => segment.code === 'finance_cost_amount')[0] ?? null
+                const financeCostAmount = fcObject && fcObject.value ? fcObject.value : 0;
+
+                const newAmount = self.FormattedCurrencyToInstallments(value.base_grand_total - financeCostAmount);
+                const amount = self.amount();
+
+                self.amount(newAmount);
+
+                if (amount !== newAmount) {
+                    self.resetFirstCard();
+                }
+
+                const firstCardAmount = self.FormattedCurrencyToInstallments(self.inputValueProgress());
+
+                const currentCardAmount = self.cardIndex() == 0 
+                    ? self.FormattedCurrencyToInstallments(firstCardAmount) 
+                    : self.FormattedCurrencyToInstallments(newAmount - firstCardAmount);
+
+                if (currentCardAmount !== self.installmentsAmount()) {
+                    self.installmentsAmount(currentCardAmount);
+                }
+            });
         },
 
         initForm() {
@@ -301,9 +319,10 @@ define([
                 return;
             }
 
+            delete this.generatedCards[0];
             delete this.generatedCards[1];
 
-            this.installmentsAmount(this.generatedCards[0].amount);
+            this.installmentsAmount(this.amount() - this.inputValueProgress());
             this.cardIndex(0);
             this.mpSelectedCardType('');
             this.mpCardListInstallments('')
@@ -359,7 +378,7 @@ define([
             if (this.getMpSiteId() === 'MCO' || this.getMpSiteId() === 'MLC') {
                 return true;
             }
-
+            
             return false;
         },
 
@@ -396,11 +415,14 @@ define([
 
             return 'second-card-opened-form';
         },
-
+        
         resetFirstCard() {
             this.editFirstCard();
             this.mpPayerDocument('');
             this.mpPayerType('');
+
+            const am = Math.floor(this.amount() / 2);
+            this.inputValueProgress(am);
         },
 
         /**

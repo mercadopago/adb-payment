@@ -45,7 +45,7 @@ class ConfigCheckoutCredits extends ConfigPro
     /**
      * @param String $textId
      * @param String $storeId
-     *
+     * 
      * @return String
      */
     public function getBannerText($textId, $storeId = null): string

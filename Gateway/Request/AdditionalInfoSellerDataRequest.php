@@ -150,7 +150,7 @@ class AdditionalInfoSellerDataRequest implements BuilderInterface
      * Country block name.
      */
     public const COUNTRY = 'country';
-
+    
     /**
      * State block name.
      */
