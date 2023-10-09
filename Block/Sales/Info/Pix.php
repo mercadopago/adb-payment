@@ -23,4 +23,24 @@ class Pix extends ConfigurableInfo
      * @var string
      */
     protected $_template = 'MercadoPago_AdbPayment::info/pix/instructions.phtml';
+
+    private bool $isPdf = false;
+
+    public function toPdf()
+    {
+        $this->isPdf = true;
+        return parent::toPdf();
+    }
+
+    protected function _prepareSpecificInformation($transport = null)
+    {
+        $transport = parent::_prepareSpecificInformation($transport);
+
+        if ($this->isPdf) {
+            unset($transport['qr_code_base64']);
+            unset($transport['qr_code']);
+        }
+
+        return $transport;
+    }
 }

@@ -8,10 +8,14 @@ define([
     'underscore',
     'Magento_Checkout/js/view/payment/default',
     'Magento_Checkout/js/model/quote',
+    'Magento_Checkout/js/model/payment/additional-validators',
+    'Magento_Checkout/js/action/redirect-on-success',
 ], function (
     _,
     Component,
     quote,
+    additionalValidators,
+    redirectOnSuccessAction,
 ) {
     'use strict';
 
@@ -152,6 +156,44 @@ define([
 
         formatPrice(amount) {
             return Number(Math.round(Math.abs(+amount || 0) + 'e+' + 2) + ('e-' + 2));
+        },
+
+        placeOrder: function (data, event) {
+            var self = this;
+
+            if (event) {
+                event.preventDefault();
+            }
+
+            if (this.validate() &&
+                additionalValidators.validate() &&
+                this.isPlaceOrderActionAllowed() === true
+            ) {
+                this.isPlaceOrderActionAllowed(false);
+
+                this.getPlaceOrderDeferredObject()
+                    .done(
+                        function () {
+                            self.afterPlaceOrder();
+
+                            if (self.redirectAfterPlaceOrder) {
+                                redirectOnSuccessAction.execute();
+                            }
+                        }
+                    ).always(
+                        function () {
+                            self.isPlaceOrderActionAllowed(true);
+                        }
+                    ).fail(
+                        function (response) {
+                            self.onPlaceOrderFail(response);
+                        }
+                )
+
+                return true;
+            }
+
+            return false;
         },
     });
 });

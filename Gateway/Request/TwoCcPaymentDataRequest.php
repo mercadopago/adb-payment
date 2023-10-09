@@ -124,7 +124,6 @@ class TwoCcPaymentDataRequest implements BuilderInterface
 
         if (in_array(self::METHOD_ID, $unsupported[$mpSiteId])) {
             $capture = true;
-            $binary = true;
         }
 
         $instruction = [

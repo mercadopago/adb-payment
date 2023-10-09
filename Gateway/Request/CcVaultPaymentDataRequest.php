@@ -124,7 +124,7 @@ class CcVaultPaymentDataRequest implements BuilderInterface
             self::INSTALLMENTS      => (int) $installment,
             self::PAYMENT_METHOD_ID => $ccTypeName,
             self::SOFT_DESCRIPTOR   => $this->config->getStatementDescriptor($storeId),
-            self::BINARY_MODE       => true,
+            self::BINARY_MODE       => $this->configCc->isBinaryMode($storeId),
             self::TOKEN             => $payment->getAdditionalInformation('card_number_token'),
             self::CAPTURE           => $this->configCc->hasCapture($storeId),
         ];

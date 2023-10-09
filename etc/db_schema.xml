@@ -24,6 +24,24 @@
         <column xsi:type="decimal" name="first_card_amount" scale="4" precision="12" unsigned="false" nullable="true" comment="First Card Amount"/>
         <column xsi:type="decimal" name="second_card_amount" scale="4" precision="12" unsigned="false" nullable="true" comment="Second Card Amount"/>
     </table>
+    <table name="quote_mp_payment" resource="default">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" identity="false" default="0" comment="Quote ID"/>
+        <column xsi:type="int" name="payment_id" unsigned="true" nullable="false" identity="false" default="0" comment="Payment ID"/>
+        <column xsi:type="varchar" name="three_ds_external_resource_url" nullable="true" length="255" comment="3DS External Resource URL"/>
+        <column xsi:type="text" name="three_ds_creq" nullable="true" comment="3DS Creq"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="QUOTE_MP_PAYMENT_ENTITY_ID_QUOTE_ENTITY_ID" table="quote_mp_payment"
+                    column="quote_id" referenceTable="quote" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="QUOTE_MP_PAYMENT_QUOTE_ID" indexType="btree">
+            <column name="quote_id"/>
+        </index>
+        <index referenceId="QUOTE_MP_PAYMENT_PAYMENT_ID" indexType="btree">
+            <column name="payment_id"/>
+        </index>
+    </table>
     <table name="quote_address" resource="default">
         <column xsi:type="decimal" name="discount_coupon_amount" scale="4" precision="12" unsigned="false" nullable="true" comment="Discount coupon Amount"/>
         <column xsi:type="decimal" name="base_discount_coupon_amount" scale="4" precision="12" unsigned="false" nullable="true" comment="Base Discount coupon Amount"/>

@@ -112,6 +112,19 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         try {
             /** @var TransactionRepositoryInterface $transactions */
             $transactions = $this->transaction->getList($searchCriteria)->getItems();
+
+            if($transactions === null || sizeof($transactions) === 0)
+            {
+                /** @var ResultInterface $result */
+                return $this->createResult(
+                    422,
+                    [
+                        'error'   => 422,
+                        'message' => 'Nothing to proccess',
+                    ]
+                );
+            }
+
         } catch (Exception $exc) {
             /** @var ResultInterface $result */
             return $this->createResult(
@@ -131,10 +144,6 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         $refundId = null;
 
         foreach ($transactions as $transaction) {
-            if ($mpStatus == 'approved' && $transaction->getTxnType() == 'capture') {
-                continue;
-            }
-
             $order = $this->getOrderData($transaction->getOrderId());
 
             if ($mpStatus === 'refunded') {
@@ -223,10 +232,12 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
                 strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.') !== 0
                 && strcmp($isNotApplicable['msg'], 'Refund notification for order already closed.') !== 0
                 && strcmp($isNotApplicable['msg'], 'Notification response for online refund created in magento') !== 0
+                && strcmp($isNotApplicable['msg'], 'An error occured with refund.') !== 0
             ) {
                 return $isNotApplicable;
             }
         }
+
         $order = $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
 
         $result = [

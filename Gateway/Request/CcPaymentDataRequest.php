@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -93,7 +94,8 @@ class CcPaymentDataRequest implements BuilderInterface
      */
     public function build(array $buildSubject)
     {
-        if (!isset($buildSubject['payment'])
+        if (
+            !isset($buildSubject['payment'])
             || !$buildSubject['payment'] instanceof PaymentDataObjectInterface
         ) {
             throw new InvalidArgumentException('Payment data object should be provided');
@@ -131,7 +133,6 @@ class CcPaymentDataRequest implements BuilderInterface
 
         if (in_array($ccTypeName, $unsupported[$mpSiteId])) {
             $capture = true;
-            $binary = true;
         }
 
         $instruction = [

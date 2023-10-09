@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -74,7 +75,7 @@ class DataAssignObserverCcVault extends AbstractDataAssignObserver
         self::CC_EXP_Y,
         self::CC_INSTALLMENTS,
         self::CARD_FINANCE_COST,
-        self::MP_USER_ID,
+        self::MP_USER_ID
     ];
 
     /**
