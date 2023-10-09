@@ -39,4 +39,16 @@
             <parameter name="cartId" force="true">%cart_id%</parameter>
         </data>
     </route>
+    <route url="/V1/quote/:quoteId/mp-payment-information" method="GET">
+        <service class="MercadoPago\AdbPayment\Api\QuoteMpPaymentManagementInterface" method="getQuoteMpPayment"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+        <route url="/V1/payment/mp-payment-status" method="GET">
+        <service class="MercadoPago\AdbPayment\Api\PaymentStatusManagementInterface" method="getPaymentStatus"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
 </routes>

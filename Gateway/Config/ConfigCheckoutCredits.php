@@ -29,8 +29,8 @@ class ConfigCheckoutCredits extends ConfigPro
      * @param ScopeConfigInterface $scopeConfig
      * @param DateTime             $date
      * @param Config               $config
-     * @param string               $methodCode
      * @param Fingerprint          $fingerprint
+     * @param string               $methodCode
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -45,7 +45,7 @@ class ConfigCheckoutCredits extends ConfigPro
     /**
      * @param String $textId
      * @param String $storeId
-     * 
+     *
      * @return String
      */
     public function getBannerText($textId, $storeId = null): string

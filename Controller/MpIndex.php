@@ -31,6 +31,8 @@ use MercadoPago\AdbPayment\Model\Console\Command\Notification\CheckoutProAddChil
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\FetchStatus;
 use Magento\Sales\Model\Order\Payment\Transaction;
 use MercadoPago\AdbPayment\Model\MPApi\Notification;
+use MercadoPago\AdbPayment\Model\Order\ValidateUpdateStatus\ValidateFactory;
+
 
 /**
  * Class Mercado Pago Index.
@@ -113,6 +115,46 @@ abstract class MpIndex extends Action
      * @var Notification
      */
     protected $mpApiNotification;
+
+    /**
+     * MP Status Approved - Value.
+     */
+    public const MP_STATUS_APPROVED = 'approved';
+
+    /**
+     * MP Status Cancelled - Value.
+     */
+    public const MP_STATUS_CANCELLED = 'cancelled';
+
+    /**
+     * MP Status Pending - Value.
+     */
+    public const MP_STATUS_PENDING = 'pending';
+
+    /**
+     * MP Status Charged Back - Value.
+     */
+    public const MP_STATUS_CHARGED_BACK = 'charged_back';
+
+    /**
+     * MP Status Refunded - Value.
+     */
+    public const MP_STATUS_REFUNDED = 'refunded';
+
+    /**
+     * MP Status In Mediation - Value.
+     */
+    public const MP_STATUS_IN_MEDIATION = 'in_mediation';
+
+    /**
+     * MP Status In Rejected - Value.
+     */
+    public const MP_STATUS_REJECTED = 'rejected';
+
+    /**
+     * Adobe Status Pending - Value.
+     */
+    public const ADOBE_STATUS_PENDING = 'pending';
 
     /**
      * @param Config                         $config
@@ -257,11 +299,13 @@ abstract class MpIndex extends Action
                 if ($applyRefund) {
                     $result = $this->refund($order, $refundId, $mpAmountRefound);
 
-                    $header = __('Mercado Pago, refund notification');
+                    $header = $result['header'];
 
                     $description = $result['description'];
 
-                    $this->notifierPool->addCritical($header, $description);
+                    $severity = $result['severity'];
+
+                    $this->notifierPool->add($severity, $header, $description);
 
                     return $result;
                 }
@@ -275,24 +319,25 @@ abstract class MpIndex extends Action
                 return $result;
             }
 
-            if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) { {
-                    $header = __('Mercado Pago, refund notification');
+            if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
+                $header = $result['header'];
 
-                    $description = __(
-                        'Invalid notification. The order %1 has already been closed.',
-                        $order->getIncrementId()
-                    );
+                $severity = $result['severity'];
 
-                    $this->notifierPool->addCritical($header, $description);
+                $description = __(
+                    'Invalid notification. The order %1 has already been closed.',
+                    $order->getIncrementId()
+                );
 
-                    $result = [
-                        'isInvalid' => true,
-                        'code'      => 200,
-                        'msg'       => 'Refund notification for order already closed.',
-                    ];
+                $this->notifierPool->add($severity, $header, $description);
 
-                    return $result;
-                }
+                $result = [
+                    'isInvalid' => true,
+                    'code'      => 200,
+                    'msg'       => 'Refund notification for order already closed.',
+                ];
+
+                return $result;
             }
 
             $result = [
@@ -304,18 +349,10 @@ abstract class MpIndex extends Action
             return $result;
         }
 
-        if ($order->getState() === \Magento\Sales\Model\Order::STATE_CLOSED) {
-            $result = [
-                'isInvalid' => true,
-                'code'      => 412,
-                'msg'       => [
-                    'error'   => 412,
-                    'message' => __('Unavailable.'),
-                    'state'   => $order->getState(),
-                ],
-            ];
+        $statusRuleResult = $this->analyzeMpStatusAndAdobeStatus($mpStatus, $order->getStatus());
 
-            return $result;
+        if (isset($statusRuleResult['isInvalid'])) {
+            return $statusRuleResult;
         }
 
         $result = [
@@ -358,7 +395,21 @@ abstract class MpIndex extends Action
         $invoices = $order->getInvoiceCollection();
 
         if (count($invoices) == 0) {
-            return;
+            $result = [
+                'isInvalid'     => true,
+                'code'          => 200,
+                'severity'      => 2,
+                'msg'           => 'An error occured with refund.',
+                'header'        => __(
+                    'The order %1 has already been refunded in Mercado Pago.',
+                    $order->getIncrementId()
+                ),
+                'description'   => __(
+                    'The status of the order %1 could not be changed in the store panel but the refund is already available in Mercado Pago. We recommend that you check your account and the stock of sold items.',
+                    $order->getIncrementId()
+                ),
+            ];
+            return $result;
         }
 
         foreach ($invoices as $invoice) {
@@ -386,7 +437,9 @@ abstract class MpIndex extends Action
                 $result = [
                     'isInvalid'     => true,
                     'code'          => 200,
+                    'severity'      => 1,
                     'msg'           => 'Refund notification for order refunded directly in Mercado Pago.',
+                    'header'        => __('Mercado Pago, refund notification'),
                     'description'   => __(
                         'The order %1, was refunded directly on Mercado Pago, you need to check stock of sold items.',
                         $order->getIncrementId()
@@ -396,7 +449,9 @@ abstract class MpIndex extends Action
                 $result = [
                     'isInvalid'     => true,
                     'code'          => 200,
+                    'severity'      => 1,
                     'msg'           => 'Failed to process refund notification.',
+                    'header'        => __('Mercado Pago, refund notification'),
                     'description'   => __(
                         'The order %1, was refunded directly on Mercado Pago, but an error occured when refunding offline, you need to check order refunds and stock of sold items.',
                         $order->getIncrementId()
@@ -423,5 +478,31 @@ abstract class MpIndex extends Action
         $notificationId = $mercadopagoData['notification_id'];
 
         return $this->mpApiNotification->get($notificationId, $storeId);
+    }
+
+    protected function analyzeMpStatusAndAdobeStatus(
+        String $mpStatus,
+        String $adobeStatus
+    ) {
+        $validate = ValidateFactory::createValidate($adobeStatus);
+
+        $response = $validate->verifyStatus($mpStatus);
+
+        $this->logger->debug([
+            'action'    => 'notification',
+            'isInvalid' => $response->getIsValid(),
+            'payload'   => $response->getMessage(),
+        ]);
+
+        $result = [];
+        if (!$response->getIsValid()) {
+            $result = [
+                'isInvalid' => !$response->getIsValid(),
+                'code'      => $response->getCode(),
+                'msg'       => $response->getMessage(),
+            ];
+        }
+
+        return $result;
     }
 }

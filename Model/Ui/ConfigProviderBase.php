@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -69,6 +70,8 @@ class ConfigProviderBase implements ConfigProviderInterface
                     'public_key'    => $this->config->getMerchantGatewayClientId($storeId),
                     'locale'        => $this->getLocale(),
                     'mp_site_id'    => $this->config->getMpSiteId($storeId),
+                    'plugin_version' => $this->config->getModuleVersion(),
+                    'platform_version' => $this->config->getMagentoVersion()
                 ],
             ],
         ];

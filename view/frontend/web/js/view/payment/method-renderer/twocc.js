@@ -130,8 +130,8 @@ define([
 
                 const firstCardAmount = self.FormattedCurrencyToInstallments(self.inputValueProgress());
 
-                const currentCardAmount = self.cardIndex() == 0 
-                    ? self.FormattedCurrencyToInstallments(firstCardAmount) 
+                const currentCardAmount = self.cardIndex() == 0
+                    ? self.FormattedCurrencyToInstallments(firstCardAmount)
                     : self.FormattedCurrencyToInstallments(newAmount - firstCardAmount);
 
                 if (currentCardAmount !== self.installmentsAmount()) {
@@ -208,44 +208,6 @@ define([
             }
 
             this.placeOrder();
-        },
-
-        placeOrder: function (data, event) {
-            var self = this;
-
-            if (event) {
-                event.preventDefault();
-            }
-
-            if (this.validate() &&
-                additionalValidators.validate() &&
-                this.isPlaceOrderActionAllowed() === true
-            ) {
-                this.isPlaceOrderActionAllowed(false);
-
-                this.getPlaceOrderDeferredObject()
-                    .done(
-                        function () {
-                            self.afterPlaceOrder();
-
-                            if (self.redirectAfterPlaceOrder) {
-                                redirectOnSuccessAction.execute();
-                            }
-                        }
-                    ).always(
-                        function () {
-                            self.isPlaceOrderActionAllowed(true);
-                        }
-                    ).fail(
-                        function () {
-                            self.resetFirstCard();
-                        }
-                )
-
-                return true;
-            }
-
-            return false;
         },
 
         /**
@@ -378,7 +340,7 @@ define([
             if (this.getMpSiteId() === 'MCO' || this.getMpSiteId() === 'MLC') {
                 return true;
             }
-            
+
             return false;
         },
 
@@ -415,7 +377,7 @@ define([
 
             return 'second-card-opened-form';
         },
-        
+
         resetFirstCard() {
             this.editFirstCard();
             this.mpPayerDocument('');
@@ -435,6 +397,10 @@ define([
             return window.checkoutConfig.payment[this.getCode()].images.hasOwnProperty(type) ?
                 window.checkoutConfig.payment[this.getCode()].images[type]
                 : false;
+        },
+
+        onPlaceOrderFail: function() {
+            this.resetFirstCard();
         },
     });
 });

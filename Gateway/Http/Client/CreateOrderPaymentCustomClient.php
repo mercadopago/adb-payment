@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -10,15 +11,20 @@ namespace MercadoPago\AdbPayment\Gateway\Http\Client;
 
 use Exception;
 use InvalidArgumentException;
+use Magento\Checkout\Model\Session;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Http\ClientInterface;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
+use MercadoPago\AdbPayment\Api\QuoteMpPaymentRepositoryInterface;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
 use MercadoPago\AdbPayment\Gateway\Request\CaptureAmountRequest;
 use MercadoPago\AdbPayment\Gateway\Request\CcPaymentDataRequest;
+use MercadoPago\AdbPayment\Model\QuoteMpPaymentFactory;
+use MercadoPago\AdbPayment\Model\QuoteMpPaymentRepository;
 use MercadoPago\PP\Sdk\Common\Constants;
+use MercadoPago\AdbPayment\Model\MPApi\PaymentGet;
 
 /**
  * Communication with the Gateway to create a payment by custom (Card, Pix, Ticket, Pec).
@@ -46,9 +52,44 @@ class CreateOrderPaymentCustomClient implements ClientInterface
     public const STATUS = 'status';
 
     /**
+     * External Status Detail - Block name.
+     */
+    public const STATUS_DETAIL = 'status_detail';
+
+    /**
      * External Status Rejected - Block name.
      */
     public const STATUS_REJECTED = 'rejected';
+
+    /**
+     * External Status Pending - Block name.
+     */
+    public const STATUS_PENDING = 'pending';
+
+    /**
+     * External Status Pending Challenge - Block name.
+     */
+    public const STATUS_PENDING_CHALLENGE = 'pending_challenge';
+
+    /**
+     * External Payment Id - Block name.
+     */
+    public const PAYMENT_ID = 'id';
+
+    /**
+     * External Three DS Info - Block name.
+     */
+    public const THREE_DS_INFO = 'three_ds_info';
+
+    /**
+     * External Resource Url - Block name.
+     */
+    public const EXTERNAL_RESOURCE_URL = 'external_resource_url';
+
+    /**
+     * External Creq - Block name.
+     */
+    public const CREQ = 'creq';
 
     /**
      * Payment Method Id - Block name.
@@ -59,6 +100,11 @@ class CreateOrderPaymentCustomClient implements ClientInterface
      * PP Multiple Payments - Block name.
      */
     public const PP_MULTIPLE_PAYMENTS = 'pp_multiple_payments';
+
+    /**
+     * Custom Header name to paymant with vault  - Payer Id.
+     */
+    public const HEADER_CUSTOMER_ID = 'x-customer-id: ';
 
     /**
      * @var Logger
@@ -76,18 +122,51 @@ class CreateOrderPaymentCustomClient implements ClientInterface
     protected $json;
 
     /**
+     * @var QuoteMpPaymentRepositoryInterface
+     */
+    protected $quoteMpPaymentRepository;
+
+    /**
+     * @var QuoteMpPaymentFactory
+     */
+    protected $quoteMpPaymentFactory;
+
+    /**
+     * @var Session
+     */
+    protected $checkoutSession;
+
+    /**
+     * @var PaymentGet
+     */
+    protected $paymentGet;
+
+    /**
      * @param Logger            $logger
      * @param Config            $config
      * @param Json              $json
+     * @param QuoteMpPaymentRepository $quoteMpPaymentRepository
+     * @param QuoteMpPaymentFactory    $quoteMpPaymentFactory
+     * @param Session           $checkoutSession
+     * @param PaymentGet        $paymentGet
      */
     public function __construct(
         Logger $logger,
         Config $config,
-        Json $json
+        Json $json,
+        QuoteMpPaymentRepository $quoteMpPaymentRepository,
+        QuoteMpPaymentFactory $quoteMpPaymentFactory,
+        Session $checkoutSession,
+        PaymentGet $paymentGet
+
     ) {
         $this->config = $config;
         $this->logger = $logger;
         $this->json = $json;
+        $this->quoteMpPaymentRepository = $quoteMpPaymentRepository;
+        $this->quoteMpPaymentFactory = $quoteMpPaymentFactory;
+        $this->checkoutSession = $checkoutSession;
+        $this->paymentGet = $paymentGet;
     }
 
     /**
@@ -102,56 +181,106 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         $request = $transferObject->getBody();
         $storeId = $request[self::STORE_ID];
 
-        try {
-            $sdk = $this->config->getSdkInstance($storeId);
+        $data = [];
+        $mpPaymentIdQuote = null;
 
-            if($request[self::PAYMENT_METHOD_ID] == self::PP_MULTIPLE_PAYMENTS) {
-                $paymentInstance = $sdk->getMultipaymentV2Instance();
-            } else {
-                $paymentInstance = $sdk->getPaymentV2Instance();
+        $mpPaymentQuote = $this->quoteMpPaymentRepository->getByQuoteId($this->checkoutSession->getQuoteId());
+
+        if ($mpPaymentQuote !== null) {
+            $mpPaymentIdQuote = $mpPaymentQuote->getPaymentId();
+
+            if ($mpPaymentIdQuote !== null) {
+                $data = $this->paymentGet->get($mpPaymentIdQuote, $storeId);
+
+                $this->logger->debug(
+                    [
+                        'action'    => '3DS',
+                        'response' => $this->json->serialize($data),
+                    ]
+                );
             }
+        } else {
 
-            unset($request[self::STORE_ID]);
-            unset($request[CcPaymentDataRequest::MP_PAYMENT_ID]);
-            unset($request[CaptureAmountRequest::AMOUNT_PAID]);
-            unset($request[CaptureAmountRequest::AMOUNT_TO_CAPTURE]);
+            try {
+                $sdk = $this->config->getSdkInstance($storeId);
 
-            $paymentInstance->setEntity($request);
+                if ($request[self::PAYMENT_METHOD_ID] == self::PP_MULTIPLE_PAYMENTS) {
+                    $paymentInstance = $sdk->getMultipaymentV21Instance();
+                } else {
+                    $paymentInstance = $sdk->getPaymentV21Instance();
+                }
 
-            $data = $paymentInstance->save();
+                unset($request[self::STORE_ID]);
+                unset($request[CcPaymentDataRequest::MP_PAYMENT_ID]);
+                unset($request[CaptureAmountRequest::AMOUNT_PAID]);
+                unset($request[CaptureAmountRequest::AMOUNT_TO_CAPTURE]);
 
-            $clientHeaders = $paymentInstance->getLastHeaders();
-            $serializeRequest = $this->json->serialize($request);
-            $uri = $paymentInstance->getUris()['post'];
-            $baseUrl = Constants::BASEURL_MP;
+                $paymentInstance->setEntity($request);
 
-            if ($data[self::STATUS] === self::STATUS_REJECTED) {
-                $data['id'] = null;
+                if(isset($paymentInstance->payer->id))
+                    $paymentInstance->setCustomHeaders([self::HEADER_CUSTOMER_ID . $paymentInstance->payer->id]);
+
+                $data = $paymentInstance->save();
+
+                if (
+                    $data[self::STATUS] === self::STATUS_PENDING
+                    && $data[self::STATUS_DETAIL] === self::STATUS_PENDING_CHALLENGE
+                    && !empty($data[self::THREE_DS_INFO])
+                ) {
+
+                    $quoteMpPayment = $this->quoteMpPaymentFactory->create();
+                    $quoteMpPayment->setQuoteId($this->checkoutSession->getQuoteId());
+                    $quoteMpPayment->setPaymentId($data[self::PAYMENT_ID]);
+                    $quoteMpPayment->setThreeDsExternalResourceUrl(
+                        $data[self::THREE_DS_INFO][self::EXTERNAL_RESOURCE_URL]
+                    );
+                    $quoteMpPayment->setThreeDsCreq($data[self::THREE_DS_INFO][self::CREQ]);
+
+                    $this->quoteMpPaymentRepository->save($quoteMpPayment);
+
+                    throw new LocalizedException(__('3DS'));
+                }
+
+                $clientHeaders = $paymentInstance->getLastHeaders();
+                $serializeRequest = $this->json->serialize($paymentInstance);
+                $uri = $paymentInstance->getUris()['post'];
+                $baseUrl = Constants::BASEURL_MP;
+
+                $this->logger->debug(
+                    [
+                        'url'      => $baseUrl . $uri,
+                        'header'   => $this->json->serialize($clientHeaders),
+                        'request'  => $serializeRequest,
+                        'response' => $this->json->serialize($data),
+                    ]
+                );
+            } catch (InvalidArgumentException $exc) {
+                // phpcs:ignore Magento2.Exceptions.DirectThrow
+                throw new Exception('Invalid JSON was returned by the gateway');
+            } catch (\Throwable $e) {
+                // phpcs:ignore Magento2.Exceptions.DirectThrow
+                throw new LocalizedException(__($e->getMessage()));
             }
-
-            $response = array_merge(
-                [
-                    self::RESULT_CODE  => isset($data['id']) ? 1 : 0,
-                    self::EXT_ORD_ID   => isset($data['id']) ? $data['id'] : null,
-                ],
-                $data
-            );
-
-            $this->logger->debug(
-                [
-                    'url'      => $baseUrl.$uri,
-                    'header'   => $this->json->serialize($clientHeaders),
-                    'request'  => $serializeRequest,
-                    'response' => $this->json->serialize($data),
-                ]
-            );
-        } catch (InvalidArgumentException $exc) {
-            // phpcs:ignore Magento2.Exceptions.DirectThrow
-            throw new Exception('Invalid JSON was returned by the gateway');
-        } catch (\Throwable $e) {
-            // phpcs:ignore Magento2.Exceptions.DirectThrow
-            throw new LocalizedException(__($e->getMessage()));
         }
+
+        if (
+            ($data[self::STATUS] === self::STATUS_REJECTED) ||
+            ($data[self::STATUS] === self::STATUS_PENDING && $data[self::STATUS_DETAIL] === self::STATUS_PENDING_CHALLENGE)
+        ) {
+            if ($mpPaymentQuote !== null) {
+                $this->quoteMpPaymentRepository->deleteByQuoteId($this->checkoutSession->getQuoteId());
+            }
+            $data['id'] = null;
+        }
+
+        $response = array_merge(
+            [
+                self::RESULT_CODE  => isset($data['id']) ? 1 : 0,
+                self::EXT_ORD_ID   => isset($data['id']) ? $data['id'] : null,
+            ],
+            $data
+        );
+
         return $response;
     }
 }

@@ -18,6 +18,15 @@
             "second_card_amount": true
         }
     },
+    "quote_mp_payment": {
+        "column": {
+            "entity_id": true,
+            "quote_id": true,
+            "payment_id": true,
+            "three_ds_external_resource_url": true,
+            "three_ds_creq": true
+        }
+    },
     "quote_address": {
         "column": {
             "discount_coupon_amount": true,

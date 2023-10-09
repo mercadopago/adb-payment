@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -98,7 +99,7 @@ class DataAssignObserverCc extends AbstractDataAssignObserver
         self::CARD_FINANCE_COST,
         self::CARD_SAVE,
         self::CARD_PUBLIC_ID,
-        self::MP_USER_ID,
+        self::MP_USER_ID
     ];
 
     /**

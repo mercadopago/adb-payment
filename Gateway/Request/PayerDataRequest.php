@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -55,6 +56,21 @@ class PayerDataRequest implements BuilderInterface
     public const ENTITY_TYPE = 'entity_type';
 
     /**
+     * Phone block name.
+     */
+    public const PHONE = 'phone';
+
+    /**
+     * Phone Area Code block name.
+     */
+    public const PHONE_AREA_CODE = 'area_code';
+
+    /**
+     * Phone Number block name.
+     */
+    public const PHONE_NUMBER = 'number';
+
+    /**
      * @var SubjectReader
      */
     protected $subjectReader;
@@ -83,8 +99,9 @@ class PayerDataRequest implements BuilderInterface
      */
     public function build(array $buildSubject)
     {
-        if (!isset($buildSubject['payment'])
-        || !$buildSubject['payment'] instanceof PaymentDataObjectInterface
+        if (
+            !isset($buildSubject['payment'])
+            || !$buildSubject['payment'] instanceof PaymentDataObjectInterface
         ) {
             throw new InvalidArgumentException('Payment data object should be provided');
         }
@@ -106,12 +123,20 @@ class PayerDataRequest implements BuilderInterface
 
         $billingAddress = $orderAdapter->getBillingAddress();
 
+        $phone = preg_replace('/[^0-9]/', '', $billingAddress->getTelephone());
+        $phoneAreaCode = substr($phone, 0, 2);
+        $phoneNumber = substr($phone, 2);
+
         $result[self::PAYER] = [
             self::TYPE              => $type,
             self::ID                => $mpUserId,
             self::EMAIL             => $billingAddress->getEmail(),
             self::FIRST_NAME        => $billingAddress->getFirstname(),
             self::LAST_NAME         => $billingAddress->getLastname(),
+            self::PHONE             => [
+                self::PHONE_AREA_CODE => $phoneAreaCode,
+                self::PHONE_NUMBER    => $phoneNumber,
+            ],
         ];
 
         if ($payerEntityType) {

@@ -1,0 +1,106 @@
+ //css 3ds
+
+ .modal-inner-wrap {
+    margin: auto !important;
+    margin-top: 5% !important;
+    width: 70% !important;
+    height: fit-content !important;
+    left: 0% !important;
+    padding-left: 10px;
+    justify-content: center;
+}
+
+.iframe-div {
+    justify-content: center ;
+    display: flex;
+}
+
+.modal-header {
+  padding: 15px !important;
+  width: 95% !important;
+}
+
+.modal-title {
+  font-size: 20px !important;
+  text-align: left !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  width: 100% !important;
+}
+
+#loading-challenge {
+    padding: 10px;
+    height: 500px;
+    display: block;
+    text-align: center;
+}
+
+.loading-message {
+    font-size: 1.5rem
+}
+
+.custom-loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+  }
+
+  @keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .loader-area {
+    padding-top:100px;
+  }
+
+  .loading-area {
+    text-align: center;
+    justify-content: center;
+    height: 350px;
+  }
+
+  .messages {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 472px){
+    .modal-inner-wrap {
+      margin: 0 !important;
+      height: 100% !important;
+      width: 100% !important;
+      justify-content: flex-start;
+      margin-left: 0px;
+    }
+
+    .modal-header {
+      padding: 10px !important;
+      width: 90% !important;
+    }
+
+    .modal-title {
+      width: 90% !important;
+  }
+
+    .action-close {
+      padding: 10px;
+      padding-left: 0px;
+      margin-left: 1px;
+    }
+
+    .modal-3ds-challenge {
+      width: 100%;
+    }
+
+    .messages {
+      display: flex;
+    }
+  }

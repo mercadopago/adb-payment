@@ -34,17 +34,17 @@ class FetchMerchant extends AbstractModel
      * Message error invalid credential.
      */
     public const INVALID_CREDENTIAL = 'Your credentials are incorrect. Please double-check in your account your credentials are correct.';
-    
+
     /**
      * Message error invalid credential to sendbox mode.
      */
     public const INVALID_SANDBOX_MODE = 'Your credentials are incorrect. Production credentials have been filled in and should be used in production mode. Please check the credentials again.';
-    
+
     /**
      * Message error invalid credential to production mode.
      */
     public const INVALID_PRODUCTION_MODE = 'Your credentials are incorrect. Test credentials have been filled in and should be used in sandbox mode. Please check the credentials again.';
-    
+
     /**
      * Enviroment production.
      */
@@ -218,7 +218,7 @@ class FetchMerchant extends AbstractModel
             if ($environment === self::ENVIRONMENT_PRODUCTION) {
                 $messageError = $this->verifyProductionMode($token, $publicKey);
             }
-    
+
             if ($environment === self::ENVIRONMENT_SANDBOX) {
                 $messageError = $this->verifySandBoxMode($token, $publicKey);
             }
@@ -242,34 +242,46 @@ class FetchMerchant extends AbstractModel
             return self::INVALID_CREDENTIAL;
         }
 
-        if (!$token['response']['homologated']) {
+        if (!isset($token['response']['homologated'])) {
             return self::INVALID_CREDENTIAL;
         }
 
-        if ($token['response']['client_id'] !== $publicKey['response']['client_id']) {
+        if (isset($token['response']['client_id'], $publicKey['response']['client_id'])) {
+            if ($token['response']['client_id'] !== $publicKey['response']['client_id']) {
+                return self::INVALID_CREDENTIAL;
+            }
+        } else {
             return self::INVALID_CREDENTIAL;
         }
     }
 
     public function verifyProductionMode($token, $publicKey)
     {
-        if($token['response']['is_test']) {
-            return self::INVALID_PRODUCTION_MODE;
-        }
+        if(isset($token['response']['is_test'], $publicKey['response']['is_test'])) {
+            if($token['response']['is_test']) {
+                return self::INVALID_PRODUCTION_MODE;
+            }
 
-        if($publicKey['response']['is_test']) {
-            return self::INVALID_PRODUCTION_MODE;
+            if($publicKey['response']['is_test']) {
+                return self::INVALID_PRODUCTION_MODE;
+            }
+        } else {
+            return self::INVALID_CREDENTIAL;
         }
     }
 
     public function verifySandBoxMode($token, $publicKey)
     {
-        if(!$token['response']['is_test']) {
-            return self::INVALID_SANDBOX_MODE;
-        }
+        if(isset($token['response']['is_test'], $publicKey['response']['is_test'])) {
+            if(!$token['response']['is_test']) {
+                return self::INVALID_SANDBOX_MODE;
+            }
 
-        if(!$publicKey['response']['is_test']) {
-            return self::INVALID_SANDBOX_MODE;
+            if(!$publicKey['response']['is_test']) {
+                return self::INVALID_SANDBOX_MODE;
+            }
+        } else {
+            return self::INVALID_CREDENTIAL;
         }
     }
 

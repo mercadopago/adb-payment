@@ -10,20 +10,31 @@ define([
     'underscore',
     'jquery',
     'Magento_Checkout/js/model/full-screen-loader',
+    'Magento_Checkout/js/model/error-processor',
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/model/totals',
     'Magento_Checkout/js/model/url-builder',
     'MercadoPago_AdbPayment/js/view/payment/mp-sdk',
     'Magento_Vault/js/view/payment/vault-enabler',
+    'Magento_Ui/js/modal/modal',
+    'mage/url',
+    'mage/translate',
+    'MercadoPago_AdbPayment/js/view/payment/method-renderer/three_ds',
 ], function (
     _,
     $,
     fullScreenLoader,
+    errorProcessor,
     quote,
     totals,
     urlBuilder,
     Component,
     VaultEnabler,
+    modal,
+    urlFormatter,
+    $t,
+    threeDs,
+
  ) {
     'use strict';
     return Component.extend({
@@ -44,6 +55,8 @@ define([
             fieldSecurityCode: 'mercadopago_adbpayment_cc_cid',
             fieldExpMonth: 'mercadopago_adbpayment_cc_expiration_month',
             fieldExpYear: 'mercadopago_adbpayment_cc_expiration_yr',
+            threeDSDataResponse: {},
+            getPaymentStatusResponse: {}
         },
 
         /**
@@ -66,7 +79,10 @@ define([
                 'isLoading',
                 'installmentTextInfo',
                 'installmentTextTEA',
-                'installmentTextCFT'
+                'installmentTextCFT',
+                'threeDSDataResponse',
+                'getPaymentStatusResponse'
+
             ]);
             return this;
         },
@@ -120,6 +136,7 @@ define([
                 self.amount(amount);
                 self.installmentsAmount(amount);
             });
+
         },
 
         /**
@@ -227,6 +244,166 @@ define([
          */
         isVaultEnabled: function () {
             return this.vaultEnabler.isVaultEnabled();
-        }
+        },
+
+        onPlaceOrderFail: function (response) {
+            if(response.responseJSON.message === '3DS') {
+                this.getThreeDSData();
+                $('.messages').hide();
+            }
+        },
+
+        getThreeDSData: function () {
+            var serviceUrl = urlBuilder.createUrl('/quote/:quoteId/mp-payment-information', {
+                quoteId: quote.getQuoteId()
+            });
+
+            $.ajax({
+                url: urlFormatter.build(serviceUrl),
+                global: false,
+                contentType: 'application/json',
+                type: 'GET',
+                async: true
+            }).done(
+                (response) => {
+                    this.threeDSDataResponse(response[0]);
+                    this.openModalChallenge(response[0]);
+                }
+            ).fail(
+                (response) => {
+                    errorProcessor.process(response);
+                }
+            );
+        },
+
+        openModalChallenge: function (threeDSData) {
+            var self = this;
+
+            try {
+                $('body').append(threeDs.createModalChallenge(self.generatedCards[0]?.cardNumber.slice(-4), self.generatedCards[0]?.cardType));
+
+                let $modalChallenge = $('#modal-3ds-challenge');
+                let popup = modal(this.getModalChallengeOptions(), $modalChallenge);
+
+                $modalChallenge.modal('openModal');
+                $(".modal-footer").hide();
+
+                this.loadChallengeInfo(threeDSData);
+                this.addListenerResponseChallenge();
+
+                threeDs.sendMetric('mp_3ds_success_modal', '3ds modal challenge opened');
+            }catch (error) {
+                const message = error.message || error;
+                threeDs.sendMetric('mp_3ds_error_modal', message);
+            }
+        },
+
+        getModalChallengeOptions: function () {
+            var self = this;
+            return {
+                type: 'popup',
+                responsive: false,
+                innerScroll: false,
+                title: $t('Complete the bank validation so your payment can be approved'),
+                modalClass: 'modal-challenge',
+                closed: function () {
+                    self.destroyModal();
+                    self.placeOrder();
+                }
+            };
+        },
+
+        loadChallengeInfo(threeDSData) {
+            var self = this;
+            $.ajax({
+                type: "POST",
+                url: this.buildChallengeURL(threeDSData),
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                },
+                success: function(data) {
+                    setTimeout(function() {
+                        $('#loading-area').remove();
+                        $('#modal-3ds-challenge').append(threeDs.appendIframeContent());
+                        var iframeDoc = document.querySelector('#iframe-challenge').contentWindow.document;
+                        iframeDoc.open('text/html', 'replace');
+                        iframeDoc.write(data);
+                        iframeDoc.close();
+                      }, 5000)},
+                error: function(error) {
+                    const message = error.message || error;
+                    threeDs.sendMetric('mp_3ds_error_load_challenge_info', message);
+                }
+            });
+        },
+
+        destroyModal() {
+            $('#modal-3ds-challenge').remove();
+        },
+
+        buildChallengeURL: function (threeDSData) {
+            return threeDSData.three_ds_external_resource_url+'?creq='+threeDSData.three_ds_creq;
+        },
+
+        addListenerResponseChallenge() {
+            var self = this;
+            window.addEventListener('message', function (e) {
+                const statusChallenge = e.data.status;
+                if (statusChallenge === 'COMPLETE') {
+                    self.loadPulling();
+                    threeDs.customLoader();
+                }
+            });
+        },
+
+        loadPulling() {
+            try {
+                const interval = 2000;
+                let elapsedTime = 0;
+
+                const intervalId = setInterval(() => {
+                    this.getPaymentStatus();
+                    var paymentStatus = this.getPaymentStatusResponse();
+
+                    if (elapsedTime >= 10000 || paymentStatus.status === 'approved' || paymentStatus.status === 'rejected') {
+                        $('#modal-3ds-challenge').modal('closeModal');
+                        this.destroyModal();
+                        clearInterval(intervalId);
+                        this.placeOrder();
+                        threeDs.sendMetric('mp_3ds_success_pooling_time', 'Pooling time: ' + elapsedTime.toString() + ' ms');
+                    }
+                    elapsedTime += interval;
+                }, interval);
+            } catch (error) {
+                const message = error.message || error;
+                threeDs.sendMetric('mp_3ds_error_pooling_time', message);
+            }
+        },
+
+        getPaymentStatus(){
+            var serviceUrl = urlBuilder.createUrl('/payment/mp-payment-status', {});
+
+            const payloadPaymentStatus = {
+                paymentId: this.threeDSDataResponse().payment_id,
+                cartId: this.threeDSDataResponse().quote_id,
+            }
+
+            $.ajax({
+                url: urlFormatter.build(serviceUrl),
+                data: payloadPaymentStatus,
+                global: false,
+                type: 'GET',
+                async: true
+            }).done(
+                (response) => {
+                    this.getPaymentStatusResponse(response[0]);
+                    return response[0];
+                }
+            ).fail(
+                (response) => {
+                    errorProcessor.process(response[0]);
+                }
+            );
+        },
     });
 });

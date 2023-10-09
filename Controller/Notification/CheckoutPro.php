@@ -190,10 +190,6 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                 }
             }
 
-            if ($mpStatus === 'pending') {
-                $this->updateDetails($mercadopagoData, $order);
-            }
-
             if (sizeof($resultData) === 0) {
                 /** @var ResultInterface $result */
                 $result = $this->createResult(
@@ -279,7 +275,7 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         $isNotApplicable = $this->filterInvalidNotification($mpStatus, $order, $refundId, $mpAmountRefund, $origin);
 
         if ($isNotApplicable['isInvalid']) {
-            if (strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.')) {
+            if (strcmp($isNotApplicable['msg'], 'Refund notification for order refunded directly in Mercado Pago.') === 0) {
                 $this->updateDetails($mercadopagoData, $order);
 
                 $result = [
@@ -289,12 +285,12 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                         'error'   => 200,
                         'message' => __('Order not yet closed in Magento.'),
                         'state'   => $order->getState(),
-                        'tatus'   => $order->getStatus(),
+                        'status'   => $order->getStatus(),
                     ],
                 ];
 
                 return $result;
-            } else if (strcmp($isNotApplicable['msg'], 'Refund notification for order already closed.')) {
+            } else if (strcmp($isNotApplicable['msg'], 'Refund notification for order already closed.') === 0) {
                 $this->updateDetails($mercadopagoData, $order);
 
                 $result = [
@@ -304,12 +300,12 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                         'error'   => 200,
                         'message' => __('Order already closed in Magento.'),
                         'state'   => $order->getState(),
-                        'tatus'   => $order->getStatus(),
+                        'status'   => $order->getStatus(),
                     ],
                 ];
 
                 return $result;
-            } else if (strcmp($isNotApplicable['msg'], 'Notification response for online refund created in magento')) {
+            } else if (strcmp($isNotApplicable['msg'], 'Notification response for online refund created in magento') === 0) {
                 $this->updateDetails($mercadopagoData, $order);
 
                 $result = [
@@ -319,7 +315,22 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                         'error'   => 200,
                         'message' => __('Notification response for online refund.'),
                         'state'   => $order->getState(),
-                        'tatus'   => $order->getStatus(),
+                        'status'   => $order->getStatus(),
+                    ],
+                ];
+
+                return $result;
+            } else if (strcmp($isNotApplicable['msg'], 'An error occured with refund.') === 0) {
+                $this->updateDetails($mercadopagoData, $order);
+
+                $result = [
+                    'isInvalid' => true,
+                    'code'      => 200,
+                    'msg'       => [
+                        'error'   => 200,
+                        'message' => $isNotApplicable['description'],
+                        'state'   => $order->getState(),
+                        'status'   => $order->getStatus(),
                     ],
                 ];
 

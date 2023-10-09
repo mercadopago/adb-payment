@@ -7,7 +7,8 @@ let config = {
     paths: {
         'mercadoPagoSkdJs':'https://sdk.mercadopago.com/js/v2?source=Magento',
         'initMPCheckout': 'MercadoPago_AdbPayment/js/view/payment/initMPCheckout',
-        'observerCheckoutPro': 'MercadoPago_AdbPayment/js/view/payment/observerCheckoutPro'
+        'observerCheckoutPro': 'MercadoPago_AdbPayment/js/view/payment/observerCheckoutPro',
+        'three_ds': 'MercadoPago_AdbPayment/js/view/payment/method-renderer/three_ds'
     },
     shim: {
         'mercadoPagoSkdJs': {
