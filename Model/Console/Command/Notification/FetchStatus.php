@@ -10,7 +10,7 @@ namespace MercadoPago\AdbPayment\Model\Console\Command\Notification;
 
 use Exception;
 use Magento\Payment\Model\Method\Logger;
-use Magento\Sales\Model\Order;
+use Magento\Sales\Model\OrderFactory;
 use MercadoPago\AdbPayment\Model\Console\Command\AbstractModel;
 
 /**
@@ -24,17 +24,17 @@ class FetchStatus extends AbstractModel
     protected $logger;
 
     /**
-     * @var Order
+     * @var OrderFactory
      */
     protected $order;
 
     /**
      * @param Logger $logger
-     * @param Order  $order
+     * @param OrderFactory  $order
      */
     public function __construct(
         Logger $logger,
-        Order $order
+        OrderFactory $order
     ) {
         parent::__construct(
             $logger
