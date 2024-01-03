@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -15,34 +16,30 @@ $specificInfo = $block->getSpecificInformation();
 $expirationDate = isset($specificInfo['date_of_expiration']) ? $specificInfo['date_of_expiration'] : null;
 $externalLink = isset($specificInfo['init_point']) ? $specificInfo['init_point'] : null;
 ?>
-<?php if ($specificInfo): ?>
+<?php if ($specificInfo) : ?>
     <dl class="payment-method">
         <dt class="title"><?= /* @noEscape */ $title ?></dt>
         <dd class="content">
             <table class="data table">
                 <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
                 <tbody>
-                    <?php if ($expirationDate): ?>
+                    <?php if ($expirationDate) : ?>
                         <tr>
                             <th scope="row"><?= $block->escapeHtml(__('Expiration')); ?></th>
                             <td>
-                                <?= /* @noEscape */ $block->formatDate(
-                                    $expirationDate,
-                                    \IntlDateFormatter::MEDIUM,
-                                    false
+                                <?= /* @noEscape */ $block->date(
+                                    $expirationDate
                                 ) ?>
                             </td>
                         </tr>
                     <?php endif; ?>
-                    <?php if ($externalLink): ?>
+                    <?php if ($externalLink) : ?>
                         <tr>
                             <th scope="row">
                                 <?= $block->escapeHtml(__('Link')); ?>
                             </th>
                             <td>
-                                <a target="_blank"
-                                    href="<?=  $block->escapeHtml($externalLink) ?>"
-                                    alt="<?= /* @noEscape */ $title ?>">
+                                <a target="_blank" href="<?= $block->escapeHtml($externalLink) ?>" alt="<?= /* @noEscape */ $title ?>">
                                     <?= $block->escapeHtml(__('Details for payment')); ?>
                                 </a>
                             </td>
@@ -52,4 +49,4 @@ $externalLink = isset($specificInfo['init_point']) ? $specificInfo['init_point']
             </table>
         </dd>
     </dl>
-<?php endif;?>
+<?php endif; ?>

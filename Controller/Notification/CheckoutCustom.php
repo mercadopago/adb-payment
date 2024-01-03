@@ -14,6 +14,7 @@ use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\ResultInterface;
 use MercadoPago\AdbPayment\Controller\MpIndex;
+use MercadoPago\AdbPayment\Model\Notification\Refund\CheckoutCustom as CheckoutCustomRefund;
 
 /**
  * Controler Notification Checkout Custom - Notification of receivers for Checkout Custom Methods.
@@ -137,7 +138,6 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         }
 
         $origin = '';
-        $results = [];
         $mpAmountRefund = null;
         $process = [];
         $resultData = [];
@@ -147,34 +147,20 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
             $order = $this->getOrderData($transaction->getOrderId());
 
             if ($mpStatus === 'refunded') {
-                foreach ($paymentsDetails as $paymentsDetail) {
-                    $refunds = $paymentsDetail['refunds'];
+                $refund = new CheckoutCustomRefund(
+                    $this->config,
+                    $this->notifierPool,
+                    $this->invoice,
+                    $this->creditMemoFactory,
+                    $this->creditMemoService,
+                    $order,
+                    $this->logger,
+                    $this->updatePayment,
+                    $respData
+                );
 
-                    foreach ($respData['refunds_notifying'] as $refundNotifying) {
-                        if (
-                            isset($refunds[$refundNotifying['id']])
-                            && $refundNotifying['notifying']
-                        ) {
-                            if (isset($refunds[$refundNotifying['id']]['metadata']['origem'])) {
-                                $origin = $refunds[$refundNotifying['id']]['metadata']['origem'];
-                            }
-                            $mpAmountRefund = $refundNotifying['amount'];
-                            $refundId = $refundNotifying['id'];
-
-                            $process = $this->processNotification($mpStatus, $order, $notificationId, $refundId, $mpAmountRefund, $origin);
-
-                            array_push($resultData, $process['msg']);
-
-                            if ($process['code'] !== 200) {
-                                /** @var ResultInterface $result */
-                                return $this->createResult(
-                                    $process['code'],
-                                    $resultData
-                                );
-                            }
-                        }
-                    }
-                }
+                $res = $refund->process();
+                return $this->createResult($res['code'], $res['msg'] ?? '');
             } else {
                 $process = $this->processNotification($mpStatus, $order, $notificationId, $refundId, $mpAmountRefund, $origin);
 

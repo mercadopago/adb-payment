@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -8,14 +9,14 @@
 
 namespace MercadoPago\AdbPayment\Block\Sales\Info;
 
-use Magento\Payment\Block\ConfigurableInfo;
+use MercadoPago\AdbPayment\Block\Sales\Info\Info;
 
 /**
  * Payment details form block by Checkout Pro.
  *
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
-class CheckoutPro extends ConfigurableInfo
+class CheckoutPro extends Info
 {
     /**
      * Checkout Pro Info template.

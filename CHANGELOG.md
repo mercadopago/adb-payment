@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2024-01-03
+### Added
+- Added plugin version + site id information on admin
+
+### Fix
+- Refactor of refund flow to improve performance and fix minor bugs
+- Translate fix for checkout credits and finance cost
+- Fix store scope information when saving site id
+- Fix date expiration information on front
+
 ## [1.5.0] - 2023-10-09
 ### Added
 - Feature 3DS

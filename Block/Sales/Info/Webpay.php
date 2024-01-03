@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -8,14 +9,14 @@
 
 namespace MercadoPago\AdbPayment\Block\Sales\Info;
 
-use Magento\Payment\Block\ConfigurableInfo;
+use MercadoPago\AdbPayment\Block\Sales\Info\Info;
 
 /**
  * Payment details form block by Webpay.
  *
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
-class Webpay extends ConfigurableInfo
+class Webpay extends Info
 {
     /**
      * Webpay Info template.

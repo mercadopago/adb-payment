@@ -1,4 +1,4 @@
-"Finance Cost","Finance Cost"
+"Finance Cost","Interest rate"
 "Discount for payment at sight","Discount for payment at sight"
 "Set up installments and interest","Set up installments and interest"
 "Order not found.","Order not found."
@@ -211,6 +211,7 @@ Webpay,Webpay
 "User Id","User Id"
 "User Email","User Email"
 "User Name","User Name"
+"Version","Version"
 "mp_payment_id","Payment Id (Mercado Pago)"
 "card_installments","Installments"
 "card_finance_cost","Financial Cost"

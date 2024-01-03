@@ -27,10 +27,8 @@ $externalLink = isset($specificInfo['init_point']) ? $specificInfo['init_point']
                         <tr>
                             <th scope="row"><?= $block->escapeHtml(__('Expiration')); ?></th>
                             <td>
-                                <?= /* @noEscape */ $block->formatDate(
-                                    $expirationDate,
-                                    \IntlDateFormatter::MEDIUM,
-                                    false
+                                <?= /* @noEscape */ $block->date(
+                                    $expirationDate
                                 ) ?>
                             </td>
                         </tr>

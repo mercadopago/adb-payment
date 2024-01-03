@@ -52,5 +52,13 @@
         <field id="site_id" translate="label comment" type="hidden" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
             <config_path>payment/mercadopago_adbpayment/site_id</config_path>
         </field>
+        <field id="clone_site_id" translate="label comment" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Site Id</label>
+            <config_path>payment/mercadopago_adbpayment/site_id</config_path>
+        </field>
+        <field id="plugin_version" translate="label comment" type="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Version</label>
+            <config_path>payment/mercadopago_adbpayment/version</config_path>
+        </field>
     </group>
 </include>

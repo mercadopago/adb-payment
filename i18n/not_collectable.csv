@@ -1,6 +1,6 @@
 "mp_payment_id","Payment Id (Mercado Pago)"
 "card_installments","Installments"
-"card_finance_cost","Custo do Parcelamento"
+"card_finance_cost","Finance Cost"
 "card_type","Card Type"
 "card_number","Card Number"
 "card_holder_name","Card Holder Name"

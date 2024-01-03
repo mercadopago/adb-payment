@@ -19,15 +19,13 @@ $specificInfo = $block->getSpecificInformation();
         <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
         <tbody>
 
-            <?php if (isset($specificInfo['init_point'])): ?>
+            <?php if (isset($specificInfo['init_point'])) : ?>
                 <tr>
                     <th scope="row">
                         <?= $block->escapeHtml(__('Link')); ?>
                     </th>
                     <td>
-                        <a target="_blank"
-                            href="<?=  $block->escapeHtml($specificInfo['init_point']) ?>"
-                            alt="<?= /* @noEscape */ $title ?>">
+                        <a target="_blank" href="<?= $block->escapeHtml($specificInfo['init_point']) ?>" alt="<?= /* @noEscape */ $title ?>">
                             <?= $block->escapeHtml(__('Details for payment')); ?>
                         </a>
                     </td>
@@ -62,10 +60,8 @@ $specificInfo = $block->getSpecificInformation();
                     <tr>
                         <th scope="row"><?= $block->escapeHtml(__('Expiration')); ?>:</th>
                         <td>
-                            <?= /* @noEscape */ $block->formatDate(
-                                $specificInfo['payment_' . $i . '_expiration'],
-                                \IntlDateFormatter::MEDIUM,
-                                false
+                            <?= /* @noEscape */ $block->date(
+                                $specificInfo['payment_' . $i . '_expiration']
                             ) ?>
                         </td>
                     </tr>

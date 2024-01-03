@@ -23,12 +23,13 @@ foreach ($metrics as $metric) {
 
 $coverage = ($checkedElements / $totalElements) * 100;
 
+echo "\nCode coverage is " . round($coverage) . "%.\n";
+echo "Required coverage id " . round($percentage) . "%\n";
+
 if ($coverage >= $percentage) {
-    print_r('Code coverage is ' . $coverage);
-    print_r(' -> Pull Request OK');
-    return;
+    echo "Well Done! :)\n";
+    exit;
 }
 
-print_r('Code coverage is ' . round($coverage, 2) . '%, which is below the accepted ' . $percentage . '%');
-print_r(' -> Pull Request Rejected');
-
+echo "Pull Request Rejected! :(";
+exit(1);
