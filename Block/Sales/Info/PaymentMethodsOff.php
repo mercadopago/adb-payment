@@ -2,14 +2,14 @@
 
 namespace MercadoPago\AdbPayment\Block\Sales\Info;
 
-use Magento\Payment\Block\ConfigurableInfo;
+use MercadoPago\AdbPayment\Block\Sales\Info\Info;
 
 /**
  * Payment details form block by PaymentMethodsOff.
  *
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
-class PaymentMethodsOff extends ConfigurableInfo
+class PaymentMethodsOff extends Info
 {
     /**
      * PaymentMethodsOff Info template.

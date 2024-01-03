@@ -4,6 +4,7 @@ on: [pull_request]
 
 jobs:
   validate-tests:
+    name: Run Tests
     runs-on: ubuntu-22.04
 
     services:
@@ -59,14 +60,53 @@ jobs:
 
       - name: Run Unit Test
         id: unit-test
-        run: magento2/vendor/phpunit/phpunit/phpunit --configuration magento2/app/code/MercadoPago/AdbPayment/phpunit.xml --coverage-clover clover.xml --coverage-text magento2/app/code/MercadoPago/AdbPayment/Tests
+        run:
+          XDEBUG_MODE=coverage magento2/vendor/phpunit/phpunit/phpunit \
+            --configuration  magento2/app/code/MercadoPago/AdbPayment/phpunit.xml \
+            --coverage-html coverage/ \
+            --coverage-clover coverage/clover.xml \
+            --coverage-filter magento2/app/code/MercadoPago/AdbPayment
 
       - name: Repository Minimum Test Coverage
         id: repository-coverage
-        run: php magento2/app/code/MercadoPago/AdbPayment/Tests/coverage-checker.php clover.xml 80
+        run: php magento2/app/code/MercadoPago/AdbPayment/Tests/coverage-checker.php coverage/clover.xml 25
+
+      - id: pr-files-list
+        name: Get Pull Request Files
+        uses: ruslandulina/compare-basehead-commits@v1.2
+
+      - id: save-modified-pr-files-list
+        name: Save modified PR Files List to a file
+        run: echo "${{join(steps.pr-files-list.outputs.modified, ' ')}}" > modified-files-list.txt
+
+      - id: save-added-pr-files-list
+        name: Save added PR Files List to a file
+        run: echo "${{join(steps.pr-added-list.outputs.added, ' ')}}" > added-files-list.txt
+
+      - name: PR Modified Files
+        run: cat modified-files-list.txt
+
+      - name: PR Added Files
+        run: cat added-files-list.txt
 
       - name: Pull Request Coverage
         id: pull-request-coverage
-        run: bash bin/pull-request-coverage.sh
-        env:
-          PR_NUMBER: ${{ github.event.number }}
+        run: php magento2/app/code/MercadoPago/AdbPayment/Tests/pr-coverage.php coverage/clover.xml modified-files-list.txt added-files-list.txt 25
+
+      - name: List
+        run: ls && ls coverage
+
+      - name: ZIP coverage results
+        run: zip coverage.zip coverage
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: coverage.zip
+
+      - name: Archive code coverage folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: coverage/

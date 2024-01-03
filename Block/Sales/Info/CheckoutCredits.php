@@ -9,14 +9,14 @@
 
 namespace MercadoPago\AdbPayment\Block\Sales\Info;
 
-use Magento\Payment\Block\ConfigurableInfo;
+use MercadoPago\AdbPayment\Block\Sales\Info\Info;
 
 /**
  * Payment details form block by Checkout Credits.
  *
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
-class CheckoutCredits extends ConfigurableInfo
+class CheckoutCredits extends Info
 {
     /**
      * Checkout Pro Info template.

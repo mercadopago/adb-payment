@@ -136,81 +136,126 @@ class FetchMerchant extends AbstractModel
      * Command Fetch.
      *
      * @param int|null $storeId
+     * @param string   $scope
      *
      * @return void
      */
-    public function fetch($storeId = null)
+    public function fetch($storeId = null, $scope = ScopeInterface::SCOPE_WEBSITES)
     {
-        $storeIds = $storeId ?: null;
         $this->writeln('Init Fetch Merchant');
 
-        if (!$storeIds) {
-            $allStores = $this->storeManager->getStores();
-            $defaultId = (int) $this->storeManager->getDefaultStoreView()->getId();
-
-            foreach ($allStores as $stores) {
-                $storeId = (int) $stores->getId();
-                $this->storeManager->setCurrentStore($stores);
-                $webSiteId = (int) $stores->getWebsiteId();
-                $storeIdIsDefault = ($defaultId === $storeId) ? true : false;
-
-                $this->writeln(
-                    __(
-                        'Default Store Id %1 - Set Data for store id %2 Web Site Id %3',
-                        $storeIdIsDefault,
-                        $storeId,
-                        $webSiteId
-                    )
-                );
-                $this->fetchInfo($storeIdIsDefault, $storeId, $webSiteId);
+        if ($scope === ScopeInterface::SCOPE_WEBSITES) {
+            $allWebsites = $this->storeManager->getWebsites();
+            foreach ($allWebsites as $websites) {
+                $websiteId = (int) $websites->getId();
+                $this->fetchInfoWebsite($websiteId, $scope);
             }
         }
+
+        $allStores = $this->storeManager->getStores();
+        foreach ($allStores as $stores) {
+            $storeId = (int) $stores->getId();
+            $this->fetchInfoStore($storeId, ScopeInterface::SCOPE_STORES);
+        }
+
         $this->writeln(__('Finished'));
+    }
+
+    /**
+    * Fetch info by store.
+    *
+    * @param int  $storeId
+    * @param string  $scope
+    *
+    * @return bool|void
+    */
+    private function fetchInfoWebsite($website, $scope)
+    {
+        $website = $this->storeManager->getWebsite($website);
+        $webSiteId = (int) $website->getId();
+        $defaultId = (int) $this->storeManager->getDefaultStoreView() ->getId();
+        $storeIdIsDefault = ($defaultId === $webSiteId) ? true : false;
+
+        $this->writeln(
+            __(
+                'Default Store Id %1 - Set Data for Web Site Id %2',
+                $storeIdIsDefault,
+                $webSiteId
+            )
+        );
+
+        $this->fetchInfo($storeIdIsDefault, $scope, $webSiteId);
+    }
+
+    /**
+    * Fetch info by store.
+    *
+    * @param int  $storeId
+    * @param string  $scope
+    *
+    * @return bool|void
+    */
+    private function fetchInfoStore($storeId, $scope)
+    {
+        $store = $this->storeManager->getStore($storeId);
+        $this->storeManager->setCurrentStore($store);
+        $webSiteId = (int) $store->getWebsiteId();
+        $defaultId = (int) $this->storeManager->getDefaultStoreView()   ->getId();
+        $storeIdIsDefault = ($defaultId === $storeId) ? true : false;
+
+        $this->writeln(
+            __(
+                'Default Store Id %1 - Set Data for store id %2 Web Site Id %3',
+                $storeIdIsDefault,
+                $storeId,
+                $webSiteId
+            )
+        );
+
+        $this->fetchInfo($storeIdIsDefault, $scope, $storeId);
     }
 
     /**
      * Create Data Merchant.
      *
      * @param bool $storeIdIsDefault
-     * @param int  $storeId
-     * @param int  $webSiteId
+     * @param string  $scope
+     * @param int  $scopeId StoreId or WebsiteId
      *
      * @return bool|void
      */
     public function fetchInfo(
         bool $storeIdIsDefault,
-        int $storeId = 0,
-        int $webSiteId = 0
+        string $scope = ScopeInterface::SCOPE_WEBSITES,
+        int $scopeId = 0
     ) {
-        $validateToken = $this->hasValidationStatusToken($storeId, $storeIdIsDefault, $webSiteId);
+        $validateToken = $this->hasValidationStatusToken($scopeId, $scope);
         if ($validateToken) {
-            $this->clearData($storeIdIsDefault, $storeId, $webSiteId);
+            $this->clearData($storeIdIsDefault, $scope, $scopeId);
             $this->cacheTypeList->cleanType('config');
             return false;
         }
 
-        $this->hasUserData($storeId, $storeIdIsDefault, $webSiteId);
+        $this->hasUserData($storeIdIsDefault, $scope, $scopeId);
     }
 
     /**
      * Has Validation Status Token.
      *
      * @param int  $storeId
-     * @param bool $storeIdIsDefault
-     * @param int  $webSiteId
+     * @param string  $scope
      *
      * @return bool
      */
     public function hasValidationStatusToken(
         $storeId,
-        $storeIdIsDefault,
-        $webSiteId
+        $scope
     ) {
         $hasError = false;
 
-        $token = $this->getAccessToken($storeId);
-        $publicKey = $this->getPublicKey($storeId);
-        $environment = $this->mercadopagoConfig->getEnvironmentMode($storeId);
+        $token = $this->getAccessToken($storeId, $scope);
+        $publicKey = $this->getPublicKey($storeId, $scope);
+        $environment = $this->mercadopagoConfig->getEnvironmentMode($storeId, $scope);
 
         $messageError = $this->verifyCredentials($token, $publicKey);
 
@@ -289,12 +334,13 @@ class FetchMerchant extends AbstractModel
      * Get Validate Public Key.
      *
      * @param int $storeId
+     * @param string $scope
      *
      * @return array
      */
-    public function getPublicKey($storeId): array
+    public function getPublicKey($storeId, $scope): array
     {
-        $publicKey = $this->mercadopagoConfig->getMerchantGatewayClientId($storeId);
+        $publicKey = $this->mercadopagoConfig->getMerchantGatewayClientId($storeId, $scope);
         $baseUrl = $this->mercadopagoConfig->getApiUrl();
         $requester = new CurlRequester();
         $client  = new HttpClient($baseUrl, $requester);
@@ -319,12 +365,12 @@ class FetchMerchant extends AbstractModel
         }
     }
 
-    public function getAccessToken($storeId): array
+    public function getAccessToken($storeId, $scope): array
     {
         $baseUrl = $this->mercadopagoConfig->getApiUrl();
         $requester = new CurlRequester();
         $client  = new HttpClient($baseUrl, $requester);
-        $clientHeaders = $this->mercadopagoConfig->getClientHeadersMpPluginsPhpSdk($storeId);
+        $clientHeaders = $this->mercadopagoConfig->getClientHeadersMpPluginsPhpSdk($storeId, $scope);
         $uri = '/plugins-credentials-wrapper/credentials';
 
         try {
@@ -348,18 +394,18 @@ class FetchMerchant extends AbstractModel
     /**
      * Has User Data.
      *
-     * @param int  $storeId
      * @param bool $storeIdIsDefault
-     * @param int  $webSiteId
+     * @param string  $scope
+     * @param int  $scopeId StoreId or WebsiteId
      *
      * @return void
      */
     public function hasUserData(
-        $storeId,
         $storeIdIsDefault,
-        $webSiteId
+        $scope,
+        $scopeId
     ) {
-        $usersMe = $this->getUsersMe($storeId);
+        $usersMe = $this->getUsersMe($scopeId, $scope);
 
         if ($usersMe['success']) {
             $response = $usersMe['response'];
@@ -368,9 +414,10 @@ class FetchMerchant extends AbstractModel
                 'site_id' => $response['site_id'],
                 'email'   => $response['email'],
                 'name'    => $response['first_name'].' '.$response['last_name'],
+                'version' => $this->mercadopagoConfig->getModuleVersion(),
             ];
 
-            $this->saveData($registreData, $storeIdIsDefault, $storeId, $webSiteId);
+            $this->saveData($registreData, $storeIdIsDefault, $scope, $scopeId);
 
             $this->cacheTypeList->cleanType('config');
         }
@@ -380,15 +427,16 @@ class FetchMerchant extends AbstractModel
      * Get Users Me.
      *
      * @param int $storeId
+     * @param string $scope
      *
      * @return array
      */
-    public function getUsersMe($storeId): array
+    public function getUsersMe($storeId, $scope = ScopeInterface::SCOPE_STORES): array
     {
         $baseUrl = $this->mercadopagoConfig->getApiUrl();
         $requester = new CurlRequester();
         $client  = new HttpClient($baseUrl, $requester);
-        $clientHeaders = $this->mercadopagoConfig->getClientHeadersMpPluginsPhpSdk($storeId);
+        $clientHeaders = $this->mercadopagoConfig->getClientHeadersMpPluginsPhpSdk($storeId, $scope);
         $uri = '/users/me';
 
         try {
@@ -413,25 +461,25 @@ class FetchMerchant extends AbstractModel
      *
      * @param array $data
      * @param bool  $storeIdIsDefault
-     * @param int   $storeId
-     * @param int   $webSiteId
+     * @param string $scope
+     * @param int   $scopeId StoreId or WebsiteId
      *
      * @return array
      */
     public function saveData(
         array $data,
         bool $storeIdIsDefault,
-        int $storeId = 0,
-        int $webSiteId = 0
+        string $scope = ScopeInterface::SCOPE_WEBSITES,
+        int $scopeId = 0
+
     ): array {
-        $environment = $this->mercadopagoConfig->getEnvironmentMode($storeId);
-        $scope = ScopeInterface::SCOPE_WEBSITES;
+        $environment = $this->mercadopagoConfig->getEnvironmentMode($scopeId, $scope);
 
         foreach ($data as $field => $value) {
             $pathPattern = 'payment/mercadopago_adbpayment/%s_%s';
             $pathConfigId = sprintf($pathPattern, $field, $environment);
 
-            if ($field === 'site_id') {
+            if ($field === 'site_id' || $field === 'version') {
                 $pathPattern = 'payment/mercadopago_adbpayment/%s';
                 $pathConfigId = sprintf($pathPattern, $field);
             }
@@ -449,7 +497,7 @@ class FetchMerchant extends AbstractModel
                 $pathConfigId,
                 $value,
                 $scope,
-                $webSiteId
+                $scopeId
             );
         }
 
@@ -460,25 +508,29 @@ class FetchMerchant extends AbstractModel
      * Clear Data.
      *
      * @param bool $storeIdIsDefault
-     * @param int  $storeId
-     * @param int  $webSiteId
+     * @param string $scope
+     * @param int  $scopeId StoreId or WebsiteId
      *
      * @return array
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function clearData(
         bool $storeIdIsDefault,
-        int $storeId = 0,
-        int $webSiteId = 0
+        $scope = ScopeInterface::SCOPE_WEBSITES,
+        int $scopeId = 0
     ): array {
-        $environment = $this->mercadopagoConfig->getEnvironmentMode($storeId);
-        $scope = ScopeInterface::SCOPE_WEBSITES;
+        $environment = $this->mercadopagoConfig->getEnvironmentMode($scopeId, $scope);
 
         $data = ['client_id' => null, 'client_secret' => null];
 
         foreach ($data as $field => $value) {
             $pathPattern = 'payment/mercadopago_adbpayment/%s_%s';
             $pathConfigId = sprintf($pathPattern, $field, $environment);
+
+            if ($field === 'site_id' || $field === 'version') {
+                $pathPattern = 'payment/mercadopago_adbpayment/%s';
+                $pathConfigId = sprintf($pathPattern, $field);
+            }
 
             try {
                 if ($storeIdIsDefault) {
@@ -492,7 +544,7 @@ class FetchMerchant extends AbstractModel
                 $this->config->deleteConfig(
                     $pathConfigId,
                     $scope,
-                    $webSiteId
+                    $scopeId
                 );
             } catch (Exception $exc) {
                 return ['success' => false, 'error' => $exc->getMessage()];

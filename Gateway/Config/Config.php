@@ -157,12 +157,13 @@ class Config extends PaymentConfig
      * Gets the Environment Mode.
      *
      * @param int|null $storeId
+     * @param string   $scope
      *
      * @return string
      */
-    public function getEnvironmentMode($storeId = null): ?string
+    public function getEnvironmentMode($storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
     {
-        $environment = $this->getAddtionalValue('environment', $storeId);
+        $environment = $this->getAddtionalValue('environment', $storeId, $scope);
 
         if ($environment === 'sandbox') {
             return self::ENVIRONMENT_SANDBOX;
@@ -175,17 +176,18 @@ class Config extends PaymentConfig
      * Gets the Merchant Gateway Client Id.
      *
      * @param int|null $storeId
+     * @param string $scope
      *
      * @return string
      */
-    public function getMerchantGatewayClientId($storeId = null): ?string
+    public function getMerchantGatewayClientId($storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
     {
-        $clientId = $this->getAddtionalValue('client_id_production', $storeId);
+        $clientId = $this->getAddtionalValue('client_id_production', $storeId, $scope);
 
-        $environment = $this->getEnvironmentMode($storeId);
+        $environment = $this->getEnvironmentMode($storeId, $scope);
 
         if ($environment === 'sandbox') {
-            $clientId = $this->getAddtionalValue('client_id_sandbox', $storeId);
+            $clientId = $this->getAddtionalValue('client_id_sandbox', $storeId, $scope);
         }
 
         return $clientId;
@@ -195,17 +197,18 @@ class Config extends PaymentConfig
      * Gets the Merchant Gateway Client Secret.
      *
      * @param int|null $storeId
+     * @param string $scope
      *
      * @return string|null
      */
-    public function getMerchantGatewayClientSecret($storeId = null): ?string
+    public function getMerchantGatewayClientSecret($storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
     {
-        $clientSecret = $this->getAddtionalValue('client_secret_production', $storeId);
+        $clientSecret = $this->getAddtionalValue('client_secret_production', $storeId, $scope);
 
-        $environment = $this->getEnvironmentMode($storeId);
+        $environment = $this->getEnvironmentMode($storeId, $scope);
 
         if ($environment === 'sandbox') {
-            $clientSecret = $this->getAddtionalValue('client_secret_sandbox', $storeId);
+            $clientSecret = $this->getAddtionalValue('client_secret_sandbox', $storeId, $scope);
         }
 
         return $clientSecret;
@@ -235,26 +238,28 @@ class Config extends PaymentConfig
      * Gets the Merchant Gateway Integrator Id.
      *
      * @param int|null $storeId
+     * @param string   $scope
      *
      * @return string|null
      */
-    public function getMerchantGatewayIntegratorId($storeId = null): ?string
+    public function getMerchantGatewayIntegratorId($storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
     {
-        return $this->getAddtionalValue('integrator_id', $storeId);
+        return $this->getAddtionalValue('integrator_id', $storeId, $scope);
     }
 
     /**
      * Get Client Headers According to Mp Plugins PHP SDK format.
      *
      * @param int|null $storeId
+     * @param string   $scope
      *
      * @return array
      */
-    public function getClientHeadersMpPluginsPhpSdk($storeId = null): array
+    public function getClientHeadersMpPluginsPhpSdk($storeId = null, $scope = ScopeInterface::SCOPE_STORES): array
     {
-        $oauth = $this->getMerchantGatewayClientSecret($storeId);
+        $oauth = $this->getMerchantGatewayClientSecret($storeId, $scope);
 
-        $headers = $this->getClientHeadersNoAuthMpPluginsPhpSdk($storeId);
+        $headers = $this->getClientHeadersNoAuthMpPluginsPhpSdk($storeId, $scope);
 
         $headers[] = 'Authorization: Bearer ' . $oauth;
 
@@ -265,12 +270,13 @@ class Config extends PaymentConfig
      * Get Client Headers According to Mp Plugins PHP SDK format.
      *
      * @param int|null $storeId
+     * @param string   $scope
      *
      * @return array
      */
-    public function getClientHeadersNoAuthMpPluginsPhpSdk($storeId = null): array
+    public function getClientHeadersNoAuthMpPluginsPhpSdk($storeId = null, $scope = ScopeInterface::SCOPE_STORES): array
     {
-        $integratorId = $this->getMerchantGatewayIntegratorId($storeId);
+        $integratorId = $this->getMerchantGatewayIntegratorId($storeId, $scope);
 
         return [
             'x-product-id: '.self::PRODUCT_ID,
@@ -498,16 +504,17 @@ class Config extends PaymentConfig
      *
      * @param string   $field
      * @param int|null $storeId
+     * @param string   $scope
      *
      * @return string|null
      */
-    public function getAddtionalValue($field, $storeId = null): ?string
+    public function getAddtionalValue($field, $storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
     {
         $pathPattern = 'payment/%s/%s';
 
         return $this->scopeConfig->getValue(
             sprintf($pathPattern, self::METHOD, $field),
-            ScopeInterface::SCOPE_STORE,
+            $scope,
             $storeId
         );
     }

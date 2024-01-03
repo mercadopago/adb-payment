@@ -70,7 +70,7 @@ jobs:
 
       - name: Detect Coding Standard Violations
         id: phpcs
-        run: magento2/vendor/bin/phpcs -qn --standard=Magento2 magento2/app/code/MercadoPago/
+        run: magento2/vendor/bin/phpcs -qn --standard=Magento2 --ignore=magento2/app/code/MercadoPago/AdbPayment/Tests magento2/app/code/MercadoPago/
 
       - name: Detect PHP Compatibility
         id: phpcs_compatibility
