@@ -273,7 +273,7 @@ define([
             }
 
             if (self.mpPayerDocument()) {
-                self.mpPayerDocument(self.mpPayerDocument().replace(/\D/g, ''));
+                self.mpPayerDocument(self.mpPayerDocument().replace(/\W/g, ''));
             }
 
             fullScreenLoader.startLoader();
