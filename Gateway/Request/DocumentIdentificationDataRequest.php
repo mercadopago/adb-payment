@@ -112,7 +112,7 @@ class DocumentIdentificationDataRequest implements BuilderInterface
         $docIdentification = $this->getFiscalNumber($payment, $orderAdapter);
 
         if ($docIdentification) {
-            $docIdentification = preg_replace('/[^0-9]/', '', $docIdentification);
+            $docIdentification = preg_replace('/[^0-9A-Za-z]/', '', $docIdentification);
         }
 
         if ($typeDocument) {
