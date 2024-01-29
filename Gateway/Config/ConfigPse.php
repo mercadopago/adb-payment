@@ -62,6 +62,11 @@ class ConfigPse extends PaymentConfig
     public const PAYER_ENTITY_TYPES = 'payer_entity_types';
 
     /**
+     * Allowed Identification Types
+     */
+    public const ALLOWED_IDENTIFICATION_TYPES = 'allowed_identification_types';
+
+    /**
      * @var ScopeConfigInterface
      */
     protected $scopeConfig;
@@ -298,5 +303,30 @@ class ConfigPse extends PaymentConfig
         $mpSiteId = $this->configBase->getMpSiteId($storeId);
 
         return $this->fingerprint->getFingerPrintLink($mpSiteId);
+    }
+
+    /**
+     * Get List Document Types.
+     *
+     * @param int|null $storeId
+     *
+     * @return array
+     */
+    public function getListDocumentTypes($storeId = null): array
+    {
+        $documentTypes = [];
+        $mpSiteId = $this->configBase->getMpSiteId($storeId);
+
+        if ($mpSiteId === 'MCO') {
+            $payments = $this->configBase->getMpPaymentMethods($storeId);
+
+            foreach ($payments['response'] as $payment) {
+                if ($payment['id'] === self::PAYMENT_METHOD_ID) {
+                    $documentTypes = $payment[self::ALLOWED_IDENTIFICATION_TYPES];
+                }
+            }
+        }
+
+        return $documentTypes;
     }
 }
