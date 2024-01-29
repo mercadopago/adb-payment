@@ -75,6 +75,14 @@ define([
         },
 
         /**
+         * Get Select Document Type
+         * @returns {Array}
+         */
+        getSelectDocumentTypes() {
+            return window.checkoutConfig.payment[this.getCode()].document_types;
+        },
+
+        /**
          * Is Active
          * @returns {Boolean}
          */
