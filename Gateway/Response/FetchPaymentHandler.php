@@ -280,7 +280,7 @@ class FetchPaymentHandler implements HandlerInterface
         $invoice->setSubtotal($paidAmount);
         $invoice->setBaseSubtotal($paidAmount);
 
-        $invoice->addComment(_('Captured by collector from Mercado Pago API'));
+        $invoice->addComment(__('Captured by collector from Mercado Pago API'));
 
         $order->addRelatedObject($invoice);
         $payment->setCreatedInvoice($invoice);
