@@ -81,7 +81,7 @@ define([
             let iframeDiv = $('<div class="messages"><div class="message message-info info">'
                     + $t('Please keep this page open. If you close it, you will not be able to resume the validation.')
                     +'<div data-ui-id="messages-message-info"></div></div></div>'
-                    +'<div class="iframe-div"><iframe id="iframe-challenge" src="about:blank" title="Challenge" height="500" width="500" frameBorder="0"></iframe></div>'
+                    +'<div class="iframe-div" id="iframe-challenge"></div>'
                     );
 
             return iframeDiv;

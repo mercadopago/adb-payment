@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.3] - 2024-03-07
+### Changed
+- Adjusting Iframe creation with 3Ds.
+- PSJ/PCJ adequacy in online payment.
+- Adding the checkout_type of type two_cards to the metadata
+
+### Fixed
+- Adding a translation fix in FetchPaymentHandler
+
 ## [1.6.2] - 2024-01-29
 ### Changed
 - Get document types from payment methods to PSE.

@@ -612,34 +612,45 @@ define([
 
         loadChallengeInfo(threeDSData) {
             var self = this;
-            $.ajax({
-                type: "POST",
-                url: this.buildChallengeURL(threeDSData),
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                },
-                success: function(data) {
-                    setTimeout(function() {
-                        $('#loading-area').remove();
-                        $('#modal-3ds-challenge').append(threeDs.appendIframeContent());
-                        var iframeDoc = document.querySelector('#iframe-challenge').contentWindow.document;
-                        iframeDoc.open('text/html', 'replace');
-                        iframeDoc.write(data);
-                        iframeDoc.close();
-                      }, 5000)},
-                error: function(error) {
+            setTimeout(function() {
+                try {
+                    $('#loading-area').remove();
+                    $('#modal-3ds-challenge').append(threeDs.appendIframeContent());
+
+                    var iframe = document.createElement("iframe");
+                    iframe.name = "myframe";
+                    iframe.id = "myframe";
+                    iframe.height = "500px";
+                    iframe.width = "500px";
+                    iframe.style = "border:none;";
+                    document.getElementById("iframe-challenge").appendChild(iframe);
+
+                    var idocument = iframe.contentWindow.document;
+
+                    var myform = idocument.createElement("form");
+                    myform.name = "myform";
+                    myform.setAttribute("target", "myframe");
+                    myform.setAttribute("method", "post");
+                    myform.setAttribute("action", threeDSData.three_ds_external_resource_url);
+
+                    var hiddenField = idocument.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", "creq");
+                    hiddenField.setAttribute("value", threeDSData.three_ds_creq);
+                    myform.appendChild(hiddenField);
+                    iframe.appendChild(myform);
+
+                    myform.submit();
+
+                } catch (error) {
                     const message = error.message || error;
                     threeDs.sendMetric('mp_3ds_error_load_challenge_info', message);
                 }
-            });
+                }, 3000)
         },
 
         destroyModal() {
             $('#modal-3ds-challenge').remove();
-        },
-
-        buildChallengeURL: function (threeDSData) {
-            return threeDSData.three_ds_external_resource_url+'?creq='+threeDSData.three_ds_creq;
         },
 
         addListenerResponseChallenge() {

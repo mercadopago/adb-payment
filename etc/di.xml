@@ -972,7 +972,7 @@
                 <item name="additionalInfoShippings" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoShippingsDataRequest</item>
                 <item name="metadata" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentDataRequest</item>
                 <item name="sponsor" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\SponsorDataRequest</item>
-                <item name="metadataCc" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentCcDataRequest</item>
+                <item name="metadataTwoCc" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataTwoCcPaymentDataRequest</item>
                 <item name="paymentMethod" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\TwoCcPaymentDataRequest</item>
                 <item name="trasanctionInfo" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\TransactionInfoDataRequest</item>
             </argument>
