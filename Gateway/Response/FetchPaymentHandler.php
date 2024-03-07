@@ -92,7 +92,7 @@ class FetchPaymentHandler implements HandlerInterface
      * Response Pay Status Refunded - Value.
      */
     public const RESPONSE_STATUS_REFUNDED = 'refunded';
-    
+
     /**
      * Response Pay Status Cancelled - Value.
      */
@@ -112,7 +112,7 @@ class FetchPaymentHandler implements HandlerInterface
      * Response Payment Details - Value.
      */
     public const PAYMENT_DETAILS = 'payments_details';
-    
+
     /**
      * Response Total Amount - Value.
      */
@@ -147,7 +147,7 @@ class FetchPaymentHandler implements HandlerInterface
      * Payment Installments - Payment Addtional Information.
      */
     public const PAYMENT_INSTALLMENTS = 'payment_%_installments';
-    
+
     /**
      * Payment Total Amount - Payment Addtional Information.
      */
@@ -280,7 +280,7 @@ class FetchPaymentHandler implements HandlerInterface
         $invoice->setSubtotal($paidAmount);
         $invoice->setBaseSubtotal($paidAmount);
 
-        $invoice->addComment(_('Captured by collector from Mercado Pago API'));
+        $invoice->addComment(__('Captured by collector from Mercado Pago API'));
 
         $order->addRelatedObject($invoice);
         $payment->setCreatedInvoice($invoice);
@@ -291,13 +291,13 @@ class FetchPaymentHandler implements HandlerInterface
      * Get index of payment by payment id.
      * @param $payment
      * @param $paymentId
-     * 
+     *
      * @return int|null
      */
     public function getIndexPayment(
         $payment,
         $paymentId
-    ) {     
+    ) {
         $i = 0;
         while ($i < 2) {
             if($payment->getAdditionalInformation(str_replace('%', $i, self::PAYMENT_ID)) == $paymentId){
@@ -313,7 +313,7 @@ class FetchPaymentHandler implements HandlerInterface
      * @param $payment
      * @param $index
      * @param $mpPayment
-     * 
+     *
      * Return void.
      */
     public function updatePaymentByIndex(
@@ -346,7 +346,7 @@ class FetchPaymentHandler implements HandlerInterface
             $cardTotalAmount,
             $mpPayment[self::TOTAL_AMOUNT]
         );
-        
+
         $payment->setAdditionalInformation(
             $cardPaidAmount,
             $mpPayment[self::PAID_AMOUNT]
