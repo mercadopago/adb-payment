@@ -58,19 +58,23 @@ class PaymentMethodsOff implements ArrayInterface
 
         $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
 
-        if ($payments['success'] === true) {
+        if ($payments['success'] === true && isset($payments['response'])) {
             $options = array_merge($options, $this->mountPaymentMethodsOff($payments['response']));
         }
 
         return $options;
     }
 
-    public function mountPaymentMethodsOff(array $paymentMethods): ?array {
+    public function mountPaymentMethodsOff(array $paymentMethods): ?array
+    {
 
         $options = [];
         foreach ($paymentMethods as $payment) {
-            if (in_array($payment['payment_type_id'], self::PAYMENT_TYPE_ID_ALLOWED) &&
-                $payment['status'] === self::PAYMENT_STATUS_ACTIVE) {
+            if (
+                isset($payment['payment_type_id']) && isset($payment['status']) &&
+                in_array($payment['payment_type_id'], self::PAYMENT_TYPE_ID_ALLOWED) &&
+                $payment['status'] === self::PAYMENT_STATUS_ACTIVE
+            ) {
 
                 if (empty($payment['payment_places'])) {
                     $options[] = [
@@ -93,10 +97,8 @@ class PaymentMethodsOff implements ArrayInterface
         $labels = array();
         foreach ($options as $key => $row) {
             $labels[$key] = $row['label'];
-
         }
         array_multisort($labels, SORT_ASC, $options);
         return $options;
     }
-
 }

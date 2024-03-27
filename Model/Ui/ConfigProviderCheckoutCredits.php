@@ -167,9 +167,9 @@ class ConfigProviderCheckoutCredits extends ConfigProviderCheckoutPro implements
         $storeId = $this->cart->getStoreId();
         $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
 
-        if ($payments['success'] === true) {
+        if ($payments['success'] === true && isset($payments['response'])) {
             foreach ($payments['response'] as $payment) {
-                if ($payment['id'] === self::PAYMENT_METHOD_ID) {
+                if (isset($payment['id']) && $payment['id'] === self::PAYMENT_METHOD_ID) {
                     return true;
                 }
             }
@@ -179,7 +179,7 @@ class ConfigProviderCheckoutCredits extends ConfigProviderCheckoutPro implements
 
     /**
      * Get images for payment method banner.
-     * 
+     *
      * @return array
      */
     public function getImages()
@@ -197,7 +197,7 @@ class ConfigProviderCheckoutCredits extends ConfigProviderCheckoutPro implements
 
     /**
      * Get images for payment method banner.
-     * 
+     *
      * @return array
      */
     public function getImagesByName($name)
