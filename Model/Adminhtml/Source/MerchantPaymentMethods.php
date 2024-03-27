@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -76,12 +77,14 @@ class MerchantPaymentMethods implements ArrayInterface
 
         $payments = $this->getAllPaymentMethods();
 
-        if ($payments['success'] === true) {
+        if ($payments['success'] === true && isset($payments['methods'])) {
             foreach ($payments['methods'] as $payment) {
-                $options[] = [
-                    'value' => $payment['id'],
-                    'label' => __($payment['name']),
-                ];
+                if (isset($payment['id']) && isset($payment['name'])) {
+                    $options[] = [
+                        'value' => $payment['id'],
+                        'label' => __($payment['name']),
+                    ];
+                }
             }
         }
 

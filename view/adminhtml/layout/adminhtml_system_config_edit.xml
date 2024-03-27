@@ -12,4 +12,9 @@
         <css src="MercadoPago_AdbPayment::css/system_config.css"/>
         <css src="jquery/colorpicker/css/colorpicker.css"/>
     </head>
+    <body>
+        <referenceContainer name="footer">
+            <block class="MercadoPago\AdbPayment\Block\Adminhtml\System\Config\Tracking\Tracking" name="melidata_tracking" template="MercadoPago_AdbPayment::melidata/tracking.phtml" />
+        </referenceContainer>
+    </body>
 </page>

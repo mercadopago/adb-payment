@@ -45,7 +45,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      */
     protected $cart;
 
-     /**
+    /**
      * @var MercadoPagoConfig
      */
     protected $mercadopagoConfig;
@@ -55,7 +55,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
      */
     protected $escaper;
 
-        /**
+    /**
      * @var Repository
      */
     protected $assetRepo;
@@ -140,7 +140,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         $options = [];
         $payments = $this->mercadopagoConfig->getMpPaymentMethods($storeId);
 
-        if ($payments['success'] === true) {
+        if ($payments['success'] === true && isset($payments['response'])) {
             $options = $this->mountPaymentMethodsOff($payments['response']);
         }
 
@@ -163,7 +163,7 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         $actives = explode(",", $methodsOffActive);
 
         foreach ($paymentMethods as $payment) {
-            if(isset($payment['value']) && !in_array($payment['value'], $actives)){
+            if (isset($payment['value']) && !in_array($payment['value'], $actives)) {
                 $options[] = $payment;
             }
         }
@@ -180,8 +180,11 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
     {
         $options = [];
         foreach ($paymentMethods as $payment) {
-            if (in_array($payment['payment_type_id'], self::PAYMENT_TYPE_ID_ALLOWED) &&
-                $payment['status'] === self::PAYMENT_STATUS_ACTIVE) {
+            if (
+                isset($payment['payment_type_id']) && isset($payment['status']) &&
+                in_array($payment['payment_type_id'], self::PAYMENT_TYPE_ID_ALLOWED) &&
+                $payment['status'] === self::PAYMENT_STATUS_ACTIVE
+            ) {
 
                 if (empty($payment['payment_places'])) {
                     $options[] = [
@@ -216,5 +219,4 @@ class ConfigProviderPaymentMethodsOff implements ConfigProviderInterface
         array_multisort($labels, SORT_ASC, $options);
         return $options;
     }
-
 }

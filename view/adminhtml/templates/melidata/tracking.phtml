@@ -1,0 +1,30 @@
+<?php
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+
+ /**
+  * @var \MercadoPago\AdbPayment\Block\Adminhtml\System\Config\Tracking $block
+  */
+
+  $configData = (object) $block->getConfigData();
+  $siteId = $configData->siteId;
+  $platformVersion = $configData->platformVersion;
+  $moduleVersion = $configData->moduleVersion;
+
+?>
+
+<script type="text/x-magento-init">
+{
+  "*": {
+    "mp_tracking": {
+        "siteId": "<?= $siteId ?>",
+        "platformVersion": "<?= $platformVersion ?>",
+        "moduleVersion": "<?= $moduleVersion ?>"
+    }
+  }
+}
+</script>
