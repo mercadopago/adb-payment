@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2024-04-09
+### Fixed
+- Adjust 3ds modal sizing to be compliant with documentation
+- Fix area code not set on setup:upgrade
+- Fix/quote mp payment int in 3DS flow
+- Fix sending payer.id in any payment flow
+
 ## [1.7.0] - 2024-03-27
 ### Added
 - Added trackings in selected paths for melidata

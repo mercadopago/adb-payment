@@ -13,6 +13,7 @@ use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
 use MercadoPago\AdbPayment\Controller\MpIndex;
 use MercadoPago\AdbPayment\Model\Notification\Refund\CheckoutPro as CheckoutProRefund;
@@ -317,11 +318,11 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
             }
         }
 
-        $this->createChild($mpTransactionId, $childTransactionId, $order);
-
         $notificationId = $mercadopagoData['notification_id'];
 
         $order = $this->fetchStatus->fetch($order->getEntityId(), $notificationId);
+
+        $this->updateInvoice($order, $mpTransactionId, $childTransactionId);
 
         $result = [
             'code'  => 200,
@@ -333,5 +334,21 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         ];
 
         return $result;
+    }
+
+    private function updateInvoice(OrderInterface $order, $mpTransactionId, $transactionId): void
+    {
+        $payment = $order->getPayment();
+
+        if ($payment->getIsTransactionApproved()) {
+            $payment->setShouldCloseParentTransaction(true);
+            $payment->setParentTransactionId($mpTransactionId);
+            $payment->setTransactionId($transactionId);
+            $payment->setIsTransactionClosed(true);
+            $payment->addTransaction(Transaction::TYPE_CAPTURE);
+
+            $order->getPayment()->update(true);
+            $this->orderRepository->save($order);
+        }
     }
 }

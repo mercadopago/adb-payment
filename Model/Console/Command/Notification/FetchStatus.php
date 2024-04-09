@@ -11,6 +11,7 @@ namespace MercadoPago\AdbPayment\Model\Console\Command\Notification;
 use Exception;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use MercadoPago\AdbPayment\Model\Console\Command\AbstractModel;
 
 /**
@@ -24,9 +25,9 @@ class FetchStatus extends AbstractModel
     protected $logger;
 
     /**
-     * @var Order
+     * @var OrderRepository
      */
-    protected $order;
+    protected $orderRepository;
 
     /**
      * @param Logger $logger
@@ -34,12 +35,12 @@ class FetchStatus extends AbstractModel
      */
     public function __construct(
         Logger $logger,
-        Order $order
+        OrderRepositoryInterface $orderRepository
     ) {
         parent::__construct(
             $logger
         );
-        $this->order = $order;
+        $this->orderRepository = $orderRepository;
     }
 
     /**
@@ -54,7 +55,7 @@ class FetchStatus extends AbstractModel
     {
         $this->writeln('Init Fetch Status');
         /** @var Order $order */
-        $order = $this->order->load($orderId);
+        $order = $this->orderRepository->get($orderId);
 
         $payment = $order->getPayment();
 
@@ -96,7 +97,7 @@ class FetchStatus extends AbstractModel
             .'</info>'
         );
 
-        $order->save();
+        $this->orderRepository->save($order);
 
         $this->writeln(__('Finished'));
 

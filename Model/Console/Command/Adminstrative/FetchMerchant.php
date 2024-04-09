@@ -130,11 +130,6 @@ class FetchMerchant extends AbstractModel
         $this->storeManager = $storeManager;
         $this->json = $json;
         $this->messageManager = $messageManager;
-        try {
-            $this->state->getAreaCode();
-        } catch (Exception $e) {
-            $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
-        }
     }
 
     /**
