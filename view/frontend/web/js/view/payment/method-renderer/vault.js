@@ -621,7 +621,7 @@ define([
                     iframe.name = "myframe";
                     iframe.id = "myframe";
                     iframe.height = "500px";
-                    iframe.width = "500px";
+                    iframe.width = "600px";
                     iframe.style = "border:none;";
                     document.getElementById("iframe-challenge").appendChild(iframe);
 

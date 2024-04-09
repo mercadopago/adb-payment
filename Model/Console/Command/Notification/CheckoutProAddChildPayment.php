@@ -11,7 +11,7 @@ namespace MercadoPago\AdbPayment\Model\Console\Command\Notification;
 use Exception;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use MercadoPago\AdbPayment\Model\Console\Command\AbstractModel;
 
 /**
@@ -25,9 +25,9 @@ class CheckoutProAddChildPayment extends AbstractModel
     protected $logger;
 
     /**
-     * @var Order
+     * @var OrderRepository
      */
-    protected $order;
+    protected $orderRepository;
 
     /**
      * @param Logger $logger
@@ -35,12 +35,17 @@ class CheckoutProAddChildPayment extends AbstractModel
      */
     public function __construct(
         Logger $logger,
-        Order $order
+        OrderRepositoryInterface $orderRepository
     ) {
         parent::__construct(
             $logger
         );
-        $this->order = $order;
+        $this->orderRepository = $orderRepository;
+    }
+
+    protected function _getInitMessage(): string
+    {
+        return 'Init Fetch Checkout Pro Payments';
     }
 
     /**
@@ -53,10 +58,10 @@ class CheckoutProAddChildPayment extends AbstractModel
      */
     public function add($orderId, $childTransaction)
     {
-        $this->writeln('Init Fetch Checkout Pro Payments');
+        $this->writeln($this->_getInitMessage());
 
         /** @var Order $order */
-        $order = $this->order->load($orderId);
+        $order = $this->orderRepository->get($orderId);
 
         $payment = $order->getPayment();
 
@@ -68,7 +73,7 @@ class CheckoutProAddChildPayment extends AbstractModel
             $payment->setIsTransactionClosed(false);
             $payment->setShouldCloseParentTransaction(true);
             $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH);
-            $order->save();
+            $this->orderRepository->save($order);
             $payment->update(true);
         } catch (Exception $exc) {
             $this->writeln('<error>'.$exc->getMessage().'</error>');
@@ -100,7 +105,7 @@ class CheckoutProAddChildPayment extends AbstractModel
             .'</info>'
         );
 
-        $order->save();
+        $this->orderRepository->save($order);
 
         $this->writeln(__('Finished'));
     }

@@ -1113,7 +1113,7 @@
                 <item name="externalReference" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\ExternalReferenceDataRequest</item>
                 <item name="descriptionTotal" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\DescriptionDataRequest</item>
                 <item name="transactionAmountTotal" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\TransactionAmountDataRequest</item>
-                <item name="payer" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\PayerDataRequest</item>
+                <item name="payer" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\PayerDataRequestVault</item>
                 <item name="payerDocumentIdentification" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\DocumentIdentificationDataRequest</item>
                 <item name="payerBillingAddress" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\BillingAddressDataRequest</item>
                 <item name="additionalInfoNode" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoDataRequest</item>

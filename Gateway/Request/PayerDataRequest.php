@@ -116,9 +116,6 @@ class PayerDataRequest implements BuilderInterface
             ['order' => $payment->getOrder()]
         );
 
-        $mpUserId = $payment->getAdditionalInformation('mp_user_id');
-        $type = isset($mpUserId) ? 'customer' : null;
-
         $payerEntityType = $payment->getAdditionalInformation('payer_entity_type');
 
         $billingAddress = $orderAdapter->getBillingAddress();
@@ -128,8 +125,6 @@ class PayerDataRequest implements BuilderInterface
         $phoneNumber = substr($phone, 2);
 
         $result[self::PAYER] = [
-            self::TYPE              => $type,
-            self::ID                => $mpUserId,
             self::EMAIL             => $billingAddress->getEmail(),
             self::FIRST_NAME        => $billingAddress->getFirstname(),
             self::LAST_NAME         => $billingAddress->getLastname(),
@@ -143,6 +138,13 @@ class PayerDataRequest implements BuilderInterface
             $result[self::PAYER][self::ENTITY_TYPE] = $payerEntityType;
         }
 
+        $result = $this->_prepareData($buildSubject, $result);
+
+        return $result;
+    }
+
+    protected function _prepareData(array $buildSubject, array $result): array
+    {
         return $result;
     }
 }
