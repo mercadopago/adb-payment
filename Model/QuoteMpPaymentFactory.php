@@ -12,7 +12,7 @@ namespace MercadoPago\AdbPayment\Model;
 use Magento\Framework\ObjectManagerInterface;
 use MercadoPago\AdbPayment\Model\QuoteMpPayment;
 
-class QuoteMpPaymentFactory
+class QuoteMpPaymentFactory 
 {
     /**
      * @var ObjectManagerInterface

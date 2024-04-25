@@ -107,7 +107,7 @@ class TwoPayments
       $data['payments_metadata']['cpp_extra']['checkout'] = 'pro';
       $data['payments_metadata']['cpp_extra']['checkout_type'] = 'modal';
       $data['payments_metadata']['cpp_extra']['original_notification_url'] = 'https://albalmeida.ppolimpo.io/mp/notification/checkoutpro/';
-
+        
       return $data;
     }
 
@@ -123,7 +123,7 @@ class TwoPayments
       $data['payments_details'][0]['refunds']['1587248514']['notifying'] = true;
       $data['payments_details'][0]['refunds']['1587248514']['metadata']['status_detail'] = null;
       $data['payments_details'][0]['refunds']['1587248514']['metadata']['origem'] = 'magento';
-      $data['payments_details'][1]['status'] = 'refunded';
+      $data['payments_details'][1]['status'] = 'refunded';      
       $data['payments_details'][1]['status_detail'] = 'by_admin';
       $data['payments_details'][1]['refunds']['1587250176']['status'] = 'approved';
       $data['payments_details'][1]['refunds']['1587250176']['notifying'] = true;
@@ -145,7 +145,7 @@ class TwoPayments
       $data['payments_details'][0]['refunds']['1574881669']['notifying'] = true;
       $data['payments_details'][0]['refunds']['1574881669']['metadata']['status_detail'] = null;
       $data['payments_details'][0]['refunds']['1574881669']['metadata']['origem'] = 'magento';
-      $data['payments_details'][1]['status'] = 'refunded';
+      $data['payments_details'][1]['status'] = 'refunded';      
       $data['payments_details'][1]['status_detail'] = 'refunded';
       $data['payments_details'][1]['refunds']['1574920057']['status'] = 'approved';
       $data['payments_details'][1]['refunds']['1574920057']['notifying'] = true;

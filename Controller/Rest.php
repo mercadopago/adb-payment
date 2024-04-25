@@ -33,7 +33,7 @@ class Rest extends \Magento\Webapi\Controller\Rest
             if($this->getMessage($response) === '3DS')
                 if ($response->getHeader('errorRedirectAction'))
                     $response->setHeader('errorRedirectAction', '', true);
-
+        
         return $response;
     }
 

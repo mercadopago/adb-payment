@@ -45,7 +45,7 @@ class ChangeConfigModule implements ObserverInterface
     {
         $storeId = $observer->getStore();
         $websiteId = $observer->getWebsiteId();
-
+        
         if ($storeId) {
             $this->fetchMerhant->fetch($storeId, ScopeInterface::SCOPE_STORES);
         } elseif ($websiteId) {
@@ -53,6 +53,6 @@ class ChangeConfigModule implements ObserverInterface
         } else {
             $this->fetchMerhant->fetch();
         }
-
+        
     }
 }

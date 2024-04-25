@@ -25,13 +25,13 @@ class FetchStatus extends AbstractModel
     protected $logger;
 
     /**
-     * @var OrderRepository
+     * @var OrderRepositoryInterface
      */
     protected $orderRepository;
 
     /**
      * @param Logger $logger
-     * @param Order  $order
+     * @param OrderRepositoryInterface $orderRepository
      */
     public function __construct(
         Logger $logger,
@@ -62,7 +62,7 @@ class FetchStatus extends AbstractModel
         if( isset($notificationId)){
             $additionalData = (array('notificationId' => $notificationId));
             $additionalData = (object)$additionalData;
-
+    
             $payment->setAdditionalData(json_encode($additionalData));
         }
 

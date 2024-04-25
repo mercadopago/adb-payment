@@ -65,3 +65,4 @@ class ValidateProcessingTest extends TestCase {
         $this->assertFalse($response->getIsValid());
     }
 }
+

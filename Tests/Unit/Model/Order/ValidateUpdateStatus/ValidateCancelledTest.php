@@ -66,3 +66,4 @@ class ValidateCancelledTest extends TestCase {
     }
 
 }
+

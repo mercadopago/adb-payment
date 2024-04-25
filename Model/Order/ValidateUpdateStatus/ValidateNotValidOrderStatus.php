@@ -33,7 +33,7 @@ class ValidateNotValidOrderStatus extends ValidateOrderStatus {
     * MP Status list
     */
     private array $notValidOrderStatusCanUpdateStatus = [];
-
+   
     public function getMpListStatus(){
         return $this->notValidOrderStatusCanUpdateStatus;
     }

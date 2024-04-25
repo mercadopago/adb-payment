@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1] - 2024-04-25
+### Fixed
+- Fix added existing value validation for the financial_institution field
+- Update anotations references
+- Add php version 8.3.0 in compose.json
+
 ## [1.8.0] - 2024-04-09
 ### Fixed
 - Adjust 3ds modal sizing to be compliant with documentation

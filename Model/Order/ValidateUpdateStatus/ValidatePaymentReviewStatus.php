@@ -16,7 +16,7 @@ class ValidatePaymentReviewStatus extends ValidateOrderStatus {
     * MP Status list
     */
     private array $paymentReviewCanUpdateStatus = [self::MP_STATUS_APPROVED, self::MP_STATUS_PENDING, self::MP_STATUS_REFUNDED, self::MP_STATUS_CANCELLED, self::MP_STATUS_REJECTED];
-
+   
     public function getMpListStatus(){
         return $this->paymentReviewCanUpdateStatus;
     }

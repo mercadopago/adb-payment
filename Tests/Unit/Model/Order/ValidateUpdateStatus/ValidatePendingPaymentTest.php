@@ -65,3 +65,4 @@ class ValidatePendingPaymentTest extends TestCase {
         $this->assertFalse($response->getIsValid());
     }
 }
+

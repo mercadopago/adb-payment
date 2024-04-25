@@ -54,3 +54,4 @@ class ValidateFactoryTest extends TestCase {
     }
 
 }
+

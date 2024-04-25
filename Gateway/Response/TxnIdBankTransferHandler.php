@@ -167,10 +167,12 @@ class TxnIdBankTransferHandler implements HandlerInterface
 
         $transactionDetails = $response[self::TRANSACTION_DETAILS];
 
-        $payment->setAdditionalInformation(
-            self::FINANCIAL_INSTITUTION,
-            $transactionDetails[self::FINANCIAL_INSTITUTION]
-        );
+        if(isset($transactionDetails[self::FINANCIAL_INSTITUTION])){
+            $payment->setAdditionalInformation(
+                self::FINANCIAL_INSTITUTION,
+                $transactionDetails[self::FINANCIAL_INSTITUTION]
+            );
+        }
 
         $payment->setAdditionalInformation(
             self::EXTERNAL_RESOURCE_URL,

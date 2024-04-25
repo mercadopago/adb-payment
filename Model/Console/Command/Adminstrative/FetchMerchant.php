@@ -34,17 +34,17 @@ class FetchMerchant extends AbstractModel
      * Message error invalid credential.
      */
     public const INVALID_CREDENTIAL = 'Your credentials are incorrect. Please double-check in your account your credentials are correct.';
-
+    
     /**
      * Message error invalid credential to sendbox mode.
      */
     public const INVALID_SANDBOX_MODE = 'Your credentials are incorrect. Production credentials have been filled in and should be used in production mode. Please check the credentials again.';
-
+    
     /**
      * Message error invalid credential to production mode.
      */
     public const INVALID_PRODUCTION_MODE = 'Your credentials are incorrect. Test credentials have been filled in and should be used in sandbox mode. Please check the credentials again.';
-
+    
     /**
      * Enviroment production.
      */
@@ -263,7 +263,7 @@ class FetchMerchant extends AbstractModel
             if ($environment === self::ENVIRONMENT_PRODUCTION) {
                 $messageError = $this->verifyProductionMode($token, $publicKey);
             }
-
+    
             if ($environment === self::ENVIRONMENT_SANDBOX) {
                 $messageError = $this->verifySandBoxMode($token, $publicKey);
             }
@@ -306,7 +306,7 @@ class FetchMerchant extends AbstractModel
             if($token['response']['is_test']) {
                 return self::INVALID_PRODUCTION_MODE;
             }
-
+    
             if($publicKey['response']['is_test']) {
                 return self::INVALID_PRODUCTION_MODE;
             }
@@ -471,7 +471,7 @@ class FetchMerchant extends AbstractModel
         bool $storeIdIsDefault,
         string $scope = ScopeInterface::SCOPE_WEBSITES,
         int $scopeId = 0
-
+        
     ): array {
         $environment = $this->mercadopagoConfig->getEnvironmentMode($scopeId, $scope);
 
@@ -520,7 +520,7 @@ class FetchMerchant extends AbstractModel
         int $scopeId = 0
     ): array {
         $environment = $this->mercadopagoConfig->getEnvironmentMode($scopeId, $scope);
-
+    
         $data = ['client_id' => null, 'client_secret' => null];
 
         foreach ($data as $field => $value) {
