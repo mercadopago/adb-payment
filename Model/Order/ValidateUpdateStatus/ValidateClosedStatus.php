@@ -11,12 +11,12 @@ namespace MercadoPago\AdbPayment\Model\Order\ValidateUpdateStatus;
 use Magento\Sales\Model\Order;
 
 class ValidateClosedStatus extends ValidateOrderStatus {
-
+    
     /**
     * MP Status list
     */
     private array $closedCanUpdateStatus = [];
-
+   
     public function getMpListStatus(){
         return $this->closedCanUpdateStatus;
     }

@@ -27,7 +27,7 @@ class AdditionalInformation
 
         $data["mp_status"] = "refunded";
         $data["mp_status_detail"] = "refunded";
-
+        
         return $data;
     }
 
@@ -77,10 +77,10 @@ class AdditionalInformation
         $data["mp_0_status_detail"] = "refunded";
         $data["mp_1_status"] = "refunded";
         $data["mp_1_status_detail"] = "refunded";
-
+        
         return $data;
     }
-
+    
     public const ADDITIONAL_INFORMATION_DATA_CUSTOM_TICKET =[
         'payment_method_id' => 'pagofacil',
         'payer_document_type' => 'Otro',
@@ -118,7 +118,7 @@ class AdditionalInformation
         $data["mp_status_detail"] = "refunded";
         $data["mp_0_status"] = "refunded";
         $data["mp_0_status_detail"] = "refunded";
-
+        
         return $data;
     }
 
@@ -174,7 +174,7 @@ class AdditionalInformation
         'mp_status' => 'approved',
         'mp_status_detail' => 'accredited',
     ];
-
+    
     public static function refundedProCredits()
     {
         $data = self::ADDITIONAL_INFORMATION_DATA_PRO_CREDITS;

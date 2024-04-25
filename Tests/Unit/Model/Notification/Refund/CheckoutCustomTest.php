@@ -366,7 +366,7 @@ class CheckoutCustomTest extends TestCase
                     if ($matcher->getInvocationCount() === 1) {
                         return $creditMemo;
                     }
-
+                
                     throw new \Exception();
                 });
 

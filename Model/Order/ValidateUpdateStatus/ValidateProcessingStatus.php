@@ -16,7 +16,7 @@ class ValidateProcessingStatus extends ValidateOrderStatus {
     * MP Status list
     */
     private array $processingCanUpdateStatus = [self::MP_STATUS_REFUNDED];
-
+   
     public function getMpListStatus(){
         return $this->processingCanUpdateStatus;
     }

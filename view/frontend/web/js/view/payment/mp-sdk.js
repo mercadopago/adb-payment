@@ -91,7 +91,7 @@ define([
             let self = this;
 
             this._super();
-
+            
             self.amount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
 
             self.installmentsAmount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
@@ -441,7 +441,7 @@ define([
                     amount: String(self.FormattedCurrencyToInstallments(self.installmentsAmount())),
                     bin: bin
                 });
-
+                
                 if (result[0] && result[0].payer_costs) {
                     self.installmentWasCalculated(true);
                     self.installmentsResponse(result[0]);
@@ -481,7 +481,7 @@ define([
                 });
             });
         },
-
+        
         formatedAmountWithSymbol(amount) {
             return this.currencySymbol() + ' ' + amount;
         },
@@ -714,7 +714,7 @@ define([
          * @return {Jquery}
          */
          clearMinValueError(){
-            return $('.mp-message-error').remove();
+            return $('.mp-message-error').remove(); 
         }
     });
 });

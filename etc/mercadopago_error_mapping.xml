@@ -74,6 +74,6 @@
         <message code="cc_rejected_other_reason" translate="true">Something went wrong. Please try again.</message>
         <message code="cc_rejected_card_type_not_allowed" translate="true">Your payment was declined because some of your card details are incorrect. Please check the information to complete the purchase or try another payment method.</message>
         <message code="pending_challenge" translate="true">For safety reasons, your payment was declined. We recommend paying with your usual payment method and device for online purchases.</message>
-        <message code="cc_rejected_3ds_challenge" translate="true">For safety reasons, your payment was declined. We recommend paying with your usual payment method and device for online purchases.</message>
+        <message code="cc_rejected_3ds_challenge" translate="true">For safety reasons, your payment was declined. We recommend paying with your usual payment method and device for online purchases.</message>  
     </message_list>
 </mapping>

@@ -80,7 +80,7 @@ interface QuoteMpPaymentInterface
      * @return $this
      */
     public function setPaymentId($paymentId);
-
+    
     /**
      * Get 3DS External Resource URL
      *

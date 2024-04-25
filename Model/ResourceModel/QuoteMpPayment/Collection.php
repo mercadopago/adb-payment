@@ -19,7 +19,7 @@ class Collection extends AbstractCollection
     protected $_idFieldName = 'entity_id';
     protected $_eventPrefix = 'mercadopago_adbpayment_quote_mp_payment_collection';
     protected $_eventObject = 'quote_mp_payment_collection';
-
+    
     protected function _construct()
     {
         $this->_init(

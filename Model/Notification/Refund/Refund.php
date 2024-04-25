@@ -127,7 +127,7 @@ abstract class Refund {
                 ];
                 continue;
             }
-
+            
             if ($this->hasBeenRefunded($refundData)) {
                 unset($this->refundsData[$k]);
                 $results[] = [
@@ -196,7 +196,7 @@ abstract class Refund {
             $creditMemo->setBaseGrandTotal($refundData->getAmount());
             $creditMemo->setGrandTotal($refundData->getAmount());
             $creditMemo->addComment(__('Order refunded in Mercado Pago, refunded offline in the store.'));
-
+        
             $this->creditmemoService->refund($creditMemo, false);
             $this->order->addCommentToStatusHistory(__('Order refunded.'));
 
@@ -212,7 +212,7 @@ abstract class Refund {
         } catch (\Exception $e) {
             $this->logger->debug([
                 'refund_Id' => $refundData->getId(),
-                'exception' => $e->getMessage(),
+                'exception' => $e->getMessage(), 
                 'stack' => $e->getTraceAsString()
             ]);
             return [

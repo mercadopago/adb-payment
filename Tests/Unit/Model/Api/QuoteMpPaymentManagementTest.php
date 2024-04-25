@@ -58,11 +58,11 @@ class QuoteMpPaymentManagementTest extends TestCase {
         $this->customerSession = $this->getMockBuilder(CustomerSession::class)->disableOriginalConstructor()
         ->getMock();
 
-        $this->service = new QuoteMpPaymentManagement($this->quoteMpPaymentRepository, $this->maskedQuoteIdToQuoteIdInterface, $this->customerSession);
+        $this->service = new QuoteMpPaymentManagement($this->quoteMpPaymentRepository, $this->maskedQuoteIdToQuoteIdInterface, $this->customerSession);                                    
     }
 
     public function testGetMpPaymentWhenCustomerLoggedIn() {
-
+        
         $quoteMock = $this->objectManager->getObject(QuoteMpPayment::class);
 
         $quoteId = 10;
@@ -79,7 +79,7 @@ class QuoteMpPaymentManagementTest extends TestCase {
     }
 
     public function testGetMpPaymentWhenCustomerGuest() {
-
+        
         $quoteMock = $this->objectManager->getObject(QuoteMpPayment::class);
 
         $maskedQuoteId = "ai19828a9a81";

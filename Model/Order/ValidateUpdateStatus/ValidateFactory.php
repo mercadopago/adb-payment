@@ -14,7 +14,7 @@ use MercadoPago\AdbPayment\Model\Order\ValidateUpdateStatus\ValidatePendingStatu
 abstract class ValidateFactory {
 
     public static function createValidate($orderStatus) {
-
+        
         switch ($orderStatus) {
             case ValidatePendingStatus::STATE_PENDING:
                 return new ValidatePendingStatus();
@@ -37,7 +37,7 @@ abstract class ValidateFactory {
             case Order::STATE_PENDING_PAYMENT:
                 return new ValidatePendingPaymentStatus();
                 break;
-
+            
             default:
                 return new ValidateNotValidOrderStatus($orderStatus);
                 break;

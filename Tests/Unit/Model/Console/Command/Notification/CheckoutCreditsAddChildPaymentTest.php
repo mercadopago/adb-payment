@@ -54,7 +54,7 @@ class CheckoutCreditsAddChildPaymentTest extends TestCase
             'orderRepository' => $this->orderRepositoryMock,
         ]);
     }
-
+    
     public function testAddMethodWithException()
     {
         $orderId = 1;
@@ -119,7 +119,7 @@ class CheckoutCreditsAddChildPaymentTest extends TestCase
         $this->orderMock->expects($this->once())
             ->method('getPayment')
             ->willReturn($this->paymentMock);
-
+        
         $this->paymentMock->expects($this->once())
             ->method('setTransactionId')
             ->with($childTransaction);
@@ -156,7 +156,7 @@ class CheckoutCreditsAddChildPaymentTest extends TestCase
         $this->orderMock->expects($this->once())
             ->method('getPayment')
             ->willReturn($this->paymentMock);
-
+        
         $this->paymentMock->expects($this->once())
             ->method('setTransactionId')
             ->with($childTransaction);

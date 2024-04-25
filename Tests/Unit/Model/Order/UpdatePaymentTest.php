@@ -22,7 +22,7 @@ class UpdatePaymentTest extends TestCase {
         $order->expects($this->any())
             ->method('getPayment')
             ->willReturn($payment);
-
+        
         $order->expects($this->any())
             ->method('save');
 
@@ -47,12 +47,12 @@ class UpdatePaymentTest extends TestCase {
         $payment->expects($this->once())
             ->method('getAdditionalInformation')
             ->willReturn(AdditionalInformation::ADDITIONAL_INFORMATION_DATA_PRO_ACCOUNT_MONEY);
-
+        
 
         $payment->expects($this->once())
             ->method('setAdditionalInformation')
             ->with(AdditionalInformation::refundedProAccountMoney());
-
+        
         $updatePayment->updateInformation($testData['order'], $notification);
     }
 
@@ -67,11 +67,11 @@ class UpdatePaymentTest extends TestCase {
         $payment->expects($this->once())
             ->method('getAdditionalInformation')
             ->willReturn(AdditionalInformation::ADDITIONAL_INFORMATION_DATA_PRO_ONE_CARD);
-
+        
         $payment->expects($this->once())
             ->method('setAdditionalInformation')
             ->with(AdditionalInformation::refundedProOneCard());
-
+        
         $updatePayment->updateInformation($testData['order'], $notification);
     }
 
@@ -86,11 +86,11 @@ class UpdatePaymentTest extends TestCase {
         $payment->expects($this->once())
             ->method('getAdditionalInformation')
             ->willReturn(AdditionalInformation::ADDITIONAL_INFORMATION_DATA_PRO_TWO_CARDS);
-
+        
         $payment->expects($this->once())
             ->method('setAdditionalInformation')
             ->with(AdditionalInformation::refundedProTwoCards());
-
+        
         $updatePayment->updateInformation($testData['order'], $notification);
     }
 
@@ -105,11 +105,11 @@ class UpdatePaymentTest extends TestCase {
         $payment->expects($this->once())
             ->method('getAdditionalInformation')
             ->willReturn(AdditionalInformation::ADDITIONAL_INFORMATION_DATA_PRO_TICKET);
-
+        
         $payment->expects($this->once())
             ->method('setAdditionalInformation')
             ->with(AdditionalInformation::refundedProTicket());
-
+        
         $updatePayment->updateInformation($testData['order'], $notification);
     }
 
@@ -132,7 +132,7 @@ class UpdatePaymentTest extends TestCase {
         $updatePayment->updateInformation($testData['order'], $notification);
     }
 
-    public function testUpdatePaymentCheckoutCustomTicket(): void
+    public function testUpdatePaymentCheckoutCustomTicket(): void 
     {
         $testData = $this->prepareTestData();
 
@@ -144,11 +144,11 @@ class UpdatePaymentTest extends TestCase {
         $payment->expects($this->once())
             ->method('getAdditionalInformation')
             ->willReturn(AdditionalInformation::ADDITIONAL_INFORMATION_DATA_CUSTOM_TICKET);
-
+        
         $payment->expects($this->once())
             ->method('setAdditionalInformation')
             ->with(AdditionalInformation::refundedCustomTicket());
-
+        
         $updatePayment->updateInformation($testData['order'], $notification);
     }
 }

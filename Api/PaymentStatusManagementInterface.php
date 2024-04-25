@@ -21,7 +21,7 @@ interface PaymentStatusManagementInterface
      *
      * @param string $paymentId
      * @param string $cartId
-     *
+     * 
      * @return mixed
      */
     public function getPaymentStatus(

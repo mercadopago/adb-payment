@@ -16,7 +16,7 @@ class ValidateCompleteStatus extends ValidateOrderStatus {
     * MP Status list
     */
     private array $completeCanUpdateStatus = [self::MP_STATUS_REFUNDED];
-
+   
     public function getMpListStatus(){
         return $this->completeCanUpdateStatus;
     }
