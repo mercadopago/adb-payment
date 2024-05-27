@@ -123,19 +123,19 @@ class CreateVaultManagement implements CreateVaultManagementInterface
         if ($createUser[self::RESULT_CODE] === 0) {
             unset($token);
             $mpUserId = $this->findUser($storeId, $quote);
-            $mpCustomerId = $mpUserId[self::USER_ID];
+            $mpCustomerId = isset($mpUserId[self::USER_ID]) ? $mpUserId[self::USER_ID] : "";
         }
 
         if ($createUser[self::RESULT_CODE] === 1) {
             unset($token);
             unset($vaultData['identificationNumber']);
-            $mpCustomerId = $createUser[self::USER_ID];
+            $mpCustomerId = isset($createUser[self::USER_ID]) ? $createUser[self::USER_ID] : "";
         }
 
         $saveCcNumber = $this->saveCcNumber($storeId, $mpCustomerId, $vaultData);
         $token['tokenize'] = [
             self::USER_ID    => $mpCustomerId,
-            self::CARD_ID    => $saveCcNumber[self::CARD_ID],
+            self::CARD_ID    => isset($saveCcNumber[self::CARD_ID]) ? $saveCcNumber[self::CARD_ID] : "",
         ];
 
         return $token;
@@ -159,7 +159,7 @@ class CreateVaultManagement implements CreateVaultManagementInterface
             'last_name'      => $quote->getCustomerLastName(),
             'identification' => [
                 'type'   => $vaultData['identificationType'],
-                'number' => $vaultData['identificationNumber'],
+                'number' => isset($vaultData['identificationNumber']) ? $vaultData['identificationNumber'] : "",
             ],
         ];
 
