@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.2] - 2024-05-27
+### Fixed
+- Fixed intermittent error when saving payment details
+
 ## [1.8.1] - 2024-04-25
 ### Fixed
 - Fix added existing value validation for the financial_institution field
