@@ -54,6 +54,7 @@ class PaymentGet {
             $responseBody = $result->getData();
         } catch (\Throwable $e) {
             // phpcs:ignore Magento2.Exceptions.DirectThrow
+            $this->logger->debug(['Error in request to mp payments' => $e->getMessage()]);
             throw new \Exception("Invalid request to mp payments: " . $responseBody);
         }
 

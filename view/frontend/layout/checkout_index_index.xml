@@ -7,8 +7,11 @@
  * @license     See LICENSE for license details.
  */
 -->
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <referenceBlock name="content">
+            <block class="MercadoPago\AdbPayment\Block\MpDeviceSessionId" name="mp_device_session_id" template="MercadoPago_AdbPayment::checkout/mp_device_session_id.phtml" />
+        </referenceBlock>
         <referenceBlock name="checkout.root">
             <arguments>
                 <argument name="jsLayout" xsi:type="array">

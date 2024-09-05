@@ -142,7 +142,7 @@ class CcPaymentDataRequest implements BuilderInterface
             self::BINARY_MODE       => $binary,
             self::TOKEN             => $payment->getAdditionalInformation('card_number_token'),
             self::CAPTURE           => $capture,
-            self::MP_PAYMENT_ID     => $payment->getAdditionalInformation('mp_payment_id'),
+            self::MP_PAYMENT_ID     => $payment->getAdditionalInformation('mp_payment_id')
         ];
 
         return $instruction;

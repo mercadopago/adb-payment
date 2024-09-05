@@ -96,7 +96,8 @@ define([
                 method: self.getCode(),
                 'additional_data': {
                     'payer_document_type': self.mpPayerType(),
-                    'payer_document_identification': self.mpPayerDocument()
+                    'payer_document_identification': self.mpPayerDocument(),
+                    'mp_device_session_id': window.MP_DEVICE_SESSION_ID
                 }
             };
         },

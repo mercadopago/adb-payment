@@ -21,6 +21,7 @@ use MercadoPago\AdbPayment\Api\QuoteMpPaymentRepositoryInterface;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
 use MercadoPago\AdbPayment\Gateway\Request\CaptureAmountRequest;
 use MercadoPago\AdbPayment\Gateway\Request\CcPaymentDataRequest;
+use MercadoPago\AdbPayment\Gateway\Request\MpDeviceSessionId;
 use MercadoPago\AdbPayment\Model\QuoteMpPaymentFactory;
 use MercadoPago\AdbPayment\Model\QuoteMpPaymentRepository;
 use MercadoPago\PP\Sdk\Common\Constants;
@@ -106,6 +107,8 @@ class CreateOrderPaymentCustomClient implements ClientInterface
      */
     public const HEADER_CUSTOMER_ID = 'x-customer-id: ';
 
+    public const X_MELI_SESSION_ID = 'X-meli-session-id: ';
+
     /**
      * @var Logger
      */
@@ -158,7 +161,6 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         QuoteMpPaymentFactory $quoteMpPaymentFactory,
         Session $checkoutSession,
         PaymentGet $paymentGet
-
     ) {
         $this->config = $config;
         $this->logger = $logger;
@@ -201,6 +203,10 @@ class CreateOrderPaymentCustomClient implements ClientInterface
             }
         } else {
 
+            $uri = null;
+            $baseUrl = null;
+            $serializeRequest = null;
+
             try {
                 $sdk = $this->config->getSdkInstance($storeId);
 
@@ -210,6 +216,13 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                     $paymentInstance = $sdk->getPaymentV21Instance();
                 }
 
+                $customHeaders = [];
+
+                if (isset($request[MpDeviceSessionId::MP_DEVICE_SESSION_ID])) {
+                    $customHeaders[] = self::X_MELI_SESSION_ID . $request[MpDeviceSessionId::MP_DEVICE_SESSION_ID];
+                    unset($request[MpDeviceSessionId::MP_DEVICE_SESSION_ID]);
+                }
+
                 unset($request[self::STORE_ID]);
                 unset($request[CcPaymentDataRequest::MP_PAYMENT_ID]);
                 unset($request[CaptureAmountRequest::AMOUNT_PAID]);
@@ -217,8 +230,17 @@ class CreateOrderPaymentCustomClient implements ClientInterface
 
                 $paymentInstance->setEntity($request);
 
-                if(isset($paymentInstance->payer->id))
-                    $paymentInstance->setCustomHeaders([self::HEADER_CUSTOMER_ID . $paymentInstance->payer->id]);
+
+                if(isset($paymentInstance->payer->id)) {
+                    $customHeaders[] = self::HEADER_CUSTOMER_ID . $paymentInstance->payer->id;
+                }
+
+                $paymentInstance->setCustomHeaders($customHeaders);
+
+                $clientHeaders = $paymentInstance->getLastHeaders();
+                $serializeRequest = $this->json->serialize($paymentInstance);
+                $uri = $paymentInstance->getUris()['post'];
+                $baseUrl = Constants::BASEURL_MP;
 
                 $data = $paymentInstance->save();
 
@@ -227,7 +249,6 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                     && $data[self::STATUS_DETAIL] === self::STATUS_PENDING_CHALLENGE
                     && !empty($data[self::THREE_DS_INFO])
                 ) {
-
                     $quoteMpPayment = $this->quoteMpPaymentFactory->create();
                     $quoteMpPayment->setQuoteId($this->checkoutSession->getQuoteId());
                     $quoteMpPayment->setPaymentId($data[self::PAYMENT_ID]);
@@ -241,11 +262,6 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                     throw new LocalizedException(__('3DS'));
                 }
 
-                $clientHeaders = $paymentInstance->getLastHeaders();
-                $serializeRequest = $this->json->serialize($paymentInstance);
-                $uri = $paymentInstance->getUris()['post'];
-                $baseUrl = Constants::BASEURL_MP;
-
                 $this->logger->debug(
                     [
                         'url'      => $baseUrl . $uri,
@@ -256,9 +272,23 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                 );
             } catch (InvalidArgumentException $exc) {
                 // phpcs:ignore Magento2.Exceptions.DirectThrow
+                $this->logger->debug(
+                    [
+                        'url'      => $baseUrl . $uri,
+                        'request'  => $serializeRequest,
+                        'error'    => $exc->getMessage(),
+                    ]
+                );
                 throw new Exception('Invalid JSON was returned by the gateway');
             } catch (\Throwable $e) {
                 // phpcs:ignore Magento2.Exceptions.DirectThrow
+                $this->logger->debug(
+                    [
+                        'url'      => $baseUrl . $uri,
+                        'request'  => $serializeRequest,
+                        'error'    => $e->getMessage(),
+                    ]
+                );
                 throw new LocalizedException(__($e->getMessage()));
             }
         }

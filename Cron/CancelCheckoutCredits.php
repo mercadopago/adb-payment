@@ -9,6 +9,7 @@
 
 namespace MercadoPago\AdbPayment\Cron;
 
+use Magento\Framework\App\ResourceConnection;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
@@ -42,23 +43,31 @@ class CancelCheckoutCredits extends CancelCheckoutPro
     protected $collectionFactory;
 
     /**
+     * @var ResourceConnection
+     */
+    protected $resource;
+
+    /**
      * Constructor.
      *
      * @param Logger            $logger
      * @param FetchStatus       $fetchStatus
      * @param ConfigCheckoutPro $configCheckoutPro
      * @param CollectionFactory $collectionFactory
+     * @param ResourceConnection $resource;
      */
     public function __construct(
         Logger $logger,
         FetchStatus $fetchStatus,
         ConfigCheckoutCredits $configCheckoutCredits,
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        ResourceConnection $resource
     ) {
         $this->logger = $logger;
         $this->fetchStatus = $fetchStatus;
         $this->configCheckoutCredits = $configCheckoutCredits;
         $this->collectionFactory = $collectionFactory;
+        $this->resource = $resource;
     }
 
     /**
@@ -68,21 +77,21 @@ class CancelCheckoutCredits extends CancelCheckoutPro
      */
     public function execute()
     {
-        $expiration = $this->configCheckoutCredits->getExpiredPaymentDate();
-
         $orders = $this->collectionFactory->create()
-            ->addFieldToFilter('state', Order::STATE_NEW)
-            ->addAttributeToFilter('created_at', [
-                'lteq' => $expiration,
-            ]);
+            ->addFieldToFilter('state', Order::STATE_NEW);
 
         $orders->getSelect()
             ->join(
-                ['sop' => 'sales_order_payment'],
+                ['sop' => $this->getSalesOrderPaymentTableName()],
                 'main_table.entity_id = sop.parent_id',
                 ['method']
             )
-            ->where('sop.method = ?', ConfigCheckoutCredits::METHOD);
+            ->where(
+                new \Zend_Db_Expr(
+                    "sop.method = ? AND TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, CAST(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration') AS DATETIME))) >= 0 "
+                ),
+                ConfigCheckoutCredits::METHOD
+            );
 
         foreach ($orders as $order) {
             $orderId = $order->getEntityId();
