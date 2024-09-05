@@ -14,6 +14,7 @@ use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
+use Magento\Payment\Model\Method\Logger;
 use Magento\Store\Model\ScopeInterface;
 use MercadoPago\AdbPayment\Gateway\Data\Order\OrderAdapterFactory;
 use MercadoPago\PP\Sdk\Sdk;
@@ -61,6 +62,11 @@ class Config extends PaymentConfig
     public const CLIENT = 'AdbPayment';
 
     /**
+     * @var Logger
+     */
+    protected $logger;
+
+    /**
      * @var ProductMetadataInterface
      */
     protected $productMetadata;
@@ -85,12 +91,14 @@ class Config extends PaymentConfig
      * @param ResourceInterface        $resourceModule
      * @param ScopeConfigInterface     $scopeConfig
      * @param Json                     $json
+     * @param Logger                   $logger
      * @param string                   $methodCode
      */
     public function __construct(
         ProductMetadataInterface $productMetadata,
         ResourceInterface $resourceModule,
         ScopeConfigInterface $scopeConfig,
+        Logger $logger,
         Json $json,
         $methodCode = self::METHOD
     ) {
@@ -98,6 +106,7 @@ class Config extends PaymentConfig
         $this->productMetadata = $productMetadata;
         $this->resourceModule = $resourceModule;
         $this->scopeConfig = $scopeConfig;
+        $this->logger = $logger;
         $this->json = $json;
     }
 
@@ -539,11 +548,26 @@ class Config extends PaymentConfig
             $result = $client->get($uri, $clientHeaders);
             $response = $result->getData();
 
+            if($result->getStatus() > 299) {
+                $this->logger->debug(
+                    [
+                        'url'       => $baseUrl . $uri,
+                        'status'    => $result->getStatus(),
+                        'response'  => $response
+                    ]
+                );
+            }
             return [
                 'success'    => isset($response['message']) ? false : true,
                 'response'   => $response,
             ];
         } catch (\Exception $e) {
+            $this->logger->debug(
+                [
+                    'url'       => $baseUrl . $uri,
+                    'error'     => $e->getMessage(),
+                ]
+            );
             return ['success' => false, 'error' =>  $e->getMessage()];
         }
     }

@@ -2,6 +2,7 @@
 
 namespace MercadoPago\Test\Unit\Cron;
 
+use Magento\Framework\App\ResourceConnection;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
@@ -33,7 +34,7 @@ class CancelCheckoutCreditsTest extends TestCase
   protected $fetchStatusMock;
 
   /**
-   * @var configCheckoutCreditsMock
+   * @var ConfigCheckoutCredits
    */
   protected $configCheckoutCreditsMock;
 
@@ -42,6 +43,10 @@ class CancelCheckoutCreditsTest extends TestCase
    */
   protected $collectionFactoryMock;
 
+  /**
+   * @var ResourceConnection
+   */
+  protected $resourceConnectionMock;
 
   public function setUp(): void
   {
@@ -58,13 +63,20 @@ class CancelCheckoutCreditsTest extends TestCase
     $this->collectionFactoryMock = $this->getMockBuilder(CollectionFactory::class)
       ->disableOriginalConstructor()
       ->getMock();
+    $this->resourceConnectionMock = $this->getMockBuilder(ResourceConnection::class)
+      ->disableOriginalConstructor()
+      ->getMock();
 
-    $this->cancelCheckoutCredits = new CancelCheckoutCredits(
-      $this->loggerMock,
-      $this->fetchStatusMock,
-      $this->configCheckoutCreditsMock,
-      $this->collectionFactoryMock
-    );
+    $this->cancelCheckoutCredits = $this->getMockBuilder(CancelCheckoutCredits::class)
+      ->setConstructorArgs([
+          $this->loggerMock,
+          $this->fetchStatusMock,
+          $this->configCheckoutCreditsMock,
+          $this->collectionFactoryMock,
+          $this->resourceConnectionMock
+      ])
+      ->onlyMethods(['getSalesOrderPaymentTableName'])
+      ->getMock();
   }
 
   public function testExecute()
@@ -84,14 +96,13 @@ class CancelCheckoutCreditsTest extends TestCase
       ->disableOriginalConstructor()
       ->getMock();
 
-    $expiration = '2023-06-19 12:00:00';
     $orderId = 1;
     $amount = 105;
     $baseAmount = 105;
 
-    $this->configCheckoutCreditsMock->expects($this->any())
-      ->method('getExpiredPaymentDate')
-      ->willReturn($expiration);
+    $this->cancelCheckoutCredits->expects($this->any())
+      ->method('getSalesOrderPaymentTableName')
+      ->willReturn('sales_order_payment');
 
     $this->collectionFactoryMock->expects($this->any())
       ->method('create')
@@ -100,11 +111,6 @@ class CancelCheckoutCreditsTest extends TestCase
     $orderCollectionMock->expects($this->any())
       ->method('addFieldToFilter')
       ->with('state', Order::STATE_NEW)
-      ->willReturnSelf();
-
-    $orderCollectionMock->expects($this->any())
-      ->method('addAttributeToFilter')
-      ->with('created_at', ['lteq' => $expiration])
       ->willReturnSelf();
 
     $orderCollectionMock->expects($this->any())
@@ -121,7 +127,10 @@ class CancelCheckoutCreditsTest extends TestCase
 
     $selectMock->expects($this->any())
       ->method('where')
-      ->with('sop.method = ?', ConfigCheckoutCredits::METHOD)
+      ->with($this->callback(function ($expr) {
+          return $expr instanceof \Zend_Db_Expr &&
+                 $expr->__toString() === "sop.method = ? AND TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, CAST(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration') AS DATETIME))) >= 0 ";
+      }))
       ->willReturnSelf();
 
     $orderCollectionMock->expects($this->any())
@@ -208,6 +217,5 @@ class CancelCheckoutCreditsTest extends TestCase
     $this->assertEquals($amount, $order->getTotalDue());
     $this->assertEquals($baseAmount, $order->getBaseTotalDue());
     $this->assertEquals($payment, $order->getPayment());
-    $this->assertEquals($expiration, $this->configCheckoutCreditsMock->getExpiredPaymentDate());
   }
 }

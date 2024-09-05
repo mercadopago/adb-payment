@@ -95,9 +95,21 @@ class CreateOrderPaymentCheckoutProClient implements ClientInterface
             );
         } catch (InvalidArgumentException $exc) {
             // phpcs:ignore Magento2.Exceptions.DirectThrow
+            $this->logger->debug(
+                [
+                    'request'   => $this->json->serialize($request),
+                    'error'     => $exc->getMessage(),
+                ]
+            );
             throw new Exception('Invalid JSON was returned by the gateway');
         } catch (\Throwable $e) {
             // phpcs:ignore Magento2.Exceptions.DirectThrow
+            $this->logger->debug(
+                [
+                    'request'   => $this->json->serialize($request),
+                    'error'     => $e->getMessage(),
+                ]
+            );
             throw new Exception($e->getMessage());
         }
 

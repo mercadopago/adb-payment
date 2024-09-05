@@ -127,7 +127,8 @@ define([
                     'payer_document_type': self.mpPayerType(),
                     'payer_document_identification': self.mpPayerDocument(),
                     'payer_entity_type': self.payerEntityType(),
-                    'financial_institution': self.financialInstitution()
+                    'financial_institution': self.financialInstitution(),
+                    'mp_device_session_id': window.MP_DEVICE_SESSION_ID
                 }
             };
         },

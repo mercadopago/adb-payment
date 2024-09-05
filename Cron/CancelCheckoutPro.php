@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright © MercadoPago. All rights reserved.
  *
@@ -8,6 +9,7 @@
 
 namespace MercadoPago\AdbPayment\Cron;
 
+use Magento\Framework\App\ResourceConnection;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
@@ -40,23 +42,41 @@ class CancelCheckoutPro
     protected $collectionFactory;
 
     /**
+     * @var ResourceConnection
+     */
+    protected $resource;
+
+    /**
      * Constructor.
      *
      * @param Logger            $logger
      * @param FetchStatus       $fetchStatus
      * @param ConfigCheckoutPro $configCheckoutPro
      * @param CollectionFactory $collectionFactory
+     * @param ResourceConnection $resource;
      */
     public function __construct(
         Logger $logger,
         FetchStatus $fetchStatus,
         ConfigCheckoutPro $configCheckoutPro,
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        ResourceConnection $resource
     ) {
         $this->logger = $logger;
         $this->fetchStatus = $fetchStatus;
         $this->configCheckoutPro = $configCheckoutPro;
         $this->collectionFactory = $collectionFactory;
+        $this->resource = $resource;
+    }
+
+    /**
+     * Get sales_order_payment table name.
+     *
+     * @return string
+     */
+    public function getSalesOrderPaymentTableName()
+    {
+        return $this->resource->getTableName('sales_order_payment');
     }
 
     /**
@@ -66,21 +86,18 @@ class CancelCheckoutPro
      */
     public function execute()
     {
-        $expiration = $this->configCheckoutPro->getExpiredPaymentDate();
-
         $orders = $this->collectionFactory->create()
-                    ->addFieldToFilter('state', Order::STATE_NEW)
-                    ->addAttributeToFilter('created_at', [
-                        'lteq' => $expiration,
-                    ]);
+            ->addFieldToFilter('state', Order::STATE_NEW);
 
         $orders->getSelect()
-                ->join(
-                    ['sop' => 'sales_order_payment'],
-                    'main_table.entity_id = sop.parent_id',
-                    ['method']
-                )
-                ->where('sop.method = ?', ConfigCheckoutPro::METHOD);
+            ->join(
+                ['sop' => $this->getSalesOrderPaymentTableName()],
+                'main_table.entity_id = sop.parent_id',
+                ['method']
+            )
+            ->where(new \Zend_Db_Expr(
+                "sop.method = ? AND TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, CAST(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration') AS DATETIME))) >= 0 "
+            ), ConfigCheckoutPro::METHOD);
 
         foreach ($orders as $order) {
             $orderId = $order->getEntityId();
@@ -100,7 +117,7 @@ class CancelCheckoutPro
             $order->cancel();
             $order->save();
             $this->logger->debug([
-                'fetch'   => 'Cancel Order Id '.$orderId,
+                'fetch'   => 'Cancel Order Id ' . $orderId,
             ]);
         }
     }

@@ -11,6 +11,7 @@ namespace MercadoPago\AdbPayment\Model\Api;
 use Exception;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Payment\Model\Method\Logger;
 use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Api\CartTotalRepositoryInterface;
 use Magento\Quote\Api\Data\CartInterface;
@@ -38,22 +39,30 @@ class FinanceCostManagement implements FinanceCostManagementInterface
      * @var MpConfig
      */
     protected $mpConfig;
-    
+
+    /**
+     * @var Logger
+     */
+    protected $logger;
+
 
     /**
      * FinanceCostManagement constructor.
      *
      * @param CartRepositoryInterface      $quoteCartRepository
      * @param CartTotalRepositoryInterface $quoteTotalRepository
+     * @param Logger                       $logger
      * @param MpConfig                     $mpConfig
      */
     public function __construct(
         CartRepositoryInterface $quoteCartRepository,
         CartTotalRepositoryInterface $quoteTotalRepository,
+        Logger $logger,
         MpConfig $mpConfig
     ) {
         $this->quoteCartRepository = $quoteCartRepository;
         $this->quoteTotalRepository = $quoteTotalRepository;
+        $this->logger = $logger;
         $this->mpConfig = $mpConfig;
     }
 
@@ -104,6 +113,7 @@ class FinanceCostManagement implements FinanceCostManagementInterface
             $quoteCart->setData(FinanceCostInterface::BASE_FINANCE_COST_AMOUNT, $financeCost);
             $this->quoteCartRepository->save($quoteCart);
         } catch (Exception $e) {
+            $this->logger->debug(['Error to save finance cost' => $e->getMessage()]);
             throw new CouldNotSaveException(__('It was not possible to save on the installment cost amount'));
         }
 
@@ -156,6 +166,7 @@ class FinanceCostManagement implements FinanceCostManagementInterface
             $quoteCart->setData(FinanceCostInterface::BASE_FINANCE_COST_AMOUNT, $financeCost);
             $this->quoteCartRepository->save($quoteCart);
         } catch (Exception $e) {
+            $this->logger->debug(['Error to save finance cost' => $e->getMessage()]);
             throw new CouldNotSaveException(__('It was not possible to save on the installment cost amount'));
         }
 

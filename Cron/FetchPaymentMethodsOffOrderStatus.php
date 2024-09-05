@@ -2,6 +2,7 @@
 
 namespace MercadoPago\AdbPayment\Cron;
 
+use Magento\Framework\App\ResourceConnection;
 use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
@@ -29,20 +30,38 @@ class FetchPaymentMethodsOffOrderStatus
     protected $collectionFactory;
 
     /**
+     * @var ResourceConnection
+     */
+    protected $resource;
+
+    /**
      * Constructor.
      *
      * @param Logger            $logger
      * @param FetchStatus       $fetchStatus
      * @param CollectionFactory $collectionFactory
+     * @param ResourceConnection $resource;
      */
     public function __construct(
         Logger $logger,
         FetchStatus $fetchStatus,
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        ResourceConnection $resource
     ) {
         $this->logger = $logger;
         $this->fetchStatus = $fetchStatus;
         $this->collectionFactory = $collectionFactory;
+        $this->resource = $resource;
+    }
+
+    /**
+     * Get sales_order_payment table name.
+     *
+     * @return string
+     */
+    public function getSalesOrderPaymentTableName()
+    {
+        return $this->resource->getTableName('sales_order_payment');
     }
 
     /**
@@ -57,7 +76,7 @@ class FetchPaymentMethodsOffOrderStatus
 
         $orders->getSelect()
                 ->join(
-                    ['sop' => 'sales_order_payment'],
+                    ['sop' => $this->getSalesOrderPaymentTableName()],
                     'main_table.entity_id = sop.parent_id',
                     ['method']
                 )

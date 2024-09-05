@@ -197,6 +197,7 @@ define([
                     'card_finance_cost': self.generatedCards[0]?.cardFinanceCost,
                     'card_public_id': self.generatedCards[0]?.cardPublicId,
                     'mp_user_id': self.generatedCards[0]?.mpUserId,
+                    'mp_device_session_id': window.MP_DEVICE_SESSION_ID
                 }
             };
 
@@ -304,7 +305,7 @@ define([
                 type: 'popup',
                 responsive: false,
                 innerScroll: false,
-                title: $t('Complete the bank validation so your payment can be approved'), 
+                title: $t('Complete the bank validation so your payment can be approved'),
                 modalClass: 'modal-challenge',
                 closed: function () {
                     self.destroyModal();
@@ -351,7 +352,7 @@ define([
                 }
                 }, 3000)
         },
-       
+
         destroyModal() {
             $('#modal-3ds-challenge').remove();
         },
@@ -371,15 +372,15 @@ define([
             try {
                 const interval = 2000;
                 let elapsedTime = 0;
-          
+
                 const intervalId = setInterval(() => {
                     this.getPaymentStatus();
                     var paymentStatus = this.getPaymentStatusResponse();
-    
+
                     if (elapsedTime >= 10000 || paymentStatus.status === 'approved' || paymentStatus.status === 'rejected') {
                         $('#modal-3ds-challenge').modal('closeModal');
                         this.destroyModal();
-                        clearInterval(intervalId); 
+                        clearInterval(intervalId);
                         this.placeOrder();
                         threeDs.sendMetric('mp_3ds_success_pooling_time', 'Pooling time: ' + elapsedTime.toString() + ' ms');
                     }

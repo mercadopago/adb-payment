@@ -35,7 +35,7 @@
 
     <!-- API -  Validate three DS exception -->
     <preference for="Magento\Webapi\Controller\Rest" type="MercadoPago\AdbPayment\Controller\Rest" />
-    
+
     <!-- API -  Create Vault -->
     <preference for="MercadoPago\AdbPayment\Api\CreateVaultManagementInterface" type="MercadoPago\AdbPayment\Model\Api\CreateVaultManagement" />
 
@@ -47,7 +47,7 @@
 
      <!-- API - Quote MpPayment Management -->
     <preference for="MercadoPago\AdbPayment\Api\QuoteMpPaymentManagementInterface" type="MercadoPago\AdbPayment\Model\Api\QuoteMpPaymentManagement" />
-        
+
         <!-- API - Payment Status-->
     <preference for="MercadoPago\AdbPayment\Api\PaymentStatusManagementInterface" type="MercadoPago\AdbPayment\Model\Api\PaymentStatusManagement" />
 
@@ -664,12 +664,13 @@
                 <item name="additionalInfoNode" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoDataRequest</item>
                 <item name="additionalInfoItems" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoItemsDataRequest</item>
                 <item name="additionalInfoPayer" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoPayerDataRequest</item>
-                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item> 
+                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item>
                 <item name="additionalInfoShippings" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoShippingsDataRequest</item>
                 <item name="metadata" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentDataRequest</item>
                 <item name="sponsor" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\SponsorDataRequest</item>
                 <item name="metadataPaymentMethodsOff" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentMethodsOffDataRequest</item>
                 <item name="paymentMethod" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\PaymentMethodsOffDataRequest</item>
+                <item name="mpDeviceSessionId" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MpDeviceSessionId</item>
             </argument>
         </arguments>
     </virtualType>
@@ -726,7 +727,7 @@
                 <item name="additionalInfoNode" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoDataRequest</item>
                 <item name="additionalInfoIpAddress" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoIpDataRequest</item>
                 <item name="additionalInfoItems" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoItemsDataRequest</item>
-                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item> 
+                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item>
                 <item name="additionalInfoPayer" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoPayerDataRequest</item>
                 <item name="additionalInfoShippings" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoShippingsDataRequest</item>
                 <item name="metadata" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentDataRequest</item>
@@ -734,6 +735,7 @@
                 <item name="metadataBankTransfer" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentBankTransfDataRequest</item>
                 <item name="paymentMethod" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\BankTransferPaymentDataRequest</item>
                 <item name="transactionDetails" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\BankTransDetailsDataRequest</item>
+                <item name="mpDeviceSessionId" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MpDeviceSessionId</item>
             </argument>
         </arguments>
     </virtualType>
@@ -790,13 +792,14 @@
                 <item name="additionalInfoNode" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoDataRequest</item>
                 <item name="additionalInfoItems" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoItemsDataRequest</item>
                 <item name="additionalInfoPayer" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoPayerDataRequest</item>
-                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item> 
+                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item>
                 <item name="additionalInfoShippings" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoShippingsDataRequest</item>
                 <item name="metadata" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentDataRequest</item>
                 <item name="sponsor" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\SponsorDataRequest</item>
                 <item name="metadataPix" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentPixDataRequest</item>
                 <item name="pointOfInteraction" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\PointOfInteractionPaymentDataRequest</item>
                 <item name="paymentMethod" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\PixPaymentDataRequest</item>
+                <item name="mpDeviceSessionId" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MpDeviceSessionId</item>
             </argument>
         </arguments>
     </virtualType>
@@ -898,7 +901,7 @@
                 <item name="additionalInfoNode" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoDataRequest</item>
                 <item name="additionalInfoItems" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoItemsDataRequest</item>
                 <item name="additionalInfoPayer" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoPayerDataRequest</item>
-                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item> 
+                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item>
                 <item name="additionalInfoShippings" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoShippingsDataRequest</item>
                 <item name="metadata" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentDataRequest</item>
                 <item name="sponsor" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\SponsorDataRequest</item>
@@ -906,6 +909,7 @@
                 <item name="paymentMethod" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\CcPaymentDataRequest</item>
                 <item name="captureAmount" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\CaptureAmountRequest</item>
                 <item name="threeDS" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\ThreeDSDataRequest</item>
+                <item name="mpDeviceSessionId" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MpDeviceSessionId</item>
             </argument>
         </arguments>
     </virtualType>
@@ -969,13 +973,14 @@
                 <item name="additionalInfoNode" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoDataRequest</item>
                 <item name="additionalInfoItems" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoItemsDataRequest</item>
                 <item name="additionalInfoPayer" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoPayerDataRequest</item>
-                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item> 
+                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item>
                 <item name="additionalInfoShippings" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoShippingsDataRequest</item>
                 <item name="metadata" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentDataRequest</item>
                 <item name="sponsor" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\SponsorDataRequest</item>
                 <item name="metadataTwoCc" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataTwoCcPaymentDataRequest</item>
                 <item name="paymentMethod" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\TwoCcPaymentDataRequest</item>
                 <item name="trasanctionInfo" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\TransactionInfoDataRequest</item>
+                <item name="mpDeviceSessionId" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MpDeviceSessionId</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1119,13 +1124,14 @@
                 <item name="additionalInfoNode" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoDataRequest</item>
                 <item name="additionalInfoItems" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoItemsDataRequest</item>
                 <item name="additionalInfoPayer" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoPayerDataRequest</item>
-                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item> 
+                <item name="additionalInfoSeller" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoSellerDataRequest</item>
                 <item name="additionalInfoShippings" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\AdditionalInfoShippingsDataRequest</item>
                 <item name="metadata" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentDataRequest</item>
                 <item name="sponsor" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\SponsorDataRequest</item>
                 <item name="metadataCc" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MetadataPaymentCcDataRequest</item>
                 <item name="paymentMethod" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\CcVaultPaymentDataRequest</item>
                 <item name="threeDS" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\ThreeDSDataRequest</item>
+                <item name="mpDeviceSessionId" xsi:type="string">MercadoPago\AdbPayment\Gateway\Request\MpDeviceSessionId</item>
             </argument>
         </arguments>
     </virtualType>
@@ -1755,7 +1761,7 @@
             <argument name="commandPool" xsi:type="object">MercadoPagoCheckoutCreditsCommandPool</argument>
         </arguments>
     </virtualType>
-    
+
     <virtualType name="MercadoPagoCheckoutCreditsValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
@@ -1863,6 +1869,24 @@
     </type>
 
     <type name="MercadoPago\AdbPayment\Model\Api\FinanceCostManagement">
+        <arguments>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="MercadoPago\AdbPayment\Model\MPApi\Notification">
+        <arguments>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="MercadoPago\AdbPayment\Model\MPApi\PaymentGet">
+        <arguments>
+            <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="MercadoPago\AdbPayment\Gateway\Config\Config">
         <arguments>
             <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
         </arguments>

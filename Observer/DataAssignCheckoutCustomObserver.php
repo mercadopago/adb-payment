@@ -11,6 +11,7 @@ namespace MercadoPago\AdbPayment\Observer;
 use Magento\Framework\Event\Observer;
 use Magento\Payment\Observer\AbstractDataAssignObserver;
 use Magento\Quote\Api\Data\PaymentInterface;
+use MercadoPago\AdbPayment\Gateway\Request\MpDeviceSessionId;
 
 /**
  * Payment data assignment class by Checkout Custom.
@@ -75,6 +76,7 @@ class DataAssignCheckoutCustomObserver extends AbstractDataAssignObserver
         self::FINANCIAL_INSTITUTION,
         self::PAYMENT_TYPE_ID,
         self::PAYMENT_OPTION_ID,
+        MpDeviceSessionId::MP_DEVICE_SESSION_ID,
     ];
 
     /**

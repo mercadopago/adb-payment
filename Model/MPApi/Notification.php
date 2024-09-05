@@ -46,6 +46,7 @@ class Notification {
             $notificationInstance = $sdk->getNotificationInstance();
         } catch (\Throwable $e) {
             // phpcs:ignore Magento2.Exceptions.DirectThrow
+            $this->logger->debug(['error' => $e->getMessage()]);
             throw new Exception($e->getMessage());
         }
 
@@ -55,6 +56,7 @@ class Notification {
             $data = $this->json->serialize($responseBody);
         } catch (\Throwable $e) {
             // phpcs:ignore Magento2.Exceptions.DirectThrow
+            $this->logger->debug(['error' => $e->getMessage()]);
             throw new \Exception("Invalid request to asgard notification: " . $data);
         }
 

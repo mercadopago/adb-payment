@@ -248,26 +248,6 @@ class ConfigCheckoutPro extends PaymentConfig
     }
 
     /**
-     * Get Expired Payment Date.
-     *
-     * @param int|null $storeId
-     *
-     * @return string
-     */
-    public function getExpiredPaymentDate($storeId = null): string
-    {
-        $pathPattern = 'payment/%s/%s';
-
-        $due = $this->scopeConfig->getValue(
-            sprintf($pathPattern, $this->methodCode, self::EXPIRATION),
-            ScopeInterface::SCOPE_STORE,
-            $storeId
-        ) + 2;
-
-        return $this->date->gmtDate('Y-m-d 23:59:59', strtotime("-{$due} days"));
-    }
-
-    /**
      * Get Expiration.
      *
      * @param int|null $storeId
