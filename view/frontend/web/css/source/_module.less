@@ -26,6 +26,8 @@
         }
 
         .payment-method-content {
+            width: 95%;
+            margin-top: 12px;
             .mp-header-two-cards {
                 font-family: 'Open Sans';
                 font-style: normal;
@@ -149,11 +151,12 @@
 
         // css Credits
         .payment-mercado-credits-banner {
-
+            padding: 0px 40px 0px 0px;
+            margin-left: -10px;
             .thumbnails {
                 list-style: none;
                 padding: 0px;
-                margin-bottom: 8px;
+                margin-bottom: 40px;
 
                 div:nth-child(1) {
                     p {
@@ -179,36 +182,48 @@
         }
 
         .row-fluid-title-mercado-credits {
-            margin-bottom: 23px;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 22px;
+            text-align: left;
+            margin-bottom: 32px;
+
+            strong {
+                font-weight: 600;
+            }
         }
 
         .row-fluid-box-mercado-credits {
+            height: 18px;
             display: flex;
             align-items: flex-start;
-
-            li {
-                min-width: 38px;
-            }
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18px;
+            margin-bottom: 16px;
 
             p {
                 margin-bottom: 0px;
             }
 
-
-
+            strong {
+                font-weight: 600;
+            }
         }
 
         .payment-mercado-credits-icon {
-            img {
-                width: 18px;
-                vertical-align: middle;
-                margin-right: 16px;
+            span {
+                color: rgba(0, 158, 227, 1);
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 18px;
+                text-align: left;
+                margin-right: 8px;
             }
-
         }
 
         .mp-credits-message-box {
-            display: flex;
+            width: 95%;
             background-color: #F5F5F5;
             max-width: 582px;
             border-radius: 6px;
@@ -216,20 +231,51 @@
             justify-content: center;
             flex-direction: row;
             align-items: center;
-            padding: 12px;
-            margin: 8px 0px 20px 0px;
+            padding: 16px 0px 16px 0px;
+            margin: 8px 40px 20px 0px;
+            vertical-align: middle;
 
             img {
-                margin-right: 16px;
+                margin-right: 8px;
+                padding-top: 2px;
             }
 
             span {
                 font-weight: 400;
                 font-size: 12px;
-                line-height: 15px;
+                line-height: 16px;
                 margin: 0px;
+                color: rgba(0, 0, 0, 0.55);
             }
         }
+
+        .mp-redirect-message {
+            height: 15px;
+            width: 100%;
+            margin-bottom: 8px;
+            display: flex;
+            margin-left: 20px;
+
+            span {
+                font-size: 12px;
+                line-height: 15px;
+                text-align: left;
+
+                strong {
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .mp-credit-line {
+            margin-left: 20px;
+        }
+
+        .row-text-mercado-credits {
+            color: rgba(0, 0, 0, 0.55);
+            white-space: nowrap;
+        }
+
 
         // end css Credits
 
@@ -316,7 +362,7 @@
                 vertical-align: middle;
 
                 img {
-                    width: 46px;
+                    width: 40px;
                 }
             }
 
@@ -712,6 +758,42 @@
         }
     }
 
+    @media screen and (max-width: 472px){
+
+        .mp-redirect-message {
+            margin-left: 0 ;
+        }
+        .mp-credit-line {
+            margin-left: 0;
+        }
+
+        .payment-method-content {
+            padding: 0;
+        }
+        .payment-method .payment-mercado-credits-banner {
+            padding: 0px 20px 0px 20px;
+            margin-left: 0;
+        }
+
+        .payment-method .row-fluid-box-mercado-credits {
+            height: 36px;
+        }
+
+        .payment-method .row-text-mercado-credits {
+            white-space: normal;
+        }
+
+        .payment-method .mp-credits-message-box {
+            margin-left: -10px;
+            text-align: left;
+            padding: 16px 20px 16px 10px;
+        }
+
+        .redirect-message-text {
+            width: 100%;
+            white-space: nowrap;
+        }
+    }
 }
 
 //
@@ -730,5 +812,9 @@
                 }
             }
         }
+    }
+
+    .mp-credits-message-box {
+        text-align: left;
     }
 }

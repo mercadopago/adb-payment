@@ -53,7 +53,7 @@
             <p>
                 <span>&#8226;</span>
                 <b><?= $block->escapeHtml(__('Finance Cost')) ?>:</b>
-                <?= __($block->getFormatedPrice($block->getInfo('card_'.$i.'_finance_cost'))) ?>
+                <?= $block->escapeHtml(__($block->getFormatedPrice($block->getInfo('card_'.$i.'_finance_cost')))) ?>
             </p>
             <?php endif; ?>
             <p>
@@ -75,5 +75,5 @@
     <?php endfor; ?>
 
     <div class="mercadopago-payment-success-details-two-cc mercadopago-payment-logo">
-        <img src="<?php echo $this->getViewFileUrl('MercadoPago_AdbPayment::images/core/logo.svg'); ?>"/>
+        <img src="<?php echo $block->escapeHtml($this->getViewFileUrl('MercadoPago_AdbPayment::images/core/logo.svg')); ?>"/>
     </div>
