@@ -48,7 +48,7 @@
     <?php } ?>
 
     <?php if ($messageDocument) { ?>
-        <p><?= $block->escapeHtml(__($messageDocument)) ?>: <b><?= $document; ?></b> </p>
+        <p><?= $block->escapeHtml(__($messageDocument)) ?>: <b><?= $block->escapeHtml($document); ?></b> </p>
     <?php } ?>
 
     <?php if ($messageWillApproved) { ?>
@@ -63,12 +63,12 @@
                 <?= $block->escapeHtml(__('Details for payment')) ?>
             </a>
         <?php } else {
-            echo __('Error getting the link to the ticket. Please contact the seller.');
+            echo $block->escapeHtml__('Error getting the link to the ticket. Please contact the seller.');
         } ?>
     </div>
 
     <div class="mercadopago-payment-logo">
-        <img src="<?php echo $this->getViewFileUrl('MercadoPago_AdbPayment::images/core/logo.svg'); ?>"/>
+        <img src="<?php echo $block->escapeHtml($this->getViewFileUrl('MercadoPago_AdbPayment::images/core/logo.svg')); ?>"/>
     </div>
 </div>
 <script type="text/x-magento-init">

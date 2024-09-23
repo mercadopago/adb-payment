@@ -43,7 +43,7 @@ $qrCodeImage = $block->getInfo('qr_code_base64');
     </p>
 </div>
 <div class="mercadopago-payment-logo">
-    <img src="<?php echo $this->getViewFileUrl('MercadoPago_AdbPayment::images/core/logo.svg'); ?>"/>
+    <img src="<?php echo $block->escapeHtml($this->getViewFileUrl('MercadoPago_AdbPayment::images/core/logo.svg')); ?>"/>
 </div>
 <script type="text/x-magento-init">
     {

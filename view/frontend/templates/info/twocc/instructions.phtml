@@ -39,7 +39,7 @@ $specificInfo = $block->getSpecificInformation();
                         <?php if (isset($specificInfo['card_' . $i . '_finance_cost'])) : ?>
                             <tr>
                                 <th scope="row"><?= $block->escapeHtml(__('card_finance_cost')); ?>:</th>
-                                <td><?= $block->getFormatedPrice($specificInfo['card_' . $i . '_finance_cost']) ?></td>
+                                <td><?= $block->escapeHtml($block->getFormatedPrice($specificInfo['card_' . $i . '_finance_cost'])) ?></td>
                             </tr>
                         <?php endif; ?>
                         <?php if (isset($specificInfo['card_' . $i . '_type'])) : ?>

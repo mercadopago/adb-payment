@@ -52,7 +52,7 @@ jobs:
 
       - name: Install & Build Magento
         id: build-magento
-        run: bash bin/install-mg2.sh
+        run: bash bin/install-mg2.sh 2.4.7-p2
 
       - name: Install MP Plugin
         id: install-plugin

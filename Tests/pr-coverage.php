@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile
 
 $coverage  = $argv[1] ?? null;
 $editedFilesList = $argv[2] ?? null;

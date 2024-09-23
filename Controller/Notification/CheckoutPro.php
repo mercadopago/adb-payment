@@ -336,6 +336,15 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
         return $result;
     }
 
+    /**
+     * Update Invoice.
+     *
+     * @param OrderRepository $order
+     * @param string          $mpTransactionId
+     * @param string          $transactionId
+     *
+     * @return void
+     */
     private function updateInvoice(OrderInterface $order, $mpTransactionId, $transactionId): void
     {
         $payment = $order->getPayment();
@@ -344,11 +353,10 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
             $payment->setShouldCloseParentTransaction(true);
             $payment->setParentTransactionId($mpTransactionId);
             $payment->setTransactionId($transactionId);
+            $payment->setIsTransactionPending(false);
             $payment->setIsTransactionClosed(true);
             $payment->addTransaction(Transaction::TYPE_CAPTURE);
-
-            $order->getPayment()->update(true);
-            $this->orderRepository->save($order);
+            $order->save();
         }
     }
 }

@@ -342,7 +342,7 @@
                 <active>1</active>
                 <model>MercadoPagoCheckoutCreditsFacade</model>
                 <order_status>pending</order_status>
-                <title translate="true">Up to 12 installments without card with Mercado Pago</title>
+                <title translate="true">Pagos sin Tarjeta de Mercado Pago</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>payer_first_name,payer_last_name,init_point,date_of_expiration,id,payer_document_type,mp_installments,mp_payment_type_id,mp_payment_id,mp_status,mp_status_detail,payment_0_id,payment_0_type,payment_0_card_number,payment_0_installments,payment_0_total_amount,payment_0_paid_amount,mp_0_status,mp_0_status_detail,payment_1_id,payment_1_type,payment_1_card_number,payment_1_installments,payment_1_total_amount,payment_1_paid_amount,mp_1_status,mp_1_status_detail</paymentInfoKeys>
                 <privateInfoKeys>mp_payment_id,payer_document_type,mp_status,mp_status_detail,payment_0_id,mp_0_status,mp_0_status_detail,payment_1_id,mp_1_status,mp_1_status_detail</privateInfoKeys>
@@ -365,11 +365,12 @@
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
                 <group>mercadopago_group</group>
                 <expiration>1</expiration>
-                <banner_text_use><![CDATA[<strong>How to use it?</strong>]]></banner_text_use>
-                <banner_text_1><![CDATA[<strong>Log in</strong> or create a Mercado Pago account. If you use Mercado Libre you already have one!]]></banner_text_1>
-                <banner_text_2><![CDATA[Check your available limit in Mercado Credito and <strong>choose in how many installments you want to pay.</strong>]]></banner_text_2>
-                <banner_text_3><![CDATA[Pay the installments as you prefer: <strong>with your Mercado Pago balance, with card or in the Mercado Pago app.</strong>]]></banner_text_3>
-                <banner_text_lock><![CDATA[By continuing, we will direct you to Mercado Pago to complete your purchase safely.]]></banner_text_lock>
+                <banner_text_use><![CDATA[<strong>Buy in up to 12x without a credit card</strong>]]></banner_text_use>
+                <banner_text_1><![CDATA[Find out the available limit of your credit line and choose the number of installment.]]></banner_text_1>
+                <banner_text_2><![CDATA[Confirm your payment. It is approved instantly and is 100% protected.]]></banner_text_2>
+                <banner_text_3><![CDATA[Pay every month through your Mercado Pago account using the payment method you prefer.]]></banner_text_3>
+                <banner_text_lock><![CDATA[We will redirect you to Mercado Pago]]></banner_text_lock>
+                <banner_text_lock_2><![CDATA[If you don't already have the Mercado Pago Credit Line, simply activate it when paying.]]></banner_text_lock_2>
                 <min_order_total>1</min_order_total>
                 <max_order_total>200000</max_order_total>
                 <allowspecific>1</allowspecific>
