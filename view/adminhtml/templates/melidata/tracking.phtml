@@ -21,9 +21,9 @@
 {
   "*": {
     "mp_tracking": {
-        "siteId": "<?= $siteId ?>",
-        "platformVersion": "<?= $platformVersion ?>",
-        "moduleVersion": "<?= $moduleVersion ?>"
+        "siteId": "<?= $block->escapeHtml($siteId) ?>",
+        "platformVersion": "<?= $block->escapeHtml($platformVersion) ?>",
+        "moduleVersion": "<?= $block->escapeHtml($moduleVersion) ?>"
     }
   }
 }

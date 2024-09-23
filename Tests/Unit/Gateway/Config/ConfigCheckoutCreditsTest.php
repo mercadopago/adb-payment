@@ -28,7 +28,7 @@ class ConfigCheckoutCreditsTest extends TestCase
   /**
    * config method.
    */
-  public const BANNER_TEXT_USE = 'How to use it?';
+  public const BANNER_TEXT_USE = 'Compre em até 12x sem cartão de crédito';
 
   /**
    * @var ScopeConfigInterface
@@ -216,7 +216,7 @@ class ConfigCheckoutCreditsTest extends TestCase
     $this->scopeConfigMock->expects($this->any())
     ->method(self::CONFIG_METHOD)
     ->with(sprintf(self::PATH_PATTERN, ConfigCheckoutCredits::METHOD, $textId), ScopeInterface::SCOPE_STORE, $storeId)
-    ->willReturn('How to use it?');
+    ->willReturn('Compre em até 12x sem cartão de crédito');
 
     $configCheckoutCredits = new ConfigCheckoutCredits(
       $this->scopeConfigMock,
@@ -226,7 +226,7 @@ class ConfigCheckoutCreditsTest extends TestCase
     );
 
     $result = $configCheckoutCredits->getBannerText($textId, $storeId);
-    
-    $this->assertEquals('How to use it?', $result);
+
+    $this->assertEquals('Compre em até 12x sem cartão de crédito', $result);
   }
 }

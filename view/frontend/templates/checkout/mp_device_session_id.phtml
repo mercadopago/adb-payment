@@ -1,1 +1,1 @@
-<script src="https://www.mercadopago.com/v2/security.js" view="checkout" nonce="<?php echo $this->getNonce() ?>"></script>
+<script src="https://www.mercadopago.com/v2/security.js" view="checkout" nonce="<?php echo $this->escapeHtml($this->getNonce()) ?>"></script>

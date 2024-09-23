@@ -179,7 +179,7 @@ class ConfigProviderCheckoutCredits extends ConfigProviderCheckoutPro implements
 
     /**
      * Get images for payment method banner.
-     * 
+     *
      * @return array
      */
     public function getImages()
@@ -197,7 +197,7 @@ class ConfigProviderCheckoutCredits extends ConfigProviderCheckoutPro implements
 
     /**
      * Get images for payment method banner.
-     * 
+     *
      * @return array
      */
     public function getImagesByName($name)
@@ -230,6 +230,7 @@ class ConfigProviderCheckoutCredits extends ConfigProviderCheckoutPro implements
             'credits-2' => $this->getBannerTextById('banner_text_2', $storeId),
             'credits-3' => $this->getBannerTextById('banner_text_3', $storeId),
             'credits-lock' => $this->getBannerTextById('banner_text_lock', $storeId),
+            'credits-lock-2' => $this->getBannerTextById('banner_text_lock_2', $storeId),
         ];
         // $texts = $this->config->getBannerTexts($storeId);
 

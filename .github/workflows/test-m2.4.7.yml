@@ -1,0 +1,112 @@
+name: Test Magento 2.4.7
+
+on: [pull_request]
+
+jobs:
+  validate-tests:
+    name: Run Tests
+    runs-on: ubuntu-22.04
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_DATABASE: magento_test
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: magento
+          MYSQL_PASSWORD: p@ssw0rd1
+          MYSQL_ROOT_PASSWORD: p@ssw0rd1
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install extensions gd and zip
+        run: sudo apt-get update && sudo apt-get install -y php8.1-gd && sudo apt-get install -y php8.1-zip
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          extensions: curl, dom, intl, json, openssl
+          coverage: xdebug
+
+      - name: Verify PHP Installation
+        run: php -v
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup cache
+        uses: pat-s/always-upload-cache@v1.1.4
+        env:
+          COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install & Build Magento
+        id: build-magento
+        run: bash bin/install-mg2.sh 2.4.7-p2
+
+      - name: Install MP Plugin
+        id: install-plugin
+        run: mkdir magento2/app/code/MercadoPago/ && mkdir magento2/app/code/MercadoPago/AdbPayment/ && mv $(ls --ignore='bin' --ignore='.github' --ignore='magento2') magento2/app/code/MercadoPago/AdbPayment && ls
+
+      - name: Run Unit Test
+        id: unit-test
+        run:
+          XDEBUG_MODE=coverage magento2/vendor/phpunit/phpunit/phpunit \
+            --configuration  magento2/app/code/MercadoPago/AdbPayment/phpunit.xml \
+            --coverage-html coverage/ \
+            --coverage-clover coverage/clover.xml \
+            --coverage-filter magento2/app/code/MercadoPago/AdbPayment
+
+      - name: Repository Minimum Test Coverage
+        id: repository-coverage
+        run: php magento2/app/code/MercadoPago/AdbPayment/Tests/coverage-checker.php coverage/clover.xml 25
+
+      - id: pr-files-list
+        name: Get Pull Request Files
+        uses: ruslandulina/compare-basehead-commits@v1.2
+
+      - id: save-modified-pr-files-list
+        name: Save modified PR Files List to a file
+        run: echo "${{join(steps.pr-files-list.outputs.modified, ' ')}}" > modified-files-list.txt
+
+      - id: save-added-pr-files-list
+        name: Save added PR Files List to a file
+        run: echo "${{join(steps.pr-added-list.outputs.added, ' ')}}" > added-files-list.txt
+
+      - name: PR Modified Files
+        run: cat modified-files-list.txt
+
+      - name: PR Added Files
+        run: cat added-files-list.txt
+
+      - name: Pull Request Coverage
+        id: pull-request-coverage
+        run: php magento2/app/code/MercadoPago/AdbPayment/Tests/pr-coverage.php coverage/clover.xml modified-files-list.txt added-files-list.txt 25
+
+      - name: List
+        run: ls && ls coverage
+
+      - name: ZIP coverage results
+        run: zip coverage.zip coverage
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: coverage.zip
+
+      - name: Archive code coverage folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: coverage/
