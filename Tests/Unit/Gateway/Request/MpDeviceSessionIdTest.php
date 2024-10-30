@@ -15,12 +15,12 @@ class MpDeviceSessionIdTest extends TestCase {
             ->method('getAdditionalInformation')
             ->with(MpDeviceSessionId::MP_DEVICE_SESSION_ID)
             ->willReturn('arm:1234');
-
+        
         $paymentDataObjectMock = $this->createMock(PaymentDataObject::class);
         $paymentDataObjectMock->expects($this->once())
             ->method('getPayment')
             ->willReturn($paymentInterceptorMock);
-
+        
         $class = new MpDeviceSessionId();
 
         $result = $class->build(['payment' => $paymentDataObjectMock]);
@@ -35,12 +35,12 @@ class MpDeviceSessionIdTest extends TestCase {
             ->method('getAdditionalInformation')
             ->with(MpDeviceSessionId::MP_DEVICE_SESSION_ID)
             ->willReturn(null);
-
+        
         $paymentDataObjectMock = $this->createMock(PaymentDataObject::class);
         $paymentDataObjectMock->expects($this->once())
             ->method('getPayment')
             ->willReturn($paymentInterceptorMock);
-
+        
         $class = new MpDeviceSessionId();
 
         $result = $class->build(['payment' => $paymentDataObjectMock]);
@@ -51,7 +51,7 @@ class MpDeviceSessionIdTest extends TestCase {
     public function testBuildWithoutPayment()
     {
         $this->expectException(\InvalidArgumentException::class);
-
+        
         $class = new MpDeviceSessionId();
         $class->build([]);
     }

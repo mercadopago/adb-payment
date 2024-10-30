@@ -287,7 +287,15 @@ class CheckoutCustomTest extends TestCase
         $creditMemo = $mocks['creditMemo'];
 
         // VALIDATE CREDITMEMO DURING REFUND
-        $creditMemo->expects($this->any())
+        $this->order->expects($this->once())
+        ->method('getTotalPaid')
+        ->willReturn(1000);
+
+        $this->order->expects($this->once())
+        ->method('getTotalRefunded')
+        ->willReturn(500);
+
+        $creditMemo->expects($this->once())
             ->method('getBaseGrandTotal')
             ->willReturn(130.00);
 

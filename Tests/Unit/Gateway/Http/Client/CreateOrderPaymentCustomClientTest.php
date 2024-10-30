@@ -34,7 +34,7 @@ class CreateOrderPaymentCustomClientTest extends TestCase {
             ->willReturn($sdkMock);
 
         return new CreateOrderPaymentCustomClient(
-            $logger,
+            $logger, 
             $config,
             $json,
             $quoteMpPaymentRepository,

@@ -226,7 +226,7 @@ class ConfigCheckoutCreditsTest extends TestCase
     );
 
     $result = $configCheckoutCredits->getBannerText($textId, $storeId);
-
+    
     $this->assertEquals('Compre em até 12x sem cartão de crédito', $result);
   }
 }
