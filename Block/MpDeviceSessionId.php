@@ -14,8 +14,8 @@ class MpDeviceSessionId extends Template
 
     private DynamicCollector $dynamicCollector;
     private Random $random;
-
-    /**
+    
+    /** 
      * @param Context $context
      * @param DynamicCollector $dynamicCollector
      * @param Random $random
