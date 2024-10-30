@@ -68,6 +68,11 @@ class ConfigTwoCc extends PaymentConfig
     public const PAYMENT_ACTION = 'payment_action';
 
     /**
+     * Maximum Order Amount Total.
+     */
+    public const MAX_ORDER_TOTAL = 'max_order_total';
+
+    /**
      * @var Config
      */
     protected $config;
@@ -330,4 +335,21 @@ class ConfigTwoCc extends PaymentConfig
         return $this->fingerprint->getFingerPrintLink($mpSiteId);
     }
 
+    /**
+     * Get Maximum order total
+     *
+     * @param int|null $storeId
+     *
+     * @return float
+     */
+    public function getMaximumOrderTotal($storeId = null): float
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return (float)$this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::MAX_ORDER_TOTAL),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
 }

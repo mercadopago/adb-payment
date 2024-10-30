@@ -185,7 +185,11 @@ abstract class Refund {
             $payment->setTransactionId($refundData->getId());
             $payment->setIsTransactionClosed(true);
 
-            if ($refundData->getAmount() < $creditMemo->getBaseGrandTotal()) {
+            $refundBalance = $this->order->getTotalPaid() - $this->order->getTotalRefunded();
+
+            if ($refundData->getAmount() < $creditMemo->getBaseGrandTotal() &&
+                $refundData->getAmount() < $refundBalance
+            ) { 
                 $creditMemo->setItems([]);
             }
 

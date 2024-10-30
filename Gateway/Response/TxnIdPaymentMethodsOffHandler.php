@@ -289,6 +289,11 @@ class TxnIdPaymentMethodsOffHandler implements HandlerInterface
                 self::MESSAGE_DOCUMENT,
                 'Enter the ID Document you used in the purchase'
             );
+
+            $payment->setAdditionalInformation(
+                self::MESSAGE_INFO,
+                'To pay, please go to any lotérica or "Correspondente Caixa" branch. You will need the following code and the ID number used in the purchase.'
+            );
         }
     }
 }

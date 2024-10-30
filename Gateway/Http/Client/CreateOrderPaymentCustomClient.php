@@ -229,12 +229,12 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                 unset($request[CaptureAmountRequest::AMOUNT_TO_CAPTURE]);
 
                 $paymentInstance->setEntity($request);
-
+                
 
                 if(isset($paymentInstance->payer->id)) {
                     $customHeaders[] = self::HEADER_CUSTOMER_ID . $paymentInstance->payer->id;
                 }
-
+                
                 $paymentInstance->setCustomHeaders($customHeaders);
 
                 $clientHeaders = $paymentInstance->getLastHeaders();

@@ -26,6 +26,11 @@ class ConfigCheckoutCredits extends ConfigPro
     public const METHOD = 'mercadopago_adbpayment_checkout_credits';
 
     /**
+     * Maximum Order Amount Total.
+     */
+    public const MAX_ORDER_TOTAL = 'max_order_total';
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param DateTime             $date
      * @param Config               $config
@@ -54,6 +59,24 @@ class ConfigCheckoutCredits extends ConfigPro
 
         return $this->scopeConfig->getValue(
             sprintf($pathPattern, $this->methodCode, $textId),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Get Maximum order total
+     *
+     * @param int|null $storeId
+     *
+     * @return float
+     */
+    public function getMaximumOrderTotal($storeId = null): float
+    {
+        $pathPattern = 'payment/%s/%s';
+
+        return (float)$this->scopeConfig->getValue(
+            sprintf($pathPattern, self::METHOD, self::MAX_ORDER_TOTAL),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
