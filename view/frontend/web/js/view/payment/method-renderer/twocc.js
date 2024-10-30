@@ -130,8 +130,8 @@ define([
 
                 const firstCardAmount = self.FormattedCurrencyToInstallments(self.inputValueProgress());
 
-                const currentCardAmount = self.cardIndex() == 0
-                    ? self.FormattedCurrencyToInstallments(firstCardAmount)
+                const currentCardAmount = self.cardIndex() == 0 
+                    ? self.FormattedCurrencyToInstallments(firstCardAmount) 
                     : self.FormattedCurrencyToInstallments(newAmount - firstCardAmount);
 
                 if (currentCardAmount !== self.installmentsAmount()) {
@@ -342,7 +342,7 @@ define([
             if (this.getMpSiteId() === 'MCO' || this.getMpSiteId() === 'MLC') {
                 return true;
             }
-
+            
             return false;
         },
 
@@ -379,7 +379,7 @@ define([
 
             return 'second-card-opened-form';
         },
-
+        
         resetFirstCard() {
             this.editFirstCard();
             this.mpPayerDocument('');

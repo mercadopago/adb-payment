@@ -71,11 +71,12 @@ class Info extends ConfigurableInfo
    * Function getFormatedPrice
    *
    * @param float $price
+   * @param bool $includeContainer
    *
    * @return string
    */
-  public function getFormatedPrice($amount)
+  public function getFormatedPrice($amount, $includeContainer = true)
   {
-    return $this->priceCurrency->convertAndFormat($amount);
+    return $this->priceCurrency->convertAndFormat($amount, $includeContainer);
   }
 }

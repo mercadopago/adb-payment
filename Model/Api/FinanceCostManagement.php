@@ -39,7 +39,7 @@ class FinanceCostManagement implements FinanceCostManagementInterface
      * @var MpConfig
      */
     protected $mpConfig;
-
+    
     /**
      * @var Logger
      */

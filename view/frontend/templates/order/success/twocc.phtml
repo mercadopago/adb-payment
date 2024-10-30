@@ -53,7 +53,7 @@
             <p>
                 <span>&#8226;</span>
                 <b><?= $block->escapeHtml(__('Finance Cost')) ?>:</b>
-                <?= $block->escapeHtml(__($block->getFormatedPrice($block->getInfo('card_'.$i.'_finance_cost')))) ?>
+                <?= $escaper->escapeHtml(__($block->getFormatedPrice($block->getInfo('card_'.$i.'_finance_cost'), false))) ?>
             </p>
             <?php endif; ?>
             <p>
