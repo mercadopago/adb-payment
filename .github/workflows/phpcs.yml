@@ -4,7 +4,7 @@ on: [pull_request]
 
 jobs:
   validate-code-standards:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     services:
       mysql:

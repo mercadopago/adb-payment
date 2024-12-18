@@ -1,0 +1,81 @@
+<!--
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @author      Mercado Pago
+ * @license     See LICENSE for license details.
+ */
+-->
+
+<fieldset data-bind="attr: {class: 'fieldset payment items', id: 'payment_form_payer_' + getCode()}">
+    <div>
+        <p class="yape-title"><!-- ko i18n: 'Pay with Yape in a few minutes'--><!-- /ko --></p>
+        <p class="yape-subtitle"><!-- ko i18n: 'Fill out the following details and confirm your purchase.'--><!-- /ko --></p>
+    </div>
+    <div class="yape-form">
+        <div class="phone-area">
+            <label for="yape-phone"><!-- ko i18n: 'Cell phone linked to Yape'--><!-- /ko --></label>
+            <input type="text" id="yape-phone" name="yape-phone" data-bind="attr:{placeholder: $t('E.g.: 872 123 432')}, value: mpYapePhone" maxlength="9"/>
+            <p class="yape-error" id="yape-phone-empty"><img data-bind="attr: {
+                'src': getErrorIcon().url,
+
+                }"><!-- ko i18n: 'Fill out this field.'--><!-- /ko --> </p>
+            <p class="yape-error" id="yape-phone-incomplete" ><img data-bind="attr: {
+                'src': getErrorIcon().url,
+
+                }"><!-- ko i18n: 'Enter the entire number.'--><!-- /ko --></p>
+            <p class="yape-error" id="yape-phone-incorrect" ><img data-bind="attr: {
+                'src': getErrorIcon().url,
+
+                }"><!-- ko i18n: 'Enter only numbers.'--><!-- /ko --></p>
+        </div>
+        <div class="otp-area">
+            <div class="yape-code-inputs">
+
+                <label for="yape-otp"><!-- ko i18n: 'Approval Code'--><!-- /ko --></label>
+                <div class="otp-tooltip">
+
+                    <div class="otp-input-row" id="yape-otp-inputs">
+                        <input type="number" pattern="\d*" >
+                        <input type="number" pattern="\d*" >
+                        <input type="number" class="otp-middle" pattern="\d*" >
+                        <input type="number" pattern="\d*" >
+                        <input type="number" pattern="\d*" >
+                        <input type="number" pattern="\d*" >
+                    </div>
+                    <div class="tooltip-area">
+                        <span class="help-tooltip">
+                            <a href="#" class="tooltip-toggle"></a>
+                            <div class="tooltip-content"><!-- ko i18n: 'The code is available in the Yape app menu.'--><!-- /ko --></div>
+                        </span>
+                    </div>
+                </div>
+
+                <input type="hidden" name="yape-otp" data-bind="value: mpYapeOtp">
+                <p id="yape-code-empty" class="yape-error"><img data-bind="attr: {
+                    'src': getErrorIcon().url,
+
+                    }"><!-- ko i18n: 'Fill out this field.'--><!-- /ko --> </p>
+                <p id="yape-code-incomplete" class="yape-error"><img data-bind="attr: {
+                    'src': getErrorIcon().url,
+
+                    }"><!-- ko i18n: 'Enter the entire number.'--><!-- /ko --></p>
+                <p id="yape-code-incorrect" class="yape-error"><img data-bind="attr: {
+                    'src': getErrorIcon().url,
+
+                    }"><!-- ko i18n: 'Enter only numbers.'--><!-- /ko --></p>
+                </div>
+        </div>
+
+    </div>
+    <div class="message message-info info yape-info">
+        <img data-bind="attr: {
+            'src': getInfoIcon().url
+        }"/>
+        <div>
+            <span>
+                <!-- ko i18n: 'Verify in Yape that the option \"Compras por internet\" is activated and that the daily limit is enough.'--><!-- /ko -->
+            </span>
+        </div>
+    </div>
+</fieldset>

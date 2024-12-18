@@ -129,7 +129,22 @@ class CancelCheckoutCreditsTest extends TestCase
       ->method('where')
       ->with($this->callback(function ($expr) {
           return $expr instanceof \Zend_Db_Expr &&
-                 $expr->__toString() === "sop.method = ? AND TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, CAST(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration') AS DATETIME))) >= 0 ";
+                 $expr->__toString() === "sop.method = ?
+                        AND TIME_TO_SEC(
+                            TIMEDIFF(CURRENT_TIMESTAMP(),
+                                STR_TO_DATE(
+                                    REPLACE(
+                                        SUBSTRING_INDEX(
+                                            JSON_UNQUOTE(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration')),
+                                            '.',
+                                            1
+                                        ),
+                                        'T', ' '
+                                    ),
+                                    '%Y-%m-%d %H:%i:%s'
+                                )
+                            )
+                        ) >= 0";
       }))
       ->willReturnSelf();
 

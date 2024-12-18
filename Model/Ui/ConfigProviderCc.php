@@ -116,6 +116,7 @@ class ConfigProviderCc implements ConfigProviderInterface
         }
         $storeId = $this->cart->getStoreId();
         $ccTypes = $this->configCc->getCcAvailableTypes($storeId);
+
         $types = explode(',', $ccTypes);
         foreach ($types as $code => $label) {
             if (!array_key_exists($code, $this->icons)) {

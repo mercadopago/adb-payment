@@ -3,7 +3,9 @@
     <group id="mercadopago_adbpayment_payment_methods_off" translate="label comment" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
 
         <label>Offline Payments Methods</label>
-
+         <depends>
+            <field id="*/*/merchant_profile/site_id" separator="|">MLB|MPE|MCO|MLU|MEC|MLA|MLM</field>
+        </depends>
         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
             <label>Enabled</label>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

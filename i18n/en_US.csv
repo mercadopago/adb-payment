@@ -18,6 +18,7 @@ Tax,Tax
 "Awaiting payment.","Awaiting payment."
 "Awaiting payment through Checkout Pro.","Awaiting payment through Checkout Pro."
 "Awaiting payment through Pix.","Awaiting payment through Pix."
+"Awaiting payment through Yape.","Awaiting payment through Yape."
 "The gateway declined the transaction.","The gateway declined the transaction."
 "Please select a category","Please select a category"
 description,description
@@ -231,6 +232,7 @@ Webpay,Webpay
 "financial_institution","Financial Institution"
 "payer_document_type","Payer Document Type"
 "mp_status","Status (Mercado Pago)"
+"Status","Status"
 "mp_status_detail","Status Detail (Mercado Pago)"
 "Link","Link"
 "Line Code","Line Code"
@@ -408,10 +410,12 @@ Webpay,Webpay
 "The bank declined your payment with the first card. We recommend paying with another card or contacting the bank. Do not worry, no fee was charged on the second payment method.","The bank declined your payment with the first card. We recommend paying with another card or contacting the bank. Do not worry, no fee was charged on the second payment method."
 "The bank declined the payment with the second card. We recommend paying with another card or contacting the bank. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","The bank declined the payment with the second card. We recommend paying with another card or contacting the bank. Do not worry if any fees were charged on the first payment method, they will be refunded automatically."
 "The card issuing bank declined your payment. We recommend paying with another payment method or contacting your bank.","The card issuing bank declined your payment. We recommend paying with another payment method or contacting your bank."
+"Your payment was rejected because something went wrong. We recommend trying again or paying with another method.","Your payment was rejected because something went wrong. We recommend trying again or paying with another method."
 ---------Call For Authorize----------------
 "Your bank needs you to authorize the payment with the first card. Please contact the bank or pay with another card. Do not worry, no fee was charged on the second payment method.","Your bank needs you to authorize the payment with the first card. Please contact the bank or pay with another card. Do not worry, no fee was charged on the second payment method."
 "Your bank needs you to authorize the payment with the second payment method. Please contact the bank or pay with another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","Your bank needs you to authorize the payment with the second payment method. Please contact the bank or pay with another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically."
 "Your bank needs you to authorize the payment. Please call the telephone number on your card or pay with another method.","Your bank needs you to authorize the payment. Please call the telephone number on your card or pay with another method."
+"Your payment could not be processed. You can contact Yape to find out why or try again with this or another payment method.","Your payment could not be processed. You can contact Yape to find out why or try again with this or another payment method."
 ---------Card Disabled--------------------
 "You have to activate the first card. Please contact the bank or pay with another card. Do not worry, no fee was charged on the second payment method.","You have to activate the first card. Please contact the bank or pay with another card. Do not worry, no fee was charged on the second payment method."
 "You have to activate the second card. Please contact the bank or pay using another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","You have to activate the second card. Please contact the bank or pay using another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically."
@@ -429,10 +433,11 @@ Webpay,Webpay
 "For security reasons, your payment with the second card was declined. We recommend paying with your usual payment method and device for online purchases. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","For security reasons, your payment with the second card was declined. We recommend paying with your usual payment method and device for online purchases. Do not worry if any fees were charged on the first payment method, they will be refunded automatically."
 "For safety reasons, your payment was declined. We recommend paying with your usual payment method and device for online purchases.","For safety reasons, your payment was declined. We recommend paying with your usual payment method and device for online purchases."
 "For safety reasons, your payment was declined. To protect your money, this transaction cannot be completed.","For safety reasons, your payment was declined. To protect your money, this transaction cannot be completed."
-----------Insuficient Amount (Credit)----------
+----------Insuficient Amount (Credit and Yape)----------
 "The first card has insufficient funds. Please pay with another card. Do not worry, no fees were charged on the second payment method.","The first card has insufficient funds. Please pay with another card. Do not worry, no fees were charged on the second payment method."
 "The second card has insufficient funds. Please pay with another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","The second card has insufficient funds. Please pay with another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically."
 "Your credit card has no available limit. We recommend paying with two cards or choosing another payment method.","Your credit card has no available limit. We recommend paying with two cards or choosing another payment method."
+"This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method or trying again tomorrow.","This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method or trying again tomorrow."
 ----------Insuficient Amount (Debit)-----------
 "The first card has insufficient funds. Please pay using another card. Do not worry, no fee was charged on the second payment method.","The first card has insufficient funds. Please pay using another card. Do not worry, no fee was charged on the second payment method."
 "The second card has insufficient funds. Please pay with another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","The second card has insufficient funds. Please pay with another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically."
@@ -443,6 +448,15 @@ Webpay,Webpay
 "Your card does not accept the number of installments selected. Please choose a different number of installments or use another payment method.","Your card does not accept the number of installments selected. Please choose a different number of installments or use another payment method."
 ----------Max Attempts-----------------
 "You reached the limit of payment attempts with this card. Please pay with another card or choose another payment method.","You reached the limit of payment attempts with this card. Please pay with another card or choose another payment method."
+"After three incorrect approval codes, the payment can’t be done with Yape for your safety. Pay with another method or try again in 24 hours.","After three incorrect approval codes, the payment can’t be done with Yape for your safety. Pay with another method or try again in 24 hours."
+----------Not allowed----------------------
+"Your payment could not be processed. We recommend paying with another method.","Your payment could not be processed. We recommend paying with another method."
+----------Rejected Security Code-----------
+"Invalid information. Please check and try again.","Invalid information. Please check and try again."
+----------Invalid transaction_amount-------
+"This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method.","This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method."
+----------Generic error--------------------
+"Your payment could not be processed. Please try again or choose another payment method.","Your payment could not be processed. Please try again or choose another payment method."
 
 "Complete the bank validation so your payment can be approved","Complete the bank validation so your payment can be approved"
 "Please keep this page open. If you close it, you will not be able to resume the validation.", "Please keep this page open. If you close it, you will not be able to resume the validation."
@@ -453,3 +467,15 @@ Webpay,Webpay
 "An error has occurred. Please refresh the page and try again.", "An error has occurred. Please refresh the page and try again."
 "We are receiving the reply from your bank", "We are receiving the reply from your bank"
 "An error occured."
+------------YAPE-------------------
+"Pay with Yape in a few minutes", "Pay with Yape in a few minutes"
+"Fill out the following details and confirm your purchase.", "Fill out the following details and confirm your purchase."
+"Cell phone linked to Yape", "Cell phone linked to Yape"
+"E.g.: 872 123 432", "E.g.: 872 123 432"
+"Approval Code", "Approval code"
+"The code is available in the Yape app menu.", "The code is available in the Yape app menu."
+"Fill out this field.", "Fill out this field."
+"Enter the entire number.", "Enter the entire number."
+"Enter only numbers.", "Enter only numbers."
+"Verify in Yape that the option ""Compras por internet"" is activated and that the daily limit is enough.", "Verify in Yape that the option ""Compras por internet"" is activated and that the daily limit is enough."
+"payer.email must be a valid email","Payer Email must be a valid email"

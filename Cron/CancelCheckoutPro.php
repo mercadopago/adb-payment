@@ -96,7 +96,22 @@ class CancelCheckoutPro
                 ['method', 'additional_information']
             )
             ->where(new \Zend_Db_Expr(
-                "sop.method = ? AND TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, CAST(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration') AS DATETIME))) >= 0 "
+            "sop.method = ?
+                AND TIME_TO_SEC(
+                    TIMEDIFF(CURRENT_TIMESTAMP(),
+                        STR_TO_DATE(
+                            REPLACE(
+                                SUBSTRING_INDEX(
+                                    JSON_UNQUOTE(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration')),
+                                    '.',
+                                    1
+                                ),
+                                'T', ' '
+                            ),
+                            '%Y-%m-%d %H:%i:%s'
+                        )
+                    )
+                ) >= 0"
             ), ConfigCheckoutPro::METHOD);
 
 
@@ -132,7 +147,7 @@ class CancelCheckoutPro
 
                 $dateRange[] = $orderAdditionalInformation->date_of_expiration;
                 $this->logger->debug([
-                    'fetch'   => 'Cancel Order Id ' . $orderId . ' successfully',
+                    'fetch'   => 'Cancel Order ' . $order->getIncrementId() . ' successfully',
                     'order_date_of_expiration' => $orderAdditionalInformation->date_of_expiration
                 ]);
             }

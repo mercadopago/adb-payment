@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\AdbPayment\Block\Sales\Info\Yape $block
+ * @see \MercadoPago\AdbPayment\Block\Sales\Info\Yape
+ */
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
+$specificInfo = $block->getSpecificInformation();
+$mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment_id'] : null;
+$status = isset($specificInfo['mp_status']) ? $specificInfo['mp_status'] : null;
+$statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_status_detail'] : null;
+?>
+<?php if ($specificInfo) : ?>
+    <table class="admin__table-secondary order-information-table">
+        <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
+        <tbody>
+            <?php if ($mpPaymentId) : ?>
+                <tr>
+                    <th scope="row"><?= $block->escapeHtml(__('mp_payment_id')); ?></th>
+                    <td><?= $block->escapeHtml($mpPaymentId); ?></td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($status) : ?>
+                <tr>
+                    <th scope="row">
+                        <?= $block->escapeHtml(__('Status (Mercado Pago)')); ?>
+                    </th>
+                    <td>
+                        <?= $block->escapeHtml(__($status)) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($statusDetail) : ?>
+                <tr>
+                    <th scope="row">
+                        <?= $block->escapeHtml(__('Status Detail (Mercado Pago)')); ?>
+                    </th>
+                    <td>
+                        <?= $block->escapeHtml(__($statusDetail)) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+<?php endif; ?>

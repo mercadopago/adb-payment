@@ -1,0 +1,213 @@
+.yape-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.9);
+    line-height: 22px;
+    padding-bottom: 8px;
+    margin: 0;
+}
+
+.yape-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color:rgba(0, 0, 0, 0.55);
+}
+
+.yape-form {
+    display: inline-flex;
+    column-gap: 16px;
+    grid-template-columns: 276px 1fr 2fr;
+    margin: 22px 20px 0 0;
+    flex-wrap: wrap;
+}
+
+.phone-area {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 32px;
+    flex-grow: 1;
+    width: 272px;
+}
+
+.otp-area {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding-bottom: 32px;
+
+}
+
+.yape-code-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tooltip-area {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-self: center
+}
+
+.help-tooltip {
+    .tooltip-content {
+        transform: translate(4px, -32px);
+    }
+
+    .lib-tooltip(
+        @_tooltip-position: right,  // Texto abaixo da imagem
+        @_tooltip-selector-toggle: ~".tooltip-toggle",
+        @_tooltip-selector-content: ~".tooltip-content",
+        @_tooltip-background: #f4f4f4,
+        @_tooltip-border-color: #f4f4f4,
+        @_tooltip-color: rgba(51, 51, 51, 1),
+        @_tooltip-font-size: 14px,
+        @_tooltip-font-weight: normal,
+        @_tooltip-line-height: 18px,
+        @_tooltip-font-style: normal,
+        @_tooltip-margin: 10px,
+        @_tooltip-padding: 16px,
+        @_tooltip-arrow-size: 8px,
+        @_tooltip-arrow-offset: 39%,
+        @_tooltip-z-index: 1000,
+    );
+    > a:before {
+        font-family: 'luma-icons';
+        font-size: 16px;
+        color: #333333;
+        content: '\e623';
+    }
+}
+
+.yape-info {
+    color: #035C83 !important;
+    background-color: #DCF4FF !important;
+    font-size: 13px !important;
+}
+
+.otp-input-row {
+    display: flex;
+    gap: 8px;
+}
+
+.otp-middle {
+    margin-right: 8px;
+}
+
+.otp-input-row input {
+    width: 38px;
+    text-align: center;
+}
+
+
+input[type=number].yape-incomplete-numbers{
+    border: solid red 1px;
+}
+
+input[type=text].yape-incomplete-numbers{
+    border: solid red 1px;
+}
+
+
+.yape-error-text{
+    color: rgba(242, 61, 79, 1)!important;
+    text-align: left;
+}
+
+p#yape-code-empty, p#yape-code-incomplete,
+p#yape-phone-empty, p#yape-phone-incomplete {
+    margin-bottom: 0;
+}
+
+p.yape-error{
+    display: none;
+    font-weight: 600;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 0;
+    margin-bottom: 0;
+
+    img {
+        padding-right: 3px;
+        margin-left: 6px;
+        border: 0;
+    }
+}
+
+.otp-tooltip {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+input[type="text"]#yape-phone::-webkit-input-placeholder{
+    color: rgba(0, 0, 0, 0.55);
+}
+
+.message.info.message-info.yape-info {
+    all: none;
+    display: flex !important;
+    padding: 14.5px;
+    align-items: center;
+
+    img{
+        padding-right: 16px;
+        align-self: baseline;
+    }
+}
+
+@media screen and (max-width: 472px){
+    .help-tooltip {
+
+        .tooltip-content {
+            display: none;
+            position: absolute;
+            z-index: 999;
+            background-color: #333;
+            color: white;
+            padding: 8px;
+            text-align: left;
+            transform: translate(-92%);
+            top: 16px;
+        }
+        .tooltip-content:before, .tooltip-content:after {
+            top: -8px;
+        }
+        // Usando o mixin da lib-tooltip para configurar o estilo do tooltip
+        .lib-tooltip(
+            @_tooltip-position: bottom,  // Texto abaixo da imagem
+            @_tooltip-selector-toggle: ~".tooltip-toggle",
+            @_tooltip-selector-content: ~".tooltip-content",
+            @_tooltip-background: #f4f4f4,
+            @_tooltip-border-color: #f4f4f4,
+            @_tooltip-color: rgba(51, 51, 51, 1),
+            @_tooltip-font-size: 14px,
+            @_tooltip-font-weight: normal,
+            @_tooltip-line-height: 18px,
+            @_tooltip-font-style: normal,
+            @_tooltip-margin: 10px,
+            @_tooltip-padding: 16px,
+            @_tooltip-arrow-size: 8px,
+            @_tooltip-arrow-offset: 84%,
+            @_tooltip-z-index: 1000,
+        );
+
+    }
+    .payment-method {
+
+        .actions-toolbar {
+            .mp-flex-baseline.yape {
+                display: block;
+
+                .mp-mr-20 {
+                    margin-right: 20px;
+                }
+            }
+
+        }
+
+    }
+}
