@@ -18,6 +18,7 @@ Tax,Impuesto
 "Awaiting payment.","Esperando pago."
 "Awaiting payment through Checkout Pro.","Esperando pago a través del Checkout Pro."
 "Awaiting payment through Pix.","Esperando pago via Pix."
+"Awaiting payment through Yape.","Esperando pago via Yape."
 "The gateway declined the transaction.","El gateway rechazó la operación."
 "Please select a category","Por favor, selecciona una categoría"
 description,descripción
@@ -130,7 +131,7 @@ Waiting...,Esperando...
 "Payment Services","Servicio de pago"
 "Permission to set up the module","Permiso para configurar el módulo"
 "<div class='mercadopago-payment-logo'></div><div class='mercadopago-payment-byline'><p><b>Mercado Pago</b></p><p>It offers payments with credit and debit cards, as well as offline means - in addition to exclusive advantages for those who pay logged into their Mercado Pago account, such as credits, discounts and other special conditions.</p></div>","<div class='mercadopago-payment-logo'></div><div class='mercadopago-payment-byline'><p><b>Mercado Pago</b></p><p>Ofrece pagos con tarjetas de crédito y débito, además de los medios offline y ventajas exclusivas para quien paga después de iniciar sesión en la cuenta de Mercado Pago, como créditos, descuentos y otras condiciones especiales.</p></div>"
-"Technical support available <a href='https://github.com/mercadopago/adb-payment/issues/new/choose'>here</a>.","Soporte técnico disponible <a href='https://github.com/mercadopago/adb-payment/issues/new/choose'>aquí</a>."
+"Technical support available <a href='https://github.com/mercadopago/adb-payment/issues/new/choose'>here</a>.","Soporte técnico disponible <a href='https://www.mercadopago.com.co/developers/es/support/center/tickets'>aquí</a>."
 "Basic Settings","Configuraciones básicas"
 "Mercado Pago integration","Integración con Mercado Pago"
 "<p>In order to sell or test a store, you must first enter your test and production credentials.</p><p>Using the account of the collaborator with access to Mercado Pago Seller Account, search the credentials according to the account: <a href='https://www.mercadopago.com.ar/settings/account/credentials' target='_blank'>Argentina</a>, <a href='https://www.mercadopago.com.br/settings/account/credentials' target='_blank'>Brazil</a>, <a href='https://www.mercadopago.cl/settings/account/credentials' target='_blank'>Chile</a>, <a href='https://www.mercadopago.com.co/settings/account/credentials' target='_blank'>Colombia</a>, <a href='https://www.mercadopago.com.mx/settings/account/credentials' target='_blank'>Mexico</a>, <a href='https://www.mercadopago.com.uy/settings/account/credentials' target='_blank'>Uruguay</a> and <a href='https://www.mercadopago.com.pe/settings/account/credentials' target='_blank'>Peru</a>.</p>","<p>Para vender o testear la tienda , tienes que ingresar las credenciales de test y de producción.</p><p>Con el colaborador con acceso a la Cuenta del Vendedor de Mercado Pago, busca las credenciales según la cuenta: <a href='https://www.mercadopago.com.ar/settings/account/credentials' target='_blank'>Argentina</a>, <a href='https://www.mercadopago.com.br/settings/account/credentials' target='_blank'>Brazil</a>, <a href='https://www.mercadopago.cl/settings/account/credentials' target='_blank'>Chile</a>, <a href='https://www.mercadopago.com.co/settings/account/credentials' target='_blank'>Colombia</a>, <a href='https://www.mercadopago.com.mx/settings/account/credentials' target='_blank'>Mexico</a>, <a href='https://www.mercadopago.com.uy/settings/account/credentials' target='_blank'>Uruguay</a> and <a href='https://www.mercadopago.com.pe/settings/account/credentials' target='_blank'>Peru</a>.</p>"
@@ -231,6 +232,7 @@ Webpay,Webpay
 "financial_institution","Institución"
 "payer_document_type","Tipo de documento"
 "mp_status","Estado (Mercado Pago)"
+"Status","Estado"
 "mp_status_detail","Estado Detallado (Mercado Pago)"
 "Link","Link"
 "Line Code","Código de Barras"
@@ -406,13 +408,15 @@ Webpay,Webpay
 "For safety reasons, the card issuing bank declined the payment. We recommend paying with your usual payment method and device for online purchases.","Por seguridad, el banco emisor de la tarjeta rechazó el pago. Te recomendamos pagar con el medio de pago y dispositivo que sueles usar para compras online."
 ----------By Bank / Bank Error / Other Reason / Bank Rejected------------------
 "The bank declined your payment with the first card. We recommend paying with another card or contacting the bank. Do not worry, no fee was charged on the second payment method.","El banco rechazó tu pago con la primera tarjeta. Te recomendamos pagar con otra tarjeta o comunicarte con tu banco.  No te preocupes, no cobramos ningún cargo en el segundo medio de pago."
-"The bank declined the payment with the second card due to security reasons. We recommend paying with your usual payment method and device for online purchases. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","Por seguridad, el banco rechazó el pago con la segunda tarjeta. Te recomendamos pagar con el medio de pago y dispositivo que sueles usar para compras online. Si llegas a encontrar un cargo en el primer 
+"The bank declined the payment with the second card due to security reasons. We recommend paying with your usual payment method and device for online purchases. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","Por seguridad, el banco rechazó el pago con la segunda tarjeta. Te recomendamos pagar con el medio de pago y dispositivo que sueles usar para compras online. Si llegas a encontrar un cargo en el primer
 medio de pago, no te preocupes, será devuelto automáticamente."
 "The card issuing bank declined your payment. We recommend paying with another payment method or contacting your bank.","El banco emisor de la tarjeta rechazó tu pago. Te recomendamos pagar con otro medio de pago o comunicarte con tu banco."
+"Your payment was rejected because something went wrong. We recommend trying again or paying with another method.","Tu pago fue rechazado porque hubo un error. Te recomendamos intentar nuevamente o pagar con otro medio de pago."
 ---------Call For Authorize----------------
 "Your bank needs you to authorize the payment with the first card. Please contact the bank or pay with another card. Do not worry, no fee was charged on the second payment method.","Tu banco necesita que autorices el pago con la primera tarjeta. Comunícate con el banco o paga con otra tarjeta. No te preocupes, no cobramos ningún cargo en el segundo medio de pago."
 "Your bank needs you to authorize the payment with the second payment method. Please contact the bank or pay with another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","Tu banco necesita que autorices el pago con la segunda tarjeta. Comunícate con el banco o paga con otra tarjeta. Si llegas a encontrar un cargo en el primer medio de pago, no te preocupes, será devuelto automáticamente."
 "Your bank needs you to authorize the payment. Please call the telephone number on your card or pay with another method.","Tu banco necesita que autorices el pago. Llama al teléfono que está en la tarjeta o pagá con otro medio."
+"Your payment could not be processed. You can contact Yape to find out why or try again with this or another payment method.","No se pudo procesar tu pago. Puedes comunicarte con Yape para saber los motivos o intentar nuevamente con este u otro medio de pago."
 ---------Card Disabled--------------------
 "You have to activate the first card. Please contact the bank or pay with another card. Do not worry, no fee was charged on the second payment method.","Necesitas habilitar la primera tarjeta. Comunícate con el banco o paga con otra tarjeta. No te preocupes, no cobramos ningún cargo en el segundo medio de pago."
 "You have to activate the second card. Please contact the bank or pay using another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","Necesitas habilitar la segunda tarjeta. Comunícate con el banco o paga con otra tarjeta. Si llegas a encontrar un cargo en el primer medio de pago, no te preocupes, será devuelto automáticamente."
@@ -422,7 +426,7 @@ medio de pago, no te preocupes, será devuelto automáticamente."
 ---------Default----------------------
 "Payment with the first card was declined due to an error. We recommend paying with another card or contacting the bank. Do not worry, no fee was charged on the second payment method.","El pago con la primera tarjeta fue rechazado porque hubo a un error. Te recomendamos intentar nuevamente o pagar con otra tarjeta. No te preocupes, no cobramos ningún cargo en el segundo medio de pago."
 "Payment with the second card was declined due to an error. We recommend paying with another card or contacting the bank. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","El pago con la segunda tarjeta fue rechazado porque hubo un error. Te recomendamos intentar nuevamente o pagar con otra tarjeta. Si llegas a encontrar un cargo en el primer medio de pago, no te preocupes, será devuelto automáticamente."
-"Your payment was declined because something went wrong. We recommend trying again or paying with another payment method.","Tu pago fue rechazado porque hubo un error. Te recomendamos intentar nuevamente o pagar otro medio de pago."
+"Your payment was declined because something went wrong. We recommend trying again or paying with another payment method.","Tu pago fue rechazado porque hubo un error. Te recomendamos intentar nuevamente o pagar con otro medio de pago."
 ---------Duplicated Payment----------------------
 "Your payment was declined because you already paid for this purchase. Please check your card transactions to verify it.","Tu pago fue rechazado porque ya pagaste esta compra. Revisa los consumos de tu tarjeta para verificarlo."
 ---------High Risk PF--------------------------
@@ -430,10 +434,11 @@ medio de pago, no te preocupes, será devuelto automáticamente."
 "For security reasons, your payment with the second card was declined. We recommend paying with your usual payment method and device for online purchases. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","Por motivos de seguridad, tu pago con la segunda tarjeta fue rechazado. Te recomendamos pagar con el medio de pago y dispositivo que sueles usar para compras online. Si llegas a encontrar un cargo en el primer medio de pago, no te preocupes, será devuelto automáticamente."
 "For safety reasons, your payment was declined. We recommend paying with your usual payment method and device for online purchases.","Por motivos de seguridad, tu pago fue rechazado. Te recomendamos pagar con el medio de pago y dispositivo que sueles usar para compras online."
 "For safety reasons, your payment was declined. To protect your money, this transaction cannot be completed.","Por motivos de seguridad, tu pago fue rechazado. Para proteger tu dinero, esta transacción no podrá ser finalizada."
-----------Insuficient Amount (Credit)----------
+----------Insuficient Amount (Credit and Yape)----------
 "The first card has insufficient funds. Please pay with another card. Do not worry, no fees were charged on the second payment method.","La primera tarjeta no tiene límite disponible. Paga con otra tarjeta. No te preocupes, no cobramos ningún cargo en el segundo medio de pago."
 "The second card has insufficient funds. Please pay with another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","La segunda tarjeta no tiene límite disponible. Paga con otra tarjeta. Si llegas a encontrar un cargo en el primer medio de pago, no te preocupes, será devuelto automáticamente."
 "Your credit card has no available limit. We recommend paying with two cards or choosing another payment method.","Tu tarjeta de crédito no tiene límite disponible. Te recomendamos pagar con 2 tarjetas o elegir otro medio de pago."
+"This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method or trying again tomorrow.","Este pago excede tu límite diario para compras por internet con Yape. Te recomendamos usar otro medio de pago o volver a intentar mañana."
 ----------Insuficient Amount (Debit)-----------
 "The first card has insufficient funds. Please pay using another card. Do not worry, no fee was charged on the second payment method.","La primera tarjeta no tiene saldo suficiente. Paga con otra tarjeta. No te preocupes, no cobramos ningún cargo en el segundo medio de pago."
 "The second card has insufficient funds. Please pay with another card. Do not worry if any fees were charged on the first payment method, they will be refunded automatically.","La segunda tarjeta no tiene saldo suficiente. Paga con otra tarjeta. Si llegas a encontrar un cargo en el primer medio de pago, no te preocupes, será devuelto automáticamente."
@@ -444,6 +449,15 @@ medio de pago, no te preocupes, será devuelto automáticamente."
 "Your card does not accept the number of installments selected. Please choose a different number of installments or use another payment method.","Tu tarjeta no acepta la cantidad de pagos que seleccionaste. Elige una cantidad de pagos diferente o usa otro medio."
 ----------Max Attempts-----------------
 "You reached the limit of payment attempts with this card. Please pay with another card or choose another payment method.","Alcanzaste el límite de intentos de pago con esta tarjeta. Paga con otra tarjeta o elige otro medio de pago."
+"After three incorrect approval codes, the payment can’t be done with Yape for your safety. Pay with another method or try again in 24 hours.","Luego de 3 códigos de aprobación incorrectos, por tu seguridad, no se puede realizar el pago con Yape. Paga con otro medio o intenta nuevamente en 24 horas."
+----------Not allowed----------------------
+"Your payment could not be processed. We recommend paying with another method.","No se pudo procesar tu pago. Te recomendamos pagar con otro medio."
+----------Rejected Security Code-----------
+"Invalid information. Please check and try again.","Información inválida. Revisa y vuelve a intentarlo."
+----------Invalid transaction_amount-------
+"This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method.","Este pago excede tu límite diario para compras por internet con Yape. Te recomendamos usar otro medio."
+----------Generic error--------------------
+"Your payment could not be processed. Please try again or choose another payment method.","No se pudo procesar tu pago. Por favor, vuelve a intentarlo o elige otro medio de pago."
 
 "Complete the bank validation so your payment can be approved","Completa la validación del banco para aprobar tu pago"
 "Please keep this page open. If you close it, you will not be able to resume the validation.", "Mantén abierta esta pantalla. Si la cierras, no podrás retomar la validación."
@@ -454,3 +468,16 @@ medio de pago, no te preocupes, será devuelto automáticamente."
 "An error has occurred. Please refresh the page and try again.", "Se ha producido un error. Actualice la página y vuelva a intentarlo."
 "We are receiving the reply from your bank", "Estamos recibiendo la respuesta de su banco"
 "To pay, please go to any lotérica or ""Correspondente Caixa"" branch. You will need the following code and the ID number used in the purchase.","Para pagar, por favor dirígete a cualquier lotérica o ""Correspondente Caixa"". Necesitarás el siguiente código y el número de documento de identificación utilizado en la compra."
+------------YAPE-------------------
+"Pay with Yape in a few minutes", "Paga con Yape en pocos segundos"
+"Fill out the following details and confirm your purchase.", "Completa los siguientes datos y confirma tu compra."
+"Cell phone linked to Yape", "Celular asociado a Yape"
+"E.g.: 872 123 432", "Ej.: 872 123 432"
+"Approval Code", "Código de aprobación"
+"Cell phone linked to Yape", "Celular asociado a Yape"
+"The code is available in the Yape app menu.", "Encuéntralo en el menú de la app de Yape."
+"Fill out this field.", "Completa este campo."
+"Enter the entire number.", "Ingresa el número completo."
+"Enter only numbers.", "Ingresa solo números."
+"Verify in Yape that the option ""Compras por internet"" is activated and that the daily limit is enough.", "Verifica en Yape que la opción ""Compras por internet"" esté activada y que tu límite diario sea suficiente."
+"payer.email must be a valid email","Email del pagador debe ser un email válido"

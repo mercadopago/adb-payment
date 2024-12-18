@@ -36,6 +36,9 @@
          <method name="mercadopago_adbpayment_checkout_credits">
             <allow_multiple_address>1</allow_multiple_address>
         </method>
+        <method name="mercadopago_adbpayment_yape">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
     </methods>
     <credit_cards>
         <type id="visa" order="1000">

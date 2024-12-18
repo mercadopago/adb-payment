@@ -3,3 +3,4 @@ vendor
 testdoc.txt
 .idea
 coverage/
+test-results

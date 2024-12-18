@@ -8,5 +8,6 @@
         <include path="MercadoPago_AdbPayment::system/checkout_transparent/pse.xml"/>
         <include path="MercadoPago_AdbPayment::system/checkout_transparent/webpay.xml"/>
         <include path="MercadoPago_AdbPayment::system/checkout_transparent/two_credit_card.xml"/>
+        <include path="MercadoPago_AdbPayment::system/checkout_transparent/yape.xml"/>
     </group>
 </include>

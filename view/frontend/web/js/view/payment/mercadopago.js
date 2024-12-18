@@ -25,7 +25,8 @@ define(
             methodWebpay = 'mercadopago_adbpayment_webpay',
             methodsOff = 'mercadopago_adbpayment_payment_methods_off',
             methodTwoCc = 'mercadopago_adbpayment_twocc',
-            methodCheckoutCredits = 'mercadopago_adbpayment_checkout_credits';
+            methodCheckoutCredits = 'mercadopago_adbpayment_checkout_credits',
+            methodYape = 'mercadopago_adbpayment_yape';
 
 
         if (methodsOff in config) {
@@ -105,6 +106,15 @@ define(
                 {
                     type: methodCheckoutCredits,
                     component: 'MercadoPago_AdbPayment/js/view/payment/method-renderer/checkout_credits'
+                }
+            );
+        }
+
+        if (methodYape in config) {
+            rendererList.push(
+                {
+                    type: methodYape,
+                    component: 'MercadoPago_AdbPayment/js/view/payment/method-renderer/yape'
                 }
             );
         }

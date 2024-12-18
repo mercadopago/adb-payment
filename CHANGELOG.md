@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2024-12-18
+### Changed
+- Changed magento order cancellation flow in MP rejected status
+- Updated support admin link
+
+### Fixed
+- Off payment methods disabled in MLC
+- Adjustment on installments info in vault
+- Translate customer invalid email message
+- Adjustment on cancel orders cron
+
+## Added
+- Added new Yape payment method for Peru
+
 ## [1.8.5] - 2024-10-30
 ### Changed
 - Adjustments on maximum order amount when payment has financial cost

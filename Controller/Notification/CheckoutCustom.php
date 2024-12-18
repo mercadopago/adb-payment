@@ -146,6 +146,20 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
         foreach ($transactions as $transaction) {
             $order = $this->getOrderData($transaction->getOrderId());
 
+            if ($mpStatus == 'rejected') {
+                try {
+                    $order->cancel()->save();
+                } catch (Exception $e) {
+                    return $this->createResult(
+                        500,
+                        [
+                            'error'   => 500,
+                            'message' => "Error cancelling order with payment rejected: " . $e->getMessage(),
+                        ]
+                    );
+                }
+            }
+
             if ($mpStatus === 'refunded') {
                 $refund = new CheckoutCustomRefund(
                     $this->config,

@@ -34,7 +34,7 @@
                 <neighborhood>2</neighborhood>
                 <allowspecific>1</allowspecific>
                 <receive_refund>1</receive_refund>
-                <restrict_payment_on_mp_site_id><![CDATA[{"mercadopago_adbpayment_pix":["MLB"],"mercadopago_adbpayment_pse":["MCO"],"mercadopago_adbpayment_webpay":["MLC"]}]]></restrict_payment_on_mp_site_id>
+                <restrict_payment_on_mp_site_id><![CDATA[{"mercadopago_adbpayment_pix":["MLB"],"mercadopago_adbpayment_pse":["MCO"],"mercadopago_adbpayment_webpay":["MLC"],"mercadopago_adbpayment_yape":["MPE"]}]]></restrict_payment_on_mp_site_id>
             </mercadopago_adbpayment>
             <mercadopago_adbpayment_cc>
                 <active>1</active>
@@ -378,6 +378,43 @@
                 <mp_site_id>MLB,MLA,MLM</mp_site_id>
                 <sort_order>12</sort_order>
             </mercadopago_adbpayment_checkout_credits>
+            <mercadopago_adbpayment_yape>
+                <model>MercadoPagoYapeFacade</model>
+                <order_status>processing</order_status>
+                <title>Yape</title>
+                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
+                <paymentInfoKeys>mp_payment_id,mp_status,mp_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,mp_status_detail</privateInfoKeys>
+                <payment_action>order</payment_action>
+                <can_initialize>1</can_initialize>
+                <can_use_internal>1</can_use_internal>
+                <is_gateway>1</is_gateway>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize_vault>1</can_authorize_vault>
+                <can_capture_vault>1</can_capture_vault>
+                <can_initialize_vault>1</can_initialize_vault>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_capture_partial>1</can_capture_partial>
+                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
+                <can_refund>1</can_refund>
+                <can_void>1</can_void>
+                <can_cancel>1</can_cancel>
+                <can_review_payment>1</can_review_payment>
+                <can_deny_payment>1</can_deny_payment>
+                <can_accept_payment>1</can_accept_payment>
+                <can_fetch_transaction_info>0</can_fetch_transaction_info>
+                <can_fetch_transaction_information>1</can_fetch_transaction_information>
+                <group>mercadopago_group</group>
+                <get_document_identification>0</get_document_identification>
+                <min_order_total>1</min_order_total>
+                <max_order_total>2000</max_order_total>
+                <allowspecific>1</allowspecific>
+                <specificcountry>PE</specificcountry>
+                <mp_site_id>MPE</mp_site_id>
+                <sort_order>15</sort_order>
+                <icons>attention,info</icons>
+            </mercadopago_adbpayment_yape>
         </payment>
         <dev>
             <js>

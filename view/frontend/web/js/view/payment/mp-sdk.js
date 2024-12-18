@@ -20,6 +20,8 @@ define([
     'mage/translate',
     'Magento_Catalog/js/price-utils',
     'Magento_Checkout/js/model/totals',
+    'MercadoPago_AdbPayment/js/view/payment/utils',
+    'MercadoPago_AdbPayment/js/view/payment/metrics'
 ], function (
     _,
     $,
@@ -34,6 +36,8 @@ define([
     $t,
     priceUtils,
     totals,
+    utils,
+    metrics
 ) {
     'use strict';
 
@@ -59,6 +63,9 @@ define([
             amount: 0,
             installmentsResponse: {},
             minAllowedAmount: 0,
+            mpYapeTokenId: '',
+            mpYapeOtp: '',
+            mpYapePhone: '',
         },
 
         /** @inheritdoc */
@@ -79,6 +86,9 @@ define([
                     'amount',
                     'installmentsAmount',
                     'installmentsResponse',
+                    'mpYapeTokenId',
+                    'mpYapeOtp',
+                    'mpYapePhone',
                 ]);
             return this;
         },
@@ -91,7 +101,7 @@ define([
             let self = this;
 
             this._super();
-            
+
             self.amount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
 
             self.installmentsAmount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
@@ -441,14 +451,14 @@ define([
                     amount: String(self.FormattedCurrencyToInstallments(self.installmentsAmount())),
                     bin: bin
                 });
-                
+
                 if (result[0] && result[0].payer_costs) {
                     self.installmentWasCalculated(true);
                     self.installmentsResponse(result[0]);
                     var listInstallments = result[0].payer_costs;
 
                     if (self.getMpSiteId() === 'MCO' || self.getMpSiteId() === 'MPE' || self.getMpSiteId() === 'MLC') {
-                        self.addTextInterestForInstallment(listInstallments);
+                        utils.addTextInterestForInstallment(listInstallments);
                     }
 
                     self.mpCardListInstallments(listInstallments);
@@ -481,7 +491,7 @@ define([
                 });
             });
         },
-        
+
         formatedAmountWithSymbol(amount) {
             return this.currencySymbol() + ' ' + amount;
         },
@@ -665,28 +675,6 @@ define([
             return parseFloat(amount ? amount : 0).toFixed(2);
         },
 
-        /**
-         * Add interest text for installments
-         * @param {Array}
-         * @return {Array}
-         */
-        addTextInterestForInstallment(listInstallments) {
-            _.map(listInstallments, (installment) => {
-                var installmentRate = installment.installment_rate;
-                var installmentRateCollector = installment.installment_rate_collector;
-
-                if (installmentRate === 0 && installmentRateCollector[0] === 'MERCADOPAGO') {
-                    installment.recommended_message = installment.recommended_message + ' ' + $t("Interest-free");
-                }
-
-                if (installmentRate === 0 && installmentRateCollector[0] === 'THIRD_PARTY') {
-                    installment.recommended_message = installment.recommended_message + ' ' + $t("Your Bank will apply Interest");
-                }
-
-                return installment;
-            });
-        },
-
         resetCardAmount() {
             this.installmentSelected = null;
             this.mpCardInstallment(null);
@@ -714,7 +702,42 @@ define([
          * @return {Jquery}
          */
          clearMinValueError(){
-            return $('.mp-message-error').remove(); 
+            return $('.mp-message-error').remove();
+        },
+
+        /**
+         * Generated Token Yape
+         * @returns {Promise|Boolean}
+         */
+        async generateTokenYape() {
+            var self = this;
+
+            const payload = {
+                otp: self.mpYapeOtp(),
+                phoneNumber: self.mpYapePhone(),
+            };
+
+            try {
+                const yape = window.mp.yape(payload);
+                const tokenYape = await yape.create();
+
+                self.mpYapeTokenId(tokenYape.id);
+                metrics.sendMetric('mp_yape_token_success',
+                    'Yape token successfully generated',
+                    'big',
+                    'mp_checkout_custom_yape'
+                );
+
+                return true;
+            } catch(e) {
+                const message = e.message || e;
+                metrics.sendError('mp_yape_token_error',
+                    message,
+                    'mp_checkout_custom_yape'
+                );
+                return false;
+            }
+
         }
     });
 });

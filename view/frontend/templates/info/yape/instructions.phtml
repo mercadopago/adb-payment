@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * Copyright © MercadoPago. All rights reserved.
+ *
+ * @license     See LICENSE for license details.
+ */
+
+/**
+ * @var \MercadoPago\AdbPayment\Block\Sales\Info\Yape $block
+ * @see \MercadoPago\AdbPayment\Block\Sales\Info\Yape
+ */
+$title = $block->escapeHtml(__($block->getMethod()->getTitle()));
+$specificInfo = $block->getSpecificInformation();
+$mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment_id'] : null;
+$status = isset($specificInfo['mp_status']) ? $specificInfo['mp_status'] : null;
+$statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_status_detail'] : null;
+?>
+<?php if ($specificInfo) : ?>
+    <dl class="payment-method">
+        <dt class="title"><?= /* @noEscape */ $title ?></dt>
+        <dd class="content">
+            <table class="data table">
+                <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
+                <tbody>
+                    <?php if ($status) : ?>
+                        <tr>
+                            <th scope="row">
+                                <?= $block->escapeHtml(__('Status')); ?>
+                            </th>
+                            <td>
+                                <?= $block->escapeHtml(__($status)) ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </dd>
+    </dl>
+<?php endif; ?>

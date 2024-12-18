@@ -30,5 +30,8 @@
         <job name="mercadopago_fetch_webpay_order_status" instance="MercadoPago\AdbPayment\Cron\FetchWebpayOrderStatus" method="execute">
             <schedule>13 9 * * 1-5</schedule>
         </job>
+        <job name="mercadopago_fetch_yape_order_status" instance="MercadoPago\AdbPayment\Cron\FetchYapeOrderStatus" method="execute">
+            <schedule>0 9 * * *</schedule>
+        </job>
     </group>
 </config>

@@ -88,10 +88,23 @@ class CancelCheckoutCredits extends CancelCheckoutPro
             )
             ->where(
                 new \Zend_Db_Expr(
-                    "sop.method = ? AND TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, CAST(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration') AS DATETIME))) >= 0 "
-                ),
-                ConfigCheckoutCredits::METHOD
-            );
+                    "sop.method = ?
+                        AND TIME_TO_SEC(
+                            TIMEDIFF(CURRENT_TIMESTAMP(),
+                                STR_TO_DATE(
+                                    REPLACE(
+                                        SUBSTRING_INDEX(
+                                            JSON_UNQUOTE(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration')),
+                                            '.',
+                                            1
+                                        ),
+                                        'T', ' '
+                                    ),
+                                    '%Y-%m-%d %H:%i:%s'
+                                )
+                            )
+                        ) >= 0"
+                ), ConfigCheckoutCredits::METHOD);
 
         foreach ($orders as $order) {
             $orderId = $order->getEntityId();

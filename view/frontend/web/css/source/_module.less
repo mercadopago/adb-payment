@@ -9,6 +9,7 @@
 @mercadopago-checkout__margin-adjust: 21px;
 @import 'twocc.less';
 @import 'cc.less';
+@import '_yape.less';
 
 & when (@media-common =true) {
 
@@ -205,7 +206,7 @@
             p {
                 margin-bottom: 0px;
             }
-            
+
             strong {
                 font-weight: 600;
             }
@@ -370,6 +371,12 @@
                 display: table-cell;
                 padding-left: 10px;
                 vertical-align: middle;
+            }
+
+            .payment-method-label-icon.yape-image {
+                img {
+                    width: 32px;
+                }
             }
         }
 
@@ -759,7 +766,7 @@
     }
 
     @media screen and (max-width: 472px){
-        
+
         .mp-redirect-message {
             margin-left: 0 ;
         }
@@ -778,7 +785,7 @@
         .payment-method .row-fluid-box-mercado-credits {
             height: 36px;
         }
-        
+
         .payment-method .row-text-mercado-credits {
             white-space: normal;
         }

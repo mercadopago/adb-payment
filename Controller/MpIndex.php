@@ -345,7 +345,7 @@ abstract class MpIndex extends Action
 
         $this->logger->debug([
             'action'    => 'notification',
-            'isInvalid' => $response->getIsValid(),
+            'isInvalid' => !$response->getIsValid(),
             'payload'   => $response->getMessage(),
         ]);
 

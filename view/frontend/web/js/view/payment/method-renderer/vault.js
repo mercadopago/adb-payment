@@ -23,6 +23,8 @@ define([
     'Magento_Checkout/js/model/error-processor',
     'Magento_Ui/js/modal/modal',
     'MercadoPago_AdbPayment/js/view/payment/method-renderer/three_ds',
+    'MercadoPago_AdbPayment/js/view/payment/utils',
+    'MercadoPago_AdbPayment/js/view/payment/metrics'
 ], function (
     _,
     $,
@@ -42,7 +44,8 @@ define([
     errorProcessor,
     modal,
     threeDs,
-
+    utils,
+    metrics
 ) {
     'use strict';
 
@@ -526,7 +529,7 @@ define([
          * Get List Options to Instalments
          * @returns {Array}
          */
-        getListOptionsToInstallmentsVault() {
+         getListOptionsToInstallmentsVault() {
             var self = this,
                 installments = {},
                 bin = this.getCardFirstSix(),
@@ -536,7 +539,15 @@ define([
                 amount: String(amount),
                 bin: bin
             }).then((result) => {
-                self.creditCardListInstallments(result[0].payer_costs);
+                if (result[0] && result[0].payer_costs) {
+                    var listInstallments = result[0].payer_costs;
+
+                    if (self.getMpSiteId() === 'MCO' || self.getMpSiteId() === 'MPE' || self.getMpSiteId() === 'MLC') {
+                        utils.addTextInterestForInstallment(listInstallments);
+                    }
+
+                    self.creditCardListInstallments(result[0].payer_costs);
+                }
             });
 
             return installments;
@@ -548,7 +559,7 @@ define([
                 this.getThreeDSData();
                 $('.messages').hide();
             }
-        }, 
+        },
 
         getThreeDSData: function () {
             var serviceUrl = urlBuilder.createUrl('/quote/:quoteId/mp-payment-information', {
@@ -588,10 +599,15 @@ define([
                 this.loadChallengeInfo(threeDSData);
                 this.addListenerResponseChallenge();
 
-                threeDs.sendMetric('mp_3ds_success_modal', '3ds modal challenge opened');
+                metrics.sendMetric(
+                    'mp_3ds_success_modal',
+                    '3ds modal challenge opened',
+                    'big',
+                    'mp_magento_credit_card_three_ds'
+                );
             }catch (error) {
                 const message = error.message || error;
-                threeDs.sendMetric('mp_3ds_error_modal', message);
+                metrics.sendError('mp_3ds_error_modal', message, 'mp_magento_credit_card_three_ds');
             }
         },
 
@@ -601,7 +617,7 @@ define([
                 type: 'popup',
                 responsive: false,
                 innerScroll: false,
-                title: $t('Complete the bank validation so your payment can be approved'), 
+                title: $t('Complete the bank validation so your payment can be approved'),
                 modalClass: 'modal-challenge',
                 closed: function () {
                     self.destroyModal();
@@ -644,9 +660,9 @@ define([
 
                 } catch (error) {
                     const message = error.message || error;
-                    threeDs.sendMetric('mp_3ds_error_load_challenge_info', message);
+                    metrics.sendError('mp_3ds_error_load_challenge_info', message, 'mp_custom_checkout_three_ds');
                 }
-                }, 3000)
+            }, 3000)
         },
 
         destroyModal() {
@@ -668,23 +684,28 @@ define([
             try {
                 const interval = 2000;
                 let elapsedTime = 0;
-          
+
                 const intervalId = setInterval(() => {
                     this.getPaymentStatus();
                     var paymentStatus = this.getPaymentStatusResponse();
-    
+
                     if (elapsedTime >= 10000 || paymentStatus.status === 'approved' || paymentStatus.status === 'rejected') {
                         $('#modal-3ds-challenge').modal('closeModal');
                         this.destroyModal();
-                        clearInterval(intervalId); 
+                        clearInterval(intervalId);
                         this.placeOrder();
-                        threeDs.sendMetric('mp_3ds_success_pooling_time', 'Pooling time: ' + elapsedTime.toString() + ' ms');
+                        metrics.sendMetric(
+                            'mp_3ds_success_pooling_time',
+                            'Pooling time: ' + elapsedTime.toString() + ' ms',
+                            'big',
+                            'mp_3ds_success_pooling_time'
+                        );
                     }
                     elapsedTime += interval;
                 }, interval);
             } catch (error) {
                 const message = error.message || error;
-                threeDs.sendMetric('mp_3ds_error_pooling_time', message);
+                metrics.sendError('mp_3ds_error_pooling_time', message, 'mp_custom_checkout_three_ds');
             }
         },
 

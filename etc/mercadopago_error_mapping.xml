@@ -55,7 +55,15 @@
         <message message="Your payment was declined because you already paid for this purchase. Please check your card transactions to verify it." translate="true">Your payment was declined because you already paid for this purchase. Please check your card transactions to verify it.</message>
         <message message="The card issuing bank declined your payment. We recommend paying with another payment method or contacting your bank." translate="true">The card issuing bank declined your payment. We recommend paying with another payment method or contacting your bank.</message>
         <message message="For safety reasons, the card issuing bank declined the payment. We recommend paying with your usual payment method and device for online purchases." translate="true">For safety reasons, the card issuing bank declined the payment. We recommend paying with your usual payment method and device for online purchases.</message>
-        <message message="Your payment was declined because something went wrong. We recommend trying again or paying with another payment method."  translate="true">Your payment was declined because something went wrong. We recommend trying again or paying with another payment method." </message>
+        <message message="Your payment was declined because something went wrong. We recommend trying again or paying with another payment method."  translate="true">Your payment was declined because something went wrong. We recommend trying again or paying with another payment method.</message>
+        <message message="Your payment could not be processed. You can contact Yape to find out why or try again with this or another payment method."  translate="true">Your payment could not be processed. You can contact Yape to find out why or try again with this or another payment method.</message>
+        <message message="This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method or trying again tomorrow."  translate="true">This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method or trying again tomorrow.</message>
+        <message message="Your payment was rejected because something went wrong. We recommend trying again or paying with another method."  translate="true">Your payment was rejected because something went wrong. We recommend trying again or paying with another method."</message>
+        <message message="Your payment could not be processed. We recommend paying with another method."  translate="true">Your payment could not be processed. We recommend paying with another method.</message>
+        <message message="After three incorrect approval codes, the payment can’t be done with Yape for your safety. Pay with another method or try again in 24 hours."  translate="true">After three incorrect approval codes, the payment can’t be done with Yape for your safety. Pay with another method or try again in 24 hours.</message>
+        <message message="Invalid information. Please check and try again."  translate="true">Invalid information. Please check and try again.</message>
+        <message message="This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method."  translate="true">This payment exceeds your daily limit for online purchases with Yape. We recommend paying with another method.</message>
+        <message message="Your payment could not be processed. Please try again or choose another payment method."  translate="true">Your payment could not be processed. Please try again or choose another payment method.</message>
 
         <!-- Payment Error-->
         <message code="cc_rejected_bad_filled_card_number" translate="true">The card details are incorrect.</message>
@@ -74,6 +82,6 @@
         <message code="cc_rejected_other_reason" translate="true">Something went wrong. Please try again.</message>
         <message code="cc_rejected_card_type_not_allowed" translate="true">Your payment was declined because some of your card details are incorrect. Please check the information to complete the purchase or try another payment method.</message>
         <message code="pending_challenge" translate="true">For safety reasons, your payment was declined. We recommend paying with your usual payment method and device for online purchases.</message>
-        <message code="cc_rejected_3ds_challenge" translate="true">For safety reasons, your payment was declined. We recommend paying with your usual payment method and device for online purchases.</message>  
+        <message code="cc_rejected_3ds_challenge" translate="true">For safety reasons, your payment was declined. We recommend paying with your usual payment method and device for online purchases.</message>
     </message_list>
 </mapping>
