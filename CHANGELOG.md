@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.1] - 2025-02-06
+### Changed
+- Translation for user invalid email message on checkout
+- Adjustments on CSS for Yape
+
+### Fixed
+- Adjustment on Vault for pending payment
+- Fixed binary mode options
+
 ## [1.9.0] - 2024-12-18
 ### Changed
 - Changed magento order cancellation flow in MP rejected status

@@ -467,6 +467,7 @@ Webpay,Webpay
 "An error has occurred. Please refresh the page and try again.", "Ocorreu um erro. Por favor, atualize a página e tente novamente."
 "We are receiving the reply from your bank", "Estamos recebendo a resposta do seu banco"
 "To pay, please go to any lotérica or ""Correspondente Caixa"" branch. You will need the following code and the ID number used in the purchase.","Para pagar, dirija-se a qualquer lotérica ou Correspondente Caixa. Você precisará do código a seguir e do número do documento de identificação utilizado na compra."
+"Invalid test user email","O e-mail de teste é inválido. Por favor, tente com outro."
 ------------YAPE-------------------
 "Pay with Yape in a few minutes", "Pague com o Yape em instantes"
 "Fill out the following details and confirm your purchase.", "Preencha os dados a seguir e confirme sua compra."

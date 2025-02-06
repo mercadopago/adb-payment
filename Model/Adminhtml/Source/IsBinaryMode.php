@@ -22,11 +22,11 @@ class IsBinaryMode implements \Magento\Framework\Option\ArrayInterface
     {
         return [
             [
-                'value' => 0,
+                'value' => 1,
                 'label' => __('No, Processed Order Asynchronous'),
             ],
             [
-                'value' => 1,
+                'value' => 0,
                 'label' => __('Yes, Processed Order Synchronous'),
             ],
         ];

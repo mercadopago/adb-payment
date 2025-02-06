@@ -100,13 +100,15 @@ jobs:
         run: zip coverage.zip coverage
 
       - name: Archive code coverage results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage-report
           path: coverage.zip
+          overwrite: true
 
       - name: Archive code coverage folder
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: code-coverage-report
           path: coverage/
+          overwrite: true

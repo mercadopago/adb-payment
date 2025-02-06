@@ -133,7 +133,7 @@
     </virtualType>
 
     <!-- CcVault - Facade Configuration -->
-    <virtualType name="MercadoPagoCcVaultFacade" type="Magento\Vault\Model\Method\Vault">
+    <virtualType name="MercadoPagoCcVaultFacade" type="MercadoPago\AdbPayment\Model\Method\Vault">
         <arguments>
             <argument name="code" xsi:type="const">MercadoPago\AdbPayment\Model\Ui\ConfigProviderCc::VAULT_CODE</argument>
             <argument name="config" xsi:type="object">MercadoPagoVaultPaymentConfig</argument>
@@ -930,11 +930,12 @@
                 <item name="void" xsi:type="string">MercadoPagoDenyPaymentCommand</item>
                 <item name="accept_payment" xsi:type="string">MercadoPagoAcceptPaymentCommand</item>
                 <item name="deny_payment" xsi:type="string">MercadoPagoDenyPaymentCommand</item>
+                <item name="fetch_transaction_information" xsi:type="string">MercadoPagoCcFetchCommand</item>
                 <item name="vault_initialize" xsi:type="string">MercadoPagoCcVaultInitializeCommand</item>
                 <item name="vault_authorize" xsi:type="string">MercadoPagoCcVaultAuthorizeCommand</item>
                 <item name="vault_capture" xsi:type="string">MercadoPagoCcVaultCaptureCommand</item>
                 <item name="vault_sale" xsi:type="string">MercadoPagoCcVaultCaptureCommand</item>
-                <item name="fetch_transaction_information" xsi:type="string">MercadoPagoCcFetchCommand</item>
+                <item name="vault_fetch_transaction_information" xsi:type="string">MercadoPagoCcFetchCommand</item>
             </argument>
         </arguments>
     </virtualType>
