@@ -138,8 +138,10 @@ class UpdateBinaryMode implements DataPatchInterface
         try {
             $responseBody = $client->get($uri, $clientHeaders);
             $data = $responseBody->getData();
-            $binaryMode = $data['binary_mode'];
 
+            if ($data && isset($data['binary_mode'])) {
+                $binaryMode = $data['binary_mode'];
+            }
         } catch (InvalidArgumentException $exc) {
             $this->logger->debug(
                 [
@@ -147,8 +149,6 @@ class UpdateBinaryMode implements DataPatchInterface
                     'error'     => $exc->getMessage(),
                 ]
             );
-            // phpcs:ignore Magento2.Exceptions.DirectThrow
-            throw new Exception('Invalid JSON was returned by the gateway');
         } catch (\Throwable $exc) {
             $this->logger->debug(
                 [
@@ -156,8 +156,6 @@ class UpdateBinaryMode implements DataPatchInterface
                     'error'     => $exc->getMessage(),
                 ]
             );
-            // phpcs:ignore Magento2.Exceptions.DirectThrow
-            throw new Exception($exc->getMessage());
         }
 
         return $binaryMode;
