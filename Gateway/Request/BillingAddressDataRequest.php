@@ -135,7 +135,7 @@ class BillingAddressDataRequest implements BuilderInterface
                 ),
                 self::CITY                  => $billingAddress->getCity(),
                 self::FEDERAL_UNIT          => $billingAddress->getRegionCode(),
-                self::ZIP_CODE              => preg_replace('/[^0-9]/', '', $billingAddress->getPostcode()),
+                self::ZIP_CODE              => preg_replace('/[^0-9]/', '', (string)$billingAddress->getPostcode()),
             ];
         }
 

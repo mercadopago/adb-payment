@@ -10,4 +10,4 @@ Version maintenance is subject to Magento [lifecycle policy](https://experiencel
 
 ## Reporting a Vulnerability
 
-If you find any vulnerabilities, please contact magento.dev@mercadopago.com immediately.
+If you find any vulnerabilities, please contact mercadopago@o2ti.com immediately.
