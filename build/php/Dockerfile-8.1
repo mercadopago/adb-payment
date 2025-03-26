@@ -1,0 +1,40 @@
+FROM luiztucillo/php81
+
+ENV PHP_CONFIG_PATH=/etc/php/8.1
+
+ARG username
+ENV USERNAME=$username
+
+ARG host_os
+ENV HOST_OS=$host_os
+
+ARG magento_version
+ENV MAGENTO_VERSION=$magento_version
+
+COPY ./build/php/conf/xdebug-${HOST_OS}.ini $PHP_CONFIG_PATH/mods-available/xdebug.ini
+
+RUN useradd -m $USERNAME \
+    && chown -R $USERNAME:$USERNAME /var/www/html
+
+RUN echo "user = $USERNAME" >> $PHP_CONFIG_PATH/fpm/php-fpm.conf \
+    && echo "group = $USERNAME" >> $PHP_CONFIG_PATH/fpm/php-fpm.conf
+
+RUN mkdir /home/$USERNAME/.composer \
+    && chown -R $USERNAME:$USERNAME /home/$USERNAME/.composer
+
+COPY ./build/credentials/auth.json /home/$USERNAME/.composer/auth.json
+
+RUN composer self-update
+
+USER $USERNAME
+WORKDIR /var/www/html
+
+RUN composer create-project -vvv --repository-url=https://repo.magento.com/ magento/project-community-edition:$MAGENTO_VERSION .
+
+COPY ./build/credentials/auth.json /var/www/html/var/composer_home/auth.json
+
+USER root
+
+RUN chown -R $USERNAME:$USERNAME /var/www/html/var/composer_home
+
+USER $USERNAME

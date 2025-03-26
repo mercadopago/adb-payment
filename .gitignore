@@ -4,3 +4,10 @@ testdoc.txt
 .idea
 coverage/
 test-results
+
+build/.env
+build/logs
+build/credentials/auth.json
+build/certs/*.csr
+build/certs/*.key
+build/certs/*.pem

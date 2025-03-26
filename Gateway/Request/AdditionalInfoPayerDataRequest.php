@@ -247,7 +247,7 @@ class AdditionalInfoPayerDataRequest implements BuilderInterface
         );
 
         $typeDocument = $payment->getAdditionalInformation('payer_document_type');
-       
+
         $docIdentification = $this->documentIdentification->getFiscalNumber($payment, $orderAdapter);
         if ($docIdentification) {
             $docIdentification = preg_replace('/[^0-9A-Za-z]/', '', $docIdentification);
@@ -262,12 +262,12 @@ class AdditionalInfoPayerDataRequest implements BuilderInterface
         if ($customerId) {
             // Load customer model by customer ID
             $customer = $this->customerFactory->create()->load($customerId);
-            
+
             $registrationDate = $customer->getCreatedAt();
 
             // Get last order of the customer
             $lastOrder = $customer->getLastOrder();
-            
+
             if ($lastOrder) {
                 // Get last order's creation date
                 $lastPurchaseDate = $lastOrder->getCreatedAt();
@@ -295,16 +295,17 @@ class AdditionalInfoPayerDataRequest implements BuilderInterface
                 self::LAST_NAME            => $payerLastName,
                 self::REGISTRATION_DATE    => $registrationDate,
                 self::REGISTERED_USER      => $customerId ? true : false,
-                self::DEVICE_ID            => null, 
-                self::PLATFORM_EMAIL       => $platform_email, 
+                self::DEVICE_ID            => null,
+                self::PLATFORM_EMAIL       => $platform_email,
                 self::REGISTER_UPDATED_AT  => null,
                 self::USER_EMAIL           => $user_email,
                 self::AUTHENTICATION_TYPE  => null,
                 self::LAST_PURCHASE        => $lastPurchaseDate,
             ];
 
+
             $result[AdditionalInfoDataRequest::ADDITIONAL_INFO][self::PAYER][self::ADDRESS] = [
-                self::ZIP_CODE              => preg_replace('/[^0-9]/', '', $billingAddress->getPostcode()),
+                self::ZIP_CODE              => preg_replace('/[^0-9]/', '', (string)$billingAddress->getPostcode()),
                 self::STREET_NAME           => $this->config->getValueForAddress(
                     $billingAddress,
                     self::STREET_NAME
@@ -328,8 +329,8 @@ class AdditionalInfoPayerDataRequest implements BuilderInterface
             ];
 
             $result[AdditionalInfoDataRequest::ADDITIONAL_INFO][self::PAYER][self::MOBILE] = [
-                self::PHONE_AREA_CODE => $phoneAreaCode, 
-                self::PHONE_NUMBER    => $phoneNumber, 
+                self::PHONE_AREA_CODE => $phoneAreaCode,
+                self::PHONE_NUMBER    => $phoneNumber,
             ];
 
             $result[AdditionalInfoDataRequest::ADDITIONAL_INFO][self::PAYER][self::IDENTIFICATION] = [
