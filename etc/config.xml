@@ -30,8 +30,8 @@
                 <get_document_identification_from>address</get_document_identification_from>
                 <street_name>0</street_name>
                 <street_number>1</street_number>
-                <complement>3</complement>
-                <neighborhood>2</neighborhood>
+                <complement>2</complement>
+                <neighborhood>3</neighborhood>
                 <allowspecific>1</allowspecific>
                 <receive_refund>1</receive_refund>
                 <restrict_payment_on_mp_site_id><![CDATA[{"mercadopago_adbpayment_pix":["MLB"],"mercadopago_adbpayment_pse":["MCO"],"mercadopago_adbpayment_webpay":["MLC"],"mercadopago_adbpayment_yape":["MPE"]}]]></restrict_payment_on_mp_site_id>

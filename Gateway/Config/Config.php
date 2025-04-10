@@ -491,21 +491,18 @@ class Config extends PaymentConfig
     {
         $value = (int) $this->getAddtionalValue($field);
 
-        if ($value === 0) {
-            return $adress->getStreetLine1();
-        } elseif ($value === 1) {
-            return $adress->getStreetLine2();
-        } elseif ($value === 2) {
-            if ($adress->getStreetLine3()) {
-                return $adress->getStreetLine3();
-            }
-        } elseif ($value === 3) {
-            if ($adress->getStreetLine4()) {
-                return $adress->getStreetLine4();
-            }
+        switch ($value) {
+            case 0:
+                return $adress->getStreetLine1();
+            case 1:
+                return $adress->getStreetLine2();
+            case 2:
+                return $adress->getStreetLine3() ?: '';
+            case 3:
+                return $adress->getStreetLine4() ?: '';
+            default:
+                return '';
         }
-
-        return '';
     }
 
     /**

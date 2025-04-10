@@ -38,7 +38,7 @@ class BillingAddressDataRequest implements BuilderInterface
     /**
      * The street complement block name.
      */
-    public const STREET_COMPLEMENT = 'street_complement';
+    public const STREET_COMPLEMENT = 'complement';
 
     /**
      * The Street Neighborhood address block name.
