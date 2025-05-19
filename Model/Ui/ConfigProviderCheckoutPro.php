@@ -51,6 +51,16 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
     protected $assetSource;
 
     /**
+     * @var array
+     */
+    protected $icons = [];
+
+    /**
+     * @var array
+     */
+    protected $infoIcons = [];
+
+    /**
      * @param ConfigCheckoutPro $config
      * @param CartInterface     $cart
      * @param CcConfig          $ccConfig
@@ -99,6 +109,8 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
                         'elementsColor' => $this->config->getStylesElementsColor($storeId),
                     ],
                     'fingerprint'           => $this->config->getFingerPrintLink($storeId),
+                    'icons'                 => $this->getIcons(),
+                    'info_icons'            => $this->getChoProInfoIcons()
                 ],
             ],
         ];
@@ -140,4 +152,74 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
 
         return __($text);
     }
+
+    /**
+     * Get flags of available payment methods.
+     *
+     * @return array
+     */
+    public function getIcons()
+    {
+        if (!empty($this->icons)) {
+            return $this->icons;
+        }
+        $storeId = $this->cart->getStoreId();
+        $choProTypes = $this->config->getChoProAvailableTypes($storeId);
+        $types = explode(',', $choProTypes);
+        foreach ($types as $code => $label) {
+            if (!array_key_exists($code, $this->icons)) {
+                $asset = $this->ccConfig->createAsset(
+                    'MercadoPago_AdbPayment::images/checkout-pro/'.$label.'.svg'
+                );
+                $placeholder = $this->assetSource->findSource($asset);
+                if ($placeholder) {
+                        $this->icons[$label] = [
+                            'url'    => $asset->getUrl(),
+                            'code'   => $label,
+                            'width'  => '32px',
+                            'height' => '24px',
+                            'title'  => $label,
+                            'alt'    => strval(__($label))
+                        ];
+                    }
+                }
+            }
+
+        return $this->icons;
+    }
+
+     /**
+     * Get flags of available payment methods.
+     *
+     * @return array
+     */
+    public function getChoProInfoIcons()
+    {
+        if (!empty($this->infoIcons)) {
+            return $this->infoIcons;
+        }
+        $storeId = $this->cart->getStoreId();
+        $choproIcons = $this->config->getChoProInfoIcons($storeId);
+        $icons = explode(',', $choproIcons);
+        foreach ($icons as $code => $label) {
+            if (!array_key_exists($code, $this->infoIcons)) {
+                $asset = $this->ccConfig->createAsset(
+                    'MercadoPago_AdbPayment::images/checkout-pro/icons/'.$label.'.svg'
+                );
+                $placeholder = $this->assetSource->findSource($asset);
+                if ($placeholder) {
+                        $this->infoIcons[$label] = [
+                            'url'    => $asset->getUrl(),
+                            'code'   => $label,
+                            'width'  => '16px',
+                            'height' => '16px',
+                            'title'  => $label,
+                        ];
+                    }
+                }
+            }
+
+        return $this->infoIcons;
+    }
+
 }

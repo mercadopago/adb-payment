@@ -162,7 +162,7 @@
                 <active>1</active>
                 <model>MercadoPagoCheckoutProFacade</model>
                 <order_status>pending</order_status>
-                <title>Checkout Pro</title>
+                <title>Mercado Pago</title>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
                 <paymentInfoKeys>payer_first_name,payer_last_name,init_point,date_of_expiration,id,payer_document_type,mp_installments,mp_payment_type_id,mp_payment_id,mp_status,mp_status_detail,payment_0_id,payment_0_type,payment_0_card_number,payment_0_expiration,payment_0_installments,payment_0_total_amount,payment_0_paid_amount,mp_0_status,mp_0_status_detail,payment_1_id,payment_1_type,payment_1_card_number,payment_1_installments,payment_1_total_amount,payment_1_paid_amount,mp_1_status,mp_1_status_detail,payment_1_expiration</paymentInfoKeys>
                 <privateInfoKeys>mp_payment_id,payer_document_type,mp_status,mp_status_detail,payment_0_id,mp_0_status,mp_0_status_detail,payment_1_id,mp_1_status,mp_1_status_detail</privateInfoKeys>
@@ -183,6 +183,22 @@
                 <can_accept_payment>1</can_accept_payment>
                 <can_fetch_transaction_info>1</can_fetch_transaction_info>
                 <can_fetch_transaction_information>1</can_fetch_transaction_information>
+                <chopro_icons>icon-protected-purchase,icon-mercado-credito,icon-wallet,icon-mercado-pago</chopro_icons>
+                <chopro_icons_mlm>icon-protected-purchase,icon-mercado-credito,icon-mercado-pago</chopro_icons_mlm>
+                <chopro_icons_mlb>icon-protected-purchase,icon-mercado-credito,icon-mercado-pago</chopro_icons_mlb>
+                <chopro_icons_mla>icon-wallet,icon-mercado-credito,icon-mercado-pago</chopro_icons_mla>
+                <chopro_icons_mlu>icon-wallet,icon-protected-purchase,icon-mercado-pago</chopro_icons_mlu>
+                <chopro_icons_mpe>icon-wallet,icon-protected-purchase,icon-mercado-pago</chopro_icons_mpe>
+                <chopro_icons_mco>icon-wallet,icon-protected-purchase,icon-mercado-pago</chopro_icons_mco>
+                <chopro_icons_mlc>icon-wallet,icon-protected-purchase,icon-mercado-pago</chopro_icons_mlc>
+                <chopro_types>pse,visa,mastercard,efecty,amex,codensa,accountmoney,pix,elo,hipercard,redcompra,naranja,maestro,cabal,oxxo,spei,bbva,oca,lider,creditel,diners,internetbanking</chopro_types>
+                <chopro_types_mco>pse,visa,mastercard,efecty,amex,codensa,accountmoney</chopro_types_mco>
+                <chopro_types_mlb>pix,mastercard,visa,elo,amex,hipercard,accountmoney</chopro_types_mlb>
+                <chopro_types_mlc>mastercard,visa,amex,redcompra,accountmoney</chopro_types_mlc>
+                <chopro_types_mla>visa,mastercard,amex,naranja,maestro,cabal,accountmoney</chopro_types_mla>
+                <chopro_types_mlm>visa,mastercard,amex,oxxo,spei,bbva,accountmoney</chopro_types_mlm>
+                <chopro_types_mlu>visa,oca,mastercard,amex,lider,creditel,accountmoney</chopro_types_mlu>
+                <chopro_types_mpe>visa,mastercard,amex,diners,internetbanking,accountmoney</chopro_types_mpe>
                 <group>mercadopago_group</group>
                 <expiration>1</expiration>
                 <binary_mode>1</binary_mode>

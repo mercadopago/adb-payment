@@ -8,7 +8,7 @@
 <div class="payment-method form-mercadopago" css="_active: isActive()"
     data-bind="attr: {id: 'payment_form_' + getCode()}">
     <div class="payment-method-title field choice">
-        <input type="radio" name="payment[method]" class="radio" attr="id: getCode()" 
+        <input type="radio" name="payment[method]" class="radio mp-spacing-right" attr="id: getCode()"
             ko-value="getCode()"
             ko-checked="isChecked" click="selectPaymentMethod" visible="isRadioButtonVisible()"></input>
         <label attr="for: getCode()" class="label">
@@ -35,9 +35,9 @@
         <div class="mp-header-two-cards">
             <p class="mp-header-subtitle"><!-- ko i18n: 'Enter the amount to be paid with the first method *' --><!-- /ko --></p>
             <div class="mp-twocc-amount-selector">
-                <div data-bind="text: currencySymbol()"></div> 
+                <div data-bind="text: currencySymbol()"></div>
                 <!-- ko if: isSiteIdMCOorMLC() -->
-                <input type="number" id="input-progress" step="1" pattern="\d+" placeholder="0" 
+                <input type="number" id="input-progress" step="1" pattern="\d+" placeholder="0"
                     onkeydown="return event.keyCode !== 190 && event.keyCode !== 188"
                     data-bind="value: inputValueProgress, valueUpdate: 'keyup'">
                 </input>
@@ -162,7 +162,7 @@
                 </span>
             </label>
         </div>
-        
+
         <div id="mp-second-card">
             <form class="open" id="co-payment-form-mp-card-two" method="post" afterRender="initFormElement">
                 <render args="twoCcForm"></render>

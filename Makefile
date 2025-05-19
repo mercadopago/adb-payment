@@ -30,7 +30,7 @@ install:
 	fi && \
 	$(DOCKER_COMPOSE) -f build/docker-compose.yaml up -d && \
 	sleep 8 && \
-	docker exec -it magento_php composer require mp-plugins/php-sdk ^1.9 && \
+	docker exec -it magento_php composer require mp-plugins/php-sdk ^3.3 && \
 	docker exec -it magento_php php ./bin/magento setup:install \
 		--base-url=http://magento.local \
 		--db-host=database \

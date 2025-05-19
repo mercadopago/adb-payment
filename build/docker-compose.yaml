@@ -66,6 +66,7 @@ services:
         volumes:
             - magento-php-volume:/var/www/html
             - ./credentials:/home/ubuntu/.composer
+            - ./log:/var/www/html/var/log
             - ../:/var/www/html/app/code/MercadoPago/AdbPayment
         networks:
           - default
