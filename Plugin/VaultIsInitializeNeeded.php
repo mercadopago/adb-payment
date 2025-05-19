@@ -28,6 +28,6 @@ class VaultIsInitializeNeeded
         Vault $config,
         callable $proceed
     ): bool {
-        return true;
+        return false;
     }
 }

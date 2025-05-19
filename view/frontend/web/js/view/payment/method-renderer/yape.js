@@ -482,10 +482,6 @@ define([
             return window.checkoutConfig.payment[this.getCode()].yapeIcons.attention
         },
 
-        getInfoIcon: function () {
-            return window.checkoutConfig.payment[this.getCode()].yapeIcons.info
-        },
-
         validatePhoneChars: function() {
 
             const yapePhone = document.getElementById("yape-phone")

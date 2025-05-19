@@ -101,6 +101,16 @@ class ConfigCheckoutPro extends PaymentConfig
     public const CONVERSION_LABEL = 'conversion_label';
 
     /**
+     * Cho Pro Types.
+     */
+    public const CHOPRO_TYPES = 'chopro_types';
+
+    /**
+     * Cho Pro Icons.
+     */
+    public const CHOPRO_ICONS = 'chopro_icons';
+
+    /**
      * @var ScopeConfigInterface
      */
     protected $scopeConfig;
@@ -477,5 +487,59 @@ class ConfigCheckoutPro extends PaymentConfig
         $mpSiteId = $this->config->getMpSiteId($storeId);
 
         return $this->fingerprint->getFingerPrintLink($mpSiteId);
+    }
+
+    /**
+     * Should return the flags for checkout pro .
+     *
+     * @param int|null $storeId
+     *
+     * @return string
+     */
+    public function getChoProAvailableTypes($storeId = null): string
+    {
+        $pathPattern = 'payment/%s/%s_%s';
+
+        $mpSiteId = $this->config->getMpSiteId($storeId);
+
+        $result = $this->scopeConfig->getValue(
+            sprintf(
+                $pathPattern,
+                self::METHOD,
+                self::CHOPRO_TYPES,
+                strtolower((string) $mpSiteId)
+            ),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        return $result ?: '';
+    }
+
+     /**
+     * Should return the icons for checkout pro body.
+     *
+     * @param int|null $storeId
+     *
+     * @return string
+     */
+    public function getChoProInfoIcons($storeId = null): string
+    {
+        $pathPattern = 'payment/%s/%s_%s';
+
+        $mpSiteId = $this->config->getMpSiteId($storeId);
+
+        $result = $this->scopeConfig->getValue(
+            sprintf(
+                $pathPattern,
+                self::METHOD,
+                self::CHOPRO_ICONS,
+                strtolower((string) $mpSiteId)
+            ),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        return $result ?: '';
     }
 }

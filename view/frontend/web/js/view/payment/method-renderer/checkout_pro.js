@@ -176,5 +176,36 @@ define([
         getFingerprint() {
             return window.checkoutConfig.payment[this.getCode()].fingerprint;
         },
+
+        /**
+         * Get icons cho pro
+         * @returns {Array}
+         */
+         getIconsList() {
+            const flags = window.checkoutConfig.payment[this.getCode()].icons
+            return Object.keys(flags)
+        },
+
+        /**
+         * Get icons cho pro
+         * @returns {Object}
+         */
+        getIcons(icon){
+            const icons = window.checkoutConfig.payment[this.getCode()].icons
+            return icons[icon]
+        },
+
+
+        /**
+         * Get icons cho pro
+         * @returns {Array}
+         */
+        getInfoIcons() {
+
+            const infoIcons = window.checkoutConfig.payment[this.getCode()].info_icons
+            var result = Object.keys(infoIcons).map((key) => infoIcons[key]);
+
+            return result
+        },
     });
 });

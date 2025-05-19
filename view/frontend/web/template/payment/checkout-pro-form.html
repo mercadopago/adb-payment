@@ -10,20 +10,65 @@
     <div class="field-to-pay"  data-bind="css: { _hidden:isPlaceOrderActionAllowed() }">
         <p class="not-editable-title"><!-- ko i18n: 'Waiting...'--><!-- /ko --></p>
     </div>
-    <div class="field-to-pay"  data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
-        <!-- ko if: getExpiration() -->
+    <div class="field-to-pay new-chopro"  data-bind="css: { _hidden:!isPlaceOrderActionAllowed() }">
         <dl class="items check payable">
-            <!-- ko if: getExpiration() -->
-            <dt class="title"><!-- ko i18n: 'Due date' --><!-- /ko --></dt>
-            <dd class="content">
-                <address class="mercadopagocheckoutpro due address" data-bind="html: getExpiration()"></address>
-            </dd>
-            <!-- /ko -->
-            <dt class="title"><!-- ko i18n: 'Instruction' --><!-- /ko --></dt>
-            <dd class="content">
-                <address class="mercadopagopec instruction address" data-bind="html: getInstructionCheckout()"></address>
-            </dd>
+            <div class="chopro">
+                <div class="chopro-info-block">
+                    <h3 tabindex="0"><!-- ko i18n: 'Discover how practical Mercado Pago is' --><!-- /ko --></h3>
+                </div>
+                <div class="chopro-info">
+                    <!--ko getInfoIcons()-->
+                    <div class="chopro-info-row">
+                        <img data-bind="attr: {
+                            'src': getInfoIcons()[0].url,
+                            'width': getInfoIcons()[0].width,
+                            'height': getInfoIcons()[0].height
+                            }">
+                        <p tabindex="0"><span class="strong"><!--ko i18n: 'Pay with your saved cards'--><!-- /ko --></span>&nbsp;<!--ko i18n: 'or account money without filling out personal details.' --><!-- /ko --></p>
+                    </div>
+                    <div class="chopro-info-row">
+                        <img data-bind="attr: {
+                        'src': getInfoIcons()[1].url,
+                        'width': getInfoIcons()[1].width,
+                        'height': getInfoIcons()[1].height
+                        }">
+                        <p tabindex="0"><span class="strong"><!--ko i18n: 'Buy safely'--><!--/ko--></span>&nbsp;<!--ko i18n: 'with your preferred payment method.'--><!-- /ko --></p>
+                    </div>
+                    <!--/ko-->
+                </div>
+                <div class="chopro-flags">
+                    <h2 id="payment-options" style="display: none"><!-- ko i18n: 'Payment options'--><!-- /ko --></h2>
+                    <ul class="chopro-flags-row" tabindex="0" aria-labelledby="payment-options">
+                    <!--ko foreach: {data: getIconsList(), as: 'key'}-->
+                    <!--ko if: $parent.getIcons(key) -->
+                        <li tabindex="0">
+                            <img data-bind="attr: {
+                                    'src': $parent.getIcons(key).url,
+                                    'alt': $parent.getIcons(key).alt,
+                                    'width': $parent.getIcons(key).width,
+                                    'height': $parent.getIcons(key).height,
+                                    'class': 'card_' + $parent.getIcons(key).code
+                                }" />
+                        </li>
+                    <!--/ko-->
+                    <!--/ko-->
+                    </ul>
+                </div>
+                <div class="chopro-footer">
+                    <!--ko getInfoIcons()-->
+                    <div class="chopro-footer-title">
+                        <img data-bind="attr: {
+                            'src': getInfoIcons()[2].url,
+                            'width': getInfoIcons()[2].width,
+                            'height': getInfoIcons()[2].height
+                            }"><p tabindex="0"><!--ko i18n: 'We’ll take you to Mercado Pago'--><!-- /ko --></p>
+                    </div>
+                    <!--/ko-->
+                    <div>
+                        <p tabindex="0"><!--ko i18n: 'If you don’t have an account, you can use your email.'--><!-- /ko --></p>
+                    </div>
+                </div>
+            </div>
         </dl>
-        <!-- /ko -->
     </div>
 </fieldset>

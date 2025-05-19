@@ -12,19 +12,8 @@
 @import '_yape.less';
 
 & when (@media-common =true) {
-
     //css Two Cards
     .payment-method {
-        .payment-method-title {
-            .payment-method-label {
-                .payment-method-label-icon {
-                    .mp-logo-title {
-                        height: 28px;
-                    }
-                }
-
-            }
-        }
 
         .payment-method-content {
             width: 95%;
@@ -214,7 +203,7 @@
 
         .payment-mercado-credits-icon {
             span {
-                color: rgba(0, 158, 227, 1);
+                color: rgba(52, 131, 250, 1);
                 font-size: 14px;
                 font-weight: 600;
                 line-height: 18px;
@@ -281,6 +270,7 @@
         // end css Credits
 
         .text-tea {
+            margin-top:20px;
             font-size: 12px;
             line-height: 1.1;
         }
@@ -288,6 +278,8 @@
         .text-cft {
             font-size: 27px;
             line-height: 1.1;
+            padding-bottom: 0;
+            margin-bottom: 0;
         }
 
         .payment-method-title {
@@ -361,15 +353,11 @@
                 display: table-cell;
                 line-height: 0;
                 vertical-align: middle;
-
-                img {
-                    width: 40px;
-                }
             }
 
             .payment-method-label-title {
                 display: table-cell;
-                padding-left: 10px;
+                padding-left: 16px;
                 vertical-align: middle;
             }
 
@@ -461,6 +449,121 @@
 
             &._hidden {
                 &:extend(.abs-visually-hidden all);
+            }
+        }
+
+        .field-to-pay.new-chopro{
+            margin: 0;
+        }
+
+        .chopro {
+            display: inline-flex;
+            flex-direction: column;
+            padding: 0;
+
+            .chopro-info-block{
+                padding: 0 0 32px;
+                font-size: 18px;
+                font-weight: 600;
+                line-height: 22px;
+                text-align: left;
+                color: rgba(0, 0, 0, 0.9);
+
+                p {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+
+            .chopro-info {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                padding: 0;
+                margin: 0;
+                text-align: left;
+
+                .chopro-info-row {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    gap: 8px;
+                    line-height: 20px;
+
+                    p {
+                        font-size: 14px;
+                        font-weight: 400;
+                        text-align: left;
+                        color: rgba(0, 0, 0, 0.55);
+                        margin: 0;
+                        padding: 0;
+                        .strong {
+                            padding: 0 !important;
+                            margin: 0 !important;
+                            font-weight: 600;
+                        }
+                    }
+
+                    img {
+                        padding-top: 2px;
+                        width: 16px;
+                        height: 16px;
+                    }
+                }
+            }
+
+            .chopro-flags {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                padding: 32px 0;
+
+                .chopro-flags-row {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 8px;
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                    li {
+                        margin: 0;
+                        padding: 0;
+                        height: 24px;
+                    }
+                }
+            }
+
+            .chopro-footer {
+                padding: 20px;
+                background: #F5F5F5;
+                border-radius: 6px;
+                display: inline-flex;
+                flex-direction: column;
+                margin-bottom: 12px;
+                gap: 8px;
+
+                p {
+                    padding: 0;
+                    margin: 0;
+                    font-size: 12px;
+                    line-height: 15px;
+                    text-align: left;
+                    color: rgba(0, 0, 0, 0.55)
+                }
+
+                .chopro-footer-title {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    gap: 8px;
+                    font-weight: 600;
+                    line-height: 15px;
+                    text-align: left;
+                    font-size: 12px;
+                }
             }
         }
 
@@ -677,7 +780,16 @@
     .checkout-onepage-success {
         .mercadopago-payment-success-details {
             text-align: left;
-            margin-top: 20px;
+            margin-top: 24px;
+        }
+
+        .mercadopago-payment-success-details p:nth-of-type(3) {
+            margin-bottom: 0;
+            padding-bottom: 24px;
+        }
+
+        a.action.primary.continue {
+            margin-top: 0;
         }
 
         .mercadopago-input-group {
@@ -703,11 +815,17 @@
         .field {
             &.mercadopago-input-group {
                 max-width: 500px;
+                padding-bottom: 24px;
             }
         }
 
         .mercadopago-payment-success-details-two-cc {
-            padding-top: 15px;
+            padding-top: 24px;
+
+            p:nth-last-child(1) {
+                padding-bottom: 0;
+                margin-bottom: 0;
+            }
 
             span {
                 padding-left: 5px;
@@ -735,9 +853,10 @@
             -o-background-size: contain;
             background-size: contain;
             width: 96.89px;
-            height: 24.46px;
-            padding-top: 15px;
-            padding-bottom: 15px;
+            height: 38px;
+            padding: 0;
+            margin-top: 24px;
+            margin-bottom: 24px;
         }
     }
 
@@ -765,11 +884,17 @@
         }
     }
 
-    @media screen and (max-width: 472px){
+    .form-mercadopago {
+        .mp-spacing-right {
+            margin-right: 8px;
+        }
+    }
 
+    @media screen and (max-width: 472px) {
         .mp-redirect-message {
             margin-left: 0 ;
         }
+
         .mp-credit-line {
             margin-left: 0;
         }
@@ -810,6 +935,9 @@
 .media-width(@extremum, @break) when (@extremum ='min') and (@break =@screen__m) {
 
     .form-mercadopago {
+        .mp-spacing-right {
+            margin-right: 8px;
+        }
         .legend {
             .credit-card-types {
                 .item {
