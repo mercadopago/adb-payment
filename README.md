@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/mercadopago/adb-payment/refs/heads/main/view/base/web/images/core/logo.svg" align="right" width="180"/>
+<img src="view/base/web/images/core/logo.svg" align="right" width="180"/>
 
 # Mercado Pago para Adobe Commerce
 
