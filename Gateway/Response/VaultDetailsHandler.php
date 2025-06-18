@@ -55,7 +55,7 @@ class VaultDetailsHandler implements HandlerInterface
         Json $json,
         ObjectManagerInterface $objectManager,
         OrderPaymentExtensionInterfaceFactory $payExtensionFactory,
-        PaymentTokenFactoryInterface $paymentTokenFactory = null
+        ?PaymentTokenFactoryInterface $paymentTokenFactory = null
     ) {
         if ($paymentTokenFactory === null) {
             $paymentTokenFactory = $objectManager->get(PaymentTokenFactoryInterface::class);

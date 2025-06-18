@@ -51,7 +51,7 @@ class FetchStatus extends AbstractModel
      *
      * @return Order $order
      */
-    public function fetch($orderId, $notificationId = null)
+    public function fetch($orderId, ?string $notificationId = null)
     {
         $this->writeln('Init Fetch Status');
         /** @var Order $order */
@@ -62,7 +62,7 @@ class FetchStatus extends AbstractModel
         if( isset($notificationId)){
             $additionalData = (array('notificationId' => $notificationId));
             $additionalData = (object)$additionalData;
-    
+
             $payment->setAdditionalData(json_encode($additionalData));
         }
 

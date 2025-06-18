@@ -165,7 +165,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return bool
      */
-    public function isActive($storeId = null): bool
+    public function isActive(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -183,7 +183,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getTitle($storeId = null): string
+    public function getTitle(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -203,7 +203,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getInstructionCheckout($storeId = null): string
+    public function getInstructionCheckout(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -221,7 +221,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return array|null
      */
-    public function getExcluded($storeId = null): ?array
+    public function getExcluded(?int $storeId = null): ?array
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -245,7 +245,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getExpirationFormatted($storeId = null): string
+    public function getExpirationFormatted(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -264,7 +264,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getExpiration($storeId = null): string
+    public function getExpiration(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -283,7 +283,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getExpirationFormat($storeId = null): string
+    public function getExpirationFormat(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -302,7 +302,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return bool
      */
-    public function isBinaryMode($storeId = null): bool
+    public function isBinaryMode(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -320,7 +320,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getTypeRedirect($storeId = null): string
+    public function getTypeRedirect(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -338,7 +338,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return int|null
      */
-    public function getMaxInstallments($storeId = null): ?int
+    public function getMaxInstallments(?int $storeId = null): ?int
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -356,7 +356,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return bool
      */
-    public function isIncludeFacebook($storeId = null): bool
+    public function isIncludeFacebook(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -374,7 +374,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string|null
      */
-    public function getFacebookAd($storeId = null): ?string
+    public function getFacebookAd(?int $storeId = null): ?string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -392,7 +392,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return bool
      */
-    public function isIncludeGoogle($storeId = null): bool
+    public function isIncludeGoogle(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -410,7 +410,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string|null
      */
-    public function getGoogleAdsId($storeId = null): ?string
+    public function getGoogleAdsId(?int $storeId = null): ?string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -428,7 +428,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string|null
      */
-    public function getGoogleAdsLabel($storeId = null): ?string
+    public function getGoogleAdsLabel(?int $storeId = null): ?string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -446,7 +446,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getStylesHeaderColor($storeId = null): string
+    public function getStylesHeaderColor(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -464,7 +464,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getStylesElementsColor($storeId = null): string
+    public function getStylesElementsColor(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -482,7 +482,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getFingerPrintLink($storeId = null): string
+    public function getFingerPrintLink(?int $storeId = null): string
     {
         $mpSiteId = $this->config->getMpSiteId($storeId);
 
@@ -496,7 +496,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getChoProAvailableTypes($storeId = null): string
+    public function getChoProAvailableTypes(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s_%s';
 
@@ -523,7 +523,7 @@ class ConfigCheckoutPro extends PaymentConfig
      *
      * @return string
      */
-    public function getChoProInfoIcons($storeId = null): string
+    public function getChoProInfoIcons(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s_%s';
 

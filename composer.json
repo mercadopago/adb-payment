@@ -3,11 +3,11 @@
     "description": "MercadoPago - Payment for Adobe Commerce",
     "version": "1.10.1",
     "require": {
-        "php": "~7.3.0||~7.4.0||~8.1.0||~8.2.0||~8.3.0",
+        "php": "~7.3.0||~7.4.0||~8.1.0||~8.2.0||~8.3.0||~8.4.0",
         "ext-json": "*",
         "ext-gd": "*",
         "ext-zip": "*",
-        "mp-plugins/php-sdk": "^3.3"
+        "mp-plugins/php-sdk": "^3.3.2"
     },
     "type": "magento2-module",
     "authors": [

@@ -41,14 +41,14 @@ class CollectionFactory
         $this->objectManager = $objectManager;
         $this->instanceName = $instanceName;
     }
-    
+
     /**
      * Create class instance with specified parameters
      *
      * @param int|null $quoteId
      * @return Collection
      */
-    public function create($quoteId = null)
+    public function create(?int $quoteId = null)
     {
         /** @var Collection $collection */
         $collection = $this->objectManager->create($this->instanceName);

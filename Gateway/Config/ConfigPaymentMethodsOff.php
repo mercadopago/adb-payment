@@ -96,7 +96,7 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      *
      * @return bool
      */
-    public function isActive($storeId = null): bool
+    public function isActive(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -114,7 +114,7 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      *
      * @return string
      */
-    public function getTitle($storeId = null): string
+    public function getTitle(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -132,7 +132,7 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      *
      * @return string
      */
-    public function getExpirationFormatted($storeId = null): string
+    public function getExpirationFormatted(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -151,7 +151,7 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      *
      * @return string
      */
-    public function getExpiration($storeId = null): string
+    public function getExpiration(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -164,13 +164,13 @@ class ConfigPaymentMethodsOff extends PaymentConfig
     }
 
     /**
-     * Get Expiration Formart.
+     * Get Expiration Format.
      *
      * @param int|null $storeId
      *
      * @return string
      */
-    public function getExpirationFormat($storeId = null): string
+    public function getExpirationFormat(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -189,7 +189,7 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      *
      * @return bool
      */
-    public function hasUseDocumentIdentificationCapture($storeId = null): bool
+    public function hasUseDocumentIdentificationCapture(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -207,7 +207,7 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      *
      * @return bool
      */
-    public function hasUseNameCapture($storeId = null): bool
+    public function hasUseNameCapture(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -218,7 +218,7 @@ class ConfigPaymentMethodsOff extends PaymentConfig
         );
     }
 
-    public function getPaymentMethodsOffActive($storeId = null): ?string
+    public function getPaymentMethodsOffActive(?int $storeId = null): ?string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -306,7 +306,7 @@ class ConfigPaymentMethodsOff extends PaymentConfig
      *
      * @return string
      */
-    public function getFingerPrintLink($storeId = null): string
+    public function getFingerPrintLink(?int $storeId = null): string
     {
         $mpSiteId = $this->config->getMpSiteId($storeId);
 
