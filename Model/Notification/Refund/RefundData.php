@@ -10,7 +10,7 @@ class RefundData {
     private string $notificationId;
     private ?string $origin;
 
-    public function __construct(int $id, bool $notifying, float $amount, string $status, string $notificationId, string $origin = null)
+    public function __construct(int $id, bool $notifying, float $amount, string $status, string $notificationId, ?string $origin = null)
     {
         $this->id = $id;
         $this->notifying = $notifying;

@@ -34,7 +34,7 @@ class CreateOrderPaymentCustomClientTest extends TestCase {
             ->willReturn($sdkMock);
 
         return new CreateOrderPaymentCustomClient(
-            $logger, 
+            $logger,
             $config,
             $json,
             $quoteMpPaymentRepository,
@@ -44,7 +44,7 @@ class CreateOrderPaymentCustomClientTest extends TestCase {
         );
     }
 
-    private function mockSdk(PaymentV21 $payment = null): Sdk
+    private function mockSdk(?PaymentV21 $payment = null): Sdk
     {
         $paymentInstance = $payment ?? $this->createMock(PaymentV21::class);
 

@@ -97,7 +97,7 @@ class ConfigYape extends PaymentConfig
      *
      * @return bool
      */
-    public function isActive($storeId = null): bool
+    public function isActive(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -115,7 +115,7 @@ class ConfigYape extends PaymentConfig
      *
      * @return string
      */
-    public function getTitle($storeId = null): string
+    public function getTitle(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -133,7 +133,7 @@ class ConfigYape extends PaymentConfig
      *
      * @return string
      */
-    public function getFingerPrintLink($storeId = null): string
+    public function getFingerPrintLink(?int $storeId = null): string
     {
         $mpSiteId = $this->config->getMpSiteId($storeId);
 
@@ -147,7 +147,7 @@ class ConfigYape extends PaymentConfig
      *
      * @return float
      */
-    public function getMaximumOrderTotal($storeId = null): float
+    public function getMaximumOrderTotal(?int $storeId = null): float
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -165,7 +165,7 @@ class ConfigYape extends PaymentConfig
      *
      * @return string
      */
-    public function getIcons($storeId = null): string
+    public function getIcons(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $result = $this->scopeConfig->getValue(

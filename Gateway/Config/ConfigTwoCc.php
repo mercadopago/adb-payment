@@ -120,7 +120,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function isCvvEnabled($storeId = null): bool
+    public function isCvvEnabled(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -138,7 +138,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function isActive($storeId = null): bool
+    public function isActive(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -156,7 +156,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return string
      */
-    public function getTitle($storeId = null): string
+    public function getTitle(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -176,7 +176,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function hasUseDocumentIdentificationCapture($storeId = null): bool
+    public function hasUseDocumentIdentificationCapture(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -194,7 +194,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function isBinaryMode($storeId = null): bool
+    public function isBinaryMode(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -218,7 +218,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return string
      */
-    public function getCcAvailableTypes($storeId = null): string
+    public function getCcAvailableTypes(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s_%s';
 
@@ -245,7 +245,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return array
      */
-    public function getCcTypesMapper($storeId = null): array
+    public function getCcTypesMapper(?int $storeId = null): array
     {
         $pathPattern = 'payment/%s/%s_%s';
 
@@ -274,7 +274,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return array
      */
-    public function getUnsupportedPreAuth($storeId = null): array
+    public function getUnsupportedPreAuth(?int $storeId = null): array
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -300,7 +300,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return bool
      */
-    public function hasCapture($storeId = null): bool
+    public function hasCapture(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -328,7 +328,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return string
      */
-    public function getFingerPrintLink($storeId = null): string
+    public function getFingerPrintLink(?int $storeId = null): string
     {
         $mpSiteId = $this->config->getMpSiteId($storeId);
 
@@ -342,7 +342,7 @@ class ConfigTwoCc extends PaymentConfig
      *
      * @return float
      */
-    public function getMaximumOrderTotal($storeId = null): float
+    public function getMaximumOrderTotal(?int $storeId = null): float
     {
         $pathPattern = 'payment/%s/%s';
 

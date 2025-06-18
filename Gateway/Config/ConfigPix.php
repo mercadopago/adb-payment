@@ -98,7 +98,7 @@ class ConfigPix extends PaymentConfig
      *
      * @return bool
      */
-    public function isActive($storeId = null): bool
+    public function isActive(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -116,7 +116,7 @@ class ConfigPix extends PaymentConfig
      *
      * @return string
      */
-    public function getTitle($storeId = null): string
+    public function getTitle(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -134,7 +134,7 @@ class ConfigPix extends PaymentConfig
      *
      * @return string
      */
-    public function getExpirationFormatted($storeId = null): string
+    public function getExpirationFormatted(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -188,7 +188,7 @@ class ConfigPix extends PaymentConfig
      *
      * @return string
      */
-    public function getInstructionCheckout($storeId = null): string
+    public function getInstructionCheckout(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -206,7 +206,7 @@ class ConfigPix extends PaymentConfig
      *
      * @return bool
      */
-    public function hasUseDocumentIdentificationCapture($storeId = null): bool
+    public function hasUseDocumentIdentificationCapture(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -224,7 +224,7 @@ class ConfigPix extends PaymentConfig
      *
      * @return string
      */
-    public function getFingerPrintLink($storeId = null): string
+    public function getFingerPrintLink(?int $storeId = null): string
     {
         $mpSiteId = $this->config->getMpSiteId($storeId);
 

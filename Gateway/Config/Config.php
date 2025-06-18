@@ -117,7 +117,7 @@ class Config extends PaymentConfig
      *
      * @return Sdk
      */
-    public function getSdkInstance($storeId = null): Sdk {
+    public function getSdkInstance(?int $storeId = null): Sdk {
         $oauth = $this->getMerchantGatewayClientSecret($storeId);
         $integratorId = $this->getMerchantGatewayIntegratorId($storeId);
         if(is_null($integratorId)) $integratorId = '';
@@ -139,7 +139,7 @@ class Config extends PaymentConfig
      *
      * @return float
      */
-    public function formatPrice($amount, $storeId = null): float
+    public function formatPrice($amount, ?int $storeId = null): float
     {
         if ($this->getMpSiteId($storeId) === 'MCO') {
             return round((float) $amount, 0);
@@ -170,7 +170,7 @@ class Config extends PaymentConfig
      *
      * @return string
      */
-    public function getEnvironmentMode($storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
+    public function getEnvironmentMode(?int $storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
     {
         $environment = $this->getAddtionalValue('environment', $storeId, $scope);
 
@@ -189,7 +189,7 @@ class Config extends PaymentConfig
      *
      * @return string
      */
-    public function getMerchantGatewayClientId($storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
+    public function getMerchantGatewayClientId(?int $storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
     {
         $clientId = $this->getAddtionalValue('client_id_production', $storeId, $scope);
 
@@ -210,7 +210,7 @@ class Config extends PaymentConfig
      *
      * @return string|null
      */
-    public function getMerchantGatewayClientSecret($storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
+    public function getMerchantGatewayClientSecret(?int $storeId = null, $scope = ScopeInterface::SCOPE_STORES): ?string
     {
         $clientSecret = $this->getAddtionalValue('client_secret_production', $storeId, $scope);
 
@@ -230,7 +230,7 @@ class Config extends PaymentConfig
      *
      * @return string|null
      */
-    public function getMerchantGatewayOauth($storeId = null): ?string
+    public function getMerchantGatewayOauth(?int $storeId = null): ?string
     {
         $oauth = $this->getAddtionalValue('access_token_production', $storeId);
 
@@ -315,7 +315,7 @@ class Config extends PaymentConfig
      *
      * @return string|null
      */
-    public function getStatementDescriptor($storeId = null): ?string
+    public function getStatementDescriptor(?int $storeId = null): ?string
     {
         return $this->getAddtionalValue('statement_descriptor', $storeId);
     }
@@ -327,7 +327,7 @@ class Config extends PaymentConfig
      *
      * @return array|null
      */
-    public function getRestrictPaymentOnMpSiteId($storeId = null): ?array
+    public function getRestrictPaymentOnMpSiteId(?int $storeId = null): ?array
     {
         $restrict = $this->getAddtionalValue('restrict_payment_on_mp_site_id', $storeId);
 
@@ -361,7 +361,7 @@ class Config extends PaymentConfig
      *
      * @return bool
      */
-    public function isTestMode($storeId = null): bool
+    public function isTestMode(?int $storeId = null): bool
     {
         $environment = $this->getEnvironmentMode($storeId);
 
@@ -379,7 +379,7 @@ class Config extends PaymentConfig
      *
      * @return string|null
      */
-    public function getMpSiteId($storeId = null): ?string
+    public function getMpSiteId(?int $storeId = null): ?string
     {
         return $this->getAddtionalValue('site_id', $storeId);
     }
@@ -418,7 +418,7 @@ class Config extends PaymentConfig
      *
      * @return string
      */
-    public function getMpWebSiteBySiteId(string $siteId = null): string
+    public function getMpWebSiteBySiteId(?string $siteId = null): string
     {
         $webSite = [
             'MCO' => 'https://www.mercadopago.com.co/',
@@ -444,7 +444,7 @@ class Config extends PaymentConfig
      *
      * @return string|null
      */
-    public function getMpCategory($storeId = null): ?string
+    public function getMpCategory(?int $storeId = null): ?string
     {
         return $this->getAddtionalValue('category', $storeId);
     }
@@ -456,7 +456,7 @@ class Config extends PaymentConfig
      *
      * @return string|null
      */
-    public function getRewriteNotificationUrl($storeId = null): ?string
+    public function getRewriteNotificationUrl(?int $storeId = null): ?string
     {
         $environment = $this->getEnvironmentMode($storeId);
 
@@ -474,7 +474,7 @@ class Config extends PaymentConfig
      *
      * @return bool
      */
-    public function isApplyRefund($storeId = null): ?bool
+    public function isApplyRefund(?int $storeId = null): ?bool
     {
         return $this->getAddtionalValue('receive_refund', $storeId);
     }
@@ -532,7 +532,7 @@ class Config extends PaymentConfig
      *
      * @return array
      */
-    public function getMpPaymentMethods(int $storeId = null): array
+    public function getMpPaymentMethods(?int $storeId = null): array
     {
         $requester = new CurlRequester();
         $baseUrl = $this->getApiUrl();

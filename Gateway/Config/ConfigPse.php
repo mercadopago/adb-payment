@@ -122,7 +122,7 @@ class ConfigPse extends PaymentConfig
      *
      * @return bool
      */
-    public function isActive($storeId = null): bool
+    public function isActive(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -140,7 +140,7 @@ class ConfigPse extends PaymentConfig
      *
      * @return string
      */
-    public function getTitle($storeId = null): string
+    public function getTitle(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -156,9 +156,9 @@ class ConfigPse extends PaymentConfig
      *
      * @param int|null $storeId
      *
-     * @return string
+     * @return string|null
      */
-    public function getExpirationFormatted($storeId = null): ?string
+    public function getExpirationFormatted(?int $storeId = null): ?string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -177,7 +177,7 @@ class ConfigPse extends PaymentConfig
      *
      * @return string
      */
-    public function getInstructionCheckoutPse($storeId = null): string
+    public function getInstructionCheckoutPse(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -195,7 +195,7 @@ class ConfigPse extends PaymentConfig
      *
      * @return string
      */
-    public function getExpiration($storeId = null): string
+    public function getExpiration(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -208,13 +208,13 @@ class ConfigPse extends PaymentConfig
     }
 
     /**
-     * Get Expiration Formart.
+     * Get Expiration Format.
      *
      * @param int|null $storeId
      *
      * @return string
      */
-    public function getExpirationFormat($storeId = null): string
+    public function getExpirationFormat(?int $storeId = null): string
     {
         $pathPattern = 'payment/%s/%s';
         $due = $this->scopeConfig->getValue(
@@ -233,7 +233,7 @@ class ConfigPse extends PaymentConfig
      *
      * @return bool
      */
-    public function hasUseDocumentIdentificationCapture($storeId = null): bool
+    public function hasUseDocumentIdentificationCapture(?int $storeId = null): bool
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -251,7 +251,7 @@ class ConfigPse extends PaymentConfig
      *
      * @return array
      */
-    public function getListFinancialInstitution($storeId = null): array
+    public function getListFinancialInstitution(?int $storeId = null): array
     {
         $finInstitutions = [];
         $mpSiteId = $this->configBase->getMpSiteId($storeId);
@@ -276,7 +276,7 @@ class ConfigPse extends PaymentConfig
      *
      * @return array
      */
-    public function getListPayerEntityTypes($storeId = null): array
+    public function getListPayerEntityTypes(?int $storeId = null): array
     {
         $pathPattern = 'payment/%s/%s';
 
@@ -298,7 +298,7 @@ class ConfigPse extends PaymentConfig
      *
      * @return string
      */
-    public function getFingerPrintLink($storeId = null): string
+    public function getFingerPrintLink(?int $storeId = null): string
     {
         $mpSiteId = $this->configBase->getMpSiteId($storeId);
 
@@ -312,7 +312,7 @@ class ConfigPse extends PaymentConfig
      *
      * @return array
      */
-    public function getListDocumentTypes($storeId = null): array
+    public function getListDocumentTypes(?int $storeId = null): array
     {
         $documentTypes = [];
         $mpSiteId = $this->configBase->getMpSiteId($storeId);
