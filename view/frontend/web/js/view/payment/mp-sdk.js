@@ -471,24 +471,36 @@ define([
         /**
          * Add Text for Installments
          * @param {Array} labels
+         * @param {Number} selectedInstallment
          * @return {void}
          */
-        addTextForInstallment(labels) {
-            var self = this,
-                texts;
+        addTextForInstallment(labels, selectedInstallment) {
+            var self = this;
+
+            const formatedFees = utils.formatInstallmentFees(labels, selectedInstallment);
+
+            if (!formatedFees) {
+                self.installmentTextInfo(false);
+                self.installmentTextCFT(null);
+                self.installmentTextTNA(null);
+                self.installmentTextTEA(null);
+                return;
+            }
 
             self.installmentTextInfo(true);
 
-            _.map(labels, (label) => {
-                texts = label.split('|');
-                _.map(texts, (text) => {
-                    if (text.includes('TEA')) {
-                        self.installmentTextTEA(text.replace('_', ' '));
-                    }
-                    if (text.includes('CFT')) {
-                        self.installmentTextCFT(text.replace('_', ' '));
-                    }
-                });
+            Object.entries(formatedFees).forEach(([key, value]) => {
+                switch (key) {
+                    case 'TNA':
+                        self.installmentTextTNA(value);
+                        break;
+                    case 'TEA':
+                        self.installmentTextTEA(value);
+                        break;
+                    case 'CFT':
+                        self.installmentTextCFT(value);
+                        break;
+                }
             });
         },
 
@@ -634,7 +646,7 @@ define([
             if (self.getMpSiteId() === 'MLA') {
                 _.map(rulesForFinanceCost, (keys) => {
                     if (keys.installments === selectInstallment) {
-                        self.addTextForInstallment(keys.labels);
+                        self.addTextForInstallment(keys.labels, selectInstallment);
                     }
                 });
             }

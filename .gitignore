@@ -4,6 +4,7 @@ testdoc.txt
 .idea
 coverage/
 test-results
+.vscode
 
 build/.env
 build/logs

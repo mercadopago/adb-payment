@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f0209bb239959dd344c469d71323a52",
+    "content-hash": "4dd0cd7879e41759bfb414bbb9f0f148",
     "packages": [
         {
             "name": "mp-plugins/php-sdk",

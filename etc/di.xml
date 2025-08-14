@@ -2212,4 +2212,10 @@
                 type="MercadoPago\AdbPayment\Plugin\MaximumAmountOrderValidation"
         />
     </type>
+
+    <type name="Magento\Config\Model\Config">
+        <plugin name="mercadopago_config_save_before"
+                type="MercadoPago\AdbPayment\Plugin\AddressConfigValidation"
+                sortOrder="1"/>
+    </type>
 </config>

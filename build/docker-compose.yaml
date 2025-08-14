@@ -63,6 +63,8 @@ services:
                 magento_version: ${MAGENTO_VERSION}
         container_name: magento_php
         image: php-magento-mp
+        environment:
+            XDEBUG_MODE: '${XDEBUG_MODE:-debug}'
         volumes:
             - magento-php-volume:/var/www/html
             - ./credentials:/home/ubuntu/.composer
