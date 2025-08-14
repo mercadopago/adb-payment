@@ -65,8 +65,20 @@
                     </label>
                 </div>
                 <!-- ko if: installmentTextInfo() === true -->
-                    <p data-bind="text: installmentTextTEA, css: 'text_tea'"></p>
-                    <p data-bind="text: installmentTextCFT, css: 'text_cft'"></p>
+                <article class="mp-tax-info">
+                    <!-- ko if: installmentTextCFT() !== null -->
+                    <span data-bind="text: installmentTextCFT, css: 'text-cft'"></span>
+                    <!-- /ko -->
+                    <!-- ko if: installmentTextTNA() !== null -->
+                    <span data-bind="text: installmentTextTNA, css: 'text-tna'"></span>
+                    <!-- /ko -->
+                    <!-- ko if: installmentTextTEA() !== null -->
+                    <span data-bind="text: installmentTextTEA, css: 'text-tea'"></span>
+                    <!-- /ko -->
+                    <span>
+                        .&nbsp;<span data-bind="text: $t('Fixed rate'), css: 'text-fixed-rate'"></span>.
+                    </span>
+                </article>
                 <!-- /ko -->
             </div>
         </div>

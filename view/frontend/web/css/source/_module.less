@@ -269,18 +269,50 @@
 
         // end css Credits
 
+        // css Tax Info
+
+        .mp-tax-info {
+            display: flex;
+            flex-direction: row;
+            margin-top: 8px;
+            margin-left: 6px;
+            color: #737373;
+        }
+
         .text-tea {
-            margin-top:20px;
-            font-size: 12px;
-            line-height: 1.1;
+            font-family: 'Open Sans';
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.5;
+            letter-spacing: 0;
+            color: #737373;
+        }
+
+        .text-tna {
+            font-family: 'Open Sans';
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.5;
+            letter-spacing: 0;
+            color: #737373;
         }
 
         .text-cft {
-            font-size: 27px;
-            line-height: 1.1;
-            padding-bottom: 0;
-            margin-bottom: 0;
+            font-family: 'Open Sans';
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.5;
+            letter-spacing: 0;
+            color: #737373;
         }
+
+        .text-tea:not(:last-child)::before,
+        .text-tna:not(:last-child)::before {
+            content: "-";
+            margin: 0 6px;
+        }
+
+        // end css Tax Info
 
         .payment-method-title {
             &.field {

@@ -6,5 +6,6 @@
         <include path="MercadoPago_AdbPayment::system/basic_settings/more_data.xml"/>
         <include path="MercadoPago_AdbPayment::system/basic_settings/api_refund.xml"/>
         <include path="MercadoPago_AdbPayment::system/basic_settings/developers.xml"/>
+        <include path="MercadoPago_AdbPayment::system/basic_settings/address_lines.xml"/>
     </group>
 </include>

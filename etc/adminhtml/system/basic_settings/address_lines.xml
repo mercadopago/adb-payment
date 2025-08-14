@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="address_lines" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Address Lines Configuration</label>
+        <comment>Configure which address line should be used for each field. This allows you to customize how address information is mapped to Mercado Pago.</comment>
+
+        <field id="street_name" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Street Name</label>
+            <comment>Select which address line contains the street name.</comment>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\AddressLine</source_model>
+            <config_path>payment/mercadopago_adbpayment/street_name</config_path>
+            <validate>required-entry validate-select</validate>
+        </field>
+
+        <field id="street_number" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Street Number</label>
+            <comment>Select which address line contains the street number.</comment>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\AddressLine</source_model>
+            <config_path>payment/mercadopago_adbpayment/street_number</config_path>
+            <validate>required-entry validate-select</validate>
+        </field>
+
+        <field id="complement" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Complement</label>
+            <comment>Select which address line contains the complement information.</comment>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\AddressLine</source_model>
+            <config_path>payment/mercadopago_adbpayment/complement</config_path>
+            <validate>required-entry validate-select</validate>
+        </field>
+
+        <field id="neighborhood" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Neighborhood</label>
+            <comment>Select which address line contains the neighborhood information.</comment>
+            <source_model>MercadoPago\AdbPayment\Model\Adminhtml\Source\AddressLine</source_model>
+            <config_path>payment/mercadopago_adbpayment/neighborhood</config_path>
+            <validate>required-entry validate-select</validate>
+        </field>
+    </group>
+</include>
