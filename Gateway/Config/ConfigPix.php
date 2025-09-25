@@ -162,23 +162,17 @@ class ConfigPix extends PaymentConfig
             $storeId
         );
 
-        if ($due === '15' || $due === '30') {
-            return __('%1 minutes', $due);
-        }
-
-        if ($due === '60') {
-            return __('1 hour');
-        }
-
-        if ($due === '720') {
-            return __('12 hours');
-        }
-
-        if ($due === '1440') {
-            return __('1 day');
-        }
-
-        return __('%1 minutes', $due);
+        return __([
+            '60'    => '1 hour',
+            '720'   => '12 hours',
+            '1440'  => '1 day',
+            '2880'  => '2 days',
+            '4320'  => '3 days',
+            '5760'  => '4 days',
+            '7200'  => '5 days',
+            '8640'  => '6 days',
+            '10080' => '7 days',
+        ][$due] ?? '%1 minutes', $due);
     }
 
     /**

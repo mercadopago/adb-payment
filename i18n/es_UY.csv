@@ -12,6 +12,12 @@ Unavailable.,No disponible.
 "1 hour","1 hora"
 "12 hours","12 horas"
 "1 day","1 día"
+"2 days","2 días"
+"3 days","3 días"
+"4 days","4 días"
+"5 days","5 días"
+"6 days","6 días"
+"7 days","7 días"
 "Payment for order %1 in store %2","Pago del pedido %1 en la tienda %2"
 Tax,Impuesto
 "Awaiting payment of the Card.","Esperando pago via tarjeta."
