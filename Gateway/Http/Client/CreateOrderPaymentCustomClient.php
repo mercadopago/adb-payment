@@ -26,6 +26,7 @@ use MercadoPago\AdbPayment\Model\QuoteMpPaymentFactory;
 use MercadoPago\AdbPayment\Model\QuoteMpPaymentRepository;
 use MercadoPago\PP\Sdk\Common\Constants;
 use MercadoPago\AdbPayment\Model\MPApi\PaymentGet;
+use Magento\Quote\Api\CartRepositoryInterface;
 
 /**
  * Communication with the Gateway to create a payment by custom (Card, Pix, Ticket, Pec).
@@ -145,6 +146,11 @@ class CreateOrderPaymentCustomClient implements ClientInterface
     protected $paymentGet;
 
     /**
+     * @var CartRepositoryInterface
+     */
+    protected $cartRepository;
+
+    /**
      * @param Logger            $logger
      * @param Config            $config
      * @param Json              $json
@@ -152,6 +158,7 @@ class CreateOrderPaymentCustomClient implements ClientInterface
      * @param QuoteMpPaymentFactory    $quoteMpPaymentFactory
      * @param Session           $checkoutSession
      * @param PaymentGet        $paymentGet
+     * @param CartRepositoryInterface $cartRepository
      */
     public function __construct(
         Logger $logger,
@@ -160,7 +167,8 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         QuoteMpPaymentRepository $quoteMpPaymentRepository,
         QuoteMpPaymentFactory $quoteMpPaymentFactory,
         Session $checkoutSession,
-        PaymentGet $paymentGet
+        PaymentGet $paymentGet,
+        CartRepositoryInterface $cartRepository
     ) {
         $this->config = $config;
         $this->logger = $logger;
@@ -169,6 +177,7 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         $this->quoteMpPaymentFactory = $quoteMpPaymentFactory;
         $this->checkoutSession = $checkoutSession;
         $this->paymentGet = $paymentGet;
+        $this->cartRepository = $cartRepository;
     }
 
     /**
@@ -229,12 +238,12 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                 unset($request[CaptureAmountRequest::AMOUNT_TO_CAPTURE]);
 
                 $paymentInstance->setEntity($request);
-                
+
 
                 if(isset($paymentInstance->payer->id)) {
                     $customHeaders[] = self::HEADER_CUSTOMER_ID . $paymentInstance->payer->id;
                 }
-                
+
                 $paymentInstance->setCustomHeaders($customHeaders);
 
                 $clientHeaders = $paymentInstance->getLastHeaders();
@@ -258,6 +267,12 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                     $quoteMpPayment->setThreeDsCreq($data[self::THREE_DS_INFO][self::CREQ]);
 
                     $this->quoteMpPaymentRepository->save($quoteMpPayment);
+
+                    if (isset($request['external_reference'])) {
+                        $quote = $this->checkoutSession->getQuote();
+                        $quote->setReservedOrderId($request['external_reference']);
+                        $this->cartRepository->save($quote);
+                    }
 
                     throw new LocalizedException(__('3DS'));
                 }
