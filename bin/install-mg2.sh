@@ -6,6 +6,18 @@ then
    exit 0;
 fi
 
+# Desabilita o audit do Composer globalmente
+mkdir -p ~/.composer
+cat > ~/.composer/config.json <<EOF
+{
+    "config": {
+        "audit": {
+            "block-insecure": false
+        }
+    }
+}
+EOF
+
 sudo pecl install -f xdebug-2.9.8
 
 echo Downloading Magento $1

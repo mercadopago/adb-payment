@@ -193,9 +193,21 @@ define([
                     })
                     .on('focus', () => {
                         validateFormSF.toogleFocusStyle(fieldCcNumber);
+                        self.triggerFieldEvent('focus', {
+                            fieldName: 'card_number',
+                            paymentMethod: this.getCode(),
+                            isEmpty: false,
+                            isSDKField: true
+                        }, 'mp_field_focus');
                     })
                     .on('validityChange', (event) => {
                         validateFormSF.toogleValidityState(fieldCcNumber, event.errorMessages);
+                        this.triggerFieldEvent('validityChange', {
+                            fieldName: 'card_number',
+                            paymentMethod: this.getCode(),
+                            isEmpty: false,
+                            isSDKField: true
+                        }, 'mp_field_interaction');
                     });
             }
 

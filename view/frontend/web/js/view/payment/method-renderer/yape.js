@@ -118,6 +118,7 @@ define([
                 'additional_data': {
                     'mp_device_session_id': window.MP_DEVICE_SESSION_ID,
                     'yape_token_id': self.mpYapeTokenId(),
+                    'mp_flow_id': self.generateMpFlowId()
                 }
             };
         },

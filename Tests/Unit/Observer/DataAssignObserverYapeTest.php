@@ -41,7 +41,8 @@ class DataAssignObserverYapeTest extends TestCase
     {
         $additionalData = [
             DataAssignObserverYape::YAPE_TOKEN_ID => 'test_yape_token_id',
-            'mp_device_session_id' => 'test_device_session_id'
+            'mp_device_session_id' => 'test_device_session_id',
+            'mp_flow_id' => 'test_flow_id'
         ];
 
         $dataObjectMock = $this->createMock(DataObject::class);
@@ -61,11 +62,12 @@ class DataAssignObserverYapeTest extends TestCase
             ->with(PaymentInterface::KEY_ADDITIONAL_DATA)
             ->willReturn($additionalData);
 
-        $this->paymentInfoMock->expects($this->exactly(2))
+        $this->paymentInfoMock->expects($this->exactly(3))
             ->method('setAdditionalInformation')
             ->withConsecutive(
                 [DataAssignObserverYape::YAPE_TOKEN_ID, 'test_yape_token_id'],
-                ['mp_device_session_id', 'test_device_session_id']
+                ['mp_device_session_id', 'test_device_session_id'],
+                ['mp_flow_id', 'test_flow_id']
             );
 
         $this->dataAssignObserverYape->execute($this->observerMock);

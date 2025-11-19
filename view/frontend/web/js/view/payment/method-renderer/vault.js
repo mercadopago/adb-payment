@@ -417,7 +417,8 @@ define([
                     'card_number': self.getMaskedCard(),
                     'card_type': self.getCardType(),
                     'public_hash': self.getToken(),
-                    'mp_user_id': self.getMpUserId()
+                    'mp_user_id': self.getMpUserId(),
+                    'mp_flow_id': self.generateMpFlowId()
                 }
             };
 
