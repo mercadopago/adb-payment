@@ -242,6 +242,7 @@ define([
             }
 
             data['additional_data']['mp_device_session_id'] = window.MP_DEVICE_SESSION_ID;
+            data['additional_data']['mp_flow_id'] = self.generateMpFlowId();
 
             data['additional_data'] = _.extend(data['additional_data'], this.additionalData);
 

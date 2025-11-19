@@ -65,6 +65,11 @@ class MetadataPaymentDataRequest implements BuilderInterface
     public const STORE_ID = 'store_id';
 
     /**
+     * Mp Flow Id block name.
+     */
+    public const MP_FLOW_ID = 'mp_flow_id';
+
+    /**
      * @var SubjectReader
      */
     protected $subjectReader;
@@ -102,7 +107,10 @@ class MetadataPaymentDataRequest implements BuilderInterface
         $paymentDO = $buildSubject['payment'];
         $order = $paymentDO->getOrder();
         $storeId = $order->getStoreId();
-        $result = $this->getMetadata($storeId);
+
+        $flowId = $paymentDO->getPayment()->getAdditionalInformation(MpFlowId::MP_FLOW_ID);
+
+        $result = $this->getMetadata($storeId, $flowId);
 
         return $result;
     }
@@ -114,7 +122,7 @@ class MetadataPaymentDataRequest implements BuilderInterface
      *
      * @return array
      */
-    public function getMetadata($storeId)
+    public function getMetadata($storeId, $flowId)
     {
         $request = [];
         $mpSiteId = $this->config->getMpSiteId($storeId);
@@ -138,6 +146,12 @@ class MetadataPaymentDataRequest implements BuilderInterface
             self::SITE_ID           => $mpSiteId,
             self::STORE_ID          => $storeId
         ];
+
+
+        if ($flowId) {
+            $request[self::METADATA][self::MP_FLOW_ID] = $flowId;
+            $request[self::METADATA][self::CPP_EXTRA][self::MP_FLOW_ID] = $flowId;
+        }
 
         return $request;
     }
