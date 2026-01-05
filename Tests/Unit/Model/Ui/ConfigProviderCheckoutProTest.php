@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Model\Ui;
+namespace MercadoPago\AdbPayment\Tests\Unit\Model\Ui;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Block\Sales\Form;
+namespace MercadoPago\AdbPayment\Tests\Unit\Block\Sales\Form;
 
 use Magento\Backend\Model\Session\Quote;
 use Magento\Quote\Model\Quote as QuoteModel;

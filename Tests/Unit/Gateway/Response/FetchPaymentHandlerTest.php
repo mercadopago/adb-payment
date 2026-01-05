@@ -155,7 +155,7 @@ class FetchPaymentHandlerTest extends TestCase
     {
         $paymentMock = $this->createPaymentMock();
         $orderMock = $this->createOrderMock('payment_review', 100.00, 100.00);
-
+        
         $invoiceMock = $this->createMock(Invoice::class);
         $invoiceMock->expects($this->once())
             ->method('register')
@@ -220,7 +220,7 @@ class FetchPaymentHandlerTest extends TestCase
     {
         $paymentMock = $this->createPaymentMock();
         $orderMock = $this->createOrderMock('payment_review', 100.00, 100.00);
-
+        
         $invoiceMock = $this->createMock(Invoice::class);
         $invoiceMock->expects($this->once())
             ->method('register')
@@ -286,7 +286,7 @@ class FetchPaymentHandlerTest extends TestCase
     {
         $paymentMock = $this->createPaymentMock();
         $orderMock = $this->createOrderMock('payment_review', 100.00, 100.00);
-
+        
         $invoiceMock = $this->createMock(Invoice::class);
         $invoiceMock->expects($this->once())
             ->method('register')
@@ -351,7 +351,7 @@ class FetchPaymentHandlerTest extends TestCase
     {
         $paymentMock = $this->createPaymentMock();
         $orderMock = $this->createOrderMock('payment_review', 100.00, 100.00);
-
+        
         $invoiceMock = $this->createMock(Invoice::class);
         $invoiceMock->expects($this->once())
             ->method('register')
@@ -632,7 +632,7 @@ class FetchPaymentHandlerTest extends TestCase
     public function testGetIndexPaymentReturnsZeroWhenPaymentFoundAtIndexZero()
     {
         $paymentMock = $this->createPaymentMock();
-
+        
         $paymentMock->expects($this->once())
             ->method('getAdditionalInformation')
             ->with('payment_0_id')
@@ -648,7 +648,7 @@ class FetchPaymentHandlerTest extends TestCase
     public function testGetIndexPaymentReturnsOneWhenPaymentFoundAtIndexOne()
     {
         $paymentMock = $this->createPaymentMock();
-
+        
         $paymentMock->expects($this->exactly(2))
             ->method('getAdditionalInformation')
             ->willReturnCallback(function ($key) {
@@ -671,7 +671,7 @@ class FetchPaymentHandlerTest extends TestCase
     public function testGetIndexPaymentReturnsNullWhenPaymentNotFound()
     {
         $paymentMock = $this->createPaymentMock();
-
+        
         $paymentMock->expects($this->exactly(2))
             ->method('getAdditionalInformation')
             ->willReturnCallback(function ($key) {
@@ -723,7 +723,7 @@ class FetchPaymentHandlerTest extends TestCase
                     $this->assertEquals(0, $value);
                     return;
                 }
-
+                
                 $this->assertEquals($expectedCalls[$callCount][0], $key);
                 $this->assertEquals($expectedCalls[$callCount][1], $value);
                 $callCount++;
@@ -812,3 +812,4 @@ class FetchPaymentHandlerTest extends TestCase
         return $paymentDO;
     }
 }
+

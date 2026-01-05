@@ -1,6 +1,6 @@
 <?php 
 
-namespace MercadoPago\Test\Unit\Mock;
+namespace MercadoPago\AdbPayment\Tests\Unit\Mocks;
 
 class PaymentResponseMock
 {

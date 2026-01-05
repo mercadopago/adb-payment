@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Model\Order\ValidateUpdateStatus;
+namespace MercadoPago\AdbPayment\Tests\Unit\Model\Order\ValidateUpdateStatus;
 
 use PHPUnit\Framework\TestCase;
 use MercadoPago\AdbPayment\Model\Order\ValidateUpdateStatus\ValidateFactory;

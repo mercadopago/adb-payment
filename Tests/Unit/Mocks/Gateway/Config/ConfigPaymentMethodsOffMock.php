@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MercadoPago\Test\Unit\Mocks\Gateway\Config;
+namespace MercadoPago\AdbPayment\Tests\Unit\Mocks\Gateway\Config;
 
 class ConfigPaymentMethodsOffMock {
     

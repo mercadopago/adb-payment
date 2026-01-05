@@ -41,7 +41,7 @@ class CollectionFactory
         $this->objectManager = $objectManager;
         $this->instanceName = $instanceName;
     }
-
+    
     /**
      * Create class instance with specified parameters
      *

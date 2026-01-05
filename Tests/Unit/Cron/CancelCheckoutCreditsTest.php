@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\Test\Unit\Cron;
+namespace MercadoPago\AdbPayment\Tests\Unit\Cron;
 
 use Magento\Framework\App\ResourceConnection;
 use Magento\Payment\Model\Method\Logger;
@@ -129,14 +129,14 @@ class CancelCheckoutCreditsTest extends TestCase
       ->method('where')
       ->with($this->callback(function ($expr) {
           return $expr instanceof \Zend_Db_Expr &&
-                 $expr->__toString() === "sop.method = ?
+                 $expr->__toString() === "sop.method = ? 
                         AND TIME_TO_SEC(
                             TIMEDIFF(CURRENT_TIMESTAMP(),
                                 STR_TO_DATE(
                                     REPLACE(
                                         SUBSTRING_INDEX(
                                             JSON_UNQUOTE(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration')),
-                                            '.',
+                                            '.', 
                                             1
                                         ),
                                         'T', ' '

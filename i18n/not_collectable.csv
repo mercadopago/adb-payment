@@ -1,4 +1,6 @@
-"mp_payment_id","Payment Id (Mercado Pago)"
+"mp_order_id","Order ID"
+"mp_payment_id_order","Payment ID"
+"mp_payment_id","Payment ID (Mercado Pago Panel)"
 "card_installments","Installments"
 "card_finance_cost","Finance Cost"
 "card_type","Card Type"

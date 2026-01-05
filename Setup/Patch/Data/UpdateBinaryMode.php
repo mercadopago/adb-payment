@@ -71,7 +71,7 @@ class UpdateBinaryMode implements DataPatchInterface
      * @param Json $json
      */
     public function __construct(
-        ModuleDataSetupInterface $moduleDataSetup,
+        ModuleDataSetupInterface $moduleDataSetup, 
         ScopeConfigInterface $scopeConfig,
         WriterInterface $writerInterface,
         Logger $logger,
@@ -101,16 +101,16 @@ class UpdateBinaryMode implements DataPatchInterface
 
         if ($binaryMode || $binaryMode == null) {
             $this->writerInterface->save(
-                $path,
-                0,
-                ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+                $path, 
+                0, 
+                ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 
                 $scopeId = 0
             );
         } else {
             $this->writerInterface->save(
-                $path,
-                1,
-                ScopeConfigInterface::SCOPE_TYPE_DEFAULT,
+                $path, 
+                1, 
+                ScopeConfigInterface::SCOPE_TYPE_DEFAULT, 
                 $scopeId = 0
             );
         }
@@ -122,7 +122,7 @@ class UpdateBinaryMode implements DataPatchInterface
 
     /**
      * Get Binary Mode From Payment
-     *
+     * 
      * @return mixed
      */
     protected function getBinaryModeFromPayment()
@@ -163,7 +163,7 @@ class UpdateBinaryMode implements DataPatchInterface
 
     /**
      * Get Payment Id From Last Order
-     *
+     * 
      * @return null|string
      */
     protected function getPaymentIdFromLastOrder(): ?string
@@ -185,7 +185,7 @@ class UpdateBinaryMode implements DataPatchInterface
 
         if ($lastOrder && $jsonData = $lastOrder->getData('additional_information')) {
             $additionalData = get_object_vars(json_decode($jsonData));
-
+            
             if (isset($additionalData["mp_payment_id"])) {
                 return (string)$additionalData["mp_payment_id"];
             }

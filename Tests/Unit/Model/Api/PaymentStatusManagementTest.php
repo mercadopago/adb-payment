@@ -7,7 +7,7 @@
  * @license     See LICENSE for license details.
  */
 
-namespace Tests\Unit\Model\Api;
+namespace MercadoPago\AdbPayment\Tests\Unit\Model\Api;
 
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use MercadoPago\AdbPayment\Model\Api\PaymentStatusManagement;

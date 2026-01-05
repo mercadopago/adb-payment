@@ -184,7 +184,7 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
                     }
                 }
             }
-
+    
         return $this->icons;
     }
 

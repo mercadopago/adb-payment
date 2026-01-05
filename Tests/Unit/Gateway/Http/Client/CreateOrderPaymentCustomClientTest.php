@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\Test\Unit\Gateway\Http\Client;
+namespace MercadoPago\AdbPayment\Tests\Unit\Gateway\Http\Client;
 
 
 use PHPUnit\Framework\TestCase;

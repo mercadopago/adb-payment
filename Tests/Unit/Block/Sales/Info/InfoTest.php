@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\AdbPayment\Test\Unit\Block\Sales\Info;
+namespace MercadoPago\AdbPayment\Tests\Unit\Block\Sales\Info;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Payment\Gateway\ConfigInterface;

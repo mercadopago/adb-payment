@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\Test\Unit\Gateway\Http\Client;
+namespace MercadoPago\AdbPayment\Tests\Unit\Gateway\Http\Client;
 
 use PHPUnit\Framework\TestCase;
 use MercadoPago\AdbPayment\Gateway\Http\Client\CreateOrderPaymentCheckoutProClient;
@@ -101,4 +101,4 @@ class CreateOrderPaymentCheckoutProClientTest extends TestCase
         $method->setAccessible(true);
         return $method->invoke($client, $items, $transactionAmount);
     }
-}
+} 

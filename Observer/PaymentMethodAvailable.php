@@ -43,7 +43,7 @@ class PaymentMethodAvailable implements ObserverInterface
         );
 
         if (
-            $observer->getEvent()->getMethodInstance()->getCode() == "mercadopago_adbpayment_payment_methods_off"
+            $observer->getEvent()->getMethodInstance()->getCode() == "mercadopago_adbpayment_payment_methods_off" 
             && $siteId == "MLC"
         ) {
             $checkResult = $observer->getEvent()->getResult();

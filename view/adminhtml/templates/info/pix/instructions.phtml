@@ -13,6 +13,8 @@
  */
 $title = $block->escapeHtml(__($block->getMethod()->getTitle()));
 $specificInfo = $block->getSpecificInformation();
+$mpOrderId = isset($specificInfo['mp_order_id']) ? $specificInfo['mp_order_id'] : null;
+$mpPaymentIdOrder = isset($specificInfo['mp_payment_id_order']) ? $specificInfo['mp_payment_id_order'] : null;
 $mpPaymentId = isset($specificInfo['mp_payment_id']) ? $specificInfo['mp_payment_id'] : null;
 $expirationDate = isset($specificInfo['date_of_expiration']) ? $specificInfo['date_of_expiration'] : null;
 $qrCode = isset($specificInfo['qr_code']) ? $specificInfo['qr_code'] : null;
@@ -33,6 +35,18 @@ $statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_sta
     <table class="admin__table-secondary order-information-table">
         <caption class="table-caption"><?= /* @noEscape */ $title ?></caption>
         <tbody>
+            <?php if ($mpOrderId) : ?>
+                <tr>
+                    <th scope="row"><?= $block->escapeHtml(__('mp_order_id')); ?></th>
+                    <td><?= $block->escapeHtml($mpOrderId); ?></td>
+                </tr>
+            <?php endif; ?>
+            <?php if ($mpPaymentIdOrder) : ?>
+                <tr>
+                    <th scope="row"><?= $block->escapeHtml(__('mp_payment_id_order')); ?></th>
+                    <td><?= $block->escapeHtml($mpPaymentIdOrder); ?></td>
+                </tr>
+            <?php endif; ?>
             <?php if ($mpPaymentId) : ?>
                 <tr>
                     <th scope="row"><?= $block->escapeHtml(__('mp_payment_id')); ?></th>

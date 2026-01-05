@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Gateway\Config;
+namespace MercadoPago\AdbPayment\Tests\Unit\Gateway\Config;
 
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -55,13 +55,13 @@ class ConfigCheckoutProTest extends TestCase
     $this->configMock = $this->createMock(Config::class);
     $this->dateMock = $this->createMock(DateTime::class);
     $this->fingerprintMock = $this->createMock(Fingerprint::class);
-
+    
     $this->configCheckoutPro = new ConfigCheckoutPro(
       $this->scopeConfigMock,
       $this->dateMock,
       $this->configMock,
       $this->fingerprintMock
-      );
+      );  
   }
 
   public function testGetChoProAvailableTypes() {

@@ -128,22 +128,35 @@ class ConfigPix extends PaymentConfig
     }
 
     /**
-     * Get Expiration Formatted.
+     * Get Expiration Duration in ISO 8601 period format (e.g., P1D, PT30M).
      *
      * @param int|null $storeId
      *
      * @return string
      */
-    public function getExpirationFormatted(?int $storeId = null): string
+    public function getExpirationDuration(?int $storeId = null): string
     {
-        $pathPattern = 'payment/%s/%s';
-        $due = $this->scopeConfig->getValue(
-            sprintf($pathPattern, self::METHOD, self::EXPIRATION),
+        $totalMinutes = (int) $this->scopeConfig->getValue(
+            sprintf('payment/%s/%s', self::METHOD, self::EXPIRATION),
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
 
-        return $this->date->gmtDate('Y-m-d\TH:i:s.000O', strtotime("+{$due} minutes"));
+        $durationMap = [
+            15    => 'PT15M',
+            30    => 'PT30M',
+            60    => 'PT1H',
+            720   => 'PT12H',
+            1440  => 'P1D',
+            2880  => 'P2D',
+            4320  => 'P3D',
+            5760  => 'P4D',
+            7200  => 'P5D',
+            8640  => 'P6D',
+            10080 => 'P7D',
+        ];
+
+        return $durationMap[$totalMinutes] ?? 'PT30M';
     }
 
     /**

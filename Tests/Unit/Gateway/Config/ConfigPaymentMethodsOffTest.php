@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Gateway\Config;
+namespace MercadoPago\AdbPayment\Tests\Unit\Gateway\Config;
 
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Framework\App\Config\ScopeConfigInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Model\Adminhtml\Source;
+namespace MercadoPago\AdbPayment\Tests\Unit\Model\Adminhtml\Source;
 
 use PHPUnit\Framework\TestCase;
 

@@ -9,7 +9,7 @@ define([], function () {
              */
             initialize: function () {
                 this._super();
-
+                
                 if (!this.isMelidataAlreadyLoaded()) {
                     this.initializeMelidataClient();
                 }
@@ -17,7 +17,7 @@ define([], function () {
                 setTimeout(() => {
                     this.initFieldEventTracking();
                 }, 100);
-
+                
                 return this;
             },
 
@@ -41,7 +41,7 @@ define([], function () {
                 try {
                     const config = this.getMelidataConfig();
                     const script = this.createMelidataScript(config);
-
+                    
                     this.appendScriptToDocument(script);
                 } catch (error) {
                     console.warn('Failed to initialize Melidata client:', error);
@@ -54,7 +54,7 @@ define([], function () {
              */
             getMelidataConfig: function () {
                 const mpData = window.checkoutConfig.payment.mercadopago_adbpayment;
-
+                
                 return {
                     type: 'buyer',
                     siteID: mpData.mp_site_id,
@@ -71,16 +71,16 @@ define([], function () {
              */
             createMelidataScript: function (config) {
                 const script = document.createElement('script');
-
+                
                 script.setAttribute('id', 'adbpayment');
                 script.src = 'https://http2.mlstatic.com/storage/v1/plugins/melidata/adbpayment.min.js';
                 script.async = true;
                 script.defer = true;
-
+                
                 script.onerror = () => this.handleScriptError(config);
-
+                
                 script.onload = () => this.handleScriptLoad(config);
-
+                
                 return script;
             },
 
