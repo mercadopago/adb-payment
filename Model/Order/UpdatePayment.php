@@ -11,13 +11,37 @@ namespace MercadoPago\AdbPayment\Model\Order;
 
 use Magento\Sales\Model\Order;
 
-class UpdatePayment {
-
-    public function updateInformation(Order $order, array $mpNotification) {
+class UpdatePayment
+{
+    /**
+     * Update payment information from MercadoPago notification.
+     * 
+     * Supports both Payment API (payments_details) and Order API structures.
+     *
+     * @param Order $order
+     * @param array $mpNotification
+     * @return void
+     */
+    public function updateInformation(Order $order, array $mpNotification)
+    {
         $payment = $order->getPayment();
-
         $additionalInfo = $payment->getAdditionalInformation();
-        foreach($mpNotification['payments_details'] as $paymentNotification) {
+
+        $paymentsData = $mpNotification['payments_details'] ?? [];
+
+        $isOrderApi = ($mpNotification['transaction_type'] ?? '') === 'pp_order';
+
+        if ($isOrderApi) {
+            $additionalInfo['mp_status'] = $mpNotification['status'] ?? null;
+            $additionalInfo['mp_status_detail'] = $mpNotification['status_detail'] ?? null;
+            
+            $payment->setAdditionalInformation($additionalInfo);
+            $order->setPayment($payment);
+            $order->save();
+            return;
+        }
+
+        foreach ($paymentsData as $paymentNotification) {
             $nid = $paymentNotification['id'];
             $payIndex = "";
             $payKey = array_search($nid, $additionalInfo);

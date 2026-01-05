@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\Test\Unit\Console\Command\Notification;
+namespace MercadoPago\AdbPayment\Tests\Unit\Console\Command\Notification;
 
 use Magento\Framework\App\State;
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\CheckoutCreditsAddChildPayment;

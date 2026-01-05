@@ -34,7 +34,7 @@ async function selectCreditCardAndFillDataModal(page, card, document, status) {
 
     await modal.frameLocator('iframe[name="cardNumber"]').locator('[name="cardNumber"]').fill(card.number);
     await modal.locator('#cardholderName').fill(status);
-    await modal.frameLocator('iframe[name="expirationDate"]').locator('[name="expirationDate"]').fill(card.date);
+    await modal.frameLocator('iframe[name="expirationDate"]').locator('[name="expirationDate"]').fill(`${card.month}${card.year}`);
     await modal.frameLocator('iframe[name="securityCode"]').locator('[name="securityCode"]').fill(card.code);
 
     await page.waitForLoadState();
@@ -86,7 +86,7 @@ async function selectCreditCardAndFillDataRedirect(page, card, document, status)
 
     await page.frameLocator('iframe[name="cardNumber"]').locator('[name="cardNumber"]').fill(card.number);
     await page.locator('#cardholderName').fill(status);
-    await page.frameLocator('iframe[name="expirationDate"]').locator('[name="expirationDate"]').fill(card.date);
+    await page.frameLocator('iframe[name="expirationDate"]').locator('[name="expirationDate"]').fill(`${card.month}${card.year}`);
     await page.frameLocator('iframe[name="securityCode"]').locator('[name="securityCode"]').fill(card.code);
 
     await page.waitForLoadState();

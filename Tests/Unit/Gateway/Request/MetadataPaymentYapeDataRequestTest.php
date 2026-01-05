@@ -81,7 +81,7 @@ class MetadataPaymentYapeDataRequestTest extends TestCase
         $paymentDataObjectMock->expects($this->once())
             ->method('getOrder')
             ->willReturn($orderMock);
-
+            
         $paymentDataObjectMock->expects($this->once())
             ->method('getPayment')
             ->willReturn($paymentMock);
@@ -100,7 +100,7 @@ class MetadataPaymentYapeDataRequestTest extends TestCase
             ->willReturn('MLB');
 
         $metadataRequest = new MetadataPaymentDataRequest($subjectReaderMock, $configMock);
-
+        
         $buildSubject = ['payment' => $paymentDataObjectMock];
         $result = $metadataRequest->build($buildSubject);
 

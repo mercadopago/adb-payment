@@ -1,7 +1,7 @@
 <?php
 
 
-namespace MercadoPago\Test\Unit\Gateway\Request;
+namespace MercadoPago\AdbPayment\Tests\Unit\Gateway\Request;
 
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use MercadoPago\AdbPayment\Gateway\Config\ConfigCheckoutCredits;

@@ -88,14 +88,14 @@ class CancelCheckoutCredits extends CancelCheckoutPro
             )
             ->where(
                 new \Zend_Db_Expr(
-                    "sop.method = ?
+                    "sop.method = ? 
                         AND TIME_TO_SEC(
                             TIMEDIFF(CURRENT_TIMESTAMP(),
                                 STR_TO_DATE(
                                     REPLACE(
                                         SUBSTRING_INDEX(
                                             JSON_UNQUOTE(JSON_EXTRACT(sop.additional_information, '$.date_of_expiration')),
-                                            '.',
+                                            '.', 
                                             1
                                         ),
                                         'T', ' '

@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\AdbPayment\Test\Unit\Controller\Index;
+namespace MercadoPago\AdbPayment\Tests\Unit\Controller\Index;
 
 use Magento\Framework\App\Request\Http as Request;
 use Magento\Framework\App\Response\Http as Response;
@@ -76,6 +76,6 @@ class GenerateQrCodeTest extends TestCase
         $this->controller->execute();
 
         $this->assertNotEmpty($this->responseBody);
-        $this->assertStringContainsString("\x89PNG", $this->responseBody);
+        $this->assertStringContainsString("\x89PNG", $this->responseBody); 
     }
 }

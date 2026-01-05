@@ -35,13 +35,13 @@ class GenerateQrCode extends Action
             }
 
             $imageData = base64_decode($qrCodeBase64);
-
+    
             if (!$imageData) {
                 throw new \RuntimeException("Error decoding image.");
             }
 
             $image = imagecreatefromstring($imageData);
-
+    
             if (!$image) {
                 throw new \RuntimeException("Error creating image.");
             }
@@ -60,7 +60,7 @@ class GenerateQrCode extends Action
                 ->setBody('Error processing QR Code.');
         }
 
-        return $this->getResponse();
+        return $this->getResponse(); 
     }
 
     private function generatePngOutput($image)

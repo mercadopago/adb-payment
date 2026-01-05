@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Model\Order;
+namespace MercadoPago\AdbPayment\Tests\Unit\Model\Order;
 
 use PHPUnit\Framework\TestCase;
 
@@ -150,5 +150,102 @@ class UpdatePaymentTest extends TestCase {
             ->with(AdditionalInformation::refundedCustomTicket());
         
         $updatePayment->updateInformation($testData['order'], $notification);
+    }
+
+    /**
+     * Data provider for Order API status updates.
+     */
+    public function orderApiStatusProvider(): array
+    {
+        return [
+            'refunded status' => [
+                'status' => 'refunded',
+                'status_detail' => 'refunded',
+                'initial_status' => 'processed',
+                'initial_detail' => 'accredited',
+            ],
+            'partially refunded status' => [
+                'status' => 'refunded',
+                'status_detail' => 'partially_refunded',
+                'initial_status' => 'processed',
+                'initial_detail' => 'accredited',
+            ],
+            'processed status' => [
+                'status' => 'processed',
+                'status_detail' => 'accredited',
+                'initial_status' => 'pending',
+                'initial_detail' => 'pending_waiting_payment',
+            ],
+            'failed status' => [
+                'status' => 'failed',
+                'status_detail' => 'rejected',
+                'initial_status' => 'pending',
+                'initial_detail' => 'pending_waiting_payment',
+            ],
+        ];
+    }
+
+    /**
+     * Test Order API notification updates mp_status and mp_status_detail from root level.
+     *
+     * @dataProvider orderApiStatusProvider
+     */
+    public function testUpdatePaymentOrderApi(
+        string $status,
+        string $statusDetail,
+        string $initialStatus,
+        string $initialDetail
+    ): void {
+        $testData = $this->prepareTestData();
+        $payment = $testData['payment'];
+
+        $notification = [
+            'notification_id' => 'PPORD123',
+            'status' => $status,
+            'status_detail' => $statusDetail,
+            'transaction_type' => 'pp_order',
+            'payments_details' => [],
+        ];
+
+        $initialAdditionalInfo = [
+            'method_title' => 'Pix',
+            'mp_status' => $initialStatus,
+            'mp_status_detail' => $initialDetail,
+        ];
+
+        $expectedAdditionalInfo = [
+            'method_title' => 'Pix',
+            'mp_status' => $status,
+            'mp_status_detail' => $statusDetail,
+        ];
+
+        $payment->expects($this->once())
+            ->method('getAdditionalInformation')
+            ->willReturn($initialAdditionalInfo);
+
+        $payment->expects($this->once())
+            ->method('setAdditionalInformation')
+            ->with($expectedAdditionalInfo);
+
+        $testData['updatePayment']->updateInformation($testData['order'], $notification);
+    }
+
+    /**
+     * Test that Payment API notification is not affected by Order API changes.
+     */
+    public function testUpdatePaymentApiNotAffectedByOrderApiChanges(): void
+    {
+        $testData = $this->prepareTestData();
+        $payment = $testData['payment'];
+
+        $payment->expects($this->once())
+            ->method('getAdditionalInformation')
+            ->willReturn(AdditionalInformation::ADDITIONAL_INFORMATION_DATA_CUSTOM_ONE_CARD);
+
+        $payment->expects($this->once())
+            ->method('setAdditionalInformation')
+            ->with(AdditionalInformation::refundedCustomOneCard());
+
+        $testData['updatePayment']->updateInformation($testData['order'], SinglePayment::SINGLE_PAYMENT_DATA);
     }
 }

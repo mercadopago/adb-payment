@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Model\Console\Command\Notification;
+namespace MercadoPago\AdbPayment\Tests\Unit\Model\Console\Command\Notification;
 
 use Exception;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;

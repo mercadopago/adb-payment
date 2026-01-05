@@ -14,7 +14,7 @@ define([
     var MPErrorMessageNormalizer = {
         DEFAULT_ERROR_MESSAGE: 'empty error message',
         DEFAULT_ERROR_FIELD: 'Miss or wrong information on required fields',
-
+        
         /*
         * Normalize the error message
         * @param {string} message - The error message
@@ -41,11 +41,11 @@ define([
         */
         isMercadoPagoPayment: function() {
             var paymentMethod = $('input[name="payment[method]"]:checked').val();
-
+            
             if (paymentMethod && paymentMethod.includes('mercadopago_adbpayment')) {
                 return paymentMethod;
             }
-
+            
             return null;
         },
 
@@ -65,7 +65,7 @@ define([
         * Dispatch an event to the document
         * @param {object} detail - The detail object
         */
-        dispatchEvent: function(detail) {
+        dispatchEvent: function(detail) { 
             document.dispatchEvent(new CustomEvent(this.ERROR_EVENT_NAME, { detail }));
         },
 
@@ -74,14 +74,14 @@ define([
         */
         observeAjaxErrors: function () {
             var self = this;
-
+            
             $(document).off('ajaxError.mpErrorObserver');
-
+                        
             $(document).on('ajaxError.mpErrorObserver', function (event, jqXHR, jqXHRSettings) {
                 if (jqXHR && jqXHR.responseJSON) {
                     var paymentMethod = self.isMercadoPagoPayment();
                     if (!paymentMethod) return;
-
+                    
                     self.dispatchEvent({
                         message: MPErrorMessageNormalizer.normalize(jqXHR.responseJSON.message),
                         status: jqXHR.status,
@@ -98,26 +98,26 @@ define([
         */
         observeMessageListErrors: function() {
             var self = this;
-
+            
             if (window._mpMessageListPatched) {
                 return;
             }
-
+            
             var originalAddErrorMessage = messageList.addErrorMessage;
-
+            
             messageList.addErrorMessage = function(message) {
                 var paymentMethod = self.isMercadoPagoPayment();
-                if (paymentMethod) {
+                if (paymentMethod) {                    
                     self.dispatchEvent({
                         message: MPErrorMessageNormalizer.normalize(message.message || message),
                         type: 'magento_error',
                         paymentMethod: paymentMethod,
                     });
                 }
-
+                
                 return originalAddErrorMessage.call(this, message);
             };
-
+            
             window._mpMessageListPatched = true;
         },
 
@@ -126,14 +126,14 @@ define([
         */
         observePlaceOrderClicks: function() {
             var self = this;
-
+            
             $(document).off('click.mpErrorObserver', '.action.primary.checkout');
-
+            
             $(document).on('click.mpErrorObserver', '.action.primary.checkout', function(e) {
                 if (self.isProcessing) {
                     return;
                 }
-
+                
                 self.isProcessing = true;
 
                 setTimeout(function() {
@@ -142,7 +142,7 @@ define([
                         self.isProcessing = false;
                         return;
                     }
-
+                    
                     var mpContainer = $('.payment-method._active[id*="mercadopago"]').first();
 
                     if (mpContainer.length > 0) {
@@ -174,13 +174,13 @@ define([
         */
         dispatchFieldErrors: function(paymentMethod, mpContainer, errorFields) {
             var errors;
-
+            
             if (paymentMethod.includes('yape')) {
                 errors = this.extractYapeFieldErrors(mpContainer);
             } else {
                 errors = this.extractStandardFieldErrors(mpContainer);
             }
-
+            
             errors.forEach(function(error) {
                 errorFields.push(error.fieldName);
             });
@@ -193,14 +193,14 @@ define([
         */
         extractStandardFieldErrors: function(mpContainer) {
             var errors = [];
-
+            
             mpContainer.find('.mage-error[id$="-error"]:visible').each(function() {
                 var fieldName = this.id.replace('-error', '');
                 errors.push({
                     fieldName: fieldName,
                 });
             });
-
+            
             return errors;
         },
 
@@ -211,7 +211,7 @@ define([
         */
         extractYapeFieldErrors: function(mpContainer) {
             var errors = [];
-
+            
             mpContainer.find('.yape-error:visible').each(function() {
                 var parentElement = this.parentElement;
                 var fieldName = parentElement.querySelector('input').id;
@@ -224,13 +224,13 @@ define([
                     fieldName: fieldName,
                 });
             });
-
+            
             return errors;
         },
     };
 
     MpCheckoutErrorObserver.init();
     window.MpCheckoutErrorObserverInstance = MpCheckoutErrorObserver;
-
+    
     return MpCheckoutErrorObserver;
 });

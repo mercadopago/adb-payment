@@ -136,7 +136,7 @@ class CreateOrderPaymentCheckoutProClient implements ClientInterface
      *
      * @param array $items
      * @param float $transactionAmount
-     *
+     * 
      * @return array
      */
     protected function prepareItemsWithDiscount(array $items, float $transactionAmount): array {

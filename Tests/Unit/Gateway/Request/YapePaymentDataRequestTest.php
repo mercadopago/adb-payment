@@ -69,3 +69,5 @@ class YapePaymentDataRequestTest extends TestCase
         $this->yapePaymentDataRequest->build($buildSubject);
     }
 }
+
+

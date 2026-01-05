@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Model\Ui;
+namespace MercadoPago\AdbPayment\Tests\Unit\Model\Ui;
 
 use PHPUnit\Framework\TestCase;
 use MercadoPago\AdbPayment\Tests\Unit\Mocks\Model\Ui\ConfigProviderPaymentMethodsOff\MountPaymentMethodsOffMock;

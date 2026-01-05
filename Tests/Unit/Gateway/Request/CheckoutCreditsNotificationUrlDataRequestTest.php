@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\Test\Unit\Gateway\Request;
+namespace MercadoPago\AdbPayment\Tests\Unit\Gateway\Request;
 
 use Magento\Framework\UrlInterface;
 use MercadoPago\AdbPayment\Gateway\Config\Config;

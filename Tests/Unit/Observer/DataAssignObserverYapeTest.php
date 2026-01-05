@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\AdbPayment\Test\Observer;
+namespace MercadoPago\AdbPayment\Tests\Unit\Observer;
 
 use Magento\Framework\Event\Observer;
 use \PHPUnit\Framework\MockObject\MockObject;

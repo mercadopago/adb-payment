@@ -147,7 +147,7 @@ class MetadataPaymentDataRequest implements BuilderInterface
             self::STORE_ID          => $storeId
         ];
 
-
+        
         if ($flowId) {
             $request[self::METADATA][self::MP_FLOW_ID] = $flowId;
             $request[self::METADATA][self::CPP_EXTRA][self::MP_FLOW_ID] = $flowId;

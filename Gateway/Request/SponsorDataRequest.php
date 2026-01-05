@@ -58,7 +58,7 @@ class SponsorDataRequest implements BuilderInterface
         }
         
         return [
-            'sponsor_id' => $sponsorId,
+            'sponsor_id' => $sponsorId !== null ? (int) $sponsorId : null
         ];
     }
 }

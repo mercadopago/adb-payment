@@ -31,16 +31,26 @@ use MercadoPago\AdbPayment\Model\Console\Command\Notification\CheckoutProAddChil
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\FetchStatus;
 use Magento\Sales\Model\Order\Payment\Transaction;
 use MercadoPago\AdbPayment\Model\MPApi\Notification;
+use MercadoPago\AdbPayment\Model\MPApi\Order\OrderNotificationGet;
 use MercadoPago\AdbPayment\Model\Order\ValidateUpdateStatus\ValidateFactory;
+use MercadoPago\AdbPayment\Model\Order\ValidateUpdateStatus\OrderApiStatusMapper;
 use MercadoPago\AdbPayment\Model\Order\UpdatePayment;
+use MercadoPago\AdbPayment\Model\Metrics\MetricsClient;
 
 /**
  * Class Mercado Pago Index.
+ *
+ * Handles both Payment API and Order API notifications.
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 abstract class MpIndex extends Action
 {
+    /**
+     * Notification type: Order API
+     */
+    public const NOTIFICATION_TYPE_ORDER = 'pp_order';
+
     /**
      * @var Config
      */
@@ -117,49 +127,19 @@ abstract class MpIndex extends Action
     protected $mpApiNotification;
 
     /**
+     * @var OrderNotificationGet
+     */
+    protected $orderNotificationGet;
+
+    /**
      * @var UpdatePayment
      */
     protected $updatePayment;
 
     /**
-     * MP Status Approved - Value.
+     * @var MetricsClient
      */
-    public const MP_STATUS_APPROVED = 'approved';
-
-    /**
-     * MP Status Cancelled - Value.
-     */
-    public const MP_STATUS_CANCELLED = 'cancelled';
-
-    /**
-     * MP Status Pending - Value.
-     */
-    public const MP_STATUS_PENDING = 'pending';
-
-    /**
-     * MP Status Charged Back - Value.
-     */
-    public const MP_STATUS_CHARGED_BACK = 'charged_back';
-
-    /**
-     * MP Status Refunded - Value.
-     */
-    public const MP_STATUS_REFUNDED = 'refunded';
-
-    /**
-     * MP Status In Mediation - Value.
-     */
-    public const MP_STATUS_IN_MEDIATION = 'in_mediation';
-
-    /**
-     * MP Status In Rejected - Value.
-     */
-    public const MP_STATUS_REJECTED = 'rejected';
-
-    /**
-     * Adobe Status Pending - Value.
-     */
-    public const ADOBE_STATUS_PENDING = 'pending';
+    protected $metricsClient;
 
     /**
      * @param Config                         $config
@@ -178,7 +158,9 @@ abstract class MpIndex extends Action
      * @param Invoice                        $invoice
      * @param CheckoutProAddChildPayment     $addChildPayment
      * @param Notification                   $mpApiNotification
+     * @param OrderNotificationGet           $orderNotificationGet
      * @param UpdatePayment                  $updatePayment
+     * @param MetricsClient                  $metricsClient
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -199,7 +181,9 @@ abstract class MpIndex extends Action
         Invoice $invoice,
         CheckoutProAddChildPayment $addChildPayment,
         Notification $mpApiNotification,
-        UpdatePayment $updatePayment
+        OrderNotificationGet $orderNotificationGet,
+        UpdatePayment $updatePayment,
+        MetricsClient $metricsClient
     ) {
         parent::__construct($context);
         $this->config = $config;
@@ -217,7 +201,9 @@ abstract class MpIndex extends Action
         $this->invoice = $invoice;
         $this->addChildPayment = $addChildPayment;
         $this->mpApiNotification = $mpApiNotification;
+        $this->orderNotificationGet = $orderNotificationGet;
         $this->updatePayment = $updatePayment;
+        $this->metricsClient = $metricsClient;
     }
 
     /**
@@ -291,6 +277,9 @@ abstract class MpIndex extends Action
             return $result;
         }
 
+        // Map Order API status to Payment API status if needed
+        $mpStatus = $this->mapOrderApiStatusIfNeeded($mpStatus);
+
         $statusRuleResult = $this->analyzeMpStatusAndAdobeStatus($mpStatus, $order->getStatus());
 
         if (isset($statusRuleResult['isInvalid'])) {
@@ -302,6 +291,33 @@ abstract class MpIndex extends Action
         ];
 
         return $result;
+    }
+
+    /**
+     * Map Order API status to Payment API status if needed.
+     * 
+     *
+     * @param string $status Status to map
+     * @return string Mapped status (or original if not Order API status)
+     */
+    protected function mapOrderApiStatusIfNeeded(string $status): string
+    {
+        if (OrderApiStatusMapper::isOrderApiStatus($status)) {
+            $mappedStatus = OrderApiStatusMapper::mapToPaymentApiStatus($status, $this->metricsClient);
+            
+            $this->logger->debug([
+                'action' => 'order_api_status_mapped',
+                'original_status' => $status,
+                'mapped_status' => $mappedStatus
+            ]);
+            
+            return $mappedStatus;
+        }
+        
+        // Also check unmapped statuses and send metric if needed
+        $mappedStatus = OrderApiStatusMapper::mapToPaymentApiStatus($status, $this->metricsClient);
+        
+        return $mappedStatus;
     }
 
     /**
@@ -325,14 +341,105 @@ abstract class MpIndex extends Action
         $mercadopagoData = $this->json->unserialize($response);
 
         $this->logger->debug([
-            'action'    => 'notification',
+            'action'    => 'notification-received',
             'payload'   => $response
         ]);
 
-        $storeId = isset($mercadopagoData["payments_metadata"]["store_id"]) ? $mercadopagoData["payments_metadata"]["store_id"] : 1;
-        $notificationId = $mercadopagoData['notification_id'];
+        $storeId = $this->resolveStoreId($mercadopagoData) ?? 1;
+        $notificationId = $mercadopagoData['notification_id'] ?? null;
+
+        $notificationType = $mercadopagoData['transaction_type'] ?? null;
+
+        if ($notificationType === self::NOTIFICATION_TYPE_ORDER) {
+            return $this->orderNotificationGet->get($notificationId, $storeId);;
+        }
 
         return $this->mpApiNotification->get($notificationId, $storeId);
+    }
+
+    /**
+     * Resolve store ID from notification data.
+     * 
+     * Tries to extract store_id from notification payload first,
+     * then falls back to searching in Magento database by transaction ID.
+     *
+     * @param array $notificationData
+     * @return string|null
+     */
+    protected function resolveStoreId(array $notificationData): ?string
+    {
+        // Try to get store_id from payments_metadata, fallback to database search
+        return $notificationData['payments_metadata']['store_id'] 
+            ?? $this->getStoreIdByTransactionId($notificationData);
+    }
+
+    /**
+     * Get store ID by MercadoPago transaction ID.
+     * 
+     * Searches in payment transactions table for the MP transaction.
+     *
+     * @param array $notificationData
+     * @return string|null
+     */
+    protected function getStoreIdByTransactionId(array $notificationData): ?string
+    {
+        $transactionId = $this->extractTransactionId($notificationData);
+        
+        if (empty($transactionId)) {
+            return null;
+        }
+
+        try {
+            $searchCriteria = $this->searchCriteria
+                ->addFilter('txn_id', $transactionId)
+                ->setPageSize(1)
+                ->create();
+
+            $transactions = $this->transaction->getList($searchCriteria)->getItems();
+
+            if (empty($transactions)) {
+                return null;
+            }
+
+            /** @var Transaction $transaction */
+            $transaction = reset($transactions);
+            $orderId = $transaction->getOrderId();
+            
+            if (!$orderId) {
+                return null;
+            }
+
+            $order = $this->orderRepository->get($orderId);
+            
+            return $order->getStoreId();
+            
+        } catch (Exception $e) {
+            $this->logger->debug([
+                'action' => 'error_getting_store_by_transaction_id',
+                'txn_id' => $transactionId,
+                'error' => $e->getMessage()
+            ]);
+            
+            return null;
+        }
+    }
+
+    /**
+     * Extract transaction ID from notification data.
+     * 
+     * Handles different notification formats (Payment API vs Order API).
+     *
+     * @param array $notificationData
+     * @return string|null
+     */
+    protected function extractTransactionId(array $notificationData): ?string
+    {
+        $transactionType = $notificationData['transaction_type'] ?? null;
+        
+        // Order API uses notification_id, Payment API uses transaction_id
+        return $transactionType === self::NOTIFICATION_TYPE_ORDER
+            ? $notificationData['notification_id'] ?? null
+            : $notificationData['transaction_id'] ?? null;
     }
 
     protected function analyzeMpStatusAndAdobeStatus(
@@ -351,13 +458,74 @@ abstract class MpIndex extends Action
 
         $result = [];
         if (!$response->getIsValid()) {
+            // Send metric for failed validation
+            $this->sendValidationFailedMetric(
+                $mpStatus,
+                $adobeStatus,
+                $response->getCode(),
+                $response->getMessage()
+            );
+
             $result = [
                 'isInvalid' => !$response->getIsValid(),
                 'code'      => $response->getCode(),
                 'msg'       => $response->getMessage(),
             ];
+        } else {
+            // Send metric for successful validation
+            $this->sendValidationSuccessMetric($mpStatus, $adobeStatus);
         }
 
         return $result;
+    }
+
+    /**
+     * Send metric for successful validation.
+     *
+     * @param string $mpStatus MercadoPago status
+     * @param string $adobeStatus Adobe/Magento status
+     * @return void
+     */
+    private function sendValidationSuccessMetric(string $mpStatus, string $adobeStatus): void
+    {
+        try {
+            $this->metricsClient->sendEvent(
+                'magento_pix_notification_validation_success',
+                'valid',
+                "Status validation passed - MP: {$mpStatus}, Adobe: {$adobeStatus}"
+            );
+        } catch (\Throwable $e) {
+            $this->logger->debug(['metric_error' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Send metric for failed validation.
+     *
+     * @param string $mpStatus MercadoPago status
+     * @param string $adobeStatus Adobe/Magento status
+     * @param int|string $errorCode Validation error code
+     * @param string $errorMessage Validation error message
+     * @return void
+     */
+    private function sendValidationFailedMetric(
+        string $mpStatus,
+        string $adobeStatus,
+        $errorCode,
+        string $errorMessage
+    ): void {
+        try {
+            $this->metricsClient->sendEvent(
+                'magento_pix_notification_validation_failed',
+                (string)$errorCode,
+                "Status validation failed - MP: {$mpStatus}, Adobe: {$adobeStatus}, Error: {$errorMessage}"
+            );
+        } catch (\Throwable $e) {
+            $this->logger->error([
+                'metric_error' => $e->getMessage(),
+                'metric_error_class' => get_class($e),
+                'metric_error_trace' => $e->getTraceAsString()
+            ]);
+        }
     }
 }

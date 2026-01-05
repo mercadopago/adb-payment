@@ -13,6 +13,7 @@ use Magento\Payment\Model\Method\Logger;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use MercadoPago\AdbPayment\Model\Console\Command\AbstractModel;
+use MercadoPago\AdbPayment\Model\Metrics\MetricsClient;
 
 /**
  * Model for Command lines to capture Status on Mercado Pago.
@@ -30,17 +31,25 @@ class FetchStatus extends AbstractModel
     protected $orderRepository;
 
     /**
+     * @var MetricsClient
+     */
+    protected $metricsClient;
+
+    /**
      * @param Logger $logger
      * @param OrderRepositoryInterface $orderRepository
+     * @param MetricsClient $metricsClient
      */
     public function __construct(
         Logger $logger,
-        OrderRepositoryInterface $orderRepository
+        OrderRepositoryInterface $orderRepository,
+        MetricsClient $metricsClient
     ) {
         parent::__construct(
             $logger
         );
         $this->orderRepository = $orderRepository;
+        $this->metricsClient = $metricsClient;
     }
 
     /**
@@ -62,7 +71,7 @@ class FetchStatus extends AbstractModel
         if( isset($notificationId)){
             $additionalData = (array('notificationId' => $notificationId));
             $additionalData = (object)$additionalData;
-
+    
             $payment->setAdditionalData(json_encode($additionalData));
         }
 
@@ -70,6 +79,10 @@ class FetchStatus extends AbstractModel
             $payment->update(true);
         } catch (Exception $exc) {
             $this->writeln('<error>'.$exc->getMessage().'</error>');
+            $errorMessage = 'Failed to sync order status. Order ID: ' . $orderId . 
+                           ', Increment ID: ' . $order->getIncrementId() . 
+                           ', Error: ' . $exc->getMessage();
+            $this->sendSyncStatusErrorMetric($errorMessage);
         }
         if ($order->getState() === Order::STATE_PAYMENT_REVIEW) {
             if(
@@ -102,5 +115,28 @@ class FetchStatus extends AbstractModel
         $this->writeln(__('Finished'));
 
         return $order;
+    }
+
+    /**
+     * Send metric for order sync status error.
+     *
+     * @param string $errorMessage Descriptive error message
+     * @return void
+     */
+    private function sendSyncStatusErrorMetric(string $errorMessage): void
+    {
+        try {
+            $this->metricsClient->sendEvent(
+                'magento_sync_status_action',
+                'error',
+                $errorMessage
+            );
+        } catch (\Throwable $e) {
+            $this->logger->error([
+                'metric_error' => $e->getMessage(),
+                'metric_error_class' => get_class($e),
+                'metric_error_trace' => $e->getTraceAsString()
+            ]);
+        }
     }
 }

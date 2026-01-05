@@ -11,6 +11,7 @@ namespace MercadoPago\AdbPayment\Gateway\Config;
 use Exception;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Module\ResourceInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Config\Config as PaymentConfig;
@@ -87,11 +88,17 @@ class Config extends PaymentConfig
     protected $json;
 
     /**
+     * @var ModuleListInterface
+     */
+    protected $moduleList;
+
+    /**
      * @param ProductMetadataInterface $productMetadata
      * @param ResourceInterface        $resourceModule
      * @param ScopeConfigInterface     $scopeConfig
      * @param Json                     $json
      * @param Logger                   $logger
+     * @param ModuleListInterface      $moduleList
      * @param string                   $methodCode
      */
     public function __construct(
@@ -100,6 +107,7 @@ class Config extends PaymentConfig
         ScopeConfigInterface $scopeConfig,
         Logger $logger,
         Json $json,
+        ModuleListInterface $moduleList,
         $methodCode = self::METHOD
     ) {
         parent::__construct($scopeConfig, $methodCode);
@@ -108,6 +116,7 @@ class Config extends PaymentConfig
         $this->scopeConfig = $scopeConfig;
         $this->logger = $logger;
         $this->json = $json;
+        $this->moduleList = $moduleList;
     }
 
     /**
@@ -351,7 +360,14 @@ class Config extends PaymentConfig
      */
     public function getModuleVersion(): ?string
     {
-        return $this->resourceModule->getDbVersion('MercadoPago_AdbPayment');
+        $version = $this->resourceModule->getDbVersion('MercadoPago_AdbPayment');
+        
+        if ($version === null) {
+            $moduleInfo = $this->moduleList->getOne('MercadoPago_AdbPayment');
+            $version = $moduleInfo['setup_version'] ?? null;
+        }
+        
+        return $version;
     }
 
     /**
@@ -389,9 +405,9 @@ class Config extends PaymentConfig
      *
      * @param string $siteId
      *
-     * @return int|null
+     * @return string|null
      */
-    public function getMpSponsorId(string $siteId): ?int
+    public function getMpSponsorId(string $siteId): ?string
     {
         $sponsorIds = [
             'MCO' => '222570694',
@@ -408,7 +424,7 @@ class Config extends PaymentConfig
             return null;
         }
 
-        return (int) $sponsorIds[$siteId];
+        return $sponsorIds[$siteId];
     }
 
     /**

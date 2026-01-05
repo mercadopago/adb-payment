@@ -58,7 +58,7 @@ $statusDetail = isset($specificInfo['mp_status_detail']) ? $specificInfo['mp_sta
                                 <?= $block->escapeHtml(__('Pix QR Code')); ?>
                             </th>
                             <td>
-                            <img src="<?= $block->escapeUrl($block->getBaseUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_WEB]) . 'mp/index/generateQrCode?data=' . urlencode($qrCodeImage)) ?>"
+                            <img src="<?= $block->escapeUrl($block->getBaseUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_WEB]) . 'mp/index/generateQrCode?data=' . urlencode($qrCodeImage)) ?>" 
                                 alt="<?= $block->escapeHtml(__('Pix')) ?>"
                                 width="200" height="100"/>
                             </td>

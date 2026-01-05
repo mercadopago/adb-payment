@@ -10,6 +10,7 @@ test('test successful payment with pix, payment must be approved and success pag
     await payWithPix(page, siteIdParams.user.document);
 
     await page.waitForLoadState();
+    await page.waitForTimeout(1000);
     await expect(page.locator('.checkout-onepage-success')).toBeVisible();
 });
 

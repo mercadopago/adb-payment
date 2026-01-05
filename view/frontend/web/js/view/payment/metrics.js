@@ -50,7 +50,7 @@ define([
                 location: window.location.href,
               },
             };
-
+          
             navigator.sendBeacon(url, JSON.stringify(payload));
         }
     }

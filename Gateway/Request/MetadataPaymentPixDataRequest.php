@@ -46,11 +46,6 @@ class MetadataPaymentPixDataRequest implements BuilderInterface
             self::CHECKOUT_TYPE => 'pix',
         ];
 
-        $result[MetadataPaymentDataRequest::METADATA][MetadataPaymentDataRequest::CPP_EXTRA] = [
-            self::CHECKOUT      => 'custom',
-            self::CHECKOUT_TYPE => 'pix',
-        ];
-
         return $result;
     }
 }

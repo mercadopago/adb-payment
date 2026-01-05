@@ -1,6 +1,6 @@
 <?php
 
-namespace MercadoPago\Test\Unit\Gateway\Request;
+namespace MercadoPago\AdbPayment\Tests\Unit\Gateway\Request;
 
 use PHPUnit\Framework\TestCase;
 use MercadoPago\AdbPayment\Gateway\Request\MpDeviceSessionId;

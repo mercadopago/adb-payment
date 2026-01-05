@@ -29,6 +29,31 @@ class TxnIdPixHandler implements HandlerInterface
     public const MP_PAYMENT_ID = 'mp_payment_id';
 
     /**
+     * Order Id block name.
+     */
+    public const MP_ORDER_ID = 'mp_order_id';
+
+    /**
+     * Payment Id Order block name.
+     */
+    public const MP_PAYMENT_ID_ORDER = 'mp_payment_id_order';
+
+    /**
+     * Payments block name.
+     */
+    public const PAYMENTS = 'payments';
+
+    /**
+     * Payment Method block name.
+     */
+    public const PAYMENT_METHOD = 'payment_method';
+
+    /**
+     * Payment Url block name.
+     */
+    public const PAYMENT_URL = 'payment_url';
+
+    /**
      * Status response value.
      */
     public const STATUS = 'status';
@@ -78,6 +103,36 @@ class TxnIdPixHandler implements HandlerInterface
      */
     public const EXTERNAL_TICKET_URL = 'ticket_url';
 
+	/**
+	 * References block and keys.
+	 */
+	public const REFERENCES = 'references';
+
+	/**
+	 * Reference source block name.
+	 */
+	public const REFERENCE_SOURCE = 'source';
+
+	/**
+	 * Reference payment id block name.
+	 */
+	public const REFERENCE_PAYMENT_ID = 'payment_id';
+
+	/**
+	 * Reference order id block name.
+	 */
+	public const REFERENCE_ORDER_ID = 'order_id';
+
+	/**
+	 * Reference source mp payments block name.
+	 */
+	public const MP_PAYMENTS = 'mp_payments';
+
+	/**
+	 * Reference source mp order block name.
+	 */
+	public const MP_ORDER = 'mp_order';
+
     /**
      * Handles.
      *
@@ -96,6 +151,7 @@ class TxnIdPixHandler implements HandlerInterface
 
         $paymentDO = $handlingSubject['payment'];
 
+        /** @var Payment $payment */
         $payment = $paymentDO->getPayment();
 
         $this->setAddtionalInformation($payment, $response);
@@ -110,7 +166,7 @@ class TxnIdPixHandler implements HandlerInterface
         $order = $payment->getOrder();
         $order->setState(\Magento\Sales\Model\Order::STATE_NEW);
         $order->setStatus('pending');
-        $comment = __('Awaiting payment through Pix.');
+        $comment = __('Awaiting payment through Pix.')->render();
         $order->addStatusHistoryComment($comment, $payment->getOrder()->getStatus());
     }
 
@@ -124,41 +180,61 @@ class TxnIdPixHandler implements HandlerInterface
      */
     public function setAddtionalInformation($payment, $response)
     {
-        $payment->setAdditionalInformation(
-            self::MP_PAYMENT_ID,
-            $response[self::PAYMENT_ID]
-        );
+        $paymentResponse = $response[self::PAYMENTS][0] ?? [];
+        $paymentReference = $paymentResponse[self::REFERENCES] ?? [];
+        $referenceSource = $paymentReference[self::REFERENCE_SOURCE] ?? null;
+        $referenceKey = [
+            self::MP_PAYMENTS => self::REFERENCE_PAYMENT_ID,
+            self::MP_ORDER => self::REFERENCE_ORDER_ID,
+        ][$referenceSource] ?? null;
+        
+        $paymentId = $referenceKey ? ($paymentReference[$referenceKey] ?? null) : null;
+
+        $paymentMethod = $paymentResponse[self::PAYMENT_METHOD] ?? [];
 
         $payment->setAdditionalInformation(
             self::MP_STATUS,
-            $response[self::STATUS]
+            $response[self::STATUS] ?? null
         );
 
         $payment->setAdditionalInformation(
             self::MP_STATUS_DETAIL,
-            $response[self::STATUS_DETAIL]
+            $response[self::STATUS_DETAIL] ?? null
+        );
+
+        $payment->setAdditionalInformation(
+            self::MP_PAYMENT_ID,
+            $paymentId
+        );
+
+        $payment->setAdditionalInformation(
+            self::MP_ORDER_ID,
+            $response[self::PAYMENT_ID] ?? null
+        );
+
+        $payment->setAdditionalInformation(
+            self::MP_PAYMENT_ID_ORDER,
+            $paymentResponse[self::PAYMENT_ID] ?? null
         );
 
         $payment->setAdditionalInformation(
             self::DATE_OF_EXPIRATION,
-            $response[self::DATE_OF_EXPIRATION]
+            $paymentResponse[self::DATE_OF_EXPIRATION] ?? null
         );
-
-        $transactionData = $response[self::POINT_OF_INTERACTION][self::TRANSACTION_DATA];
 
         $payment->setAdditionalInformation(
             self::QR_CODE,
-            $transactionData[self::QR_CODE]
+            $paymentMethod[self::QR_CODE] ?? null
         );
 
         $payment->setAdditionalInformation(
             self::QR_CODE_ENCODE,
-            $transactionData[self::QR_CODE_ENCODE]
+            $paymentMethod[self::QR_CODE_ENCODE] ?? null
         );
 
         $payment->setAdditionalInformation(
             self::EXTERNAL_TICKET_URL,
-            $transactionData[self::EXTERNAL_TICKET_URL]
+            $paymentMethod[self::PAYMENT_URL] ?? null
         );
     }
 }
