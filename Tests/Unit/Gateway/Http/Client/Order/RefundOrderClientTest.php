@@ -256,24 +256,3 @@ class RefundOrderClientTest extends TestCase
         ];
     }
 }
-
-/**
- * Subclass with public methods for testing.
- */
-class PublicRefundOrderClient extends RefundOrderClient
-{
-    public function sanitizeRequest(array $request): array
-    {
-        return parent::sanitizeRequest($request);
-    }
-
-    public function normalizeRefundResponse($data): array
-    {
-        return parent::normalizeRefundResponse($data);
-    }
-
-    public function buildClientHeaders($storeId, ?string $idempotencyKey = null): array
-    {
-        return parent::buildClientHeaders($storeId, $idempotencyKey);
-    }
-}
