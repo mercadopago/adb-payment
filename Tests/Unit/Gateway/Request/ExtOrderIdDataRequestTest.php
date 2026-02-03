@@ -29,80 +29,10 @@ class ExtOrderIdDataRequestTest extends TestCase
         $this->request = new ExtOrderIdDataRequest();
     }
 
-    /**
-     * Test build returns mp_order_id from additional information.
-     */
-    public function testBuildReturnsMpOrderIdFromAdditionalInformation(): void
+    public function testConstantsAreDefined(): void
     {
-        $mpOrderId = 'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW';
-
-        $paymentMock = $this->getMockBuilder(Payment::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $paymentMock->method('getAdditionalInformation')
-            ->willReturn([ExtOrderIdDataRequest::MP_ORDER_ID => $mpOrderId]);
-
-        $paymentDOMock = $this->createMock(PaymentDataObjectInterface::class);
-        $paymentDOMock->method('getPayment')->willReturn($paymentMock);
-
-        $result = $this->request->build(['payment' => $paymentDOMock]);
-
-        $this->assertArrayHasKey(ExtOrderIdDataRequest::MP_ORDER_ID, $result);
-        $this->assertEquals($mpOrderId, $result[ExtOrderIdDataRequest::MP_ORDER_ID]);
-    }
-
-    /**
-     * Test build falls back to getLastTransId when mp_order_id is not in additional info.
-     */
-    public function testBuildFallsBackToLastTransId(): void
-    {
-        $lastTransId = 'PPORD123456789';
-
-        $paymentMock = $this->getMockBuilder(Payment::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $paymentMock->method('getAdditionalInformation')
-            ->willReturn([]);
-
-        $paymentMock->method('getLastTransId')
-            ->willReturn($lastTransId);
-
-        $paymentDOMock = $this->createMock(PaymentDataObjectInterface::class);
-        $paymentDOMock->method('getPayment')->willReturn($paymentMock);
-
-        $result = $this->request->build(['payment' => $paymentDOMock]);
-
-        $this->assertArrayHasKey(ExtOrderIdDataRequest::MP_ORDER_ID, $result);
-        $this->assertEquals($lastTransId, $result[ExtOrderIdDataRequest::MP_ORDER_ID]);
-    }
-
-    /**
-     * Test build prefers mp_order_id over lastTransId when both are available.
-     */
-    public function testBuildPrefersMpOrderIdOverLastTransId(): void
-    {
-        $mpOrderId = 'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW';
-        $lastTransId = 'PPORD_OLD_TRANS_ID';
-
-        $paymentMock = $this->getMockBuilder(Payment::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $paymentMock->method('getAdditionalInformation')
-            ->willReturn([ExtOrderIdDataRequest::MP_ORDER_ID => $mpOrderId]);
-
-        $paymentMock->method('getLastTransId')
-            ->willReturn($lastTransId);
-
-        $paymentDOMock = $this->createMock(PaymentDataObjectInterface::class);
-        $paymentDOMock->method('getPayment')->willReturn($paymentMock);
-
-        $result = $this->request->build(['payment' => $paymentDOMock]);
-
-        $this->assertEquals($mpOrderId, $result[ExtOrderIdDataRequest::MP_ORDER_ID]);
-        $this->assertNotEquals($lastTransId, $result[ExtOrderIdDataRequest::MP_ORDER_ID]);
+        $this->assertEquals('mp_order_id', ExtOrderIdDataRequest::ORDER_API_ID_KEY);
+        $this->assertEquals('mp_payment_id_order', ExtOrderIdDataRequest::ORDER_API_PAYMENT_ID_KEY);
     }
 
     /**
@@ -116,9 +46,6 @@ class ExtOrderIdDataRequestTest extends TestCase
         $this->request->build($buildSubject);
     }
 
-    /**
-     * Data provider for invalid payment tests.
-     */
     public function invalidPaymentProvider(): array
     {
         return [
@@ -131,83 +58,116 @@ class ExtOrderIdDataRequestTest extends TestCase
     }
 
     /**
-     * Test build returns null mp_order_id when both sources are empty.
+     * @dataProvider buildResultProvider
      */
-    public function testBuildReturnsNullWhenBothSourcesAreEmpty(): void
-    {
+    public function testBuildReturnsExpectedResult(
+        array $additionalInfo,
+        ?string $lastTransId,
+        $expectedOrderId,
+        $expectedPaymentId
+    ): void {
         $paymentMock = $this->getMockBuilder(Payment::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $paymentMock->method('getAdditionalInformation')
-            ->willReturn([]);
-
-        $paymentMock->method('getLastTransId')
-            ->willReturn(null);
+        $paymentMock->method('getAdditionalInformation')->willReturn($additionalInfo);
+        $paymentMock->method('getLastTransId')->willReturn($lastTransId);
 
         $paymentDOMock = $this->createMock(PaymentDataObjectInterface::class);
         $paymentDOMock->method('getPayment')->willReturn($paymentMock);
 
         $result = $this->request->build(['payment' => $paymentDOMock]);
 
-        $this->assertArrayHasKey(ExtOrderIdDataRequest::MP_ORDER_ID, $result);
-        $this->assertNull($result[ExtOrderIdDataRequest::MP_ORDER_ID]);
+        $this->assertCount(2, $result);
+        $this->assertArrayHasKey(ExtOrderIdDataRequest::ORDER_API_ID_KEY, $result);
+        $this->assertArrayHasKey(ExtOrderIdDataRequest::ORDER_API_PAYMENT_ID_KEY, $result);
+        $this->assertSame($expectedOrderId, $result[ExtOrderIdDataRequest::ORDER_API_ID_KEY]);
+        $this->assertSame($expectedPaymentId, $result[ExtOrderIdDataRequest::ORDER_API_PAYMENT_ID_KEY]);
+    }
+
+    public function buildResultProvider(): array
+    {
+        return [
+            'Order API - both fields present' => [
+                [
+                    ExtOrderIdDataRequest::ORDER_API_ID_KEY => 'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW',
+                    ExtOrderIdDataRequest::ORDER_API_PAYMENT_ID_KEY => 'PPPAY71WFLIEBP0O7H4Q7QM0BQMF6I4',
+                ],
+                null,
+                'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW',
+                'PPPAY71WFLIEBP0O7H4Q7QM0BQMF6I4',
+            ],
+            'Payment API - only mp_order_id (numeric)' => [
+                [ExtOrderIdDataRequest::ORDER_API_ID_KEY => '143625890728'],
+                null,
+                '143625890728',
+                null,
+            ],
+            'fallback to lastTransId' => [
+                [],
+                'PPORD123456789',
+                'PPORD123456789',
+                null,
+            ],
+            'prefers mp_order_id over lastTransId' => [
+                [ExtOrderIdDataRequest::ORDER_API_ID_KEY => 'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW'],
+                'PPORD_OLD_TRANS_ID',
+                'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW',
+                null,
+            ],
+            'both sources empty - returns null' => [
+                [],
+                null,
+                null,
+                null,
+            ],
+            'empty string mp_payment_id_order' => [
+                [
+                    ExtOrderIdDataRequest::ORDER_API_ID_KEY => 'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW',
+                    ExtOrderIdDataRequest::ORDER_API_PAYMENT_ID_KEY => '',
+                ],
+                null,
+                'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW',
+                '',
+            ],
+            'string zero mp_payment_id_order' => [
+                [
+                    ExtOrderIdDataRequest::ORDER_API_ID_KEY => 'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW',
+                    ExtOrderIdDataRequest::ORDER_API_PAYMENT_ID_KEY => '0',
+                ],
+                null,
+                'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW',
+                '0',
+            ],
+        ];
     }
 
     /**
      * @dataProvider validMpOrderIdProvider
      */
-    public function testBuildWithVariousMpOrderIdFormats(string $mpOrderId): void
+    public function testBuildAcceptsVariousMpOrderIdFormats(string $mpOrderId): void
     {
         $paymentMock = $this->getMockBuilder(Payment::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $paymentMock->method('getAdditionalInformation')
-            ->willReturn([ExtOrderIdDataRequest::MP_ORDER_ID => $mpOrderId]);
+            ->willReturn([ExtOrderIdDataRequest::ORDER_API_ID_KEY => $mpOrderId]);
 
         $paymentDOMock = $this->createMock(PaymentDataObjectInterface::class);
         $paymentDOMock->method('getPayment')->willReturn($paymentMock);
 
         $result = $this->request->build(['payment' => $paymentDOMock]);
 
-        $this->assertEquals($mpOrderId, $result[ExtOrderIdDataRequest::MP_ORDER_ID]);
+        $this->assertEquals($mpOrderId, $result[ExtOrderIdDataRequest::ORDER_API_ID_KEY]);
     }
 
-    /**
-     * Data provider for valid mp_order_id formats.
-     */
     public function validMpOrderIdProvider(): array
     {
         return [
             'standard Order API format' => ['PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW'],
             'short format' => ['PPORD123'],
-            'numeric format' => ['12345678901234567890'],
             'alphanumeric mixed' => ['ABC123DEF456'],
         ];
     }
-
-    /**
-     * Test that result array only contains mp_order_id key.
-     */
-    public function testBuildReturnsOnlyMpOrderIdKey(): void
-    {
-        $mpOrderId = 'PPORDO32YD7YI5KX2A9C0MZ1QZ33TJW';
-
-        $paymentMock = $this->getMockBuilder(Payment::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $paymentMock->method('getAdditionalInformation')
-            ->willReturn([ExtOrderIdDataRequest::MP_ORDER_ID => $mpOrderId]);
-
-        $paymentDOMock = $this->createMock(PaymentDataObjectInterface::class);
-        $paymentDOMock->method('getPayment')->willReturn($paymentMock);
-
-        $result = $this->request->build(['payment' => $paymentDOMock]);
-
-        $this->assertCount(1, $result);
-        $this->assertArrayHasKey(ExtOrderIdDataRequest::MP_ORDER_ID, $result);
-    }
 }
-

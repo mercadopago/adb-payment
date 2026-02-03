@@ -56,8 +56,12 @@ class NotificationIdDataRequest implements BuilderInterface
         $paymentDO = $buildSubject['payment'];
         $payment = $paymentDO->getPayment();
 
+        $additionalData = $payment->getData('additional_data') ?: '{}';
+        $decoded = json_decode($additionalData, false);
+        $notificationId = is_object($decoded) ? ($decoded->notificationId ?? null) : null;
+
         return [
-            self::NOTIFICATION_ID  => json_decode($payment->getAdditionalData(), false)->notificationId ?: null,
+            self::NOTIFICATION_ID => $notificationId,
         ];
     }
 }

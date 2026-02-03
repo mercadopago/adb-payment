@@ -29,5 +29,9 @@ class PublicRefundOrderClient extends RefundOrderClient
     {
         return parent::buildClientHeaders($storeId, $idempotencyKey);
     }
-}
 
+    public function preparePaymentApiRequest(array $request, string $idempotencyKey): array
+    {
+        return parent::preparePaymentApiRequest($request, $idempotencyKey);
+    }
+}

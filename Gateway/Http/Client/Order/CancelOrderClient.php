@@ -12,19 +12,24 @@ use Exception;
 use InvalidArgumentException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Http\ClientInterface;
+use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Http\Client\CancelPaymentClient;
 use MercadoPago\AdbPayment\Helper\HttpErrorCodeExtractor;
 use MercadoPago\AdbPayment\Helper\IdempotencyKeyGenerator;
 use MercadoPago\AdbPayment\Helper\OrderApiResponseValidator;
+use MercadoPago\AdbPayment\Helper\ApiTypeDetector;
 use MercadoPago\AdbPayment\Model\Metrics\MetricsClient;
 use MercadoPago\PP\Sdk\HttpClient\HttpClient;
 use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
- * HTTP client to cancel Order using Plugins & Platforms Order API.
- * Endpoint: POST /plugins-platforms/v1/orders/{order_id}/cancel
+ * HTTP client to cancel Order using Plugins & Platforms Order API or Payment API.
+ * - Order API: POST /plugins-platforms/v1/orders/{order_id}/cancel
+ * - Payment API: PUT /v1/payments/{payment_id} with status=cancelled
+ *
  */
 class CancelOrderClient implements ClientInterface
 {
@@ -42,6 +47,11 @@ class CancelOrderClient implements ClientInterface
      * Mercado Pago Order Id - Block Name.
      */
     public const MP_ORDER_ID = 'mp_order_id';
+
+    /**
+     * Mercado Pago Payment Id Order - Block Name.
+     */
+    public const ORDER_API_PAYMENT_ID_KEY = 'mp_payment_id_order';
 
     /**
      * Response Status - Block Name.
@@ -94,35 +104,75 @@ class CancelOrderClient implements ClientInterface
     protected $metricsClient;
 
     /**
-     * @param Logger        $logger
-     * @param Config        $config
-     * @param Json          $json
-     * @param MetricsClient $metricsClient
+     * @var CancelPaymentClient
+     */
+    protected $cancelPaymentClient;
+
+    /**
+     * @var ApiTypeDetector
+     */
+    protected $apiTypeDetector;
+
+    /**
+     * @var TransferBuilder
+     */
+    protected $transferBuilder;
+
+    /**
+     * @param Logger              $logger
+     * @param Config              $config
+     * @param Json                $json
+     * @param MetricsClient       $metricsClient
+     * @param CancelPaymentClient $cancelPaymentClient
+     * @param ApiTypeDetector     $apiTypeDetector
+     * @param TransferBuilder     $transferBuilder
      */
     public function __construct(
         Logger $logger,
         Config $config,
         Json $json,
-        MetricsClient $metricsClient
+        MetricsClient $metricsClient,
+        CancelPaymentClient $cancelPaymentClient,
+        ApiTypeDetector $apiTypeDetector,
+        TransferBuilder $transferBuilder
     ) {
         $this->config = $config;
         $this->logger = $logger;
         $this->json = $json;
         $this->metricsClient = $metricsClient;
+        $this->cancelPaymentClient = $cancelPaymentClient;
+        $this->apiTypeDetector = $apiTypeDetector;
+        $this->transferBuilder = $transferBuilder;
     }
 
     /**
-     * Places request to Order API to cancel order.
+     * Places request to Order API or Payment API to cancel payment.
      *
      * @param TransferInterface $transferObject
      * @return array
      */
     public function placeRequest(TransferInterface $transferObject)
     {
+        $request = $transferObject->getBody();
+
+        if ($this->apiTypeDetector->isOrderApiFromRequest($request)) {
+            return $this->cancelViaOrderApi($request);
+        }
+
+        return $this->cancelViaPaymentApi($transferObject);
+    }
+
+    /**
+     * Cancel payment using Order API (new PIX).
+     *
+     * @param array $request
+     * @return array
+     */
+    protected function cancelViaOrderApi(array $request): array
+    {
         $baseUrl = $this->config->getApiUrl();
         $client = new HttpClient($baseUrl, new CurlRequester());
 
-        $request = $transferObject->getBody();
         $storeId = $request[self::STORE_ID] ?? null;
         $mpOrderId = $request[self::MP_ORDER_ID] ?? null;
 
@@ -138,20 +188,62 @@ class CancelOrderClient implements ClientInterface
                 'url'      => $baseUrl . $uri,
                 'request'  => null,
                 'response' => $this->json->serialize($response),
+                'api_type' => 'order_api',
             ]);
 
-            $this->sendResponseMetric($response);
+            $this->sendResponseMetric($response, 'order_api');
 
             return $response;
         } catch (InvalidArgumentException $e) {
             $this->logError($baseUrl . $uri, null, $e->getMessage());
-            $this->sendCancelErrorMetric('400', $e->getMessage());
+            $this->sendCancelErrorMetric('400', $e->getMessage(), 'order_api');
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception('Invalid JSON was returned by the gateway');
         } catch (\Throwable $e) {
-            $this->logError($baseUrl . $uri, null, $e->getMessage());
             $errorCode = HttpErrorCodeExtractor::extract($e);
-            $this->sendCancelErrorMetric($errorCode, $e->getMessage());
+
+            $this->logError($baseUrl . $uri, null, $e->getMessage());
+            $this->sendCancelErrorMetric($errorCode, $e->getMessage(), 'order_api');
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * Cancel payment using Payment API (old PIX).
+     *
+     * @param TransferInterface $transferObject
+     * @return array
+     */
+    protected function cancelViaPaymentApi(TransferInterface $transferObject): array
+    {
+        try {
+            $request = $transferObject->getBody();
+
+            // Prepare request for Payment API
+            $request = $this->preparePaymentApiRequest($request);
+
+            // Create new TransferObject with modified request
+            $transferObject = $this->transferBuilder
+                ->setBody($request)
+                ->setMethod('PUT')
+                ->build();
+
+            $response = $this->cancelPaymentClient->placeRequest($transferObject);
+
+            $this->logger->debug([
+                'response' => $this->json->serialize($response),
+                'api_type' => 'payment_api',
+            ]);
+
+            $this->sendResponseMetric($response, 'payment_api');
+
+            return $response;
+        } catch (\Throwable $e) {
+            $errorCode = HttpErrorCodeExtractor::extract($e);
+
+            $this->sendCancelErrorMetric($errorCode, $e->getMessage(), 'payment_api');
+
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception($e->getMessage());
         }
@@ -202,7 +294,7 @@ class CancelOrderClient implements ClientInterface
     protected function normalizeCancelResponse($data): array
     {
         $response = is_array($data) ? $data : [];
-        
+
         $hasId = !empty($response[self::RESPONSE_ID]);
         $isCanceled = ($response[self::RESPONSE_STATUS] ?? null) === self::RESPONSE_STATUS_CANCELED;
 
@@ -215,31 +307,38 @@ class CancelOrderClient implements ClientInterface
      * Send appropriate metric based on API response.
      *
      * @param array $response
+     * @param string $apiType 'order_api' or 'payment_api'
      * @return void
      */
-    private function sendResponseMetric(array $response): void
+    private function sendResponseMetric(array $response, string $apiType): void
     {
         if (!OrderApiResponseValidator::isError($response)) {
-            $this->sendCancelSuccessMetric();
+            $this->sendCancelSuccessMetric($apiType);
             return;
         }
 
         $this->sendCancelErrorMetric(
             OrderApiResponseValidator::getErrorCode($response),
-            OrderApiResponseValidator::getErrorMessage($response)
+            OrderApiResponseValidator::getErrorMessage($response),
+            $apiType
         );
     }
 
     /**
      * Send metric for successful order cancellation.
      *
+     * @param string $apiType 'order_api' or 'payment_api'
      * @return void
      */
-    private function sendCancelSuccessMetric(): void
+    private function sendCancelSuccessMetric(string $apiType): void
     {
         try {
+            $eventName = $apiType === 'order_api'
+                ? 'magento_order_api_cancel_success'
+                : 'magento_payment_api_cancel_success';
+
             $this->metricsClient->sendEvent(
-                'magento_order_api_cancel_success',
+                $eventName,
                 'success',
                 'origin_magento'
             );
@@ -253,13 +352,18 @@ class CancelOrderClient implements ClientInterface
      *
      * @param string $errorCode HTTP error code or generic error code
      * @param string $errorMessage Error message description
+     * @param string $apiType 'order_api' or 'payment_api'
      * @return void
      */
-    private function sendCancelErrorMetric(string $errorCode, string $errorMessage): void
+    private function sendCancelErrorMetric(string $errorCode, string $errorMessage, string $apiType): void
     {
         try {
+            $eventName = $apiType === 'order_api'
+                ? 'magento_order_api_cancel_error'
+                : 'magento_payment_api_cancel_error';
+
             $this->metricsClient->sendEvent(
-                'magento_order_api_cancel_error',
+                $eventName,
                 $errorCode,
                 $errorMessage
             );
@@ -271,5 +375,26 @@ class CancelOrderClient implements ClientInterface
             ]);
         }
     }
-}
 
+    /**
+     * Prepare request data for Payment API.
+     *
+     * Transforms Order API request format to Payment API format:
+     * - Renames mp_order_id to mp_payment_id (required by CancelPaymentClient)
+     * - Removes Order API specific fields
+     *
+     * @param array $request Original request array
+     * @return array Prepared request for Payment API
+     */
+    protected function preparePaymentApiRequest(array $request): array
+    {
+        // Rename mp_order_id to mp_payment_id (CancelPaymentClient expects mp_payment_id)
+        if (isset($request[self::MP_ORDER_ID])) {
+            $request['mp_payment_id'] = $request[self::MP_ORDER_ID];
+            unset($request[self::MP_ORDER_ID]);
+            unset($request[self::ORDER_API_PAYMENT_ID_KEY]);
+        }
+
+        return $request;
+    }
+}

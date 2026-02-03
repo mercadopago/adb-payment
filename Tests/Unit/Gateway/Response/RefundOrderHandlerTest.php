@@ -63,9 +63,6 @@ class RefundOrderHandlerTest extends TestCase
         $this->handler->handle($handlingSubject, []);
     }
 
-    /**
-     * Data provider for invalid handling subject.
-     */
     public function invalidHandlingSubjectProvider(): array
     {
         return [
@@ -77,12 +74,12 @@ class RefundOrderHandlerTest extends TestCase
     }
 
     /**
-     * @dataProvider statusMappingProvider
+     * @dataProvider orderApiStatusMappingProvider
      */
-    public function testHandleSetsCorrectCreditmemoState(string $apiStatus, int $expectedState): void
+    public function testHandleSetsCorrectCreditmemoStateForOrderApi(string $apiStatus, int $expectedState): void
     {
         $refundId = 'REFUND123';
-        $response = $this->buildResponse($apiStatus, $refundId);
+        $response = $this->buildOrderApiResponse($apiStatus, $refundId);
 
         $this->paymentMock->expects($this->once())
             ->method('setTransactionId')
@@ -106,10 +103,7 @@ class RefundOrderHandlerTest extends TestCase
         );
     }
 
-    /**
-     * Data provider for status mapping tests.
-     */
-    public function statusMappingProvider(): array
+    public function orderApiStatusMappingProvider(): array
     {
         return [
             'processing status' => ['processing', Creditmemo::STATE_OPEN],
@@ -119,28 +113,28 @@ class RefundOrderHandlerTest extends TestCase
     }
 
     /**
-     * @dataProvider refundIdProvider
+     * @dataProvider paymentApiStatusMappingProvider
      */
-    public function testHandleSetsRefundIdFromReference(array $reference, ?string $expectedRefundId): void
+    public function testHandleSetsCorrectCreditmemoStateForPaymentApi(string $apiStatus, int $expectedState): void
     {
-        $response = [
-            'payments' => [[
-                'reference' => $reference,
-                'status' => 'processed',
-            ]],
-        ];
+        $refundId = 12345678;
+        $response = $this->buildPaymentApiResponse($apiStatus, $refundId);
 
         $this->paymentMock->expects($this->once())
             ->method('setTransactionId')
-            ->with($expectedRefundId);
+            ->with($refundId);
 
         $this->paymentMock->expects($this->once())
             ->method('setAdditionalInformation')
-            ->with('mp_refund_id', $expectedRefundId);
+            ->with('mp_refund_id', $refundId);
 
         $this->creditmemoMock->expects($this->once())
             ->method('setTransactionId')
-            ->with($expectedRefundId);
+            ->with($refundId);
+
+        $this->creditmemoMock->expects($this->once())
+            ->method('setState')
+            ->with($expectedState);
 
         $this->handler->handle(
             ['payment' => $this->paymentDataObjectMock],
@@ -148,13 +142,54 @@ class RefundOrderHandlerTest extends TestCase
         );
     }
 
+    public function paymentApiStatusMappingProvider(): array
+    {
+        return [
+            'approved status' => ['approved', Creditmemo::STATE_REFUNDED],
+        ];
+    }
+
     /**
-     * Data provider for refund id tests.
+     * @dataProvider refundIdProvider
      */
+    public function testHandleSetsRefundIdFromReference(array $reference, ?string $expectedRefundId): void
+    {
+        if ($expectedRefundId === null) {
+            $this->paymentMock->expects($this->never())->method('setTransactionId');
+            $this->paymentMock->expects($this->never())->method('setAdditionalInformation');
+            $this->creditmemoMock->expects($this->never())->method('setTransactionId');
+            $this->creditmemoMock->expects($this->never())->method('setState');
+        } else {
+            $this->paymentMock->expects($this->once())
+                ->method('setTransactionId')
+                ->with($expectedRefundId);
+
+            $this->paymentMock->expects($this->once())
+                ->method('setAdditionalInformation')
+                ->with('mp_refund_id', $expectedRefundId);
+
+            $this->creditmemoMock->expects($this->once())
+                ->method('setTransactionId')
+                ->with($expectedRefundId);
+        }
+
+        $response = [
+            'payments' => [[
+                'reference' => $reference,
+                'status' => 'processed',
+            ]],
+        ];
+
+        $this->handler->handle(
+            ['payment' => $this->paymentDataObjectMock],
+            $response
+        );
+    }
+
     public function refundIdProvider(): array
     {
         return [
-            'both ids present - uses refund_payment_id' => [
+            'both ids - uses refund_payment_id' => [
                 ['refund_payment_id' => 'PAY123', 'refund_order_id' => 'ORD456'],
                 'PAY123',
             ],
@@ -166,28 +201,50 @@ class RefundOrderHandlerTest extends TestCase
                 ['refund_order_id' => 'ORD456'],
                 'ORD456',
             ],
-            'empty reference' => [
+            'empty reference - early return' => [
                 [],
                 null,
             ],
         ];
     }
 
-    public function testHandleWithEmptyPaymentsArray(): void
+    /**
+     * @dataProvider earlyReturnProvider
+     */
+    public function testHandleReturnsEarlyWhenNoRefundId(array $response): void
     {
-        $response = ['payments' => []];
+        $this->paymentMock->expects($this->never())->method('setTransactionId');
+        $this->paymentMock->expects($this->never())->method('setAdditionalInformation');
+        $this->creditmemoMock->expects($this->never())->method('setTransactionId');
+        $this->creditmemoMock->expects($this->never())->method('setState');
 
+        $this->handler->handle(
+            ['payment' => $this->paymentDataObjectMock],
+            $response
+        );
+    }
+
+    public function earlyReturnProvider(): array
+    {
+        return [
+            'empty response' => [[]],
+            'empty payments array' => [['payments' => []]],
+            'payments without reference' => [['payments' => [['status' => 'processed']]]],
+        ];
+    }
+
+    /**
+     * @dataProvider unknownStatusProvider
+     */
+    public function testHandleDoesNotSetStateForUnknownStatus(array $response, $expectedRefundId): void
+    {
         $this->paymentMock->expects($this->once())
             ->method('setTransactionId')
-            ->with(null);
-
-        $this->paymentMock->expects($this->once())
-            ->method('setAdditionalInformation')
-            ->with('mp_refund_id', null);
+            ->with($expectedRefundId);
 
         $this->creditmemoMock->expects($this->once())
             ->method('setTransactionId')
-            ->with(null);
+            ->with($expectedRefundId);
 
         $this->creditmemoMock->expects($this->never())
             ->method('setState');
@@ -198,43 +255,42 @@ class RefundOrderHandlerTest extends TestCase
         );
     }
 
-    public function testHandleWithUnknownStatus(): void
+    public function unknownStatusProvider(): array
     {
-        $response = $this->buildResponse('unknown_status', 'REFUND123');
+        return [
+            'Order API unknown status' => [
+                ['payments' => [['reference' => ['refund_payment_id' => 'REFUND123'], 'status' => 'unknown']]],
+                'REFUND123',
+            ],
+            'Payment API unknown status' => [
+                ['id' => 98765432, 'status' => 'pending'],
+                98765432,
+            ],
+        ];
+    }
+
+    public function testHandlePrefersOrderApiWhenBothFormatsPresent(): void
+    {
+        $response = [
+            'id' => 'SHOULD_NOT_USE',
+            'status' => 'approved',
+            'payments' => [[
+                'reference' => ['refund_payment_id' => 'ORDER_API_ID'],
+                'status' => 'processed',
+            ]],
+        ];
 
         $this->paymentMock->expects($this->once())
             ->method('setTransactionId')
-            ->with('REFUND123');
+            ->with('ORDER_API_ID');
 
         $this->creditmemoMock->expects($this->once())
-            ->method('setTransactionId')
-            ->with('REFUND123');
-
-        $this->creditmemoMock->expects($this->never())
-            ->method('setState');
+            ->method('setState')
+            ->with(Creditmemo::STATE_REFUNDED);
 
         $this->handler->handle(
             ['payment' => $this->paymentDataObjectMock],
             $response
-        );
-    }
-
-    public function testHandleWithEmptyResponse(): void
-    {
-        $this->paymentMock->expects($this->once())
-            ->method('setTransactionId')
-            ->with(null);
-
-        $this->creditmemoMock->expects($this->once())
-            ->method('setTransactionId')
-            ->with(null);
-
-        $this->creditmemoMock->expects($this->never())
-            ->method('setState');
-
-        $this->handler->handle(
-            ['payment' => $this->paymentDataObjectMock],
-            []
         );
     }
 
@@ -249,9 +305,6 @@ class RefundOrderHandlerTest extends TestCase
         );
     }
 
-    /**
-     * Data provider for constants tests.
-     */
     public function constantsProvider(): array
     {
         return [
@@ -259,26 +312,30 @@ class RefundOrderHandlerTest extends TestCase
             'RESPONSE_STATUS_PROCESSING' => ['RESPONSE_STATUS_PROCESSING', 'processing'],
             'RESPONSE_STATUS_PROCESSED' => ['RESPONSE_STATUS_PROCESSED', 'processed'],
             'RESPONSE_STATUS_FAILED' => ['RESPONSE_STATUS_FAILED', 'failed'],
+            'RESPONSE_STATUS_APPROVED' => ['RESPONSE_STATUS_APPROVED', 'approved'],
             'RESPONSE_REFUND_PAYMENT_ID' => ['RESPONSE_REFUND_PAYMENT_ID', 'refund_payment_id'],
             'RESPONSE_REFUND_ORDER_ID' => ['RESPONSE_REFUND_ORDER_ID', 'refund_order_id'],
             'RESPONSE_REFERENCE' => ['RESPONSE_REFERENCE', 'reference'],
             'RESPONSE_PAYMENTS' => ['RESPONSE_PAYMENTS', 'payments'],
+            'RESPONSE_ID' => ['RESPONSE_ID', 'id'],
         ];
     }
 
-    /**
-     * Build response array for tests.
-     */
-    private function buildResponse(string $status, string $refundId): array
+    private function buildOrderApiResponse(string $status, string $refundId): array
     {
         return [
             'payments' => [[
-                'reference' => [
-                    'refund_payment_id' => $refundId,
-                ],
+                'reference' => ['refund_payment_id' => $refundId],
                 'status' => $status,
             ]],
         ];
     }
-}
 
+    private function buildPaymentApiResponse(string $status, $refundId): array
+    {
+        return [
+            'id' => $refundId,
+            'status' => $status,
+        ];
+    }
+}

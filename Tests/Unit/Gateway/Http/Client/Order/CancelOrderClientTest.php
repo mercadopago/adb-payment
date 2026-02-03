@@ -9,9 +9,13 @@
 namespace MercadoPago\AdbPayment\Tests\Unit\Gateway\Http\Client\Order;
 
 use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Payment\Gateway\Http\TransferBuilder;
+use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Http\Client\CancelPaymentClient;
 use MercadoPago\AdbPayment\Gateway\Http\Client\Order\CancelOrderClient;
+use MercadoPago\AdbPayment\Helper\ApiTypeDetector;
 use MercadoPago\AdbPayment\Model\Metrics\MetricsClient;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -41,12 +45,30 @@ class CancelOrderClientTest extends TestCase
      */
     private $metricsClientMock;
 
+    /**
+     * @var CancelPaymentClient|MockObject
+     */
+    private $cancelPaymentClientMock;
+
+    /**
+     * @var ApiTypeDetector|MockObject
+     */
+    private $apiTypeDetectorMock;
+
+    /**
+     * @var TransferBuilder|MockObject
+     */
+    private $transferBuilderMock;
+
     protected function setUp(): void
     {
         $this->loggerMock = $this->createMock(Logger::class);
         $this->configMock = $this->createMock(Config::class);
         $this->json = new Json();
         $this->metricsClientMock = $this->createMock(MetricsClient::class);
+        $this->cancelPaymentClientMock = $this->createMock(CancelPaymentClient::class);
+        $this->apiTypeDetectorMock = $this->createMock(ApiTypeDetector::class);
+        $this->transferBuilderMock = $this->createMock(TransferBuilder::class);
 
         $this->configMock->method('getApiUrl')
             ->willReturn('https://api.mercadopago.com');
@@ -67,7 +89,10 @@ class CancelOrderClientTest extends TestCase
             $this->loggerMock,
             $this->configMock,
             $this->json,
-            $this->metricsClientMock
+            $this->metricsClientMock,
+            $this->cancelPaymentClientMock,
+            $this->apiTypeDetectorMock,
+            $this->transferBuilderMock
         );
 
         $this->assertInstanceOf(CancelOrderClient::class, $client);
@@ -108,7 +133,10 @@ class CancelOrderClientTest extends TestCase
             $this->loggerMock,
             $this->configMock,
             $this->json,
-            $this->metricsClientMock
+            $this->metricsClientMock,
+            $this->cancelPaymentClientMock,
+            $this->apiTypeDetectorMock,
+            $this->transferBuilderMock
         );
 
         $result = $client->normalizeCancelResponse($apiResponse);
@@ -183,7 +211,10 @@ class CancelOrderClientTest extends TestCase
             $this->loggerMock,
             $this->configMock,
             $this->json,
-            $this->metricsClientMock
+            $this->metricsClientMock,
+            $this->cancelPaymentClientMock,
+            $this->apiTypeDetectorMock,
+            $this->transferBuilderMock
         );
 
         $result = $client->buildClientHeaders(1, $idempotencyKey);
@@ -227,7 +258,10 @@ class CancelOrderClientTest extends TestCase
             $this->loggerMock,
             $this->configMock,
             $this->json,
-            $this->metricsClientMock
+            $this->metricsClientMock,
+            $this->cancelPaymentClientMock,
+            $this->apiTypeDetectorMock,
+            $this->transferBuilderMock
         );
 
         $apiResponse = [
@@ -246,6 +280,85 @@ class CancelOrderClientTest extends TestCase
         $this->assertEquals('by_collector', $result['status_detail']);
         $this->assertEquals('100000001', $result['external_reference']);
         $this->assertEquals(100.00, $result['total_amount']);
+    }
+
+    /**
+     * Test placeRequest calls ApiTypeDetector with correct parameters.
+     *
+     * Note: Integration tests with actual HTTP clients are avoided here
+     * to prevent class_alias conflicts with other test classes.
+     */
+    public function testPlaceRequestCallsApiTypeDetector(): void
+    {
+        $transferMock = $this->createMock(TransferInterface::class);
+
+        $requestBody = [
+            'mp_order_id' => 'PPPAY71WFLIEBP0O7H4Q7QM0BQMF6I4',
+            'mp_payment_id' => null,
+            'mp_payment_id_order' => 'PPPAY71WFLIEBP0O7H4Q7QM0BQMF6I4',
+            'store_id' => 1,
+        ];
+
+        $transferMock->method('getBody')
+            ->willReturn($requestBody);
+
+        // Verify ApiTypeDetector is called with correct array structure
+        $this->apiTypeDetectorMock->expects($this->once())
+            ->method('isOrderApiFromRequest')
+            ->with($this->callback(function ($additionalInfo) {
+                return isset($additionalInfo['mp_order_id'])
+                    && isset($additionalInfo['mp_payment_id_order'])
+                    && $additionalInfo['mp_order_id'] === 'PPPAY71WFLIEBP0O7H4Q7QM0BQMF6I4'
+                    && $additionalInfo['mp_payment_id_order'] === 'PPPAY71WFLIEBP0O7H4Q7QM0BQMF6I4';
+            }))
+            ->willReturn(false);  // Return false to use Payment API (mocked)
+
+        // Mock TransferBuilder to create new transfer object
+        $newTransferMock = $this->createMock(TransferInterface::class);
+
+        $this->transferBuilderMock->expects($this->once())
+            ->method('setBody')
+            ->with($this->callback(function ($body) {
+                // Verify mp_order_id was renamed to mp_payment_id
+                return isset($body['mp_payment_id'])
+                    && $body['mp_payment_id'] === 'PPPAY71WFLIEBP0O7H4Q7QM0BQMF6I4'
+                    && !isset($body['mp_order_id']);
+            }))
+            ->willReturnSelf();
+
+        $this->transferBuilderMock->expects($this->once())
+            ->method('setMethod')
+            ->with('PUT')
+            ->willReturnSelf();
+
+        $this->transferBuilderMock->expects($this->once())
+            ->method('build')
+            ->willReturn($newTransferMock);
+
+        // Mock CancelPaymentClient to return success
+        $this->cancelPaymentClientMock->expects($this->once())
+            ->method('placeRequest')
+            ->with($newTransferMock)
+            ->willReturn([
+                'RESULT_CODE' => 1,
+                'status' => 'cancelled',
+            ]);
+
+        $client = new CancelOrderClient(
+            $this->loggerMock,
+            $this->configMock,
+            $this->json,
+            $this->metricsClientMock,
+            $this->cancelPaymentClientMock,
+            $this->apiTypeDetectorMock,
+            $this->transferBuilderMock
+        );
+
+        $result = $client->placeRequest($transferMock);
+
+        // Verify result
+        $this->assertArrayHasKey('RESULT_CODE', $result);
+        $this->assertEquals(1, $result['RESULT_CODE']);
     }
 
     /**
@@ -289,5 +402,76 @@ class CancelOrderClientTest extends TestCase
             ],
         ];
     }
-}
 
+    /**
+     * Test preparePaymentApiRequest renames mp_order_id to mp_payment_id.
+     */
+    public function testPreparePaymentApiRequestRenamesMpOrderId(): void
+    {
+        $client = new CancelOrderClient(
+            $this->loggerMock,
+            $this->configMock,
+            $this->json,
+            $this->metricsClientMock,
+            $this->cancelPaymentClientMock,
+            $this->apiTypeDetectorMock,
+            $this->transferBuilderMock
+        );
+
+        $request = [
+            'mp_order_id' => '144005057552',
+            'store_id' => 1,
+        ];
+
+        // Use reflection to access protected method
+        $reflection = new \ReflectionClass($client);
+        $method = $reflection->getMethod('preparePaymentApiRequest');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($client, $request);
+
+        // Verify mp_order_id was renamed to mp_payment_id
+        $this->assertArrayHasKey('mp_payment_id', $result);
+        $this->assertEquals('144005057552', $result['mp_payment_id']);
+        $this->assertArrayNotHasKey('mp_order_id', $result);
+
+        // Verify store_id is preserved
+        $this->assertArrayHasKey('store_id', $result);
+        $this->assertEquals(1, $result['store_id']);
+    }
+
+    /**
+     * Test preparePaymentApiRequest handles missing mp_order_id.
+     */
+    public function testPreparePaymentApiRequestHandlesMissingMpOrderId(): void
+    {
+        $client = new CancelOrderClient(
+            $this->loggerMock,
+            $this->configMock,
+            $this->json,
+            $this->metricsClientMock,
+            $this->cancelPaymentClientMock,
+            $this->apiTypeDetectorMock,
+            $this->transferBuilderMock
+        );
+
+        $request = [
+            'store_id' => 1,
+        ];
+
+        // Use reflection to access protected method
+        $reflection = new \ReflectionClass($client);
+        $method = $reflection->getMethod('preparePaymentApiRequest');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($client, $request);
+
+        // Verify mp_payment_id is not added if mp_order_id doesn't exist
+        $this->assertArrayNotHasKey('mp_payment_id', $result);
+        $this->assertArrayNotHasKey('mp_order_id', $result);
+
+        // Verify store_id is preserved
+        $this->assertArrayHasKey('store_id', $result);
+        $this->assertEquals(1, $result['store_id']);
+    }
+}

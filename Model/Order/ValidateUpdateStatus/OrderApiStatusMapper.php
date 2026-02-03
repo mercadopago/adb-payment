@@ -13,7 +13,7 @@ use MercadoPago\AdbPayment\Model\Metrics\MetricsClient;
 
 /**
  * Mapper to convert Order API status to Payment API status.
- * 
+ *
  * This allows the existing state machine to work without refactoring
  * by converting new Order API statuses to equivalent Payment API statuses.
  */
@@ -74,7 +74,7 @@ class OrderApiStatusMapper
      *
      * @var array
      */
-    private static $statusMapping = [
+    private static $statusMappingOrderApi = [
         // Order API Status => Payment API Status
         self::ORDER_STATUS_PROCESSING       => ValidateOrderStatusInterface::MP_STATUS_PENDING,
         self::ORDER_STATUS_ACTION_REQUIRED  => ValidateOrderStatusInterface::MP_STATUS_PENDING,
@@ -89,6 +89,26 @@ class OrderApiStatusMapper
     ];
 
     /**
+     * Known Payment API statuses.
+     *
+     * These statuses are already compatible with the state machine and should not
+     * trigger the unmapped status metric.
+     *
+     * @var array
+     */
+    private static $knownPaymentApiStatuses = [
+        ValidateOrderStatusInterface::MP_STATUS_APPROVED,
+        ValidateOrderStatusInterface::MP_STATUS_PENDING,
+        ValidateOrderStatusInterface::MP_STATUS_REJECTED,
+        ValidateOrderStatusInterface::MP_STATUS_CANCELLED,
+        ValidateOrderStatusInterface::MP_STATUS_REFUNDED,
+        ValidateOrderStatusInterface::MP_STATUS_IN_MEDIATION,
+        ValidateOrderStatusInterface::MP_STATUS_CHARGED_BACK,
+        ValidateOrderStatusInterface::MP_STATUS_IN_PROCCESS,
+        ValidateOrderStatusInterface::MP_STATUS_AUTHORIZED,
+    ];
+
+    /**
      * Map Order API status to Payment API status.
      *
      * @param string $orderApiStatus Status from Order API
@@ -97,12 +117,17 @@ class OrderApiStatusMapper
      */
     public static function mapToPaymentApiStatus(string $orderApiStatus, ?MetricsClient $metricsClient = null): string
     {
-        // Check if status is mapped
-        if (isset(self::$statusMapping[$orderApiStatus])) {
-            return self::$statusMapping[$orderApiStatus];
+        // Check if status is mapped (Order API)
+        if (isset(self::$statusMappingOrderApi[$orderApiStatus])) {
+            return self::$statusMappingOrderApi[$orderApiStatus];
         }
 
-        // Status not mapped - send metric if metrics client is available
+        // Check if it's a known Payment API status
+        if (in_array($orderApiStatus, self::$knownPaymentApiStatuses, true)) {
+            return $orderApiStatus;
+        }
+
+        // Status is unknown (not Order API, not Payment API) - send metric
         if ($metricsClient !== null) {
             try {
                 $metricsClient->sendEvent(
@@ -127,7 +152,6 @@ class OrderApiStatusMapper
      */
     public static function isOrderApiStatus(string $status): bool
     {
-        return array_key_exists($status, self::$statusMapping);
+        return array_key_exists($status, self::$statusMappingOrderApi);
     }
 }
-

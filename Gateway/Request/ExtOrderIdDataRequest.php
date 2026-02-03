@@ -20,7 +20,14 @@ class ExtOrderIdDataRequest implements BuilderInterface
     /**
      * Additional Information key for Order ID.
      */
-    public const MP_ORDER_ID = 'mp_order_id';
+    public const ORDER_API_ID_KEY = 'mp_order_id';
+
+    /**
+     * Additional Information key for Payment ID Order.
+     */
+    public const ORDER_API_PAYMENT_ID_KEY = 'mp_payment_id_order';
+
+
 
     /**
      * Build.
@@ -41,10 +48,12 @@ class ExtOrderIdDataRequest implements BuilderInterface
 
         $addInfo = $payment->getAdditionalInformation();
 
-        $mpOrderId = $addInfo[self::MP_ORDER_ID] ?? $payment->getLastTransId();
+        $mpOrderId = $addInfo[self::ORDER_API_ID_KEY] ?? $payment->getLastTransId();
+        $mpPaymentIdOrder = $addInfo[self::ORDER_API_PAYMENT_ID_KEY] ?? null;
 
         return [
-            self::MP_ORDER_ID => $mpOrderId,
+            self::ORDER_API_ID_KEY => $mpOrderId,
+            self::ORDER_API_PAYMENT_ID_KEY => $mpPaymentIdOrder,
         ];
     }
 }

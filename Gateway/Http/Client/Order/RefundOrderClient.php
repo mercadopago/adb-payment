@@ -12,19 +12,23 @@ use Exception;
 use InvalidArgumentException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Gateway\Http\ClientInterface;
+use Magento\Payment\Gateway\Http\TransferBuilder;
 use Magento\Payment\Gateway\Http\TransferInterface;
 use Magento\Payment\Model\Method\Logger;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
+use MercadoPago\AdbPayment\Gateway\Http\Client\RefundClient;
 use MercadoPago\AdbPayment\Helper\HttpErrorCodeExtractor;
 use MercadoPago\AdbPayment\Helper\IdempotencyKeyGenerator;
 use MercadoPago\AdbPayment\Helper\OrderApiResponseValidator;
+use MercadoPago\AdbPayment\Helper\ApiTypeDetector;
 use MercadoPago\AdbPayment\Model\Metrics\MetricsClient;
 use MercadoPago\PP\Sdk\HttpClient\HttpClient;
 use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
- * HTTP client to refund Order using Plugins & Platforms Order API.
- * Endpoint: POST /plugins-platforms/v1/orders/{order_id}/refund
+ * HTTP client to refund Order using Plugins & Platforms Order API or Payment API.
+ * - Order API: POST /plugins-platforms/v1/orders/{order_id}/refund
+ * - Payment API: POST /v1/payments/{payment_id}/refunds
  *
  * Supports both total and partial refunds.
  */
@@ -35,7 +39,7 @@ class RefundOrderClient implements ClientInterface
      */
     public const RESULT_CODE = 'RESULT_CODE';
 
-    /** 
+    /**
      * Payments - Block name.
      */
     public const PAYMENTS = 'payments';
@@ -74,6 +78,7 @@ class RefundOrderClient implements ClientInterface
      * Response Reference - Block name.
      */
     public const RESPONSE_REFERENCE = 'reference';
+
     /**
      * Response Status - Block Name.
      */
@@ -135,25 +140,50 @@ class RefundOrderClient implements ClientInterface
     protected $metricsClient;
 
     /**
-     * @param Logger        $logger
-     * @param Config        $config
-     * @param Json          $json
-     * @param MetricsClient $metricsClient
+     * @var RefundClient
+     */
+    protected $refundClient;
+
+    /**
+     * @var ApiTypeDetector
+     */
+    protected $apiTypeDetector;
+
+    /**
+     * @var TransferBuilder
+     */
+    protected $transferBuilder;
+
+    /**
+     * @param Logger          $logger
+     * @param Config          $config
+     * @param Json            $json
+     * @param MetricsClient   $metricsClient
+     * @param RefundClient    $refundClient
+     * @param ApiTypeDetector $apiTypeDetector
+     * @param TransferBuilder $transferBuilder
      */
     public function __construct(
         Logger $logger,
         Config $config,
         Json $json,
-        MetricsClient $metricsClient
+        MetricsClient $metricsClient,
+        RefundClient $refundClient,
+        ApiTypeDetector $apiTypeDetector,
+        TransferBuilder $transferBuilder
     ) {
         $this->config = $config;
         $this->logger = $logger;
         $this->json = $json;
         $this->metricsClient = $metricsClient;
+        $this->refundClient = $refundClient;
+        $this->apiTypeDetector = $apiTypeDetector;
+        $this->transferBuilder = $transferBuilder;
     }
 
     /**
-     * Places request to Order API to refund order.
+     * Places request to Order API or Payment API to refund payment.
+     *
      *
      * Supports:
      * - Total refund: Do not send amount in request body
@@ -164,10 +194,26 @@ class RefundOrderClient implements ClientInterface
      */
     public function placeRequest(TransferInterface $transferObject)
     {
+        $request = $transferObject->getBody();
+
+        if ($this->apiTypeDetector->isOrderApiFromRequest($request)) {
+            return $this->refundViaOrderApi($request);
+        }
+
+        return $this->refundViaPaymentApi($request);
+    }
+
+    /**
+     * Refund payment using Order API (new PIX).
+     *
+     * @param array $request
+     * @return array
+     */
+    protected function refundViaOrderApi(array $request): array
+    {
         $baseUrl = $this->config->getApiUrl();
         $client = new HttpClient($baseUrl, new CurlRequester());
 
-        $request = $transferObject->getBody();
         $storeId = $request[self::STORE_ID] ?? null;
         $mpOrderId = $request[self::MP_ORDER_ID] ?? null;
 
@@ -189,23 +235,108 @@ class RefundOrderClient implements ClientInterface
                 'url'      => $baseUrl . $uri,
                 'request'  => $payload,
                 'response' => $this->json->serialize($response),
+                'api_type' => 'order_api',
             ]);
 
-            $this->sendResponseMetric($response);
+            $this->sendResponseMetric($response, 'order_api');
 
             return $response;
         } catch (InvalidArgumentException $e) {
             $this->logError($baseUrl . $uri, $payload, $e->getMessage());
-            $this->sendRefundErrorMetric('400', $e->getMessage());
+            $this->sendRefundErrorMetric('400', $e->getMessage(), 'order_api');
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception('Invalid JSON was returned by the gateway');
         } catch (\Throwable $e) {
-            $this->logError($baseUrl . $uri, $payload, $e->getMessage());
             $errorCode = HttpErrorCodeExtractor::extract($e);
-            $this->sendRefundErrorMetric($errorCode, $e->getMessage());
+
+            $this->logError($baseUrl . $uri, $payload, $e->getMessage());
+            $this->sendRefundErrorMetric($errorCode, $e->getMessage(), 'order_api');
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception($e->getMessage());
         }
+    }
+
+    /**
+     * Refund payment using Payment API (old PIX).
+     *
+     * @param array $request
+     * @return array
+     */
+    protected function refundViaPaymentApi(array $request): array
+    {
+        try {
+            // Generate idempotency key
+            $idempotencyKey = IdempotencyKeyGenerator::generateForRefund(
+                $request[self::MP_ORDER_ID] ?? null,
+                $request[self::REFUND_AMOUNT] ?? null,
+                $request[self::REFUND_KEY] ?? null
+            );
+
+            // Prepare request for Payment API
+            $request = $this->preparePaymentApiRequest($request, $idempotencyKey);
+
+            // Create new TransferObject with modified request
+            $transferObject = $this->transferBuilder
+                ->setBody($request)
+                ->setMethod('POST')
+                ->build();
+
+            $response = $this->refundClient->placeRequest($transferObject);
+
+            $this->logger->debug([
+                'response' => $this->json->serialize($response),
+                'api_type' => 'payment_api',
+            ]);
+
+            $this->sendResponseMetric($response, 'payment_api');
+
+            return $response;
+        } catch (\Throwable $e) {
+            $errorCode = HttpErrorCodeExtractor::extract($e);
+
+            $this->logger->debug([
+                'error' => $e->getMessage(),
+                'api_type' => 'payment_api',
+            ]);
+
+            $this->sendRefundErrorMetric($errorCode, $e->getMessage(), 'payment_api');
+
+            // phpcs:ignore Magento2.Exceptions.DirectThrow
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * Prepare request data for Payment API.
+     *
+     * Transforms Order API request format to Payment API format:
+     * - Renames mp_order_id to payment_id
+     * - Adds idempotency key
+     * - Removes Order API specific fields
+     *
+     * @param array $request Original request array
+     * @param string $idempotencyKey Generated idempotency key
+     * @return array Prepared request for Payment API
+     */
+    protected function preparePaymentApiRequest(array $request, string $idempotencyKey): array
+    {
+        // Rename mp_order_id to payment_id
+        if (isset($request[self::MP_ORDER_ID])) {
+            $request['payment_id'] = $request[self::MP_ORDER_ID];
+        }
+
+        // Add idempotency key
+        $request[self::X_IDEMPOTENCY_KEY] = $idempotencyKey;
+
+        // Remove Order API specific fields (unset multiple keys at once)
+        unset(
+            $request[self::MP_ORDER_ID],
+            $request[self::REFUND_KEY],
+            $request[self::MP_PAYMENT_ID_ORDER],
+            $request[self::IS_PARTIAL_REFUND]
+        );
+
+        return $request;
     }
 
     /**
@@ -298,31 +429,38 @@ class RefundOrderClient implements ClientInterface
      * Send appropriate metric based on API response.
      *
      * @param array $response
+     * @param string $apiType 'order_api' or 'payment_api'
      * @return void
      */
-    private function sendResponseMetric(array $response): void
+    private function sendResponseMetric(array $response, string $apiType): void
     {
         if (!OrderApiResponseValidator::isError($response)) {
-            $this->sendRefundSuccessMetric();
+            $this->sendRefundSuccessMetric($apiType);
             return;
         }
 
         $this->sendRefundErrorMetric(
             OrderApiResponseValidator::getErrorCode($response),
-            OrderApiResponseValidator::getErrorMessage($response)
+            OrderApiResponseValidator::getErrorMessage($response),
+            $apiType
         );
     }
 
     /**
      * Send metric for successful refund.
      *
+     * @param string $apiType 'order_api' or 'payment_api'
      * @return void
      */
-    private function sendRefundSuccessMetric(): void
+    private function sendRefundSuccessMetric(string $apiType): void
     {
         try {
+            $eventName = $apiType === 'order_api'
+                ? 'magento_order_api_refund_success'
+                : 'magento_payment_api_refund_success';
+
             $this->metricsClient->sendEvent(
-                'magento_order_api_refund_success',
+                $eventName,
                 'success',
                 'origin_magento'
             );
@@ -336,13 +474,18 @@ class RefundOrderClient implements ClientInterface
      *
      * @param string $errorCode HTTP error code or generic error code
      * @param string $errorMessage Error message description
+     * @param string $apiType 'order_api' or 'payment_api'
      * @return void
      */
-    private function sendRefundErrorMetric(string $errorCode, string $errorMessage): void
+    private function sendRefundErrorMetric(string $errorCode, string $errorMessage, string $apiType): void
     {
         try {
+            $eventName = $apiType === 'order_api'
+                ? 'magento_order_api_refund_error'
+                : 'magento_payment_api_refund_error';
+
             $this->metricsClient->sendEvent(
-                'magento_order_api_refund_error',
+                $eventName,
                 $errorCode,
                 $errorMessage
             );
@@ -355,4 +498,3 @@ class RefundOrderClient implements ClientInterface
         }
     }
 }
-
