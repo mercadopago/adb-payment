@@ -49,6 +49,11 @@ class OrderApiStatusMapperTest extends TestCase
             'pending remains pending' => ['pending', 'pending'],
             'rejected remains rejected' => ['rejected', 'rejected'],
             'cancelled remains cancelled' => ['cancelled', 'cancelled'],
+            'refunded remains refunded' => ['refunded', 'refunded'],
+            'in_mediation remains in_mediation' => ['in_mediation', 'in_mediation'],
+            'charged_back remains charged_back' => ['charged_back', 'charged_back'],
+            'in_process remains in_process' => ['in_process', 'in_process'],
+            'authorized remains authorized' => ['authorized', 'authorized'],
         ];
     }
 
@@ -169,5 +174,41 @@ class OrderApiStatusMapperTest extends TestCase
         $result = OrderApiStatusMapper::mapToPaymentApiStatus($unmappedStatus, $metricsClient);
         $this->assertEquals($unmappedStatus, $result);
     }
-}
 
+    /**
+     * Test that Payment API statuses do not send metric
+     *
+     * @dataProvider paymentApiStatusProvider
+     */
+    public function testPaymentApiStatusDoesNotSendMetric(string $paymentApiStatus, string $expectedStatus)
+    {
+        $metricsClient = $this->createMock(MetricsClient::class);
+
+        // Metrics client should NEVER be called for known Payment API statuses
+        $metricsClient->expects($this->never())
+            ->method('sendEvent');
+
+        $result = OrderApiStatusMapper::mapToPaymentApiStatus($paymentApiStatus, $metricsClient);
+        $this->assertEquals($expectedStatus, $result);
+    }
+
+    /**
+     * Test that only unknown statuses (not Order API, not Payment API) send metric
+     */
+    public function testOnlyUnknownStatusesSendMetric()
+    {
+        $metricsClient = $this->createMock(MetricsClient::class);
+
+        // Test unknown status - should send metric
+        $metricsClient->expects($this->once())
+            ->method('sendEvent')
+            ->with(
+                'magento_order_status_unmapped',
+                'weird_status',
+                'Status not mapped in status machine'
+            );
+
+        $result = OrderApiStatusMapper::mapToPaymentApiStatus('weird_status', $metricsClient);
+        $this->assertEquals('weird_status', $result);
+    }
+}

@@ -253,8 +253,8 @@
                 <title>Pix</title>
                 <expiration>30</expiration>
                 <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
-                <paymentInfoKeys>mp_order_id,mp_payment_id_order,mp_payment_id,payment_method_id,payer_first_name,payer_last_name,payer_document_identification,qr_code,qr_code_base64,ticket_url,date_of_expiration,payer_document_type,mp_status,mp_status_detail</paymentInfoKeys>
-                <privateInfoKeys>mp_payment_id,ticket_url,payer_document_type,mp_status,mp_status_detail</privateInfoKeys>
+                <paymentInfoKeys>mp_order_id,mp_payment_id_order,mp_payment_id,payment_method_id,payer_first_name,payer_last_name,payer_document_identification,qr_code,qr_code_base64,ticket_url,date_of_expiration,payer_document_type,mp_status,mp_status_detail,mp_0_status,mp_0_status_detail</paymentInfoKeys>
+                <privateInfoKeys>mp_payment_id,ticket_url,payer_document_type,mp_status,mp_status_detail,mp_0_status,mp_0_status_detail</privateInfoKeys>
                 <payment_action>order</payment_action>
                 <can_initialize>1</can_initialize>
                 <is_gateway>1</is_gateway>

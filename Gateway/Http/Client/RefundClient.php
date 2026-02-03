@@ -130,7 +130,7 @@ class RefundClient implements ClientInterface
         $clientHeaders = $this->config->getClientHeadersMpPluginsPhpSdk($storeId);
 
         $paymentId = $request['payment_id'];
-        $order = $request['order'];
+        $order = $request['order'] ?? null;
         $idempotencyKey = $request[self::X_IDEMPOTENCY_KEY];
         unset($request['payment_id']);
         unset($request['order']);
@@ -139,8 +139,13 @@ class RefundClient implements ClientInterface
         $metadata = ['origem' => self::NOTIFICATION_ORIGIN];
         $uri = '/v1/payments/'.$paymentId.'/refunds';
 
-        $paymentIndexList = $order['payment']['additional_information']['payment_index_list'] ?? null;
-        if (isset($paymentIndexList) && sizeof($paymentIndexList) > 1) {
+        // Check if order exists and has multiple payments
+        $paymentIndexList = null;
+        if ($order) {
+            $paymentIndexList = $order['payment']['additional_information']['payment_index_list'] ?? null;
+        }
+
+        if ($order && isset($paymentIndexList) && sizeof($paymentIndexList) > 1) {
             return $this->placeMultipleRefunds($order, $client, $baseUrl, $request, $clientHeaders);
         }
 
