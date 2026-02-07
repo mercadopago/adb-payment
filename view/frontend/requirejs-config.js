@@ -13,9 +13,13 @@ let config = {
     },
     shim: {
         'mercadoPagoSkdJs': {
+            'exports': 'MercadoPago',
             'deps': ['jquery']
         }
     },
+    deps: [
+        'initMPCheckout'
+    ],
     config: {
         mixins: {
             'mage/validation': {
