@@ -5,13 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.15.0] - 2026-02-03
+## [1.15.0] - 2026-02-20
 ### Added
 - System now automatically supports both Order API and legacy Payment API transactions, with intelligent detection based on ID patterns and compatibility with existing flows
 
 ### Fixed
 - Fixed metrics reporting for unmapped statuses to avoid false positives
 - Fixed null pointer exception in notificationId extraction with proper validation
+- Fixed display of disabled payment methods at multi-address checkout
 
 ## [1.14.0] - 2026-01-05
 ### Added
