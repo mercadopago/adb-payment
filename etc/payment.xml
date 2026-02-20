@@ -16,28 +16,28 @@
     </groups>
     <methods>
         <method name="mercadopago_adbpayment_cc">
-            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_address>0</allow_multiple_address>
         </method>
         <method name="mercadopago_adbpayment_payment_methods_off">
-            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_address>0</allow_multiple_address>
         </method>
         <method name="mercadopago_adbpayment_pix">
-            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_address>0</allow_multiple_address>
         </method>
         <method name="mercadopago_adbpayment_pse">
-            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_address>0</allow_multiple_address>
         </method>
         <method name="mercadopago_adbpayment_webpay">
-            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_address>0</allow_multiple_address>
         </method>
         <method name="mercadopago_adbpayment_twocc">
-            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_address>0</allow_multiple_address>
         </method>
          <method name="mercadopago_adbpayment_checkout_credits">
-            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_address>0</allow_multiple_address>
         </method>
         <method name="mercadopago_adbpayment_yape">
-            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_address>0</allow_multiple_address>
         </method>
     </methods>
     <credit_cards>
