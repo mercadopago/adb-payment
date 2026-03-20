@@ -127,15 +127,14 @@ class RefundOrderClientTest extends TestCase
             'CONTENT_TYPE_JSON' => ['CONTENT_TYPE_JSON', 'Content-Type: application/json'],
             'ORDERS_REFUND_URI' => ['ORDERS_REFUND_URI', '/plugins-platforms/v1/orders/%s/refund'],
             'REFUND_AMOUNT' => ['REFUND_AMOUNT', 'amount'],
-            'REFUND_KEY' => ['REFUND_KEY', 'refund_key'],
-            'IS_PARTIAL_REFUND' => ['IS_PARTIAL_REFUND', 'is_partial_refund'],
+            'REFUND_KEY' => ['REFUND_KEY', 'refund_key']
         ];
     }
 
     /**
      * @dataProvider sanitizeRequestProvider
      */
-    public function testSanitizeRequestBehavior(array $request, bool $expectEmpty, ?array $expectedStructure): void
+    public function testSanitizeRequestBehavior(array $request, array $expectedStructure): void
     {
         $client = new PublicRefundOrderClient(
             $this->loggerMock,
@@ -149,13 +148,9 @@ class RefundOrderClientTest extends TestCase
 
         $result = $client->sanitizeRequest($request);
 
-        if ($expectEmpty) {
-            $this->assertEmpty($result);
-        } else {
-            $this->assertArrayHasKey('payments', $result);
-            $this->assertEquals($expectedStructure['id'], $result['payments'][0]['id']);
-            $this->assertEquals($expectedStructure['amount'], $result['payments'][0]['amount']);
-        }
+        $this->assertArrayHasKey('payments', $result);
+        $this->assertEquals($expectedStructure['id'], $result['payments'][0]['id']);
+        $this->assertEquals($expectedStructure['amount'], $result['payments'][0]['amount']);
     }
 
     /**
@@ -164,19 +159,16 @@ class RefundOrderClientTest extends TestCase
     public function sanitizeRequestProvider(): array
     {
         return [
-            'total refund returns empty' => [
-                ['mp_order_id' => 'PPORD123', 'amount' => '100.00', 'is_partial_refund' => false],
-                true,
-                null,
-            ],
-            'missing partial flag defaults to total' => [
+            'total refund without payment id returns null id' => [
                 ['mp_order_id' => 'PPORD123', 'amount' => '100.00'],
-                true,
-                null,
+                ['id' => null, 'amount' => '100.00'],
+            ],
+            'missing partial flag returns null id' => [
+                ['mp_order_id' => 'PPORD123', 'amount' => '100.00'],
+                ['id' => null, 'amount' => '100.00'],
             ],
             'partial refund returns structured payload' => [
-                ['mp_order_id' => 'PPORD123', 'mp_payment_id_order' => 'PPPAY456', 'amount' => '50.00', 'is_partial_refund' => true],
-                false,
+                ['mp_order_id' => 'PPORD123', 'mp_payment_id_order' => 'PPPAY456', 'amount' => '50.00'],
                 ['id' => 'PPPAY456', 'amount' => '50.00'],
             ],
         ];
@@ -354,7 +346,6 @@ class RefundOrderClientTest extends TestCase
             'mp_order_id' => '143625890728',
             'mp_payment_id_order' => 'PPPAY123',
             'refund_key' => 'key-123',
-            'is_partial_refund' => true,
             'amount' => 50.00,
             'store_id' => 1,
         ];
@@ -373,7 +364,6 @@ class RefundOrderClientTest extends TestCase
         $this->assertArrayNotHasKey('mp_order_id', $result);
         $this->assertArrayNotHasKey('refund_key', $result);
         $this->assertArrayNotHasKey('mp_payment_id_order', $result);
-        $this->assertArrayNotHasKey('is_partial_refund', $result);
 
         // Should keep common fields
         $this->assertArrayHasKey('amount', $result);

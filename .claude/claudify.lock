@@ -1,0 +1,176 @@
+{
+  "claudifyVersion": "1.0.2",
+  "generatedAt": "2026-03-18T00:00:00Z",
+  "projectName": "pp-adb-payment",
+  "detection": {
+    "languages": ["php"],
+    "frameworks": ["magento2"],
+    "runtime": "php",
+    "runtimeVersion": "7.3 | 7.4 | 8.1 | 8.2 | 8.3 | 8.4",
+    "packageManager": "composer",
+    "buildCommand": "docker-compose up -d --build",
+    "testCommand": "bash bin/run-test.sh",
+    "lintCommand": "bash bin/run-linters.sh",
+    "hasFuryFile": false,
+    "hasPreCommitConfig": true
+  },
+  "designSystem": {
+    "uiLibraries": [],
+    "styling": {},
+    "componentPatterns": {},
+    "stateManagement": {},
+    "detected": false
+  },
+  "layers": {
+    "api-interfaces": {
+      "paths": ["Api/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/api-interfaces.md"
+    },
+    "api-handlers": {
+      "paths": ["Controller/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/api-handlers.md"
+    },
+    "payment-gateway": {
+      "paths": ["Gateway/**/*.php"],
+      "technologies": ["php", "magento2", "mp-plugins/php-sdk"],
+      "ruleFile": ".claude/rules/payment-gateway.md"
+    },
+    "domain-model": {
+      "paths": ["Model/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/domain-model.md"
+    },
+    "helper": {
+      "paths": ["Helper/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/helper.md"
+    },
+    "observers": {
+      "paths": ["Observer/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/observers.md"
+    },
+    "plugins": {
+      "paths": ["Plugin/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/plugins.md"
+    },
+    "cron-jobs": {
+      "paths": ["Cron/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/cron-jobs.md"
+    },
+    "console-commands": {
+      "paths": ["Console/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/console-commands.md"
+    },
+    "setup-patches": {
+      "paths": ["Setup/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/setup-patches.md"
+    },
+    "observability": {
+      "paths": ["Model/Metrics/**/*.php"],
+      "technologies": ["php", "magento2"],
+      "ruleFile": ".claude/rules/observability.md"
+    },
+    "frontend-view": {
+      "paths": ["view/frontend/templates/**/*.phtml", "view/frontend/web/**/*", "view/frontend/layout/**/*.xml", "view/frontend/requirejs-config.js", "Block/**/*.php"],
+      "technologies": ["php", "magento2", "requirejs", "javascript", "knockout.js"],
+      "ruleFile": ".claude/rules/frontend-view.md"
+    },
+    "adminhtml-view": {
+      "paths": ["view/adminhtml/templates/**/*.phtml", "view/adminhtml/web/**/*", "view/adminhtml/layout/**/*.xml", "view/adminhtml/requirejs-config.js"],
+      "technologies": ["php", "magento2", "requirejs", "javascript"],
+      "ruleFile": ".claude/rules/adminhtml-view.md"
+    },
+    "module-config": {
+      "paths": ["etc/**/*.xml", "etc/**/*.json"],
+      "technologies": ["xml", "magento2"],
+      "ruleFile": ".claude/rules/module-config.md"
+    },
+    "i18n": {
+      "paths": ["i18n/**/*.csv"],
+      "technologies": ["csv"],
+      "ruleFile": ".claude/rules/i18n.md"
+    },
+    "testing-unit": {
+      "paths": ["Tests/Unit/**/*.php", "Tests/coverage-checker.php", "Tests/pr-coverage.php"],
+      "technologies": ["php", "phpunit"],
+      "ruleFile": ".claude/rules/testing-unit.md"
+    },
+    "testing-e2e": {
+      "paths": ["e2e/**/*.js"],
+      "technologies": ["javascript", "playwright"],
+      "ruleFile": ".claude/rules/testing-e2e.md"
+    },
+    "ci-cd": {
+      "paths": [".github/workflows/**/*.yml"],
+      "technologies": ["github-actions", "php"],
+      "ruleFile": ".claude/rules/ci-cd.md"
+    },
+    "scripts": {
+      "paths": ["bin/**/*", "build/**/*"],
+      "technologies": ["bash", "docker", "docker-compose"],
+      "ruleFile": ".claude/rules/scripts.md"
+    }
+  },
+  "generatedFiles": {
+    "CLAUDE.md": {"hash": "sha256:79fb5c4bb6c5eacdf30fde518f0c89f48005bcfed354f19faeed9a293d4c7607", "managed": true},
+    "AGENTS.md": {"hash": "sha256:7764725c4269f5779f4004e019f42112e75d0a9ab29bb68f2cb787c80651f37b", "managed": true},
+    ".claude/settings.json": {"hash": "sha256:5e8ed803f4ad2b6778dab99b620fd2f36e1223f3a25439ab8c11f9113b0b407a", "managed": "partial"},
+    ".claude/USAGE.md": {"hash": "sha256:c42b35a51aaec477fa72e609c82f099de62c68f313a7282715c3d4859cbb5127", "managed": true},
+    ".claude/rules/api-interfaces.md": {"hash": "sha256:402eacfcc36743b6d08a577f31911a09f0638a190b85e9080c450ae5ae5fd893", "managed": true},
+    ".claude/rules/api-handlers.md": {"hash": "sha256:805730a43e5ca2875ed3f0c4824de659216ab80c721201489816b76c46cb2dc6", "managed": true},
+    ".claude/rules/payment-gateway.md": {"hash": "sha256:fd6ddc8f1170c29f03cde0f44dd7c950889498ebdee21cc5f3dde4a0f293a5d9", "managed": true},
+    ".claude/rules/domain-model.md": {"hash": "sha256:48d0170ed7d23a11f2726ad94308d9ddc65bdacb3542630e8f3603c5b554fb32", "managed": true},
+    ".claude/rules/helper.md": {"hash": "sha256:e0fedb29b8d1d08c3b2bbabc3d2cbcf2466bef7f1257f8e515a5a7538b79e1c0", "managed": true},
+    ".claude/rules/observers.md": {"hash": "sha256:417dc59d61d82ae3f8a1e3bcc25360fa74defba8a1806b0c0fb9d8b1f84be8bb", "managed": true},
+    ".claude/rules/plugins.md": {"hash": "sha256:8570ff14fbd4b32e1b1c5fbc74ee43ca3979a7996d0fd2b1e2e658bef08d0a7e", "managed": true},
+    ".claude/rules/cron-jobs.md": {"hash": "sha256:6e5aea1112b23a28b12ad4247e20c18af7a00fa41d955142850084a28be4af60", "managed": true},
+    ".claude/rules/console-commands.md": {"hash": "sha256:effebdfc930260290310494587d9f018e97667a1c1d28eb29c58cfacfc33f6c7", "managed": true},
+    ".claude/rules/setup-patches.md": {"hash": "sha256:5e9d3522d569f491412019f6a6c6949918a2f9a12ad9d6aa0fbebe15ee8e4ca0", "managed": true},
+    ".claude/rules/observability.md": {"hash": "sha256:1701a6d0dee82a405a8f857fea8ada7c6bb7b58508691846870a4bb4f7a5f0c8", "managed": true},
+    ".claude/rules/frontend-view.md": {"hash": "sha256:a10341d7be0c37574147748f93e99b4a3b4d5b6d4ab7ae2916b22b8ec777846a", "managed": true},
+    ".claude/rules/adminhtml-view.md": {"hash": "sha256:1165fc956d59e1103be2bf877658448cc998077817ad2d332c6b5961a10dc87d", "managed": true},
+    ".claude/rules/module-config.md": {"hash": "sha256:8bca155e4f4677241fd2357e536b7878c960d5349930ae4382cdfccad2192276", "managed": true},
+    ".claude/rules/i18n.md": {"hash": "sha256:74fe8ee01193dc1780b0403b6dfe412ff0c4bfb03c243a070a503584c963953e", "managed": true},
+    ".claude/rules/testing-unit.md": {"hash": "sha256:4155643f0a5695120e817f428ea46d03fa0181b106813da21eaf241a41649293", "managed": true},
+    ".claude/rules/testing-e2e.md": {"hash": "sha256:9147ca075d2f742023695ed10e4f5e2de62ab9cbe3c5d28231492456d8411bce", "managed": true},
+    ".claude/rules/ci-cd.md": {"hash": "sha256:a2546eecc92e92ee8f24bd4bac48c2ef0c12a8b9532941152ec5df1ba0fed11e", "managed": true},
+    ".claude/rules/scripts.md": {"hash": "sha256:ecf6526dcc482a4511b1a4fc3810d915c42b9928ed4685fdf34b0f9f286e1c93", "managed": true},
+    ".claude/agents/test-runner.md": {"hash": "sha256:dc836506d6bf0f3923df0497347d8c3627f25df984cdd889c51c92d2b3c8d105", "managed": true},
+    ".claude/agents/researcher.md": {"hash": "sha256:28cd806dff7a52b32812a6302ea3a65e35da61dbadd290326f5f0d8090711026", "managed": true},
+    ".claude/agents/spec-writer.md": {"hash": "sha256:169f2bdbb3b68a53929de9403841ab55692fad9a6ef028f70f35f2eb2cbd413a", "managed": true},
+    ".claude/skills/run-tests/SKILL.md": {"hash": "sha256:9a64180787f1e4cf815c16bbd5b9ff213da1fc730c883f0bb5e6e0e2fc4de0fc", "managed": true},
+    ".claude/skills/fix-lint/SKILL.md": {"hash": "sha256:de45be46cc7b2126888140c3f584262863ffa2243672920dd44db0d78c30128b", "managed": true},
+    ".claude/skills/create-spec/SKILL.md": {"hash": "sha256:aa1491ce9bfb2863069a734e9a815c275ed14122171b9ffb3d91c254bf3c7362", "managed": true},
+    ".claude/skills/review-changes/SKILL.md": {"hash": "sha256:78074ad2e00896d049a3dcf0ea45775fa7155bdefa44d5e2ae0d79af563e4ee3", "managed": true},
+    ".claude/skills/commit/SKILL.md": {"hash": "sha256:639bac9852c37318bf160b676c5d9f40f5248daecb7211d4d6d1ed6b5d6a02a2", "managed": true},
+    ".claude/skills/pr-description/SKILL.md": {"hash": "sha256:2a6e82973234ca34de458252d807b9c595d901a3214510bbc15ea9e5c30ae3d4", "managed": true}
+  },
+  "securityRules": {
+    "technology": "php",
+    "agentsMdPath": "AGENTS.md",
+    "rulePath": null,
+    "generated": true,
+    "note": "PHP is not supported for local security rules by the AppSec MCP (api_error: Tecnología no soportada para reglas locales: php). AGENTS.md was generated with generic PHP guidelines."
+  },
+  "coverageConfig": {
+    "language": null,
+    "plugin": null,
+    "criticality": null,
+    "threshold": null,
+    "scriptPath": null,
+    "hookPath": null,
+    "generated": false,
+    "note": "Skipped — not a Fury application"
+  },
+  "installedPlugins": {
+    "official": ["commit-commands@claude-plugins-official", "github@claude-plugins-official"],
+    "marketplace": []
+  }
+}

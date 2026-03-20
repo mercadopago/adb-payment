@@ -41,11 +41,6 @@ class RefundOrderRequest implements BuilderInterface
     public const REFUND_KEY = 'refund_key';
 
     /**
-     * Is partial refund flag block name.
-     */
-    public const IS_PARTIAL_REFUND = 'is_partial_refund';
-
-    /**
      * MP Payment ID block name.
      */
     public const MP_PAYMENT_ID_ORDER = 'mp_payment_id_order';
@@ -89,8 +84,7 @@ class RefundOrderRequest implements BuilderInterface
             self::MP_ORDER_ID         => preg_replace('/-(capture|refund|void)+.*$/', '', $payment->getTransactionId()),
             self::MP_PAYMENT_ID_ORDER => $payment->getAdditionalInformation(self::MP_PAYMENT_ID_ORDER),
             self::REFUND_KEY          => $order->getIncrementId() . '-' . (string) $payment->getAmountRefunded(),
-            self::AMOUNT              => $refundAmount,
-            self::IS_PARTIAL_REFUND   => $orderTotal !== $refundAmount,
+            self::AMOUNT              => $refundAmount
         ];
     }
 }

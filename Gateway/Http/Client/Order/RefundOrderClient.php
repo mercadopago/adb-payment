@@ -115,11 +115,6 @@ class RefundOrderClient implements ClientInterface
     public const REFUND_KEY = 'refund_key';
 
     /**
-     * Is partial refund flag - Block name.
-     */
-    public const IS_PARTIAL_REFUND = 'is_partial_refund';
-
-    /**
      * @var Logger
      */
     protected $logger;
@@ -332,8 +327,7 @@ class RefundOrderClient implements ClientInterface
         unset(
             $request[self::MP_ORDER_ID],
             $request[self::REFUND_KEY],
-            $request[self::MP_PAYMENT_ID_ORDER],
-            $request[self::IS_PARTIAL_REFUND]
+            $request[self::MP_PAYMENT_ID_ORDER]
         );
 
         return $request;
@@ -386,14 +380,6 @@ class RefundOrderClient implements ClientInterface
      */
     protected function sanitizeRequest(array $request): array
     {
-        $isPartialRefund = $request[self::IS_PARTIAL_REFUND] ?? false;
-
-        // Total refund: empty payload
-        if (!$isPartialRefund) {
-            return [];
-        }
-
-        // Partial refund: structured payload
         return [
             self::PAYMENTS => [
                 [
