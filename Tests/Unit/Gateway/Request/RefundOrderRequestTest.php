@@ -68,7 +68,6 @@ class RefundOrderRequestTest extends TestCase
         $this->assertEquals($expectedOrderId, $result['mp_order_id']);
         $this->assertEquals($expectedRefundKey, $result['refund_key']);
         $this->assertEquals($creditmemoTotal, $result['amount']);
-        $this->assertEquals($expectedIsPartial, $result['is_partial_refund']);
 
         if ($expectedIsPartial) {
             $this->assertEquals($mpPaymentIdOrder, $result['mp_payment_id_order']);

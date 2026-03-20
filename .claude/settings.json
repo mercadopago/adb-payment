@@ -1,0 +1,45 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(printf '%s' \"$TOOL_INPUT\" | node -p \"try{JSON.parse(require('fs').readFileSync('/dev/stdin','utf8')).file_path}catch(e){''}\" 2>/dev/null); [ -n \"$FILE\" ] && [ -f \"$FILE\" ] && case \"$FILE\" in *.php) docker exec magento-php magento2/vendor/bin/phpcs -q --report=full --standard=Magento2 \"magento2/app/code/MercadoPago/AdbPayment/${FILE}\" 2>&1 | tail -20;; esac || true",
+            "timeout": 60000,
+            "onFailure": "warn"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Before finishing, verify: 1) No var_dump(), print_r(), error_log() debug statements left in modified PHP files 2) No TODO comments without ticket references 3) All modified PHP files follow Magento2 coding standard (phpcs) 4) PHPDoc annotations are present on all public methods"
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Bash(bash bin/run-test.sh)",
+      "Bash(bash bin/run-linters.sh)",
+      "Bash(bash bin/run-phpcs.sh)",
+      "Bash(bash bin/run-phpstan.sh)",
+      "Bash(bash bin/run-phpmd.sh)",
+      "Bash(docker-compose up *)",
+      "Bash(docker exec magento-php *)",
+      "Bash(make *)",
+      "Bash(composer *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git branch *)",
+      "Bash(cd e2e && npx playwright test *)"
+    ]
+  }
+}
