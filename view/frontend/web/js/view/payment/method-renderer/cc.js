@@ -252,7 +252,7 @@ define([
         },
 
         onPlaceOrderFail: function (response) {
-            if(response.responseJSON.message === '3DS') {
+            if (response.responseJSON?.message === '3DS') {
                 this.getThreeDSData();
                 $('.messages').hide();
             }
@@ -271,6 +271,12 @@ define([
                 async: true
             }).done(
                 (response) => {
+                    const validation = threeDs.validateThreeDSResponse(response);
+                    if (!validation.valid) {
+                        metrics.sendError('mp_3ds_error_invalid_response_cc', `missing fields in API response: ${validation.missingFields.join(', ')}`, 'mp_custom_checkout_three_ds');
+                        this.openModalChallenge(null, validation.errorMessage);
+                        return;
+                    }
                     this.threeDSDataResponse(response[0]);
                     this.openModalChallenge(response[0]);
                 }
@@ -281,18 +287,24 @@ define([
             );
         },
 
-        openModalChallenge: function (threeDSData) {
+        openModalChallenge: function (threeDSData, errorMessage) {
             var self = this;
 
             try {
+                self.destroyModal();
                 $('body').append(threeDs.createModalChallenge(self.generatedCards[0]?.cardNumber.slice(-4), self.generatedCards[0]?.cardType));
 
                 let $modalChallenge = $('#modal-3ds-challenge');
                 let popup = modal(this.getModalChallengeOptions(), $modalChallenge);
 
                 $modalChallenge.modal('openModal');
+
                 $(".modal-footer").hide();
 
+                if (errorMessage) {
+                    threeDs.showModalError($modalChallenge, errorMessage);
+                    return;
+                }
                 this.loadChallengeInfo(threeDSData);
                 this.addListenerResponseChallenge();
 
@@ -314,11 +326,10 @@ define([
                 type: 'popup',
                 responsive: false,
                 innerScroll: false,
-                title: $t('Complete the bank validation so your payment can be approved'), 
+                title: $t('Complete the bank validation so your payment can be approved'),
                 modalClass: 'modal-challenge',
                 closed: function () {
                     self.destroyModal();
-                    self.placeOrder();
                 }
             };
         },
@@ -327,6 +338,10 @@ define([
             var self = this;
             setTimeout(function() {
                 try {
+                    if (!document.getElementById('modal-3ds-challenge')) {
+                        return;
+                    }
+
                     $('#loading-area').remove();
                     $('#modal-3ds-challenge').append(threeDs.appendIframeContent());
 
@@ -361,7 +376,7 @@ define([
                 }
                 }, 3000)
         },
-       
+
         destroyModal() {
             $('#modal-3ds-challenge').remove();
         },
@@ -381,15 +396,15 @@ define([
             try {
                 const interval = 2000;
                 let elapsedTime = 0;
-          
+
                 const intervalId = setInterval(() => {
                     this.getPaymentStatus();
                     var paymentStatus = this.getPaymentStatusResponse();
-    
+
                     if (elapsedTime >= 10000 || paymentStatus.status === 'approved' || paymentStatus.status === 'rejected') {
                         $('#modal-3ds-challenge').modal('closeModal');
                         this.destroyModal();
-                        clearInterval(intervalId); 
+                        clearInterval(intervalId);
                         this.placeOrder();
                         metrics.sendMetric(
                             'mp_3ds_success_pooling_time',

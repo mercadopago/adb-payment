@@ -299,7 +299,7 @@ define([
                         self.installmentTextCFT(value);
                         break;
                 }
-            }); 
+            });
         },
 
         /**
@@ -333,6 +333,15 @@ define([
                         }
                     ).fail(
                         function (response) {
+                            var errorMsg = (response.responseJSON && response.responseJSON.message)
+                                || response.responseText
+                                || 'unknown error';
+
+                            metrics.sendError(
+                                'mp_vault_place_order_error',
+                                errorMsg,
+                                'mp_checkout_custom_vault'
+                            );
                             self.onPlaceOrderFail(response);
                         }
                 )
@@ -363,10 +372,19 @@ define([
                 self.placeOrder();
                 fullScreenLoader.stopLoader();
             }).catch((errors) => {
+                var errorList = Array.isArray(errors) ? errors : (errors ? [errors] : []),
+                    errorMessages = [];
 
-                _.map(errors, (error) => {
+                _.map(errorList, (error) => {
+                    errorMessages.push(error.message || String(error));
                     self.displayErrorInField(error);
                 });
+
+                metrics.sendError(
+                    'mp_vault_create_token_error',
+                    errorMessages.join('; '),
+                    'mp_checkout_custom_vault'
+                );
 
                 messageList.addErrorMessage({
                     message: $t('Unable to make payment, check card details.')
@@ -402,10 +420,9 @@ define([
          * @returns {Object}
          */
         getData() {
-            var self = this,
-                data;
+            var self = this;
 
-            data = {
+            return {
                 'method': self.getCode(),
                 'additional_data': {
                     'payer_document_type': self.getPayerDocumentType(),
@@ -418,11 +435,9 @@ define([
                     'card_type': self.getCardType(),
                     'public_hash': self.getToken(),
                     'mp_user_id': self.getMpUserId(),
-                    'mp_flow_id': self.generateMpFlowId()
+                    'mp_flow_id': utils.generateMpFlowId()
                 }
             };
-
-            return data;
         },
 
         /**
@@ -556,11 +571,11 @@ define([
             }).then((result) => {
                 if (result[0] && result[0].payer_costs) {
                     var listInstallments = result[0].payer_costs;
-    
+
                     if (self.getMpSiteId() === 'MCO' || self.getMpSiteId() === 'MPE' || self.getMpSiteId() === 'MLC') {
                         utils.addTextInterestForInstallment(listInstallments);
                     }
-    
+
                     self.creditCardListInstallments(result[0].payer_costs);
                 }
             });
@@ -569,12 +584,11 @@ define([
         },
 
         onPlaceOrderFail: function (response) {
-            var self = this;
-            if(response.responseJSON.message === '3DS') {
+            if (response.responseJSON?.message === '3DS') {
                 this.getThreeDSData();
                 $('.messages').hide();
             }
-        }, 
+        },
 
         getThreeDSData: function () {
             var serviceUrl = urlBuilder.createUrl('/quote/:quoteId/mp-payment-information', {
@@ -589,28 +603,40 @@ define([
                 async: true
             }).done(
                 (response) => {
+                    const validation = threeDs.validateThreeDSResponse(response);
+                    if (!validation.valid) {
+                        metrics.sendError('mp_3ds_error_invalid_response_vault', `missing fields in API response: ${validation.missingFields.join(', ')}`, 'mp_custom_checkout_three_ds');
+                        this.openModalChallenge(null, validation.errorMessage);
+                        return;
+                    }
                     this.threeDSDataResponse(response[0]);
                     this.openModalChallenge(response[0]);
                 }
             ).fail(
                 (response) => {
-                    this.errorProcessor.process(response);
+                    errorProcessor.process(response);
                 }
             );
         },
 
-        openModalChallenge: function (threeDSData) {
+        openModalChallenge: function (threeDSData, errorMessage) {
             var self = this;
 
             try {
+                self.destroyModal();
                 $('body').append(threeDs.createModalChallenge(self.details.card_last4, self.details.card_type));
 
                 let $modalChallenge = $('#modal-3ds-challenge');
                 let popup = modal(this.getModalChallengeOptions(), $modalChallenge);
 
                 $modalChallenge.modal('openModal');
+
                 $(".modal-footer").hide();
 
+                if (errorMessage) {
+                    threeDs.showModalError($modalChallenge, errorMessage);
+                    return;
+                }
                 this.loadChallengeInfo(threeDSData);
                 this.addListenerResponseChallenge();
 
@@ -632,11 +658,10 @@ define([
                 type: 'popup',
                 responsive: false,
                 innerScroll: false,
-                title: $t('Complete the bank validation so your payment can be approved'), 
+                title: $t('Complete the bank validation so your payment can be approved'),
                 modalClass: 'modal-challenge',
                 closed: function () {
                     self.destroyModal();
-                    self.placeOrder();
                 }
             };
         },
@@ -645,6 +670,10 @@ define([
             var self = this;
             setTimeout(function() {
                 try {
+                    if (!document.getElementById('modal-3ds-challenge')) {
+                        return;
+                    }
+
                     $('#loading-area').remove();
                     $('#modal-3ds-challenge').append(threeDs.appendIframeContent());
 
@@ -699,15 +728,15 @@ define([
             try {
                 const interval = 2000;
                 let elapsedTime = 0;
-          
+
                 const intervalId = setInterval(() => {
                     this.getPaymentStatus();
                     var paymentStatus = this.getPaymentStatusResponse();
-    
+
                     if (elapsedTime >= 10000 || paymentStatus.status === 'approved' || paymentStatus.status === 'rejected') {
                         $('#modal-3ds-challenge').modal('closeModal');
                         this.destroyModal();
-                        clearInterval(intervalId); 
+                        clearInterval(intervalId);
                         this.placeOrder();
                         metrics.sendMetric(
                             'mp_3ds_success_pooling_time',
