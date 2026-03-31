@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.15.2] - 2026-03-31
+### Fixed
+- Fixed error handling and validation in 3DS challenge flow and modal initialization
+- Fixed error handling in vault payment flow with error metrics support
+- Fixed safer response handling in credit card and vault order placement
+- Updated error messages for payment processing issues in multiple languages
+
 ## [1.15.1] - 2026-03-20
 ### Changed
 - Forces the sending of the refund amount with Orders API
