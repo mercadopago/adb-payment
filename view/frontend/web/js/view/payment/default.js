@@ -11,6 +11,7 @@ define([
     'Magento_Checkout/js/model/payment/additional-validators',
     'Magento_Checkout/js/action/redirect-on-success',
     'mpErrorObserver',
+    'MercadoPago_AdbPayment/js/view/payment/utils',
 ], function (
     _,
     Component,
@@ -18,6 +19,7 @@ define([
     additionalValidators,
     redirectOnSuccessAction,
     mpErrorObserver,
+    utils,
 ) {
     'use strict';
 
@@ -59,51 +61,10 @@ define([
             self.generateMpFlowId();
         },
 
-        
 
-        generateUUIDV4() {
-            if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-                return crypto.randomUUID();
-            }
-    
-            if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
-                return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-                    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-                )
-            }
-    
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(substring) {
-                const randomInteger = Math.random() * 16 | 0;
-                const uuidV4Digit = substring === 'x' ? randomInteger : (randomInteger & 0x3 | 0x8);
-                return uuidV4Digit.toString(16);
-            });
-        },
 
-        /**
-         * Get or create MercadoPago Flow ID
-         * Store value in sessionStorage
-         * @returns {String} Flow ID
-         */
         generateMpFlowId() {
-            const sessionKey = '_mp_flow_id';
-            let flowId = null;
-
-            if (typeof window.mp !== 'undefined' && 
-                typeof window.mp.getSDKInstanceId === 'function') {
-                flowId = window.mp.getSDKInstanceId();
-            }
-
-            if (!flowId) {
-                flowId = sessionStorage.getItem(sessionKey);
-            }
-
-            if (!flowId) {
-                flowId = this.generateUUIDV4();
-            }
-
-            sessionStorage.setItem(sessionKey, flowId);
-
-            return flowId;
+            return utils.generateMpFlowId();
         },
 
         /**

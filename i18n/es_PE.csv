@@ -267,6 +267,7 @@ Webpay,Webpay
 "Your payment was declined. We recommend that you use the device and payment method you usually use for online shopping.","Tu pago fue rechazado. Recomendamos que utilices el dispositivo y el medio de pago que sueles usar para compras online."
 "It was not possible to complete the payment. Please use another method to complete the purchase.","No pudimos completar el pago. Usa otro medio para finalizar tu compra."
 "It was not possible to complete the payment due to a communication error. Please try again later or use another payment method.","No pudimos completar el pago por una falla de comunicación. Inténtalo más tarde o usa otro medio de pago."
+"It was not possible to complete your payment due to a processing error. Please try again later or use another payment method.","No fue posible finalizar el pago por un error de procesamiento. Intenta de nuevo más tarde o usa otro medio de pago."
 "Offline Payments Methods","Medios de Pago OFF"
 "Exclude Payment Methods","Excluir métodos de pago"
 "Select the payment methods you do NOT want to accept.","Seleccione los métodos de pago que NO desea aceptar."
