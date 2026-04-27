@@ -8,49 +8,13 @@
 
 namespace MercadoPago\AdbPayment\Model\Adminhtml\Source;
 
-use Exception;
 use Magento\Framework\Option\ArrayInterface;
-use Magento\Framework\Serialize\Serializer\Json;
-use Magento\Payment\Model\Method\Logger;
-use MercadoPago\AdbPayment\Gateway\Config\Config as MercadoPagoConfig;
-use MercadoPago\PP\Sdk\HttpClient\HttpClient;
-use MercadoPago\PP\Sdk\HttpClient\Requester\CurlRequester;
 
 /**
  * Categories Options in Mercado Pago.
  */
 class Category implements ArrayInterface
 {
-    /**
-     * @var Logger
-     */
-    protected $logger;
-
-    /**
-     * @var MercadoPagoConfig
-     */
-    protected $mercadopagoConfig;
-
-    /**
-     * @var Json
-     */
-    protected $json;
-
-    /**
-     * @param Logger            $logger
-     * @param MercadoPagoConfig $mercadopagoConfig
-     * @param Json              $json
-     */
-    public function __construct(
-        Logger $logger,
-        MercadoPagoConfig $mercadopagoConfig,
-        Json $json
-    ) {
-        $this->logger = $logger;
-        $this->mercadopagoConfig = $mercadopagoConfig;
-        $this->json = $json;
-    }
-
     /**
      * Returns Options.
      *
@@ -59,15 +23,14 @@ class Category implements ArrayInterface
     public function toOptionArray(): array
     {
         $options = [];
-        $categories = $this->getAllCategories();
         $options[] = [
             'value' => '',
             'label' => __('Please select a category'),
         ];
-        foreach ($categories as $categorie) {
+        foreach ($this->getAllCategories() as $category) {
             $options[] = [
-                'value' => $categorie['id'],
-                'label' => __($categorie['description']),
+                'value' => $category['id'],
+                'label' => __($category['description']),
             ];
         }
 
@@ -75,32 +38,55 @@ class Category implements ArrayInterface
     }
 
     /**
-     * Get New Token.
-     *
-     * @param int $storeId
+     * Returns static list of MercadoPago item categories.
      *
      * @return array
      */
-    protected function getAllCategories(int $storeId = 0): array
+    protected function getAllCategories(): array
     {
-        $requester = new CurlRequester();
-        $baseUrl = $this->mercadopagoConfig->getApiUrl();
-        $client  = new HttpClient($baseUrl, $requester);
-
-        $uri = '/item_categories';
-        $clientHeaders = $this->mercadopagoConfig->getClientHeadersNoAuthMpPluginsPhpSdk($storeId);
-
-        try {
-            $result = $client->get($uri, $clientHeaders);
-            $response = (array)$result->getData();
-            $this->logger->debug([$client]);
-            $this->logger->debug((array)$response);
-
-            return $response;
-        } catch (Exception $e) {
-            $this->logger->debug(['error' => $e->getMessage()]);
-
-            return [];
-        }
+        return [
+            ['id' => 'art', 'description' => 'Collectibles & Art'],
+            ['id' => 'baby', 'description' => 'Toys for Baby, Stroller, Stroller Accessories, Car Safety Seats'],
+            ['id' => 'coupons', 'description' => 'Coupons'],
+            ['id' => 'donations', 'description' => 'Donations'],
+            ['id' => 'computing', 'description' => 'Computers & Tablets'],
+            ['id' => 'cameras', 'description' => 'Cameras & Photography'],
+            ['id' => 'video_games', 'description' => 'Video Games & Consoles'],
+            ['id' => 'television', 'description' => 'LCD, LED, Smart TV, Plasmas, TVs'],
+            [
+                'id' => 'car_electronics',
+                'description' => 'Car Audio, Car Alarm Systems & Security, Car DVRs, Car Video Players, Car PC',
+            ],
+            ['id' => 'electronics', 'description' => 'Audio & Surveillance, Video & GPS, Others'],
+            ['id' => 'automotive', 'description' => 'Parts & Accessories'],
+            [
+                'id' => 'entertainment',
+                'description' => 'Music, Movies & Series, Books, Magazines & Comics, Board Games & Toys',
+            ],
+            [
+                'id' => 'fashion',
+                'description' => "Men's, Women's, Kids & baby, Handbags & Accessories,"
+                    . " Health & Beauty, Shoes, Jewelry & Watches",
+            ],
+            ['id' => 'games', 'description' => 'Online Games & Credits'],
+            ['id' => 'home', 'description' => 'Home appliances. Home & Garden'],
+            ['id' => 'musical', 'description' => 'Instruments & Gear'],
+            ['id' => 'phones', 'description' => 'Cell Phones & Accessories'],
+            ['id' => 'services', 'description' => 'General services'],
+            ['id' => 'learnings', 'description' => 'Trainings, Conferences, Workshops'],
+            [
+                'id' => 'tickets',
+                'description' => 'Tickets for Concerts, Sports, Arts, Theater, Family,'
+                    . ' Excursions tickets, Events & more',
+            ],
+            ['id' => 'travels', 'description' => 'Plane tickets, Hotel vouchers, Travel vouchers'],
+            [
+                'id' => 'virtual_goods',
+                'description' => 'E-books, Music Files, Software, Digital Images, PDF Files and any item'
+                    . ' which can be electronically stored in a file, Mobile Recharge, DTH Recharge'
+                    . ' and any Online Recharge',
+            ],
+            ['id' => 'others', 'description' => 'Other categories'],
+        ];
     }
 }

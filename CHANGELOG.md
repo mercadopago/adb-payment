@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.15.3] - 2026-04-24
+### Changed
+- Replaced HTTP call to `/item_categories` endpoint with a static hardcoded array, removing dependency on the deprecated `checkout-off-api-v1` application
+
 ## [1.15.2] - 2026-03-31
 ### Fixed
 - Fixed error handling and validation in 3DS challenge flow and modal initialization
