@@ -12,3 +12,7 @@ build/credentials/auth.json
 build/certs/*.csr
 build/certs/*.key
 build/certs/*.pem
+
+.claude/
+CLAUDE.md
+AGENTS.md
