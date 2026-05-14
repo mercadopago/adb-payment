@@ -1,0 +1,21 @@
+.gitignore
+  s_88e80d32d5a4d4::t_1eb7387c21cb22 16-18
+CHANGELOG.md
+  s_88e80d32d5a4d4::t_9a19f90140d730 9-10,13,15-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.8",
+  "base_commit_sha": "26fc76faa321fb8677dbdcd5a785f87863859123",
+  "prompts": {},
+  "sessions": {
+    "s_88e80d32d5a4d4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c63c11bc-18d8-460b-aa34-fa1a94c1f7ee",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "anacarolinaferr <anacarolina.ferreira@mercadolivre.com>"
+    }
+  }
+}
