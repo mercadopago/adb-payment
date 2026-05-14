@@ -107,15 +107,25 @@ class MerchantPaymentMethods implements ArrayInterface
         $baseUrl = $this->mercadopagoConfig->getApiUrl();
         $client  = new HttpClient($baseUrl, $requester);
 
-        $uri = '/v1/payment_methods';
-        $clientHeaders = $this->mercadopagoConfig->getClientHeadersMpPluginsPhpSdk($storeId);
+        $isSandbox = $this->mercadopagoConfig->getEnvironmentMode($storeId) === MercadoPagoConfig::ENVIRONMENT_SANDBOX;
+        $urisScope = $isSandbox ? 'beta' : 'prod';
+        $uri = '/ppcore/' . $urisScope . '/payment-methods/v1/payment-methods';
+        $clientHeaders = $this->mercadopagoConfig->getClientHeadersNoAuthMpPluginsPhpSdk($storeId);
+        $clientHeaders[] = 'Authorization: ' . $this->mercadopagoConfig->getMerchantGatewayClientId($storeId);
 
         try {
             $result = $client->get($uri, $clientHeaders);
             $data = $result->getData();
-            $this->logger->debug((array)$data);
 
-            if (!isset($data['error'])) {
+            if ($result->getStatus() > 299) {
+                $this->logger->debug(
+                    [
+                        'url'      => $baseUrl . $uri,
+                        'status'   => $result->getStatus(),
+                        'response' => $data,
+                    ]
+                );
+            } elseif (!isset($data['error'])) {
                 $response = array_merge(
                     ['success' => true],
                     ['methods' => $data]

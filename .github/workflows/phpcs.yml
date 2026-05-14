@@ -21,13 +21,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
 
       - name: Install extensions gd and zip
         run: sudo apt-get update && sudo apt-get install -y php8.1-gd && sudo apt-get install -y php8.1-zip
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # v2
         with:
           php-version: "8.1"
           extensions: curl, dom, intl, json, openssl
@@ -42,7 +42,7 @@ jobs:
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Setup cache
-        uses: pat-s/always-upload-cache@v1.1.4
+        uses: pat-s/always-upload-cache@151952854ebbda29086f403819435c7d2b11a217 # v1.1.4
         env:
           COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
         with:

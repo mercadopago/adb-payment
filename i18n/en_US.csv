@@ -546,3 +546,4 @@ Webpay,Webpay
 "Address Line %1 is selected for both '%2' and '%3'","Address Line %1 is selected for both '%2' and '%3'"
 "Address configuration error: %1","Address configuration error: %1"
 "Fixed rate","Fixed rate"
+"The order amount does not meet the minimum required to use installments without card. Please add more items to your cart or choose another payment method.","The order amount does not meet the minimum required to use installments without card. Please add more items to your cart or choose another payment method."

@@ -136,7 +136,7 @@ class CreateOrderPaymentCheckoutProClient implements ClientInterface
      *
      * @param array $items
      * @param float $transactionAmount
-     * 
+     *
      * @return array
      */
     protected function prepareItemsWithDiscount(array $items, float $transactionAmount): array {
@@ -154,15 +154,13 @@ class CreateOrderPaymentCheckoutProClient implements ClientInterface
 
         if (abs($total - $transactionAmount) >= 0.01) {
             $discount = round($transactionAmount - $total, 2);
-            if ($discount > 0) {
-                $discount = -abs($discount);
-            }
             if ($discount != 0.0) {
+                $isDiscount = $discount < 0;
                 $validItems[] = [
-                    'id' => 'store_discount',
-                    'title' => 'Store Discount',
+                    'id'         => $isDiscount ? 'store_discount' : 'store_adjustment',
+                    'title'      => $isDiscount ? 'Store Discount' : 'Store Adjustment',
                     'unit_price' => $discount,
-                    'quantity' => 1
+                    'quantity'   => 1
                 ];
             }
         }

@@ -196,7 +196,7 @@ class ItemsAndDatailsCostDataRequest implements BuilderInterface
                 self::ITEM_TITLE        => __('Tax'),
                 self::ITEM_DESCRIPTION  => __('Tax'),
                 self::ITEM_QUANTITY     => 1,
-                self::ITEM_UNIT_PRICE   => $this->config->formatPrice($taxAmount),
+                self::ITEM_UNIT_PRICE   => $this->config->formatPrice($taxAmount, $storeId),
                 self::ITEM_CATEGORY_ID  => $this->config->getMpCategory($storeId),
             ];
         }
@@ -226,7 +226,7 @@ class ItemsAndDatailsCostDataRequest implements BuilderInterface
                 self::ITEM_TITLE        => $orderAdapter->getDiscountDescription(),
                 self::ITEM_DESCRIPTION  => $orderAdapter->getDiscountDescription(),
                 self::ITEM_QUANTITY     => 1,
-                self::ITEM_UNIT_PRICE   => $this->config->formatPrice($discountAmount),
+                self::ITEM_UNIT_PRICE   => $this->config->formatPrice($discountAmount, $storeId),
                 self::ITEM_CATEGORY_ID  => $this->config->getMpCategory($storeId),
             ];
         }
@@ -256,7 +256,7 @@ class ItemsAndDatailsCostDataRequest implements BuilderInterface
                 self::ITEM_TITLE        => $orderAdapter->getShippingDescription(),
                 self::ITEM_DESCRIPTION  => $orderAdapter->getShippingDescription(),
                 self::ITEM_QUANTITY     => 1,
-                self::ITEM_UNIT_PRICE   => $this->config->formatPrice($shippingAmount),
+                self::ITEM_UNIT_PRICE   => $this->config->formatPrice($shippingAmount, $storeId),
                 self::ITEM_CATEGORY_ID  => $this->config->getMpCategory($storeId),
             ];
         }

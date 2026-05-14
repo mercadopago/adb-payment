@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.15.4] - 2026-05-12
+### Fixed
+- Fixed total calculation in Checkout Pro when coupon is applied (PPSP-1260)
+
+### Changed
+- Migrated payment methods endpoint from legacy to Core API (PSW-2841)
+
+### Added
+- Added user-friendly error message for Credits MLC minimum amount validation (PPSP-975)
+
 ## [1.15.3] - 2026-04-24
 ### Changed
 - Replaced HTTP call to `/item_categories` endpoint with a static hardcoded array, removing dependency on the deprecated `checkout-off-api-v1` application
