@@ -408,11 +408,11 @@ Webpay,Webpay
 "Your payment was declined because some of your second card details are incorrect. We reversed the payment on the first card. Please check the information to complete the purchase.","Tu pago fue rechazado porque algún dato en la segunda tarjeta es incorrecto. Hemos realizado el reembolso en tu primera tarjeta. Verifica la información para finalizar la compra."
 "Your payment on the second card was declined. We reversed the payment on the first card. We recommend that you use the device and payment method you usually use for online shopping.","Tu pago en la segunda tarjeta fue rechazado. Hemos realizado el reembolso en tu primera tarjeta. Recomendamos que utilices el dispositivo y el medio de pago que sueles usar para compras online."
 "<strong>Buy in up to 12x without a credit card</strong>", "<strong>Compra en hasta 12 pagos sin tarjeta de crédito</strong>"
-"Find out the available limit of your credit line and choose the number of installment.", "<strong>Conoce el límite disponible</strong> de tu Línea de Crédito y <strong>elige la cantidad de pagos.</strong>"
+"Find out the available limit of your credit line and choose the number of installment.", "<strong>Conoce tu monto disponible</strong> y <strong>elige la cantidad de pagos.</strong>"
 "Confirm your payment. It is approved instantly and is 100% protected.", "<strong>Confirma tu pago</strong>, se acredita al instante y está 100% protegido."
 "Pay every month through your Mercado Pago account using the payment method you prefer.", "<strong>Paga mes a mes</strong> desde la app de Mercado Pago con el medio que prefieras."
 "We will redirect you to Mercado Pago", "<strong>Te llevaremos a Mercado Pago</strong>"
-"If you don't already have the Mercado Pago Credit Line, simply activate it when paying.", "Si aún no tenés la Línea de Crédito, activala al momento de pagar."
+"If you don't already have the Mercado Pago Credit Line, simply activate it when paying.", "Si aún no tenés un monto disponible, activalo al momento de pagar."
 
 ----------Bad Filled------------------------
 "You entered one or more details of the first card incorrectly. Please enter them again correctly. Do not worry, no fees were charged on the second payment method.","Ingresaste uno o más datos de la primera tarjeta de forma incorrecta. Vuelve a ingresarlos tal como figuran en la tarjeta. No te preocupes, no cobramos ningún cargo en el segundo medio de pago."
@@ -548,3 +548,4 @@ medio de pago, no te preocupes, será devuelto automáticamente."
 "Address Line %1 is selected for both '%2' and '%3'","La línea de dirección %1 está seleccionada tanto para '%2' como para '%3'"
 "Address configuration error: %1","Error de configuración de dirección: %1"
 "Fixed rate","Tasa fija"
+"The order amount does not meet the minimum required to use installments without card. Please add more items to your cart or choose another payment method.","El monto del pedido no alcanza el mínimo requerido para usar Cuotas sin Tarjeta. Agrega más artículos al carrito o elige otro método de pago."

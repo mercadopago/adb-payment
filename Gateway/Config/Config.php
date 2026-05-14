@@ -96,8 +96,8 @@ class Config extends PaymentConfig
      * @param ProductMetadataInterface $productMetadata
      * @param ResourceInterface        $resourceModule
      * @param ScopeConfigInterface     $scopeConfig
-     * @param Json                     $json
      * @param Logger                   $logger
+     * @param Json                     $json
      * @param ModuleListInterface      $moduleList
      * @param string                   $methodCode
      */
@@ -126,10 +126,13 @@ class Config extends PaymentConfig
      *
      * @return Sdk
      */
-    public function getSdkInstance(?int $storeId = null): Sdk {
+    public function getSdkInstance(?int $storeId = null): Sdk
+    {
         $oauth = $this->getMerchantGatewayClientSecret($storeId);
         $integratorId = $this->getMerchantGatewayIntegratorId($storeId);
-        if(is_null($integratorId)) $integratorId = '';
+        if ($integratorId === null) {
+            $integratorId = '';
+        }
 
         try {
             $sdk = new Sdk($oauth, self::PLATAFORM_ID, self::PRODUCT_ID, $integratorId);
@@ -361,12 +364,12 @@ class Config extends PaymentConfig
     public function getModuleVersion(): ?string
     {
         $version = $this->resourceModule->getDbVersion('MercadoPago_AdbPayment');
-        
+
         if ($version === null) {
             $moduleInfo = $this->moduleList->getOne('MercadoPago_AdbPayment');
             $version = $moduleInfo['setup_version'] ?? null;
         }
-        
+
         return $version;
     }
 
@@ -554,14 +557,16 @@ class Config extends PaymentConfig
         $baseUrl = $this->getApiUrl();
         $client  = new HttpClient($baseUrl, $requester);
 
-        $uri = '/v1/bifrost/payment-methods';
-        $clientHeaders = $this->getClientHeadersMpPluginsPhpSdk($storeId);
+        $urisScope = $this->getEnvironmentMode($storeId) === self::ENVIRONMENT_SANDBOX ? 'beta' : 'prod';
+        $uri = '/ppcore/' . $urisScope . '/payment-methods/v1/payment-methods';
+        $clientHeaders = $this->getClientHeadersNoAuthMpPluginsPhpSdk($storeId);
+        $clientHeaders[] = 'Authorization: ' . $this->getMerchantGatewayClientId($storeId);
 
         try {
             $result = $client->get($uri, $clientHeaders);
             $response = $result->getData();
 
-            if($result->getStatus() > 299) {
+            if ($result->getStatus() > 299) {
                 $this->logger->debug(
                     [
                         'url'       => $baseUrl . $uri,

@@ -16,3 +16,4 @@ build/certs/*.pem
 .claude/
 CLAUDE.md
 AGENTS.md
+.env.release

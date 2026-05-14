@@ -547,3 +547,4 @@ Webpay,Webpay
 "Address Line %1 is selected for both '%2' and '%3'","A linha de endereço %1 está selecionada tanto para '%2' quanto para '%3'"
 "Address configuration error: %1","Erro de configuração de endereço: %1"
 "Fixed rate","Taxa fixa"
+"The order amount does not meet the minimum required to use installments without card. Please add more items to your cart or choose another payment method.","O valor do pedido não atinge o mínimo necessário para usar parcelas sem cartão. Adicione mais itens ao seu carrinho ou escolha outro método de pagamento."
