@@ -1,0 +1,19 @@
+.gitignore
+  s_9a2a9ad358b021::t_37c0deff41fafc 15-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "0983fbedd1deeb58dbec4bc9e2fb923febbf5fee",
+  "prompts": {},
+  "sessions": {
+    "s_9a2a9ad358b021": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c183954-b705-4194-a4cc-04bff0499f19",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "anacarolinaferr <anacarolina.ferreira@mercadolivre.com>"
+    }
+  }
+}
