@@ -53,17 +53,27 @@ class FetchOrderStatus extends Command
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
+     *
+     * @return int
      */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
-        $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
-        $this->fetchStatus->setOutput($output);
+    ): int {
+        try {
+            $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
+            $this->fetchStatus->setOutput($output);
 
-        $orderId = $input->getArgument(self::ORDER_ID);
+            $orderId = $input->getArgument(self::ORDER_ID);
 
-        return $this->fetchStatus->fetch($orderId);
+            $this->fetchStatus->fetch($orderId);
+
+            return Command::SUCCESS;
+        } catch (\Throwable $e) {
+            $output->writeln('<error>' . $e->getMessage() . '</error>');
+
+            return Command::FAILURE;
+        }
     }
 
     /**

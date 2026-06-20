@@ -11,6 +11,7 @@ namespace MercadoPago\AdbPayment\Console\Command\Notification;
 
 use Magento\Framework\App\State;
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\CheckoutCreditsAddChildPayment;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -49,18 +50,28 @@ class CheckoutCreditsAddChild extends ChechoutProAddChild
      *
      * @param InputInterface  $input
      * @param OutputInterface $output
+     *
+     * @return int
      */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
-        $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
-        $this->checkoutCreditsAddChild->setOutput($output);
+    ): int {
+        try {
+            $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
+            $this->checkoutCreditsAddChild->setOutput($output);
 
-        $orderId = $input->getArgument(self::ORDER_ID);
-        $transactionId = $input->getArgument(self::CHILD);
+            $orderId = $input->getArgument(self::ORDER_ID);
+            $transactionId = $input->getArgument(self::CHILD);
 
-        return $this->checkoutCreditsAddChild->add($orderId, $transactionId);
+            $this->checkoutCreditsAddChild->add($orderId, $transactionId);
+
+            return Command::SUCCESS;
+        } catch (\Throwable $e) {
+            $output->writeln('<error>' . $e->getMessage() . '</error>');
+
+            return Command::FAILURE;
+        }
     }
 
     /**
