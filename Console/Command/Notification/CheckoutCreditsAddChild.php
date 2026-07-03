@@ -53,14 +53,16 @@ class CheckoutCreditsAddChild extends ChechoutProAddChild
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
         $this->checkoutCreditsAddChild->setOutput($output);
 
         $orderId = $input->getArgument(self::ORDER_ID);
         $transactionId = $input->getArgument(self::CHILD);
 
-        return $this->checkoutCreditsAddChild->add($orderId, $transactionId);
+        $this->checkoutCreditsAddChild->add($orderId, $transactionId);
+
+        return 0;
     }
 
     /**

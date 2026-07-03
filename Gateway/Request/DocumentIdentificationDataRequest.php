@@ -37,6 +37,11 @@ class DocumentIdentificationDataRequest implements BuilderInterface
     public const IDENTIFICATION_NUMBER = 'number';
 
     /**
+     * CNPJ document type value.
+     */
+    public const DOCUMENT_TYPE_CNPJ = 'CNPJ';
+
+    /**
      * @var SubjectReader
      */
     protected $subjectReader;
@@ -143,6 +148,14 @@ class DocumentIdentificationDataRequest implements BuilderInterface
 
         if (!$docIdentification) {
             $docIdentification = $this->getValueForDocumentIdentification($orderAdapter);
+        }
+
+        // Alphanumeric CNPJ (RFB Technical Note 49) uses uppercase letters. Normalize here so
+        // every consumer of the fiscal number (payment + additional info) sends it consistently.
+        if ($docIdentification
+            && $payment->getAdditionalInformation('payer_document_type') === self::DOCUMENT_TYPE_CNPJ
+        ) {
+            $docIdentification = strtoupper((string) $docIdentification);
         }
 
         return $docIdentification;

@@ -13,7 +13,7 @@ build/certs/*.csr
 build/certs/*.key
 build/certs/*.pem
 
-.claude/
-CLAUDE.md
-AGENTS.md
+.claude/settings.json
+.claude/settings.local.json
 .env.release
+.env.remote

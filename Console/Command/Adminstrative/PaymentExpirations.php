@@ -62,14 +62,16 @@ class PaymentExpirations extends Command
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
         $this->paymentExpiration->setOutput($output);
 
         $preferenceId = $input->getArgument(self::PREFERENCE_ID);
         $storeId = $input->getArgument(self::STORE_ID);
 
-        return $this->paymentExpiration->expire($preferenceId, $storeId);
+        $this->paymentExpiration->expire($preferenceId, $storeId);
+
+        return 0;
     }
 
     /**

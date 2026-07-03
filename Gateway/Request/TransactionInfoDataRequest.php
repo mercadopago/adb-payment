@@ -120,7 +120,7 @@ class TransactionInfoDataRequest implements BuilderInterface
 
         for ($i = 0; $i < self::NUM_CARDS; $i++):
             $cardInfo = [
-                self::TRANSACTION_AMOUNT => $this->config->formatPrice((double) $payment->getAdditionalInformation('card_'.$i.'_amount'), $order->getStoreId()),
+                self::TRANSACTION_AMOUNT => $this->config->formatPrice((float) $payment->getAdditionalInformation('card_'.$i.'_amount'), $order->getStoreId()),
                 self::INSTALLMENTS       => (int) $payment->getAdditionalInformation('card_'.$i.'_installments') ?: 1,
                 self::TOKEN              => $payment->getAdditionalInformation('card_'.$i.'_number_token'),
                 self::PAYMENT_METHOD_ID  => strtolower((string) $payment->getAdditionalInformation('card_'.$i.'_type')),

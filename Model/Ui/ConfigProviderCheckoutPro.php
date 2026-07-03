@@ -127,7 +127,12 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
         $asset = $this->ccConfig->createAsset('MercadoPago_AdbPayment::images/checkout-pro/logo.svg');
         $placeholder = $this->assetSource->findSource($asset);
         if ($placeholder) {
-            list($width, $height) = getimagesizefromstring($asset->getSourceFile());
+            libxml_use_internal_errors(true);
+            $svgData = simplexml_load_file($asset->getSourceFile());
+            libxml_clear_errors();
+            libxml_use_internal_errors(false);
+            $width = $svgData ? (string)($svgData["width"] ?? null) : null;
+            $height = $svgData ? (string)($svgData["height"] ?? null) : null;
             $logo = [
                 'url'    => $asset->getUrl(),
                 'width'  => $width,
@@ -184,7 +189,7 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
                     }
                 }
             }
-    
+
         return $this->icons;
     }
 
