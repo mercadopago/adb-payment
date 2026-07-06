@@ -57,13 +57,15 @@ class FetchMerchantInfo extends Command
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
         $this->fetchMerchant->setOutput($output);
 
         $storeId = $input->getArgument(self::STORE_ID);
 
-        return $this->fetchMerchant->fetch($storeId);
+        $this->fetchMerchant->fetch($storeId);
+
+        return 0;
     }
 
     /**

@@ -101,7 +101,7 @@ define([
             let self = this;
 
             this._super();
-            
+
             self.amount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
 
             self.installmentsAmount(self.FormattedCurrencyToInstallments(quote.totals().base_grand_total));
@@ -295,7 +295,14 @@ define([
             }
 
             if (self.mpPayerDocument()) {
-                self.mpPayerDocument(self.mpPayerDocument().replace(/\W/g, ''));
+                // Normalize the stored value (not just the validation copy) before tokenization:
+                // alphanumeric CNPJ must be uppercase for the MP SDK/services. Scoped to CNPJ so
+                // documents from other countries are left unchanged.
+                self.mpPayerDocument(
+                    self.mpPayerType() === 'CNPJ'
+                        ? self.mpPayerDocument().replace(/[^A-Z0-9]/gi, '').toUpperCase()
+                        : self.mpPayerDocument().replace(/\W/g, '')
+                );
             }
 
             fullScreenLoader.startLoader();
@@ -500,7 +507,7 @@ define([
             }
 
             self.installmentTextInfo(true);
-            
+
             Object.entries(formatedFees).forEach(([key, value]) => {
                 switch (key) {
                     case 'TNA':
@@ -513,9 +520,9 @@ define([
                         self.installmentTextCFT(value);
                         break;
                 }
-            }); 
+            });
         },
-        
+
         formatedAmountWithSymbol(amount) {
             return this.currencySymbol() + ' ' + amount;
         },
@@ -726,7 +733,7 @@ define([
          * @return {Jquery}
          */
          clearMinValueError(){
-            return $('.mp-message-error').remove(); 
+            return $('.mp-message-error').remove();
         },
 
         /**
@@ -746,17 +753,17 @@ define([
                 const tokenYape = await yape.create();
 
                 self.mpYapeTokenId(tokenYape.id);
-                metrics.sendMetric('mp_yape_token_success', 
-                    'Yape token successfully generated', 
-                    'big', 
+                metrics.sendMetric('mp_yape_token_success',
+                    'Yape token successfully generated',
+                    'big',
                     'mp_checkout_custom_yape'
                 );
 
                 return true;
             } catch(e) {
                 const message = e.message || e;
-                metrics.sendError('mp_yape_token_error', 
-                    message, 
+                metrics.sendError('mp_yape_token_error',
+                    message,
                     'mp_checkout_custom_yape'
                 );
                 return false;

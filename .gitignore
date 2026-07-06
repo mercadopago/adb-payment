@@ -17,3 +17,8 @@ build/certs/*.pem
 CLAUDE.md
 AGENTS.md
 .env.release
+.env.remote
+.env.remote.sample
+.env.release.sample
+bin/pre-stop-checks.sh
+bin/run-sync-remote.sh

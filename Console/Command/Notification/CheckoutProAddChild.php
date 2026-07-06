@@ -62,14 +62,16 @@ class CheckoutProAddChild extends Command
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
         $this->checkoutProAddChild->setOutput($output);
 
         $orderId = $input->getArgument(self::ORDER_ID);
         $transactionId = $input->getArgument(self::CHILD);
 
-        return $this->checkoutProAddChild->add($orderId, $transactionId);
+        $this->checkoutProAddChild->add($orderId, $transactionId);
+
+        return 0;
     }
 
     /**

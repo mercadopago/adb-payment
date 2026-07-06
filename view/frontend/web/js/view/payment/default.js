@@ -54,7 +54,7 @@ define([
 
             self.mpPayerDocument.subscribe((value) => {
                 if (self.getMpSiteId() === 'MLB' && value) {
-                    self.mpPayerType(value.replace(/\D/g, '').length <= 11 ? 'CPF' : 'CNPJ');
+                    self.mpPayerType(value.replace(/[^A-Z0-9]/gi, '').length <= 11 ? 'CPF' : 'CNPJ');
                 }
             });
 

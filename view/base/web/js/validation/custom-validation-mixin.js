@@ -16,21 +16,12 @@
          * @return {boolean}
          */
         function getInvalidateCommonCNPJ(value) {
-            if (
-                value === '00000000000000' ||
-                value === '11111111111111' ||
-                value === '22222222222222' ||
-                value === '33333333333333' ||
-                value === '44444444444444' ||
-                value === '55555555555555' ||
-                value === '66666666666666' ||
-                value === '77777777777777' ||
-                value === '88888888888888' ||
-                value === '99999999999999'
-            ) {
-                return true;
-            }
-            return false;
+            // Rejects sequences where all 14 characters are identical ('00000000000000'
+            // through '99999999999999'). All-letter sequences are rejected earlier by the
+            // regex check in validateCNPJ, so in practice only all-digit sequences reach here.
+            return value.split('').every(function (c) {
+                return c === value[0];
+            });
         }
 
         /**
@@ -114,17 +105,20 @@
          * @return {Boolean}
          */
         function validateCNPJ(cnpj) {
-            var tamanho = cnpj.length - 2,
-                numeros = cnpj.substring(0, tamanho),
-                digitos = cnpj.substring(tamanho),
+            var normalized = String(cnpj).toUpperCase(),
+                tamanho = normalized.length - 2,
+                numeros = normalized.substring(0, tamanho),
+                digitos = normalized.substring(tamanho),
                 soma = 0,
                 pos = tamanho - 7;
 
-            if (cnpj.length !== 14) {
+            // Positions 1-12 accept A-Z and 0-9; positions 13-14 (check digits) must be digits.
+            // The regex already enforces exactly 14 chars, making the length check redundant.
+            if (!/^[A-Z0-9]{12}[0-9]{2}$/.test(normalized)) {
                 return false;
             }
 
-            if (getInvalidateCommonCNPJ(cnpj)) {
+            if (getInvalidateCommonCNPJ(normalized)) {
                 return false;
             }
 
@@ -133,7 +127,7 @@
                 resultado;
 
             for (i = tamanho; i >= 1; i--) {
-                soma += numeros.charAt(tamanho - i) * pos--;
+                soma += (numeros.charCodeAt(tamanho - i) - 48) * pos--;
                 if (pos < 2) {
                     pos = 9;
                 }
@@ -145,11 +139,11 @@
             }
 
             tamanho += 1;
-            numeros = cnpj.substring(0, tamanho);
+            numeros = normalized.substring(0, tamanho);
             soma = 0;
             pos = tamanho - 7;
             for (j = tamanho; j >= 1; j--) {
-                soma += numeros.charAt(tamanho - j) * pos--;
+                soma += (numeros.charCodeAt(tamanho - j) - 48) * pos--;
                 if (pos < 2) {
                     pos = 9;
                 }
@@ -176,7 +170,7 @@
                  * @return {Boolean}
                  */
                 function (value) {
-                    var documment = value.replace(/[^\d]+/g, '');
+                    var documment = value.replace(/[^A-Z0-9]/gi, '').toUpperCase();
 
                     if (documment.length === 14) {
                         return validateCNPJ(documment);
