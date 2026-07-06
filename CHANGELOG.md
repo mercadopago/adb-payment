@@ -8,25 +8,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.15.5] - 2026-07-01
 ### Fixed
 - Fixed SVG logo/icon dimension extraction by replacing `getimagesizefromstring()` with `simplexml_load_file()` across all ConfigProvider models
-- Fixed console commands compatibility with Symfony 7 (Magento 2.4.9) by adding `: int` return type to `execute()` and replacing `Command::SUCCESS` with literal `0` (PSW-4152)
+- Fixed console commands compatibility with Symfony 7 (Magento 2.4.9) by adding `: int` return type to `execute()` and replacing `Command::SUCCESS` with literal `0`
 
 ### Added
 - Added PHP 8.5 to supported platform constraint in `composer.json` for Adobe Commerce 2.4.9 compatibility
-- Declared `ext-simplexml` and `ext-libxml` as explicit `require` dependencies in `composer.json` (PSW-4159)
+- Declared `ext-simplexml` and `ext-libxml` as explicit `require` dependencies in `composer.json`
 - Added alphanumeric CNPJ validation and uppercase normalization before sending to payment API, supporting RFB Nota Técnica 49/2024 format
 
 ### Changed
-- Updated `mp-plugins/php-sdk` from `^3.3.2` to `^3.6.1` for PHP 8.5 compatibility (PSW-4172)
+- Updated `mp-plugins/php-sdk` from `^3.3.2` to `^3.6.1` for PHP 8.5 compatibility
 
 ## [1.15.4] - 2026-05-12
-### Fixed
-- Fixed total calculation in Checkout Pro when coupon is applied (PPSP-1260)
+### Added
+- Added user-friendly error message for Credits MLC minimum amount validation
 
 ### Changed
-- Migrated payment methods endpoint from legacy to Core API (PSW-2841)
+- Migrated payment methods endpoint from legacy to Core API
 
-### Added
-- Added user-friendly error message for Credits MLC minimum amount validation (PPSP-975)
+### Fixed
+- Fixed total calculation in Checkout Pro when coupon is applied
 
 ## [1.15.3] - 2026-04-24
 ### Changed
