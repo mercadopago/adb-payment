@@ -1,0 +1,19 @@
+CHANGELOG.md
+  s_f5dbd22d0a5de0::t_9e5973f73016e5 11,15,19,22-23,26,28-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "73c99780eeb1aa5345f1f8b0c7d76f6d3c668446",
+  "prompts": {},
+  "sessions": {
+    "s_f5dbd22d0a5de0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41e14e11-9ef2-4180-8b35-7641cd6eb77b",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "cleitonandrademp <cleiton.andrade@mercadolivre.com>"
+    }
+  }
+}
