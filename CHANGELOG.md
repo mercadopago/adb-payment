@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- PHP 8.5 / Magento 2.4.9 compatibility: declared `int` return type on console command `execute()` methods and replaced the deprecated `(double)` cast with `(float)` in `Gateway/Request/TransactionInfoDataRequest.php`.
+
+### Changed
+- Console commands now wrap their execution in a try/catch, printing the error and returning `Command::FAILURE` on failure (instead of always returning success).
+
 ## [1.15.4] - 2026-05-12
 ### Added
 - Added user-friendly error message for Credits MLC minimum amount validation
