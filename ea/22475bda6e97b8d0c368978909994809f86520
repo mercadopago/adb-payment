@@ -1,0 +1,20 @@
+.gitignore
+  s_f5dbd22d0a5de0::t_690590d3f189ef 16-18
+  s_f5dbd22d0a5de0::t_f7f8f9416cd53b 21-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "ea22475bda6e97b8d0c368978909994809f86520",
+  "prompts": {},
+  "sessions": {
+    "s_f5dbd22d0a5de0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41e14e11-9ef2-4180-8b35-7641cd6eb77b",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "cleitonandrademp <cleiton.andrade@mercadolivre.com>"
+    }
+  }
+}
