@@ -132,8 +132,8 @@ define([
 
                 const firstCardAmount = self.FormattedCurrencyToInstallments(self.inputValueProgress());
 
-                const currentCardAmount = self.cardIndex() == 0 
-                    ? self.FormattedCurrencyToInstallments(firstCardAmount) 
+                const currentCardAmount = self.cardIndex() == 0
+                    ? self.FormattedCurrencyToInstallments(firstCardAmount)
                     : self.FormattedCurrencyToInstallments(newAmount - firstCardAmount);
 
                 if (currentCardAmount !== self.installmentsAmount()) {
@@ -187,13 +187,11 @@ define([
          * @returns {void}
          */
         async beforePlaceOrder() {
-            const self = this;
-
-            if (!$(this.formElement).valid()) {
+            if (!this._runPreSubmitGate()) {
                 return;
             }
 
-            if(this.progressHasError()){
+            if (this.progressHasError()) {
                 $('#input-progress').trigger('focus');
                 return;
             }
@@ -298,7 +296,7 @@ define([
         },
 
         async finishFirstCard() {
-            if (!$(this.formElement).valid()) {
+            if (!this._runPreSubmitGate()) {
                 return;
             }
 
@@ -345,7 +343,7 @@ define([
             if (this.getMpSiteId() === 'MCO' || this.getMpSiteId() === 'MLC') {
                 return true;
             }
-            
+
             return false;
         },
 
@@ -382,7 +380,7 @@ define([
 
             return 'second-card-opened-form';
         },
-        
+
         resetFirstCard() {
             this.editFirstCard();
             this.mpPayerDocument('');

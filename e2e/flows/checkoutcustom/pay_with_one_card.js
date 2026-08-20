@@ -9,10 +9,14 @@ export const payWithOneCard = async function (page, card, document, status) {
     await page.frameLocator('iframe[name="expirationMonth"]').locator('[name="expirationMonth"]').fill(card.month);
     await page.frameLocator('iframe[name="expirationYear"]').locator('[name="expirationYear"]').fill(card.year);
 
-    await page.frameLocator('iframe[name="securityCode"]').locator('[name="securityCode"]').fill(card.code);
     await page.locator('[name="payment[card_holder_name]"]').first().fill(status);
     await page.waitForLoadState();
-    await page.waitForTimeout(2000);
+    // BIN lookup (PSW-4359/PSW-3972) unmounts then remounts the securityCode iframe.
+    // Wait for the full detach→visible cycle so the fill lands on the stable new iframe.
+    // .catch() tolerates unrecognized BINs where no remount occurs.
+    await page.locator('iframe[name="securityCode"]').waitFor({ state: 'detached', timeout: 8000 }).catch(() => {});
+    await page.frameLocator('iframe[name="securityCode"]').locator('[name="securityCode"]').waitFor({ state: 'visible' });
+    await page.frameLocator('iframe[name="securityCode"]').locator('[name="securityCode"]').fill(card.code);
     if (await page.locator('select[name="payment[card_installments]"]').isVisible()) {
         await page.locator('select[name="payment[card_installments]"]').selectOption('1');
     }

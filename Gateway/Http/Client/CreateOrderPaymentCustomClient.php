@@ -27,6 +27,9 @@ use MercadoPago\AdbPayment\Model\QuoteMpPaymentRepository;
 use MercadoPago\PP\Sdk\Common\Constants;
 use MercadoPago\AdbPayment\Model\MPApi\PaymentGet;
 use Magento\Quote\Api\CartRepositoryInterface;
+use MercadoPago\AdbPayment\Helper\ApiErrorCategoryMapper;
+use MercadoPago\AdbPayment\Helper\HttpErrorCodeExtractor;
+use MercadoPago\AdbPayment\Model\Metrics\MetricsClient;
 
 /**
  * Communication with the Gateway to create a payment by custom (Card, Pix, Ticket, Pec).
@@ -82,6 +85,20 @@ class CreateOrderPaymentCustomClient implements ClientInterface
      * External Three DS Info - Block name.
      */
     public const THREE_DS_INFO = 'three_ds_info';
+
+    /**
+     * Sentinel message used when throwing a LocalizedException to signal a 3DS challenge redirect.
+     * Referenced at both the throw site and the catch guard to prevent silent coupling breakage.
+     */
+    public const THREE_DS_REDIRECT_MESSAGE = '3DS';
+
+    /**
+     * Substring present in the MP SDK original_message when the API rejects a payment due to an
+     * invalid payer identification number (HTTP 400 / ApiException). Centralised here so that the
+     * stripos check and its unit test share a single source of truth; a future SDK string change
+     * will require updating only this constant, and the test will break immediately.
+     */
+    public const INVALID_IDENTIFICATION_SDK_MESSAGE = 'Invalid user identification number';
 
     /**
      * External Resource Url - Block name.
@@ -151,6 +168,11 @@ class CreateOrderPaymentCustomClient implements ClientInterface
     protected $cartRepository;
 
     /**
+     * @var MetricsClient
+     */
+    protected $metricsClient;
+
+    /**
      * @param Logger            $logger
      * @param Config            $config
      * @param Json              $json
@@ -159,6 +181,7 @@ class CreateOrderPaymentCustomClient implements ClientInterface
      * @param Session           $checkoutSession
      * @param PaymentGet        $paymentGet
      * @param CartRepositoryInterface $cartRepository
+     * @param MetricsClient     $metricsClient
      */
     public function __construct(
         Logger $logger,
@@ -168,7 +191,8 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         QuoteMpPaymentFactory $quoteMpPaymentFactory,
         Session $checkoutSession,
         PaymentGet $paymentGet,
-        CartRepositoryInterface $cartRepository
+        CartRepositoryInterface $cartRepository,
+        MetricsClient $metricsClient
     ) {
         $this->config = $config;
         $this->logger = $logger;
@@ -178,6 +202,7 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         $this->checkoutSession = $checkoutSession;
         $this->paymentGet = $paymentGet;
         $this->cartRepository = $cartRepository;
+        $this->metricsClient = $metricsClient;
     }
 
     /**
@@ -274,7 +299,7 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                         $this->cartRepository->save($quote);
                     }
 
-                    throw new LocalizedException(__('3DS'));
+                    throw new LocalizedException(__(self::THREE_DS_REDIRECT_MESSAGE));
                 }
 
                 $this->logger->debug(
@@ -294,6 +319,7 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                         'error'    => $exc->getMessage(),
                     ]
                 );
+                $this->sendCreateErrorMetric('400', ApiErrorCategoryMapper::CATEGORY_INTERNAL, (string) ($request[self::PAYMENT_METHOD_ID] ?? ''));
                 throw new Exception('Invalid JSON was returned by the gateway');
             } catch (\Throwable $e) {
                 // phpcs:ignore Magento2.Exceptions.DirectThrow
@@ -304,6 +330,22 @@ class CreateOrderPaymentCustomClient implements ClientInterface
                         'error'    => $e->getMessage(),
                     ]
                 );
+                $originalMessage = method_exists($e, 'getOriginalMessage') ? (string) $e->getOriginalMessage() : '';
+                if (!($e instanceof LocalizedException && $e->getRawMessage() === self::THREE_DS_REDIRECT_MESSAGE)) {
+                    $apiStatus = method_exists($e, 'getApiStatus') ? $e->getApiStatus() : null;
+                    $value = ($apiStatus !== null && $apiStatus >= 100 && $apiStatus < 600)
+                        ? (string) $apiStatus
+                        : HttpErrorCodeExtractor::extract($e);
+                    $category = $originalMessage !== ''
+                        ? ApiErrorCategoryMapper::fromOriginalMessage($originalMessage)
+                        : ApiErrorCategoryMapper::CATEGORY_INTERNAL;
+                    $this->sendCreateErrorMetric($value, $category, (string) ($request[self::PAYMENT_METHOD_ID] ?? ''));
+                }
+                if (stripos($originalMessage, self::INVALID_IDENTIFICATION_SDK_MESSAGE) !== false) {
+                    throw new LocalizedException(
+                        __('The identification number entered is invalid. Please check it and try again.')
+                    );
+                }
                 throw new LocalizedException(__($e->getMessage()));
             }
         }
@@ -314,6 +356,13 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         ) {
             if ($mpPaymentQuote !== null) {
                 $this->quoteMpPaymentRepository->deleteByQuoteId($this->checkoutSession->getQuoteId());
+            }
+            if ($data[self::STATUS] === self::STATUS_REJECTED) {
+                $this->sendCreateErrorMetric(
+                    $data[self::STATUS],
+                    ApiErrorCategoryMapper::fromResponse($data),
+                    (string)($request[self::PAYMENT_METHOD_ID] ?? '')
+                );
             }
             $data['id'] = null;
         }
@@ -327,5 +376,38 @@ class CreateOrderPaymentCustomClient implements ClientInterface
         );
 
         return $response;
+    }
+
+    /**
+     * Send metric for a payment creation error.
+     *
+     * The event type encodes the error category so each cause is independently
+     * queryable in Datadog: mp_api_error_{category} (e.g. mp_api_error_security_code).
+     * Category is resolved from status_detail / cause[].code keyword / original_message
+     * keyword via ApiErrorCategoryMapper; unknown inputs always map to 'internal'.
+     * The payment_method_id is forwarded as $message so Datadog can split card vs.
+     * non-card errors — this client is shared by Card, Pix, Ticket, and Yape flows.
+     *
+     * @param string $value           Passed as MetricsClient::sendEvent $value — HTTP code ('400', '422')
+     *                                or payment status ('rejected'). Named $value to match sendEvent signature.
+     * @param string $category        Error category from ApiErrorCategoryMapper (closed allowlist)
+     * @param string $paymentMethodId Payment method identifier from the transfer body
+     * @return void
+     */
+    private function sendCreateErrorMetric(string $value, string $category, string $paymentMethodId = ''): void
+    {
+        try {
+            $this->metricsClient->sendEvent(
+                'mp_api_error_' . $category,
+                $value,
+                $paymentMethodId !== '' ? $paymentMethodId : null
+            );
+        } catch (\Throwable $e) {
+            $this->logger->debug([
+                'metric_error'       => $e->getMessage(),
+                'metric_error_class' => get_class($e),
+                'metric_error_trace' => $e->getTraceAsString()
+            ]);
+        }
     }
 }

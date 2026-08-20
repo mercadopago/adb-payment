@@ -169,9 +169,10 @@ define([
          * @returns {void}
          */
         async beforePlaceOrder() {
-            if (!$(this.formElement).valid()) {
+            if (!this._runPreSubmitGate()) {
                 return;
             }
+
             if (await this.generateToken(0)) {
                 this.placeOrder();
             }

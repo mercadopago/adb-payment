@@ -5,28 +5,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.15.6] - 2026-08-19
+### Changed
+- Unify the Checkout Custom pre-submit validation (form, installments, card number) into a single ordered gate before Place Order; selecting a card whose installments are shown but not chosen now displays a message instead of silently doing nothing. Covers one-card and two-card flows
+
+### Fixed
+- Reconfigure the checkout CVV (`securityCode`) secure field per card brand on BIN change, so a wrong-length code (Amex with 3 digits, Visa/Mastercard with 4) is blocked at the front instead of failing at the payment API with `Invalid security_code_length`. On brand change the field value and error state are cleared, the label floats above the inserted placeholder, and the CVV help tooltip updates to the detected brand
+- Block card token creation when the card number length is invalid; configure the secure field size exactly via BIN lookup; translated length hint updated for Amex (15 digits)
+- Clean up residual card type state on BIN change; reset the CVV secure field when the BIN is invalid or cleared
+- Map `bin_not_found` error to an inline error message on the card number field instead of a generic error
+- Apply `security_code.mode` to determine CVV optionality even when length is 0; reflect optionality on the required `(*)` marker
+- Add the required `code` attribute to 53 `<message>` nodes in `mercadopago_error_mapping.xml` that used the invalid `message` attribute, fixing a schema validation failure in `setup:di:compile` that broke the unauthorized 3DS challenge error flow (PPSP-1506)
+- Remove a stray closing double quote from the end of a Yape rejection message in `mercadopago_error_mapping.xml`
+
+### Added
+- Validate the card number's Luhn checksum on the Checkout Custom card field via the MP Secure Fields (`enableLuhnValidation`): an invalid checksum shows an inline, translatable field error and blocks submit before the payment API. A format (length) error takes precedence over the Luhn message. Covers one-card and two-card flows
+- Show oriented message when payment API rejects with `INVALID_USER_IDENTIFICATION_NUMBER` (HTTP 400) instead of the generic communication error; message is generic across all sites and locales
+- Map payment API errors to 15 categories via `ApiErrorCategoryMapper`; add `payment_method_id` dimension to payment metrics in the credit card flow
+- Validate CPF/CNPJ documents on the backend before the payment API (MLB only); validation extends to per-card document in the two-card flow
+- Segregate document validation metrics by payment flow (`cc`, `twocc`, `ticket`, `pix`)
+- Agent readiness docs: `docs/agent/` (overview, architecture, contracts, runbook, traps), `CONTRIBUTING.md`, team hub links in `AGENTS.md` and `docs/agent/runbook.md`, DoD checklist in `.github/pull_request_template.md`.
+
 ## [1.15.5] - 2026-07-01
 ### Fixed
 - Fixed SVG logo/icon dimension extraction by replacing `getimagesizefromstring()` with `simplexml_load_file()` across all ConfigProvider models
-- Fixed console commands compatibility with Symfony 7 (Magento 2.4.9) by adding `: int` return type to `execute()` and replacing `Command::SUCCESS` with literal `0`
+- Fixed console commands compatibility with Symfony 7 (Magento 2.4.9) by adding `: int` return type to `execute()` and replacing `Command::SUCCESS` with literal `0` (PSW-4152)
 
 ### Added
 - Added PHP 8.5 to supported platform constraint in `composer.json` for Adobe Commerce 2.4.9 compatibility
-- Declared `ext-simplexml` and `ext-libxml` as explicit `require` dependencies in `composer.json`
+- Declared `ext-simplexml` and `ext-libxml` as explicit `require` dependencies in `composer.json` (PSW-4159)
 - Added alphanumeric CNPJ validation and uppercase normalization before sending to payment API, supporting RFB Nota Técnica 49/2024 format
 
 ### Changed
-- Updated `mp-plugins/php-sdk` from `^3.3.2` to `^3.6.1` for PHP 8.5 compatibility
+- Updated `mp-plugins/php-sdk` from `^3.3.2` to `^3.6.1` for PHP 8.5 compatibility (PSW-4172)
 
 ## [1.15.4] - 2026-05-12
-### Added
-- Added user-friendly error message for Credits MLC minimum amount validation
+### Fixed
+- Fixed total calculation in Checkout Pro when coupon is applied (PPSP-1260)
 
 ### Changed
-- Migrated payment methods endpoint from legacy to Core API
+- Migrated payment methods endpoint from legacy to Core API (PSW-2841)
 
-### Fixed
-- Fixed total calculation in Checkout Pro when coupon is applied
+### Added
+- Added user-friendly error message for Credits MLC minimum amount validation (PPSP-975)
 
 ## [1.15.3] - 2026-04-24
 ### Changed

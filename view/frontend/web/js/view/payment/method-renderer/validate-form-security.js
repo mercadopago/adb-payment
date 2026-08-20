@@ -23,13 +23,13 @@ define([
          * @returns {void}
          */
         removeClassesIfEmpyt(element) {
-            let hasError = $('#' + element).closest('.control-mp-iframe.has-error').length,
-                isValid = $('#' + element).closest('.control-mp-iframe.is-valid').length;
+            let control = $('#' + element).closest('.control-mp-iframe'),
+                keepFocus = control.hasClass('has-error') ||
+                    control.hasClass('is-valid') ||
+                    control.hasClass('_has-placeholder');
 
-            if (!hasError) {
-                if (!isValid) {
-                    $('#' + element).closest('.control-mp-iframe').removeClass('in-focus');
-                }
+            if (!keepFocus) {
+                control.removeClass('in-focus');
             }
         },
 
@@ -40,6 +40,26 @@ define([
          */
         toogleFocusStyle(element) {
             $('#' + element).closest('.control-mp-iframe').addClass('in-focus');
+        },
+
+        /**
+         * Mark a secure field as holding a placeholder and float its label. The
+         * `_has-placeholder` flag keeps the label floated on blur (removeClassesIfEmpyt)
+         * so it does not drop back over the placeholder when the field is left empty.
+         * @param {String} element
+         * @returns {void}
+         */
+        markPlaceholder(element) {
+            $('#' + element).closest('.control-mp-iframe').addClass('in-focus _has-placeholder');
+        },
+
+        /**
+         * Clear the placeholder marker and the floated-label state.
+         * @param {String} element
+         * @returns {void}
+         */
+        unmarkPlaceholder(element) {
+            $('#' + element).closest('.control-mp-iframe').removeClass('in-focus _has-placeholder');
         },
 
         /**
@@ -87,11 +107,28 @@ define([
         },
 
         /**
+         * Clear Validity State
+         * Resets a single field to neutral: removes its error message and both the
+         * has-error and is-valid styles. Used when a secure field is rebuilt (e.g. the
+         * securityCode field on card/brand change) so a stale error is not left behind.
+         * Intentionally does NOT touch `in-focus`/`_has-placeholder`: the field is
+         * remounted right after and `markPlaceholder` re-floats the label on `ready`, so
+         * clearing them here would drop and re-raise the label (visible flicker). Use
+         * `unmarkPlaceholder` for a full reset (see resetCardForm).
+         * @param {String} element
+         * @returns {void}
+         */
+        clearValidityState(element) {
+            $('#' + element).closest('.mercadopago-input-group').find('.field-error').remove();
+            $('#' + element).closest('.control-mp-iframe').removeClass('has-error is-valid');
+        },
+
+        /**
          * Clear Errors in Field
          * @return {void}
          */
         clearSecureFieldsErrors(){
-            return $('#form-secure-fields div.field-error').remove()  
+            return $('#form-secure-fields div.field-error').remove()
         },
     };
 });

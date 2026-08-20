@@ -58,7 +58,34 @@ define([
                 }
             });
 
+            // When the document field is hidden, the only way the buyer can fix an invalid
+            // document is by editing the billing address VAT. Nothing else re-syncs it after
+            // init, so a corrected vatId was never re-sent on retry and the backend kept
+            // rejecting the stale value. Keep mpPayerDocument in step with the address whenever
+            // the field is hidden. Scoped to the hidden case so a value the buyer typed directly
+            // in the visible field is never overwritten. Kept so destroy() can dispose it and
+            // avoid leaking subscriptions in themes that recreate payment components.
+            self.billingAddressSubscription = quote.billingAddress.subscribe((address) => {
+                if (address && address.vatId && !self.DocumentIdentificationCapture()) {
+                    self.mpPayerDocument(address.vatId);
+                }
+            });
+
             self.generateMpFlowId();
+        },
+
+        /**
+         * Dispose the billing address subscription set up in initialize so it does not leak
+         * when the component is torn down and recreated (e.g. tabbed / SPA-style checkouts).
+         *
+         * @returns {void}
+         */
+        destroy: function () {
+            if (this.billingAddressSubscription) {
+                this.billingAddressSubscription.dispose();
+                this.billingAddressSubscription = null;
+            }
+            this._super();
         },
 
 
@@ -78,9 +105,27 @@ define([
 
             if (quote.billingAddress()) {
                 const vatId = quote.billingAddress().vatId;
-                if (vatId) {
+                // Field hidden: the address VAT is the source of truth — always sync it, so a VAT
+                // corrected after an error is picked up on retry. Field visible: the payment input is
+                // authoritative — only pre-fill when empty, never clobber what the buyer typed (this
+                // method re-runs on active/initForm, e.g. twocc card switch).
+                if (vatId && (!self.DocumentIdentificationCapture() || !self.mpPayerDocument())) {
                     self.mpPayerDocument(vatId);
                 }
+            }
+        },
+
+        /**
+         * When the document field is hidden, the document comes from the billing address. Re-read
+         * the latest vatId at submit time so a value corrected after an error is used on retry,
+         * even if the Knockout subscription didn't fire (in-place address edit). No-op when the
+         * field is visible, so a value typed in the payment form is never overwritten.
+         *
+         * @returns {void}
+         */
+        syncHiddenDocumentFromAddress() {
+            if (!this.DocumentIdentificationCapture() && quote.billingAddress() && quote.billingAddress().vatId) {
+                this.mpPayerDocument(quote.billingAddress().vatId);
             }
         },
 
