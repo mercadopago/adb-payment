@@ -20,3 +20,5 @@
 "payer_document_type","Payer Document Type"
 "mp_status","Status (Mercado Pago)"
 "mp_status_detail","Status Detail (Mercado Pago)"
+"The CPF/CNPJ informed is invalid. Please correct it and try again.","The CPF/CNPJ informed is invalid. Please correct it and try again."
+"The identification number entered is invalid. Please check it and try again.","The identification number entered is invalid. Please check it and try again."

@@ -116,8 +116,10 @@
                         </span>
                     </div>
                 </div>
-                <div class="field mercadopago-input-group cvv required"
-                    data-bind="attr: {id: getCode() + '_type_cvv_div'}">
+                <!-- CVV-less brands (security_code.mode: optional) must not show the "*" required
+                     marker; it is driven by the cvvRequired observable (PSW-4359). -->
+                <div class="field mercadopago-input-group cvv"
+                    data-bind="attr: {id: getCode() + '_type_cvv_div'}, css: {required: cvvRequired}">
                     <div class="control-mp-iframe">
                         <label data-bind="attr: {for: getCode() + '_cid'}" class="label">
                             <span><!-- ko i18n: 'CVV - Card Verification Value'--><!-- /ko --></span>
@@ -130,7 +132,7 @@
                                 <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
                             </span>
                             <div class="field-tooltip-content" data-target="dropdown">
-                                <span translate="'A 3-digit number in italics on the back of your card.'"></span>
+                                <span data-bind="text: cvvTooltip"></span>
                             </div>
                         </div>
                     </div>

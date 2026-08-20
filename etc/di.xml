@@ -2212,6 +2212,7 @@
     <type name="MercadoPago\AdbPayment\Gateway\Http\Client\CreateOrderPaymentCustomClient">
         <arguments>
             <argument name="logger" xsi:type="object">MercadoPagoLogger</argument>
+            <argument name="metricsClient" xsi:type="object">MercadoPago\AdbPayment\Model\Metrics\MetricsClient</argument>
         </arguments>
     </type>
 

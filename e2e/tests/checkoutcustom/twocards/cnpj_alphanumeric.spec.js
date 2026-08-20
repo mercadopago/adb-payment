@@ -49,16 +49,23 @@ async function fillDocument(page, documentNumber) {
 
 // Fill the secure fields and cardholder name of the currently active card, then installments.
 async function fillActiveCard(page, card, cardHolderName) {
+    // MP SDK mounts secure-field iframes asynchronously — wait for cardNumber to be ready.
+    await page.frameLocator('iframe[name="cardNumber"]').locator('#cardNumber').waitFor({ state: 'visible' });
     await page.frameLocator('iframe[name="cardNumber"]').locator('#cardNumber').fill(card.number);
     await page.frameLocator('iframe[name="expirationMonth"]').locator('#expirationMonth').fill(card.month);
     await page.frameLocator('iframe[name="expirationYear"]').locator('#expirationYear').fill(card.year);
-    await page.frameLocator('iframe[name="securityCode"]').locator('#securityCode').fill(card.code);
     await page.locator(CARDHOLDER_NAME).first().fill(cardHolderName);
 
     await page.waitForLoadState();
 
-    // Installments appear only after the BIN is recognized; wait for them explicitly instead of a
-    // fixed sleep, but tolerate cards/amounts that do not offer installments.
+    // Wait for the securityCode iframe remount cycle (PSW-4359/PSW-3972) before filling CVV.
+    // getInstallments() and getPaymentMethods() run in parallel — installments can appear
+    // while the old iframe is still mounted. .catch() handles unrecognized BINs.
+    await page.locator('iframe[name="securityCode"]').waitFor({ state: 'detached', timeout: 8000 }).catch(() => {});
+    await page.frameLocator('iframe[name="securityCode"]').locator('#securityCode').waitFor({ state: 'visible' });
+    await page.frameLocator('iframe[name="securityCode"]').locator('#securityCode').fill(card.code);
+
+    // Wait for installments separately so we can select them.
     await page.locator(INSTALLMENTS).waitFor({ state: 'visible', timeout: 10000 }).catch(() => {});
     if (await page.locator(INSTALLMENTS).isVisible()) {
         await page.locator(INSTALLMENTS).selectOption('1');

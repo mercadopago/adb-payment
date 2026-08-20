@@ -82,6 +82,7 @@ define([
             if (!$(this.formElement).valid()) {
                 return;
             }
+            this.syncHiddenDocumentFromAddress();
             this.placeOrder();
         },
 

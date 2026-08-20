@@ -53,16 +53,26 @@ async function fillDocument(page, documentNumber) {
 // Fill the secure card fields (iframes), the cardholder name (cc-specific id, so it is not
 // confused with the two-cards form sharing the payment[card_holder_name] name) and installments.
 async function fillCardData(page, card, cardHolderName) {
+    // The MP SDK mounts secure-field iframes asynchronously after the radio click;
+    // selectCardMethod only waits for the document DOM field. Wait for the cardNumber
+    // iframe to be ready before filling to avoid a race on slow mounts.
+    await page.frameLocator('iframe[name="cardNumber"]').locator('[name="cardNumber"]').waitFor({ state: 'visible' });
     await page.frameLocator('iframe[name="cardNumber"]').locator('[name="cardNumber"]').fill(card.number);
     await page.frameLocator('iframe[name="expirationMonth"]').locator('[name="expirationMonth"]').fill(card.month);
     await page.frameLocator('iframe[name="expirationYear"]').locator('[name="expirationYear"]').fill(card.year);
-    await page.frameLocator('iframe[name="securityCode"]').locator('[name="securityCode"]').fill(card.code);
 
     await page.locator(CARDHOLDER_NAME).fill(cardHolderName);
     await page.waitForLoadState();
 
-    // Installments appear only after the BIN is recognized; wait for them explicitly instead of a
-    // fixed sleep, but tolerate cards/amounts that do not offer installments.
+    // Wait for the securityCode iframe remount cycle (PSW-4359/PSW-3972) before filling CVV.
+    // Using installments as a proxy is unreliable because getInstallments() and
+    // getPaymentMethods() run in parallel — installments can appear while the old iframe is
+    // still mounted. .catch() handles unrecognized BINs where no remount occurs.
+    await page.locator('iframe[name="securityCode"]').waitFor({ state: 'detached', timeout: 8000 }).catch(() => {});
+    await page.frameLocator('iframe[name="securityCode"]').locator('[name="securityCode"]').waitFor({ state: 'visible' });
+    await page.frameLocator('iframe[name="securityCode"]').locator('[name="securityCode"]').fill(card.code);
+
+    // Wait for installments separately so we can select them.
     await page.locator(INSTALLMENTS).waitFor({ state: 'visible', timeout: 10000 }).catch(() => {});
     if (await page.locator(INSTALLMENTS).isVisible()) {
         await page.locator(INSTALLMENTS).selectOption('1');
