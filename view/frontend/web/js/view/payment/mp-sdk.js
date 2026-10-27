@@ -545,6 +545,14 @@ define([
          * @returns {Boolean}
          */
         _runPreSubmitGate() {
+            // `installmentsAreValid()` looks unreachable and is NOT. The installments
+            // <select> carries data-validate required (cc-form.html, twocc-form.html) so
+            // that it errors inline like every other required field in the form, which
+            // means jQuery normally rejects an empty selection at check #1 first.
+            // This check is the second of three deliberate layers guarding a mandatory
+            // field: jQuery inline → this check (covers jQuery not being wired up, e.g.
+            // initFormElement never ran) → the selectedPayerCost guard in generateToken().
+            // Do not drop it because the happy path never reaches it.
             const checks = [
                 { check: () => $(this.formElement).valid(), error: 'invalid_form' },
                 { check: () => this.installmentsAreValid(), error: 'invalid_installments' },

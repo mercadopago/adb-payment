@@ -111,6 +111,11 @@ class ConfigCheckoutPro extends PaymentConfig
     public const CHOPRO_ICONS = 'chopro_icons';
 
     /**
+     * Cho Pro Info Title.
+     */
+    public const CHOPRO_INFO_TITLE = 'chopro_info_title';
+
+    /**
      * @var ScopeConfigInterface
      */
     protected $scopeConfig;
@@ -534,6 +539,33 @@ class ConfigCheckoutPro extends PaymentConfig
                 $pathPattern,
                 self::METHOD,
                 self::CHOPRO_ICONS,
+                strtolower((string) $mpSiteId)
+            ),
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        return $result ?: '';
+    }
+
+    /**
+     * Should return the localized informational title for Checkout Pro.
+     *
+     * @param int|null $storeId
+     *
+     * @return string
+     */
+    public function getChoProInfoTitle(?int $storeId = null): string
+    {
+        $pathPattern = 'payment/%s/%s_%s';
+
+        $mpSiteId = $this->config->getMpSiteId($storeId);
+
+        $result = $this->scopeConfig->getValue(
+            sprintf(
+                $pathPattern,
+                self::METHOD,
+                self::CHOPRO_INFO_TITLE,
                 strtolower((string) $mpSiteId)
             ),
             ScopeInterface::SCOPE_STORE,

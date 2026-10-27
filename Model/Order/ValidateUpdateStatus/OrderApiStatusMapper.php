@@ -13,7 +13,7 @@ use MercadoPago\AdbPayment\Model\Metrics\MetricsClient;
 
 /**
  * Mapper to convert Order API status to Payment API status.
- *
+ * 
  * This allows the existing state machine to work without refactoring
  * by converting new Order API statuses to equivalent Payment API statuses.
  */
@@ -90,7 +90,7 @@ class OrderApiStatusMapper
 
     /**
      * Known Payment API statuses.
-     *
+     * 
      * These statuses are already compatible with the state machine and should not
      * trigger the unmapped status metric.
      *
@@ -155,3 +155,4 @@ class OrderApiStatusMapper
         return array_key_exists($status, self::$statusMappingOrderApi);
     }
 }
+

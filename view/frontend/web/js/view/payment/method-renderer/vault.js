@@ -299,7 +299,7 @@ define([
                         self.installmentTextCFT(value);
                         break;
                 }
-            });
+            }); 
         },
 
         /**
@@ -571,11 +571,11 @@ define([
             }).then((result) => {
                 if (result[0] && result[0].payer_costs) {
                     var listInstallments = result[0].payer_costs;
-
+    
                     if (self.getMpSiteId() === 'MCO' || self.getMpSiteId() === 'MPE' || self.getMpSiteId() === 'MLC') {
                         utils.addTextInterestForInstallment(listInstallments);
                     }
-
+    
                     self.creditCardListInstallments(result[0].payer_costs);
                 }
             });
@@ -658,7 +658,7 @@ define([
                 type: 'popup',
                 responsive: false,
                 innerScroll: false,
-                title: $t('Complete the bank validation so your payment can be approved'),
+                title: $t('Complete the bank validation so your payment can be approved'), 
                 modalClass: 'modal-challenge',
                 closed: function () {
                     self.destroyModal();
@@ -728,15 +728,15 @@ define([
             try {
                 const interval = 2000;
                 let elapsedTime = 0;
-
+          
                 const intervalId = setInterval(() => {
                     this.getPaymentStatus();
                     var paymentStatus = this.getPaymentStatusResponse();
-
+    
                     if (elapsedTime >= 10000 || paymentStatus.status === 'approved' || paymentStatus.status === 'rejected') {
                         $('#modal-3ds-challenge').modal('closeModal');
                         this.destroyModal();
-                        clearInterval(intervalId);
+                        clearInterval(intervalId); 
                         this.placeOrder();
                         metrics.sendMetric(
                             'mp_3ds_success_pooling_time',

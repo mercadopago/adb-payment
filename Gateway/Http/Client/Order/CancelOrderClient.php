@@ -47,7 +47,7 @@ class CancelOrderClient implements ClientInterface
      * Mercado Pago Order Id - Block Name.
      */
     public const MP_ORDER_ID = 'mp_order_id';
-
+    
     /**
      * Mercado Pago Payment Id Order - Block Name.
      */
@@ -201,7 +201,7 @@ class CancelOrderClient implements ClientInterface
             throw new Exception('Invalid JSON was returned by the gateway');
         } catch (\Throwable $e) {
             $errorCode = HttpErrorCodeExtractor::extract($e);
-
+            
             $this->logError($baseUrl . $uri, null, $e->getMessage());
             $this->sendCancelErrorMetric($errorCode, $e->getMessage(), 'order_api');
             // phpcs:ignore Magento2.Exceptions.DirectThrow
@@ -219,7 +219,7 @@ class CancelOrderClient implements ClientInterface
     {
         try {
             $request = $transferObject->getBody();
-
+            
             // Prepare request for Payment API
             $request = $this->preparePaymentApiRequest($request);
 
@@ -243,7 +243,7 @@ class CancelOrderClient implements ClientInterface
             $errorCode = HttpErrorCodeExtractor::extract($e);
 
             $this->sendCancelErrorMetric($errorCode, $e->getMessage(), 'payment_api');
-
+            
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception($e->getMessage());
         }
@@ -294,7 +294,7 @@ class CancelOrderClient implements ClientInterface
     protected function normalizeCancelResponse($data): array
     {
         $response = is_array($data) ? $data : [];
-
+        
         $hasId = !empty($response[self::RESPONSE_ID]);
         $isCanceled = ($response[self::RESPONSE_STATUS] ?? null) === self::RESPONSE_STATUS_CANCELED;
 

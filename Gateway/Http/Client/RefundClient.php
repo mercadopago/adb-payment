@@ -144,7 +144,7 @@ class RefundClient implements ClientInterface
         if ($order) {
             $paymentIndexList = $order['payment']['additional_information']['payment_index_list'] ?? null;
         }
-
+        
         if ($order && isset($paymentIndexList) && sizeof($paymentIndexList) > 1) {
             return $this->placeMultipleRefunds($order, $client, $baseUrl, $request, $clientHeaders);
         }

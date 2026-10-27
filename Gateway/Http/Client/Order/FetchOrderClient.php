@@ -173,7 +173,7 @@ class FetchOrderClient implements ClientInterface
             throw new Exception($exc->getMessage());
         } catch (\Throwable $e) {
             $errorCode = HttpErrorCodeExtractor::extract($e);
-
+            
             $this->sendFetchErrorMetric($errorCode, $e->getMessage(), 'order_api');
             // phpcs:ignore Magento2.Exceptions.DirectThrow
             throw new Exception($e->getMessage());
@@ -191,7 +191,7 @@ class FetchOrderClient implements ClientInterface
         try {
             // Payment API uses mp_payment_id instead of mp_order_id
             $paymentId = $request[self::PAYMENT_ID_KEY] ?? $request[self::MP_ORDER_ID];
-
+            
             $data = $this->mpApiPaymentGet->get(
                 $paymentId,
                 $request[self::STORE_ID]
@@ -201,9 +201,9 @@ class FetchOrderClient implements ClientInterface
             $data = is_array($data) ? $data : [];
 
             $resultCode = isset($data[self::RESPONSE_TRANSACTION_ID]) ? 1 : 0;
-
+            
             $normalizedPaymentDetails = $this->normalizePaymentApiResponse($data);
-
+            
             $response = array_merge([
                 self::RESULT_CODE => $resultCode,
                 self::API_SOURCE => self::API_SOURCE_PAYMENT,
@@ -244,15 +244,15 @@ class FetchOrderClient implements ClientInterface
     private function normalizePaymentApiResponse(array $data): array
     {
         $normalized = $data;
-
+        
         if (!isset($normalized['total_amount']) && isset($data['transaction_amount'])) {
             $normalized['total_amount'] = $data['transaction_amount'];
         }
-
+        
         if (!isset($normalized['paid_amount'])) {
             $normalized['paid_amount'] = $normalized['total_amount'] ?? 0;
         }
-
+        
         return $normalized;
     }
 

@@ -176,7 +176,7 @@ define([
         getFingerprint() {
             return window.checkoutConfig.payment[this.getCode()].fingerprint;
         },
-        
+
         /**
          * Get icons cho pro
          * @returns {Array}
@@ -201,11 +201,19 @@ define([
          * @returns {Array}
          */
         getInfoIcons() {
-            
             const infoIcons = window.checkoutConfig.payment[this.getCode()].info_icons
             var result = Object.keys(infoIcons).map((key) => infoIcons[key]);
 
             return result
+        },
+
+        /**
+         * Get Checkout Pro informational title.
+         *
+         * @returns {String}
+         */
+        getInfoTitle() {
+            return window.checkoutConfig.payment[this.getCode()].info_title;
         },
     });
 });

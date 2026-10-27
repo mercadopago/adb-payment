@@ -295,7 +295,7 @@ abstract class MpIndex extends Action
 
     /**
      * Map Order API status to Payment API status if needed.
-     *
+     * 
      * Handles Order API statuses, Payment API statuses, and unknown statuses.
      * Metrics are sent only for truly unknown statuses.
      *
@@ -305,7 +305,7 @@ abstract class MpIndex extends Action
     protected function mapOrderApiStatusIfNeeded(string $status): string
     {
         $mappedStatus = OrderApiStatusMapper::mapToPaymentApiStatus($status, $this->metricsClient);
-
+        
         // Log when Order API status was mapped
         if ($mappedStatus !== $status) {
             $this->logger->debug([
@@ -314,7 +314,7 @@ abstract class MpIndex extends Action
                 'mapped_status' => $mappedStatus
             ]);
         }
-
+        
         return $mappedStatus;
     }
 
@@ -357,7 +357,7 @@ abstract class MpIndex extends Action
 
     /**
      * Resolve store ID from notification data.
-     *
+     * 
      * Tries to extract store_id from notification payload first,
      * then falls back to searching in Magento database by transaction ID.
      *
@@ -367,13 +367,13 @@ abstract class MpIndex extends Action
     protected function resolveStoreId(array $notificationData): ?string
     {
         // Try to get store_id from payments_metadata, fallback to database search
-        return $notificationData['payments_metadata']['store_id']
+        return $notificationData['payments_metadata']['store_id'] 
             ?? $this->getStoreIdByTransactionId($notificationData);
     }
 
     /**
      * Get store ID by MercadoPago transaction ID.
-     *
+     * 
      * Searches in payment transactions table for the MP transaction.
      *
      * @param array $notificationData
@@ -382,7 +382,7 @@ abstract class MpIndex extends Action
     protected function getStoreIdByTransactionId(array $notificationData): ?string
     {
         $transactionId = $this->extractTransactionId($notificationData);
-
+        
         if (empty($transactionId)) {
             return null;
         }
@@ -402,29 +402,29 @@ abstract class MpIndex extends Action
             /** @var Transaction $transaction */
             $transaction = reset($transactions);
             $orderId = $transaction->getOrderId();
-
+            
             if (!$orderId) {
                 return null;
             }
 
             $order = $this->orderRepository->get($orderId);
-
+            
             return $order->getStoreId();
-
+            
         } catch (Exception $e) {
             $this->logger->debug([
                 'action' => 'error_getting_store_by_transaction_id',
                 'txn_id' => $transactionId,
                 'error' => $e->getMessage()
             ]);
-
+            
             return null;
         }
     }
 
     /**
      * Extract transaction ID from notification data.
-     *
+     * 
      * Handles different notification formats (Payment API vs Order API).
      *
      * @param array $notificationData
@@ -433,7 +433,7 @@ abstract class MpIndex extends Action
     protected function extractTransactionId(array $notificationData): ?string
     {
         $transactionType = $notificationData['transaction_type'] ?? null;
-
+        
         // Order API uses notification_id, Payment API uses transaction_id
         return $transactionType === self::NOTIFICATION_TYPE_ORDER
             ? $notificationData['notification_id'] ?? null

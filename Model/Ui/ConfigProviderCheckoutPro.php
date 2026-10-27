@@ -110,7 +110,8 @@ class ConfigProviderCheckoutPro implements ConfigProviderInterface
                     ],
                     'fingerprint'           => $this->config->getFingerPrintLink($storeId),
                     'icons'                 => $this->getIcons(),
-                    'info_icons'            => $this->getChoProInfoIcons()
+                    'info_icons'            => $this->getChoProInfoIcons(),
+                    'info_title'            => (string) __($this->config->getChoProInfoTitle($storeId)),
                 ],
             ],
         ];
