@@ -5,9 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.15.7] - 2026-10-27
+### Changed
+- Rename the Credits payment method to Mercado Crédito (Mercado Parcelado in the `pt_BR` locale), apply UX-approved translations for its minimum-amount error, pending-order comment and logo metadata, and update the Checkout Pro informational copy for Argentina, Mexico, and Brazil.
+
 ## [1.15.6] - 2026-08-19
 ### Changed
-- Unify the Checkout Custom pre-submit validation (form, installments, card number) into a single ordered gate before Place Order; selecting a card whose installments are shown but not chosen now displays a message instead of silently doing nothing. Covers one-card and two-card flows
+- Unify the Checkout Custom pre-submit validation (form, installments, card number) into a single ordered gate before Place Order; placing an order with the installments select shown but not chosen is now blocked with an error instead of silently doing nothing. Covers one-card and two-card flows
+- Restore `data-validate required` on the one-card installments select, reverting the removal made in PSW-4418. The field now errors inline like every other required field in the form, consistent with the two-card flow, which always had the attribute. The unified gate's `installmentsAreValid()` check is retained as a fallback for when jQuery validation is not wired up
 
 ### Fixed
 - Reconfigure the checkout CVV (`securityCode`) secure field per card brand on BIN change, so a wrong-length code (Amex with 3 digits, Visa/Mastercard with 4) is blocked at the front instead of failing at the payment API with `Invalid security_code_length`. On brand change the field value and error state are cleared, the label floats above the inserted placeholder, and the CVV help tooltip updates to the detected brand
@@ -24,7 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Map payment API errors to 15 categories via `ApiErrorCategoryMapper`; add `payment_method_id` dimension to payment metrics in the credit card flow
 - Validate CPF/CNPJ documents on the backend before the payment API (MLB only); validation extends to per-card document in the two-card flow
 - Segregate document validation metrics by payment flow (`cc`, `twocc`, `ticket`, `pix`)
-- Agent readiness docs: `docs/agent/` (overview, architecture, contracts, runbook, traps), `CONTRIBUTING.md`, team hub links in `AGENTS.md` and `docs/agent/runbook.md`, DoD checklist in `.github/pull_request_template.md`.
 
 ## [1.15.5] - 2026-07-01
 ### Fixed

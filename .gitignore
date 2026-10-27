@@ -13,12 +13,16 @@ build/certs/*.csr
 build/certs/*.key
 build/certs/*.pem
 
+.claude/settings.json
+.claude/settings.local.json
+.env*
+.agents/
 .claude/
-CLAUDE.md
+.codex/
+.aoc/
+.fury
 AGENTS.md
-.env.release
-.env.remote
-.env.remote.sample
-.env.release.sample
-bin/pre-stop-checks.sh
-bin/run-sync-remote.sh
+CLAUDE.md
+CONTRIBUTING.md
+/bin/
+/docs/agent/
