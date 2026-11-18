@@ -30,10 +30,11 @@
         }
     },
     "require-dev": {
-        "magento/magento-coding-standard": "*",
+        "magento/magento-coding-standard": "^41",
         "phpmd/phpmd": "^2.13",
-        "phpstan/extension-installer": "^1.2",
-        "phpstan/phpstan": "^1.6.8"
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1",
+        "bitexpert/phpstan-magento": "^0.44"
     },
     "scripts": {
         "post-install-cmd": "vendor/bin/phpcs --config-set installed_paths ../../..,../../phpcompatibility/php-compatibility/PHPCompatibility",
