@@ -8,6 +8,7 @@
 
 namespace MercadoPago\AdbPayment\Model\Notification\Refund;
 
+use Magento\Sales\Model\ResourceModel\Order as OrderResource;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
 use Magento\Framework\Notification\NotifierInterface;
 use Magento\Sales\Model\Order\Invoice;
@@ -32,6 +33,11 @@ abstract class Refund {
     private CreditmemoCollection $creditmemoCollection;
     private UpdatePayment $updatePayment;
 
+    /**
+     * @var OrderResource
+     */
+    private $orderResource;
+
     public function __construct(
         Config $config,
         NotifierInterface $notifier,
@@ -41,8 +47,10 @@ abstract class Refund {
         Order $order,
         Logger $logger,
         UpdatePayment $updatePayment,
-        array $mpNotification
+        array $mpNotification,
+        OrderResource $orderResource
     ) {
+        $this->orderResource = $orderResource;
         $this->config = $config;
         $this->notifier = $notifier;
         $this->invoice = $invoice;
@@ -194,7 +202,7 @@ abstract class Refund {
             }
 
             $payment->addTransaction(Transaction::TYPE_REFUND);
-            $this->order->save();
+            $this->orderResource->save($this->order);
 
             $creditMemo->setState(1);
             $creditMemo->setBaseGrandTotal($refundData->getAmount());

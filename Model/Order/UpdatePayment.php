@@ -9,10 +9,25 @@
 
 namespace MercadoPago\AdbPayment\Model\Order;
 
+use Magento\Sales\Model\ResourceModel\Order as OrderResource;
 use Magento\Sales\Model\Order;
 
 class UpdatePayment
 {
+    /**
+     * @var OrderResource
+     */
+    private $orderResource;
+
+    /**
+     * @param OrderResource $orderResource
+     */
+    public function __construct(
+        OrderResource $orderResource
+    ) {
+        $this->orderResource = $orderResource;
+    }
+
     /**
      * Update payment information from MercadoPago notification.
      * 
@@ -37,7 +52,7 @@ class UpdatePayment
             
             $payment->setAdditionalInformation($additionalInfo);
             $order->setPayment($payment);
-            $order->save();
+            $this->orderResource->save($order);
             return;
         }
 
@@ -61,6 +76,6 @@ class UpdatePayment
         };
         $payment->setAdditionalInformation($additionalInfo);
         $order->setPayment($payment);
-        $order->save();
+        $this->orderResource->save($order);
     }
 }

@@ -44,18 +44,10 @@ class Button extends Field
     ) {
         $this->request = $request;
         $this->config = $config;
-        parent::__construct($context, $data);
-    }
-
-    /**
-     * Set template.
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('MercadoPago_AdbPayment::system/config/form/field/button.phtml');
+        parent::__construct(
+            $context,
+            ['template' => 'MercadoPago_AdbPayment::system/config/form/field/button.phtml'] + $data
+        );
     }
 
     /**
