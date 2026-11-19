@@ -50,21 +50,31 @@ class Additional extends Template
         PriceCurrencyInterface $priceCurrency,
         array $data = []
     ) {
-        parent::__construct($context, $data);
         $this->checkoutSession = $checkoutSession;
         $this->paymentConfig = $paymentConfig;
         $this->priceCurrency = $priceCurrency;
 
+        parent::__construct($context, $data);
+    }
+
+    /**
+     * Initialize the template for the payment method.
+     *
+     * @return void
+     */
+    protected function _construct()
+    {
+        parent::_construct();
         $methodCode = $this->getMethodCode();
 
         if ($methodCode === 'mercadopago_adbpayment_payment_methods_off') {
-            $this->setTemplate('MercadoPago_AdbPayment::order/success/payment-method-off.phtml');
+            $this->_template = 'MercadoPago_AdbPayment::order/success/payment-method-off.phtml';
         } elseif ($methodCode === 'mercadopago_adbpayment_pix') {
-            $this->setTemplate('MercadoPago_AdbPayment::order/success/pix.phtml');
+            $this->_template = 'MercadoPago_AdbPayment::order/success/pix.phtml';
         } elseif ($methodCode === 'mercadopago_adbpayment_twocc') {
-            $this->setTemplate('MercadoPago_AdbPayment::order/success/twocc.phtml');
+            $this->_template = 'MercadoPago_AdbPayment::order/success/twocc.phtml';
         } elseif (strpos($methodCode, 'mercadopago_adbpayment') !== false) {
-            $this->setTemplate('MercadoPago_AdbPayment::order/success/default.phtml');
+            $this->_template = 'MercadoPago_AdbPayment::order/success/default.phtml';
         }
     }
 

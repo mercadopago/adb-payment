@@ -140,7 +140,8 @@ class CheckoutPro extends MpIndex implements CsrfAwareActionInterface
                     $order,
                     $this->logger,
                     $this->updatePayment,
-                    $mercadopagoData
+                    $mercadopagoData,
+                    $this->orderResource
                 );
 
                 $res = $refund->process();

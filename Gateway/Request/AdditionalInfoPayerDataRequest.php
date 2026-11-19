@@ -8,6 +8,7 @@
 
 namespace MercadoPago\AdbPayment\Gateway\Request;
 
+use Magento\Customer\Model\ResourceModel\Customer as CustomerResource;
 use InvalidArgumentException;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
@@ -199,12 +200,18 @@ class AdditionalInfoPayerDataRequest implements BuilderInterface
     protected $customerFactory;
 
     /**
+     * @var CustomerResource
+     */
+    private $customerResource;
+
+    /**
      * @param SubjectReader       $subjectReader
      * @param Config              $config
      * @param OrderAdapterFactory $orderAdapterFactory
      * @param DocumentIdentificationDataRequest $documentIdentificationDataRequest
      * @param CustomerSession $customerSession
      * @param CustomerFactory $customerFactory
+     * @param CustomerResource $customerResource
      */
     public function __construct(
         SubjectReader $subjectReader,
@@ -212,8 +219,10 @@ class AdditionalInfoPayerDataRequest implements BuilderInterface
         OrderAdapterFactory $orderAdapterFactory,
         DocumentIdentificationDataRequest $documentIdentificationDataRequest,
         CustomerSession $customerSession,
-        CustomerFactory $customerFactory
+        CustomerFactory $customerFactory,
+        CustomerResource $customerResource
     ) {
+        $this->customerResource = $customerResource;
         $this->subjectReader = $subjectReader;
         $this->config = $config;
         $this->orderAdapterFactory = $orderAdapterFactory;
@@ -261,7 +270,8 @@ class AdditionalInfoPayerDataRequest implements BuilderInterface
 
         if ($customerId) {
             // Load customer model by customer ID
-            $customer = $this->customerFactory->create()->load($customerId);
+            $customer = $this->customerFactory->create();
+            $this->customerResource->load($customer, $customerId);
             
             $registrationDate = $customer->getCreatedAt();
 

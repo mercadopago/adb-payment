@@ -8,6 +8,8 @@
 
 namespace MercadoPago\AdbPayment\Model\Notification\Refund\Order;
 
+use Magento\Sales\Model\ResourceModel\Order as OrderResource;
+use Magento\Sales\Model\ResourceModel\Order\Creditmemo as CreditmemoResource;
 use Exception;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
 use MercadoPago\AdbPayment\Model\Order\UpdatePayment;
@@ -98,6 +100,16 @@ class RefundOrder
     private $metricsClient;
 
     /**
+     * @var OrderResource
+     */
+    private $orderResource;
+
+    /**
+     * @var CreditmemoResource
+     */
+    private $creditmemoResource;
+
+    /**
      * @param Config $config
      * @param NotifierInterface $notifier
      * @param CreditmemoFactory $creditmemoFactory
@@ -107,6 +119,8 @@ class RefundOrder
      * @param UpdatePayment $updatePayment
      * @param array $mpNotification
      * @param MetricsClient $metricsClient
+     * @param OrderResource $orderResource
+     * @param CreditmemoResource $creditmemoResource
      */
     public function __construct(
         Config $config,
@@ -117,8 +131,12 @@ class RefundOrder
         Logger $logger,
         UpdatePayment $updatePayment,
         array $mpNotification,
-        MetricsClient $metricsClient
+        MetricsClient $metricsClient,
+        OrderResource $orderResource,
+        CreditmemoResource $creditmemoResource
     ) {
+        $this->orderResource = $orderResource;
+        $this->creditmemoResource = $creditmemoResource;
         $this->config = $config;
         $this->notifier = $notifier;
         $this->creditmemoFactory = $creditmemoFactory;
@@ -272,7 +290,7 @@ class RefundOrder
         if ($existingCreditmemo && $existingCreditmemo->getState() == Creditmemo::STATE_OPEN) {
             $existingCreditmemo->setState(Creditmemo::STATE_CANCELED);
             $existingCreditmemo->addComment(__('Refund failed in Mercado Pago.'));
-            $existingCreditmemo->save();
+            $this->creditmemoResource->save($existingCreditmemo);
 
             return [
                 'code' => 200,
@@ -315,7 +333,7 @@ class RefundOrder
             if ($refundData->isProcessed()) {
                 $creditmemo->setState(Creditmemo::STATE_REFUNDED);
                 $creditmemo->addComment(__('Refund confirmed by Mercado Pago webhook.'));
-                $creditmemo->save();
+                $this->creditmemoResource->save($creditmemo);
 
                 return [
                     'code' => 200,
@@ -388,7 +406,7 @@ class RefundOrder
             }
 
             $payment->addTransaction(Transaction::TYPE_REFUND);
-            $this->order->save();
+            $this->orderResource->save($this->order);
 
             $creditMemo->setState(Creditmemo::STATE_REFUNDED);
             $creditMemo->setBaseGrandTotal($refundAmount);

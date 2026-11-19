@@ -229,7 +229,9 @@ class Order extends MpIndex implements CsrfAwareActionInterface
                 $this->logger,
                 $this->updatePayment,
                 $respData,
-                $this->metricsClient
+                $this->metricsClient,
+                $this->orderResource,
+                $this->creditmemoResource
             );
 
             return $refund->process();

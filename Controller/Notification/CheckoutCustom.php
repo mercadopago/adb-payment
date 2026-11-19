@@ -170,7 +170,8 @@ class CheckoutCustom extends MpIndex implements CsrfAwareActionInterface
                     $order,
                     $this->logger,
                     $this->updatePayment,
-                    $respData
+                    $respData,
+                    $this->orderResource
                 );
 
                 $res = $refund->process();

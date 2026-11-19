@@ -26,6 +26,8 @@ use Magento\Sales\Model\Order\CreditmemoFactory;
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Model\Service\CreditmemoService;
+use Magento\Sales\Model\ResourceModel\Order as OrderResource;
+use Magento\Sales\Model\ResourceModel\Order\Creditmemo as CreditmemoResource;
 use MercadoPago\AdbPayment\Gateway\Config\Config;
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\CheckoutProAddChildPayment;
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\FetchStatus;
@@ -142,6 +144,16 @@ abstract class MpIndex extends Action
     protected $metricsClient;
 
     /**
+     * @var OrderResource
+     */
+    protected $orderResource;
+
+    /**
+     * @var CreditmemoResource
+     */
+    protected $creditmemoResource;
+
+    /**
      * @param Config                         $config
      * @param Context                        $context
      * @param Json                           $json
@@ -161,6 +173,8 @@ abstract class MpIndex extends Action
      * @param OrderNotificationGet           $orderNotificationGet
      * @param UpdatePayment                  $updatePayment
      * @param MetricsClient                  $metricsClient
+     * @param OrderResource                  $orderResource
+     * @param CreditmemoResource             $creditmemoResource
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -183,7 +197,9 @@ abstract class MpIndex extends Action
         Notification $mpApiNotification,
         OrderNotificationGet $orderNotificationGet,
         UpdatePayment $updatePayment,
-        MetricsClient $metricsClient
+        MetricsClient $metricsClient,
+        OrderResource $orderResource,
+        CreditmemoResource $creditmemoResource
     ) {
         parent::__construct($context);
         $this->config = $config;
@@ -204,6 +220,8 @@ abstract class MpIndex extends Action
         $this->orderNotificationGet = $orderNotificationGet;
         $this->updatePayment = $updatePayment;
         $this->metricsClient = $metricsClient;
+        $this->orderResource = $orderResource;
+        $this->creditmemoResource = $creditmemoResource;
     }
 
     /**
