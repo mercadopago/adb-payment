@@ -15,6 +15,7 @@ use Magento\Sales\Model\Order;
 use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
 use MercadoPago\AdbPayment\Gateway\Config\ConfigCheckoutPro;
 use MercadoPago\AdbPayment\Model\Console\Command\Notification\FetchStatus;
+use MercadoPago\AdbPayment\Model\Order\CancelGuard;
 
 /**
  * CronTab for cancel Checkout Pro.
@@ -47,6 +48,11 @@ class CancelCheckoutPro
     protected $resource;
 
     /**
+     * @var CancelGuard
+     */
+    protected $cancelGuard;
+
+    /**
      * Constructor.
      *
      * @param Logger            $logger
@@ -54,19 +60,22 @@ class CancelCheckoutPro
      * @param ConfigCheckoutPro $configCheckoutPro
      * @param CollectionFactory $collectionFactory
      * @param ResourceConnection $resource;
+     * @param CancelGuard       $cancelGuard
      */
     public function __construct(
         Logger $logger,
         FetchStatus $fetchStatus,
         ConfigCheckoutPro $configCheckoutPro,
         CollectionFactory $collectionFactory,
-        ResourceConnection $resource
+        ResourceConnection $resource,
+        CancelGuard $cancelGuard
     ) {
         $this->logger = $logger;
         $this->fetchStatus = $fetchStatus;
         $this->configCheckoutPro = $configCheckoutPro;
         $this->collectionFactory = $collectionFactory;
         $this->resource = $resource;
+        $this->cancelGuard = $cancelGuard;
     }
 
     /**
@@ -127,6 +136,14 @@ class CancelCheckoutPro
                 'Cancel Start'
             ]);
             foreach ($orders as $order) {
+                if (!$this->cancelGuard->canCancel($order)) {
+                    $this->logger->debug([
+                        'fetch' => 'Skip cancel Order ' . $order->getIncrementId()
+                            . ': Mercado Pago has a payment or could not be queried'
+                    ]);
+                    continue;
+                }
+
                 $orderAdditionalInformation = json_decode($order->getData('additional_information'));
                 $orderId = $order->getEntityId();
                 $amount = $order->getTotalDue();
