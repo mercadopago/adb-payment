@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Checkout Pro and Checkout Credits expiration crons (`mercadopago_cancel_checkout_pro`, `mercadopago_cancel_checkout_credits`) no longer cancel an order without asking Mercado Pago first: they look up the payments of the order by `external_reference` and skip the cancellation when there is an approved, authorized, in-process or in-mediation payment, or when the lookup fails. Without this check, a delayed or lost payment notification caused paid orders to be cancelled.
+
 ## [1.15.7] - 2026-10-27
 ### Changed
 - Rename the Credits payment method to Mercado Crédito (Mercado Parcelado in the `pt_BR` locale), apply UX-approved translations for its minimum-amount error, pending-order comment and logo metadata, and update the Checkout Pro informational copy for Argentina, Mexico, and Brazil.
